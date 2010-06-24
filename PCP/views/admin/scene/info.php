@@ -1,0 +1,1 @@
+ / <a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit'))).'?story_id='.$scene->story_id.'&container_id='.$scene->container_id.'&scene_id='.$scene->id); ?>">Scene <?php echo($scene->id); ?></a>
