@@ -62,13 +62,22 @@ class PCPAdmin
 	}
 	
 	static function getEventTypes($args=array())
-	{				
-		// get all the event types in the db
-		$q = '	SELECT e.*
-				FROM event_types e
-				WHERE 1 = 1  
-				ORDER BY e.label ASC';										
-		return DB::query(Database::SELECT,$q,TRUE)->execute()->as_array();
+	{	
+		$events = array();	// array to hold any event classes we find
+		$files = scandir('event');// get all the files in the event directory
+		//$files = scandir(dirname(__FILE__).'/event');
+		foreach($files as $file)
+		{
+			$pathinfo = pathinfo(dirname(__FILE__).'/event/'.$file)
+			// if a file is php assume its a class 
+			if ($pathinfo['extension']) == 'php'))
+			{
+				// add new event object to event array 
+				$class_name = 'event_'.$pathinfo['filename'];
+				$events[] = new $class_name;
+			}			
+		}
+		return $events;		
 	}
 	
 	static private function getArgs($args=array())
