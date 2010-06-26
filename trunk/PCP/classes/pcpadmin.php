@@ -64,13 +64,13 @@ class PCPAdmin
 	static function getEventTypes($args=array())
 	{	
 		$events = array();	// array to hold any event classes we find
-		$files = scandir('event');// get all the files in the event directory
+		$files = scandir(APPPATH.'classes/event/');// get all the files in the event directory
 		//$files = scandir(dirname(__FILE__).'/event');
 		foreach($files as $file)
 		{
-			$pathinfo = pathinfo(dirname(__FILE__).'/event/'.$file)
+			$pathinfo = pathinfo(APPPATH.'classes/event/'.$file);
 			// if a file is php assume its a class 
-			if ($pathinfo['extension']) == 'php'))
+			if (($pathinfo['extension']) == 'php')
 			{
 				// add new event object to event array 
 				$class_name = 'event_'.$pathinfo['filename'];

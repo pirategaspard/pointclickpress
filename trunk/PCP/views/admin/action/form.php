@@ -1,6 +1,6 @@
 <?php 
 
-	//var_dump($action);
+	//var_dump($event_types);
 
 	if (strlen($scene->filename) > 0) 
 	{ 
@@ -15,8 +15,8 @@
 			<?php foreach($event_types as $event_type)
 			{
 				$selected = '';
-				if ($action->event == $event_type['event']) $selected = ' selected="selected" ';
-				echo ('<option value="'.$event_type['event'].'"'.$selected.' >'.$event_type['label'].'</option>');
+				if ($action->event == $event_type->event) $selected = ' selected="selected" ';
+				echo ('<option value="'.$event_type->event.'"'.$selected.' >'.$event_type->label.'</option>');
 			} ?>
 		</select>
 		<label id="container_select" for="container_select">Scene Container:

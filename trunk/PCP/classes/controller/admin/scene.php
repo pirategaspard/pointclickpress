@@ -16,22 +16,22 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		$data['scene'] = PCPAdmin::getScene(array('include_actions'=>true));	
 		if (strlen($data['scene']->title)==0) $data['scene']->setTitle($data['container']->title);
 		$data['actions'] = $data['scene']->actions;
-		$data['action'] = PCPAdmin::getAction();
+		$data['action'] = PCPAdmin::getAction();		
+		$data['event_types'] = PCPAdmin::getEventTypes();
 		
 		$data['scene_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'save')));		
-		$data['scene_grid'] = View::factory('/admin/scene/grid',$data)->render();
-		$data['scene_form'] = View::factory('/admin/scene/form',$data)->render();				
-		
-		$data['event_types'] = PCPAdmin::getEventTypes();
-		$data['add_action'] = View::factory('/admin/action/add',$data)->render();
-		$data['action_list'] = View::factory('/admin/action/list',$data)->render();			
 		$data['actions_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'action','action'=>'save')));
-		$data['action_form'] = View::factory('/admin/action/form',$data)->render();	
 		
+		$data['scene_grid'] = View::factory('/admin/scene/grid',$data)->render();
+		$data['scene_form'] = View::factory('/admin/scene/form',$data)->render();
+		$data['add_action'] = View::factory('/admin/action/add',$data)->render();
+		$data['action_list'] = View::factory('/admin/action/list',$data)->render();					
+		$data['action_form'] = View::factory('/admin/action/form',$data)->render();			
 		$data['add_scene'] =  View::factory('/admin/scene/add',$data)->render();
 		$data['story_info'] =  View::factory('/admin/story/info',$data)->render();
 		$data['container_info'] =  View::factory('/admin/container/info',$data)->render();
 		$data['scene_info'] =  View::factory('/admin/scene/info',$data)->render();
+		
 		$this->template->content = View::factory('/admin/scene/template',$data)->render();
 	}
 	

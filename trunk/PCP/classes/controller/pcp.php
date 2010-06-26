@@ -55,6 +55,7 @@ Class Controller_PCP extends Controller_Template_Base
         {
 			// redirect to the story list page
 			Request::instance()->redirect(Route::get('default')->uri(array('action'=>'list_stories')));
+			//echo ("1- oops!");
 		}
     }
     
@@ -89,6 +90,22 @@ Class Controller_PCP extends Controller_Template_Base
         {
 			// redirect to the story list page
 			Request::instance()->redirect(Route::get('default')->uri(array('action'=>'list_stories')));
+			/*
+			//debug
+			if (($data['story'] == NULL))
+			{
+				echo ("No Story Data");				
+			}
+			if (($data['scene']->id <= 0) )
+			{
+				echo ("No scene id");				
+			}
+			if ( (strlen($data['scene']->filename) <= 0))
+			{
+				echo ("No filename");
+				var_dump($data['scene']);
+			}	
+			*/		
 		}
     }    
   

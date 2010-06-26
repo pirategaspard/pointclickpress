@@ -118,7 +118,7 @@ class PCP
 		foreach($events as $event)
 		{
 			$session = Session::instance();
-			$class_name = 'event_'.$event['event'];
+			$class_name = $event['event'];
 			$action_class = new $class_name;
 			$event_occured = $action_class->execute(array('event_value'=>$event['event_value']),&$session);
 		}

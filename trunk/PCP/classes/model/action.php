@@ -5,8 +5,9 @@ class Model_Action extends Model
 	protected $id = 0;		
 	protected $scene_id = 0;
 	protected $container_id = 0;	
-	protected $event = "";
-	protected $event_value = "";
+	protected $event = '';
+	protected $event_label = '';
+	protected $event_value = '';
 	protected $cells = array();
 	
 	public function __construct($args=array())
@@ -33,6 +34,10 @@ class Model_Action extends Model
 		{
 			$this->event = $args['event'];
 		}
+		if (isset($args['event_label']))
+		{
+			$this->event_label = $args['event_label'];
+		}
 		if (isset($args['event_value']))
 		{
 			$this->event_value = $args['event_value'];
@@ -53,6 +58,7 @@ class Model_Action extends Model
 							,scene_id
 							,container_id
 							,event
+							,event_label
 							,event_value
 					FROM scene_actions sa
 					WHERE id = :id';
@@ -81,11 +87,13 @@ class Model_Action extends Model
 						(scene_id
 						,container_id
 						,event
+						,event_label
 						,event_value)
 					VALUES (
 						:scene_id
 						,:container_id
 						,:event
+						,:event_label
 						,:event_value
 						)';
 						
@@ -93,6 +101,7 @@ class Model_Action extends Model
 								->param(':scene_id',$this->scene_id)
 								->param(':container_id',$this->container_id)
 								->param(':event',$this->event)
+								->param(':event_label',$this->event_label)
 								->param(':event_value',$this->event_value)
 								->execute();			
 			if ($results[1] > 0)
@@ -119,11 +128,13 @@ class Model_Action extends Model
 			{
 				$q = '	UPDATE scene_actions
 						SET event = :event,
+							event = :event_label,
 							event_value = :event_value
 						WHERE id = :id';
 				$results['success'] = DB::query(Database::UPDATE,$q,TRUE)
 								->param(':event',$this->event)
 								->param(':event_value',$this->event_value)
+								->param(':event_label',$this->event_label)
 								->param(':id',$this->id)
 								->execute();
 				
