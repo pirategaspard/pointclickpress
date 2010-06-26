@@ -8,6 +8,7 @@ class event_link extends pcpevent
 	public function __construct()
 	{
 		// init this event
+		parent::__construct();
 		$this->label = 'link';
 		$this->description = 'Create a link to another scene container';	
 	}

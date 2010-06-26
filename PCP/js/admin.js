@@ -6,9 +6,9 @@
  */
 $(document).ready(function() {
 		
-	// when action type = 'link' hide the event_value field
+	// when action type = 'event_link' hide the event_value field
 	$('#event_type').change(function() {
-		if ($(this).val() == 'link')
+		if ($(this).val() == 'event_link')
 		{	
 			$('#container_select').show();		
 			$('#event_value').hide();			
