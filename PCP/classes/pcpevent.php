@@ -28,9 +28,37 @@ class pcpevent extends model
 		// this function is meant to be extended 
 	}
 	
-	function __get($prop)
+	public function __get($prop)
 	{			
 		return $this->$prop;
+	}
+	
+	private function isVariable($var)
+	{
+		if (preg_match('/^((\$[a-zA-Z\'\[\]0-9]+))$/',$var))
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	
+	// given "$myvariable" returns "myvariable"
+	private function getVariableName($var)
+	{
+		return preg_replace('[\$| ]','',$var);
+	}
+	
+	// given "$myvariable" returns "myvariable"
+	private function replaceSessionVariables($expression)
+	{
+		/* 
+			replace any variables with their session global equivalents 
+			in order to be able to reference variables in session['data']. 
+		*/	
+		return preg_replace('/(\$(\w+\b))/',"\$session['data']['$2']",$expression);
 	}
 }
 
