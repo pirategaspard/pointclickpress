@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class formatting
+class Formatting
 {
 
 	/* Based on sanitize_title_with_dashes function from WP */

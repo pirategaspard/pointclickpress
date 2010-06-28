@@ -19,28 +19,24 @@ class PCP
 	/* get all the information we need to render a scene */
 	static function getScene($container_id)
 	{			
-		$container = Containers::getContainer(array('id'=>$container_id,'include_scenes'=>TRUE));
-		if (count($container->values) > 0)		
-		{		
-			$session = Session::instance();
-			$story_data = $session->get('story_data',array());
-			
-			/*
-				Switch for different scenes within container
-				 
-				if a there is a key set in the session story_data array then use that value
-				othewise use empty string
-			*/			
-			if (isset($story_data[$container->slug]))
-			{
-				$scene_value = $story_data[$container->slug];
-			}
-			else
-			{
-				$scene_value = '';
-			}
-		}
+		$container = Containers::getContainer(array('id'=>$container_id));	
+		$session = Session::instance();
+		$story_data = $session->get('story_data',array());
 		
+		/*
+			Switch for different scenes within container
+			 
+			if a there is a key set in the session story_data array then use that value
+			othewise use empty string
+		*/			
+		if (isset($story_data[$container->slug]))
+		{
+			$scene_value = $story_data[$container->slug];
+		}
+		else
+		{
+			$scene_value = '';
+		}
 		return Scenes::getSceneByContainerId($container_id,$scene_value); 
 	}
 	
@@ -116,18 +112,6 @@ class PCP
 			$event_occured = $action_class->execute(array('event_value'=>$event['event_value']),&$session);
 		}
 		return $event_occured;		
-	}
-	
-	/* 
-	  This function takes an array of values and adds them to the 
-	  story globals array held in session
-	 */
-	static function updateGlobalVars($values=array())
-	{
-		// reset global story variables in session 
-		$session = Session::instance();
-		$story_data = $session->get('story_data',array());
-		$session->set('story_data',array_merge($story_data,$values));		
 	}
 	
 	static private function getArgs($args=array())

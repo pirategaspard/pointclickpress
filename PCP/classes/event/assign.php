@@ -26,14 +26,14 @@ class event_assign extends pcpevent
 			if (count($temp) == 2) 
 			{
 				// make sure the left side has a valid variable name;
-				if ($this->isVariable(trim($temp[0])))
+				if (Events::isVariable(trim($temp[0])))
 				{
 					//remove any whitespace and strip $ from variable name so we can put it in session['story_data'][$var]
-					$var = $this->getVariableName(trim($temp[0]));
+					$var = Events::getVariableName(trim($temp[0]));
 					$exp = trim($temp[1]);
 					
 					
-					if ($this->isVariableOrNumeric($exp))
+					if (Events::isVariableOrNumeric($exp))
 					{
 						/* 
 							SIMPLE VALUE
@@ -42,9 +42,9 @@ class event_assign extends pcpevent
 						*/
 						
 						//echo (' simple assignment: ');
-						$parsed[$var] = $this->replaceSessionVariables($exp);
+						$parsed[$var] = Events::replaceSessionVariables($exp);
 					}
-					else if ($this->isString($exp))
+					else if (Events::isString($exp))
 					{
 						/* 
 							SIMPLE VALUE
@@ -63,12 +63,12 @@ class event_assign extends pcpevent
 							$var + 1; $var - 1; 1 * 1; $var + $var; $var['blah'] + $var['blah'];
 						*/
 						//echo (' math: ');
-						$operator = $this->getOperator($exp);
+						$operator = Events::getOperator($exp);
 						$eval_values = explode($operator,$exp);
 						if (count($eval_values) == 2) 
 						{
-							$eval_values[0] = $this->replaceSessionVariables($eval_values[0]);
-							$eval_values[1] = $this->replaceSessionVariables($eval_values[1]);
+							$eval_values[0] = Events::replaceSessionVariables($eval_values[0]);
+							$eval_values[1] = Events::replaceSessionVariables($eval_values[1]);
 							
 							switch ($operator)
 							{

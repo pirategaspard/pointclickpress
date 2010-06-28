@@ -31,12 +31,12 @@ class event_if extends pcpevent
 			$temp = preg_split('/=/',$expression,2);
 			if (count($temp) >= 2) 
 			{	
-				//echo (' isvar: '.$this->isVariable(trim($temp[0])));
+				//echo (' isvar: '.Events::isVariable(trim($temp[0])));
 				// make sure the left side has a valid variable name;
-				if ($this->isVariable(trim($temp[0])))
+				if (Events::isVariable(trim($temp[0])))
 				{
 					//remove any whitespace and strip $ from variable name so we can put it in session['story_data'][$var]
-					$var = $this->getVariableName(trim($temp[0]));
+					$var = Events::getVariableName(trim($temp[0]));
 					
 					//echo '?'; 
 					// seperate if statement left & right 
@@ -51,17 +51,17 @@ class event_if extends pcpevent
 							//echo '()'; 
 							// get rid of the parenthesis around the if statement
 							$if_statement[0] = preg_replace('/[\(\)]/','',$if_statement[0]);
-							$operator = $this->getOperator($if_statement[0]);
+							$operator = Events::getOperator($if_statement[0]);
 							
 							if($operator!=null)
 							{
 								$eval_values = explode($operator,$if_statement[0]);
 								if (count($eval_values) == 2) 
 								{
-									$eval_values[0] = $this->replaceSessionVariables($eval_values[0]);
-									$eval_values[1] = $this->replaceSessionVariables($eval_values[1]);
-									$values[0] = $this->replaceSessionVariables($values[0]);
-									$values[1] = $this->replaceSessionVariables($values[1]);
+									$eval_values[0] = Events::replaceSessionVariables($eval_values[0]);
+									$eval_values[1] = Events::replaceSessionVariables($eval_values[1]);
+									$values[0] = Events::replaceSessionVariables($values[0]);
+									$values[1] = Events::replaceSessionVariables($values[1]);
 									
 									switch ($operator)
 									{

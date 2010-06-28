@@ -35,19 +35,23 @@ Class Controller_PCP extends Controller_Template_Base
     function action_start_story()
     {
 		if (isset($_REQUEST['story_id']))
-		{	
+		{							
+			// Get the current session
+			$session = Session::instance();		
+			// Empty old session to start a new one
+			$session->set('story_data',array());
+			
 			//get the story
 			$story = PCP::getStory(array('include_containers'=>FALSE));
-			// Get the session instance
-			$session = Session::instance();		
-			
 			// set the story dimensions
 			$story->setDimensions($session->get('screen_width'),$session->get('screen_height'));
 			
 			$session->set('story',$story);
 			$session->set('container_id',$story->getFirstContainerId());
+			
 			// put any story init_vars into session
-			PCP::UpdateGlobalVars(Evaluate::parse($story->init_vars));
+			Evaluate::parse($story->init_vars); 
+			
 			// redirect to the first scene
 			Request::instance()->redirect(Route::get('default')->uri(array('action'=>'scene')));
 		}		
@@ -70,9 +74,9 @@ Class Controller_PCP extends Controller_Template_Base
 		$data['story'] = $session->get('story',NULL);		
 		// get the scene
 		$data['scene'] = PCP::getScene($session->get('container_id',0));
-		
+
 		// put any scene init_vars into session
-		PCP::UpdateGlobalVars(Evaluate::parse($data['scene']->init_vars));
+		Evaluate::parse($data['scene']->init_vars);
 		
 		$session->set('scene',$data['scene']);
 		
@@ -90,8 +94,10 @@ Class Controller_PCP extends Controller_Template_Base
         {
 			// redirect to the story list page
 			Request::instance()->redirect(Route::get('default')->uri(array('action'=>'list_stories')));
+			
 			/*
 			//debug
+			var_dump($_SESSION);
 			if (($data['story'] == NULL))
 			{
 				echo ("No Story Data");				
@@ -105,7 +111,7 @@ Class Controller_PCP extends Controller_Template_Base
 				echo ("No filename");
 				var_dump($data['scene']);
 			}	
-			*/		
+			*/
 		}
     }    
   
@@ -135,7 +141,7 @@ Class Controller_PCP extends Controller_Template_Base
 		// get the scene
 		$data['scene'] = PCP::getScene($session->get('container_id',0));
 		// put any scene init_vars into session
-		PCP::UpdateGlobalVars(Evaluate::parse($data['scene']->init_vars));
+		Evaluate::parse($data['scene']->init_vars);
 		//put scene into session
 		$session->set('scene',$data['scene']);
 		
