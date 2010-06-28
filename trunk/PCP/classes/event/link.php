@@ -19,7 +19,10 @@ class event_link extends pcpevent
 			update the container_id variabel in session with 
 			the new container_id from the event_value field
 		*/
-		$session->set('container_id',$args['event_value']);
+		if (Events::isNumeric($args['event_value']))
+		{
+			$session->set('container_id',$args['event_value']);
+		}
 		return 1;
 	}
 }

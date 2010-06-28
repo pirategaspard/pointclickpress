@@ -17,7 +17,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		if (strlen($data['scene']->title)==0) $data['scene']->setTitle($data['container']->title);
 		$data['actions'] = $data['scene']->actions;
 		$data['action'] = PCPAdmin::getAction();		
-		$data['event_types'] = PCPAdmin::getEventTypes();
+		$data['event_types'] = Events::getEventTypes();
 		
 		$data['scene_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'save')));		
 		$data['actions_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'action','action'=>'save')));

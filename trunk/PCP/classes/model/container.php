@@ -36,7 +36,7 @@ class Model_Container extends Model
 		if (isset($args['title']))
 		{
 			$this->title = $args['title'];
-			$this->slug = formatting::createSlug($args['title']);
+			$this->slug = Formatting::createSlug($args['title']);
 		}
 		if ($args['include_scenes'])
 		{			

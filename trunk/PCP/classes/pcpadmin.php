@@ -61,25 +61,6 @@ class PCPAdmin
 		return Actions::getActions($args); // get a story object and all its Containers
 	}
 	
-	static function getEventTypes($args=array())
-	{	
-		$events = array();	// array to hold any event classes we find
-		$files = scandir(APPPATH.'classes/event/');// get all the files in the event directory
-		//$files = scandir(dirname(__FILE__).'/event');
-		foreach($files as $file)
-		{
-			$pathinfo = pathinfo(APPPATH.'classes/event/'.$file);
-			// if a file is php assume its a class 
-			if (($pathinfo['extension']) == 'php')
-			{
-				// add new event object to event array 
-				$class_name = 'event_'.$pathinfo['filename'];
-				$events[] = new $class_name;
-			}			
-		}
-		return $events;		
-	}
-	
 	static private function getArgs($args=array())
 	{
 		if (!isset($args['story_id']) && isset($_REQUEST['story_id'])) { $args['story_id'] =  $_REQUEST['story_id']; }
