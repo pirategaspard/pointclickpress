@@ -45,6 +45,41 @@ class pcpevent extends model
 		}
 	}
 	
+	protected function isVariableOrNumeric($var)
+	{
+		if (preg_match('/^((\$[a-zA-Z\'\[\]0-9]+)|([0-9]+))$/',$var))
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	
+	protected function isVariableOrNumericOrString($var)
+	{
+		if (preg_match('/^((\$[a-zA-Z\'\[\]0-9]+)|([0-9]+)|(\'\w.*\'+)|("\w.*"+))$/',$var))
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	protected function isString($var)
+	{
+		if (preg_match('/^((\'\w.*\'+)|("\w.*"+))$/',$var))
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	
 	// given "$myvariable" returns "myvariable"
 	protected function getVariableName($var)
 	{

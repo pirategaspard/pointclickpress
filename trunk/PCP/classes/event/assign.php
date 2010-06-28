@@ -33,7 +33,7 @@ class event_assign extends pcpevent
 					$exp = trim($temp[1]);
 					
 					
-					if (preg_match('/^((\$[a-zA-Z\'\[\]0-9]+)|([0-9]+))$/',$exp))
+					if ($this->isVariableOrNumeric($exp))
 					{
 						/* 
 							SIMPLE VALUE
@@ -43,6 +43,17 @@ class event_assign extends pcpevent
 						
 						//echo (' simple assignment: ');
 						$parsed[$var] = $this->replaceSessionVariables($exp);
+					}
+					else if ($this->isString($exp))
+					{
+						/* 
+							SIMPLE VALUE
+							detect simple value statement in the form of 
+							1; or $var;
+						*/
+						
+						//echo (' simple assignment: ');
+						$parsed[$var] = preg_replace('/[\'"]/','',$exp);
 					}
 					else if(preg_match('/((\$[a-zA-Z\'\[\]0-9]+)|([0-9]+))\s*([\+\-\*\/])\s*((\$[a-zA-Z\'\[\]0-9]+)|([0-9]+))/',$exp))
 					{

@@ -10,6 +10,7 @@ class Model_Container extends Model
 	protected $story_id = 0;
 	protected $id = 0;
 	protected $title = '';
+	protected $slug = '';
 	protected $scenes = array();	
 	protected $values = array();	
 	
@@ -35,6 +36,7 @@ class Model_Container extends Model
 		if (isset($args['title']))
 		{
 			$this->title = $args['title'];
+			$this->slug = formatting::createSlug($args['title']);
 		}
 		if ($args['include_scenes'])
 		{			
