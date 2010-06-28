@@ -1,6 +1,7 @@
 <?php 
+var_dump($_SESSION['story_data']);
 /*
-	var_dump($_SESSION['globals']);
+	
 	echo $story->scene_width;
 	echo $story->scene_height;
 */

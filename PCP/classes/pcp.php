@@ -24,8 +24,8 @@ class PCP
 		if (count($container->values) > 0)		
 		{		
 			$session = Session::instance();
-			$globals = $session->get('globals',array());
-			$values = array_intersect_key($globals,array_flip($container->values)); // get global values that have the same key as the container value(s)
+			$story_data = $session->get('story_data',array());
+			$values = array_intersect_key($story_data,array_flip($container->values)); // get global values that have the same key as the container value(s)
 			/*
 			print_r($globals);
 			print_r($container->values);
@@ -133,8 +133,8 @@ class PCP
 	{
 		// reset global story variables in session 
 		$session = Session::instance();
-		$globals = $session->get('globals',array());
-		$session->set('globals',array_merge($globals,$values));		
+		$story_data = $session->get('story_data',array());
+		$session->set('story_data',array_merge($story_data,$values));		
 	}
 	
 	static private function getArgs($args=array())

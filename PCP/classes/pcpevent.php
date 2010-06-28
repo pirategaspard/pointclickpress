@@ -33,7 +33,7 @@ class pcpevent extends model
 		return $this->$prop;
 	}
 	
-	private function isVariable($var)
+	protected function isVariable($var)
 	{
 		if (preg_match('/^((\$[a-zA-Z\'\[\]0-9]+))$/',$var))
 		{
@@ -46,13 +46,13 @@ class pcpevent extends model
 	}
 	
 	// given "$myvariable" returns "myvariable"
-	private function getVariableName($var)
+	protected function getVariableName($var)
 	{
 		return preg_replace('[\$| ]','',$var);
 	}
 	
 	// given "$myvariable" returns "myvariable"
-	private function replaceSessionVariables($expression)
+	protected function replaceSessionVariables($expression)
 	{
 		/* 
 			replace any variables with their session global equivalents 
