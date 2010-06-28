@@ -29,14 +29,13 @@ class event_if extends pcpevent
 			
 			// only evaluate if they are assigning a value;
 			$temp = preg_split('/=/',$expression,2);
-			print_r($temp);
 			if (count($temp) >= 2) 
 			{	
 				//echo (' isvar: '.$this->isVariable(trim($temp[0])));
 				// make sure the left side has a valid variable name;
 				if ($this->isVariable(trim($temp[0])))
 				{
-					//remove any whitepsace and strip $ from variable name so we can put it in session['story_data'][$var]
+					//remove any whitespace and strip $ from variable name so we can put it in session['story_data'][$var]
 					$var = $this->getVariableName(trim($temp[0]));
 					
 					//echo '?'; 
@@ -52,12 +51,9 @@ class event_if extends pcpevent
 							//echo '()'; 
 							// get rid of the parenthesis around the if statement
 							$if_statement[0] = preg_replace('/[\(\)]/','',$if_statement[0]);
-							if (preg_match('/[<=|>=|<>|!=|==|<|>]/',$if_statement[0], $if_eval))
-							{
-								$operator = $if_eval[0];
-							}
+							$operator = $this->getOperator($if_statement[0]);
 							
-							if(isset($operator)&&(strlen($operator)>0))
+							if($operator!=null)
 							{
 								$eval_values = explode($operator,$if_statement[0]);
 								if (count($eval_values) == 2) 
