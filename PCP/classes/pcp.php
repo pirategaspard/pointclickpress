@@ -18,33 +18,26 @@ class PCP
 	
 	/* get all the information we need to render a scene */
 	static function getScene($container_id)
-	{	
-		$scene_value = '';
+	{			
 		$container = Containers::getContainer(array('id'=>$container_id,'include_scenes'=>TRUE));
 		if (count($container->values) > 0)		
 		{		
 			$session = Session::instance();
 			$story_data = $session->get('story_data',array());
-			$values = array_intersect_key($story_data,array_flip($container->values)); // get global values that have the same key as the container value(s)
-			/*
-			print_r($globals);
-			print_r($container->values);
-			print_r($values);
-			*/
 			
-			/* 
-				If there is a scene in the current scene container with
-				a global value of '1', then show that scene.
-				This is how to switch between versions of a scene
-				in a scene container
-			*/	
-			foreach($values as $key=>$value)
-			{							
-				if ($value == '1') // if the flag is equal to 1 
-				{
-					$scene_value = $key; // scene value can only be one
-					break; 
-				}
+			/*
+				Switch for different scenes within container
+				 
+				if a there is a key set in the session story_data array then use that value
+				othewise use empty string
+			*/			
+			if (isset($story_data[$container->slug]))
+			{
+				$scene_value = $story_data[$container->slug];
+			}
+			else
+			{
+				$scene_value = '';
 			}
 		}
 		
