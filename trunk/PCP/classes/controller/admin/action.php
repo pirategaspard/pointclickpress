@@ -27,8 +27,6 @@ Class Controller_admin_action extends Controller_Template_Admin
 		$results = array();
 		if(count($_POST) > 0)
 		{
-			var_dump($_POST);
-			
 			$_POST['cells'] = explode(',',$_POST['cell_ids']);
 			$myaction = new $_POST['event'];
 			$_POST['event_label'] = $myaction->label;

@@ -128,7 +128,7 @@ class Model_Action extends Model
 			{
 				$q = '	UPDATE scene_actions
 						SET event = :event,
-							event = :event_label,
+							event_label = :event_label,
 							event_value = :event_value
 						WHERE id = :id';
 				$results['success'] = DB::query(Database::UPDATE,$q,TRUE)
@@ -138,16 +138,12 @@ class Model_Action extends Model
 								->param(':id',$this->id)
 								->execute();
 				
-				
 				//delete any existing cells on this action
 				$q = '	DELETE FROM scene_action_cells
 						WHERE action_id = :id';
 				$results['success'] = DB::query(Database::DELETE,$q,TRUE)
 								->param(':id',$this->id)
 								->execute();
-				
-				//var_dump($results); die();
-				
 				//save cells
 				foreach ($this->cells as $cell)
 				{

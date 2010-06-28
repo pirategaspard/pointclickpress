@@ -23,19 +23,22 @@ class event_if extends pcpevent
 		$name_val_pairs = explode(';',$args['event_value']); 
 		foreach($name_val_pairs as $expression)
 		{
-			/*
-			echo $expression; 
-			echo '=';
-			*/
+			
+			//echo $expression; 
+			//echo '=';
+			
 			// only evaluate if they are assigning a value;
-			$temp = explode('=',$expression);
-			if (count($temp) == 2) 
-			{				
+			$temp = preg_split('/=/',$expression,2);
+			print_r($temp);
+			if (count($temp) >= 2) 
+			{	
+				//echo (' isvar: '.$this->isVariable(trim($temp[0])));
 				// make sure the left side has a valid variable name;
 				if ($this->isVariable(trim($temp[0])))
 				{
 					//remove any whitepsace and strip $ from variable name so we can put it in session['story_data'][$var]
 					$var = $this->getVariableName(trim($temp[0]));
+					
 					//echo '?'; 
 					// seperate if statement left & right 
 					$if_statement = explode('?',$temp[1]);
@@ -88,6 +91,7 @@ class event_if extends pcpevent
 											$parsed[$var] = ($eval_values[0] > $eval_values[1] ) ? $values[0] : $values[1]; 
 										break;
 									}
+									//echo (' results: '.$parsed[$var]);
 								}
 							}
 						}
@@ -98,7 +102,8 @@ class event_if extends pcpevent
 			}			
 		}
 		$story_data = $session->get('story_data',array());
-		$session->set('story_data',array_merge($story_data,$parsed));	
+		$session->set('story_data',array_merge($story_data,$parsed));
+		//die();
 		return 1;
 	}
 }
