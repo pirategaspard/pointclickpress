@@ -32,7 +32,7 @@ $(document).ready(function() {
 			if (data == 1)
 			{
 				//get scene and swap the data so we don't have to reload the page!
-				var filename = $.getJSON('getScene',function(data){						
+				var filename = $.getJSON('Scene',function(data){						
 						$('#scene>h1').html(data.title);
 						$('#scene>p').html(data.description);						
 						// pre-load image and then swap background

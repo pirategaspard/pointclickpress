@@ -254,11 +254,11 @@ class Events
 		foreach($events as $event)
 		{
 			// 'event' is the class name			
-			$class_name = $event->event;
+			$class_name = $event['event'];
 			// get the class
 			$event_class = new $class_name; 
 			//execute event. Events can directly manipulate session's "story_data" info
-			$event_occured = $event_class->execute(array('event_value'=>$event->event_value),$story_data);
+			$event_occured = $event_class->execute(array('event_value'=>$event['event_value']),$story_data);
 			//var_dump($story_data);
 		}
 		//update session
