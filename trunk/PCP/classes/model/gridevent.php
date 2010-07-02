@@ -7,13 +7,13 @@ class Model_GridEvent extends Model_Event
 	protected $cells = array();
 	
 	public function __construct($args=array())
-	{
+	{		
 		parent::__construct();			
 		$this->init($args);		
 	}
 	
 	function init($args=array())
-	{		
+	{				
 		parent::init($args);	
 		if ((isset($args['scene_id']))&&(is_numeric($args['scene_id'])))
 		{
@@ -27,22 +27,21 @@ class Model_GridEvent extends Model_Event
 	}
 	
 	function load($args=array())
-	{
-		
+	{		
 		if ($this->id > 0)
 		{
 			$q = '	SELECT 	e.id
 							,e.event
 							,e.event_label
 							,e.event_value
-							,se.scene_id
-							,se.grid_event_id
-					FROM events e
-					INNER JOIN grids_events se
-						ON se.event_id = e.id
-					WHERE e.id = :id';
-			$results = DB::query(Database::SELECT,$q,TRUE)->param(':grid_event_id',$this->grid_event_id)->execute()->as_array();											
-							
+							,g.scene_id
+							,g.grid_event_id
+					FROM grids_events g
+					INNER JOIN events e
+						ON e.id = g.event_id
+					WHERE g.event_id = :event_id';
+			$results = DB::query(Database::SELECT,$q,TRUE)->param(':event_id',$this->id)->execute()->as_array();											
+			
 			if (count($results) > 0 )
 			{				
 				$this->init($results[0]);

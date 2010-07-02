@@ -4,7 +4,7 @@ class Events
 {
 	// get a single Event object and populate it based on the arguments
 	static function getEvent($args=array())
-	{
+	{		
 		// if we have been passed a type, get that specific type of event, otherwise save a generic event	
 		if (isset($args['type']))
 		{
@@ -12,16 +12,16 @@ class Events
 			switch ($args['type'])
 			{	
 				case 'Grid':
-					$event = Events::getGridEvent();
+					$event = Events::getGridEvent($args);
 				break;
 				case 'Scene':
-					$event = Events::getSceneEvent();
+					$event = Events::getSceneEvent($args);
 				break;
 				case 'Container':
-					$event = Events::getContainerEvent();
+					$event = Events::getContainerEvent($args);
 				break;
 				case 'Story':
-					$event = Events::getStoryEvent();
+					$event = Events::getStoryEvent($args);
 				break;
 				default:
 					$event = new Model_Event($args);
@@ -57,7 +57,7 @@ class Events
 	}
 	
 	static function getGridEvent($args=array())
-	{
+	{		
 		// get a single event object and populate it based on the arguments
 		$event = new Model_GridEvent($args);
 		return $event->load($args);
@@ -178,7 +178,15 @@ class Events
 	
 	static function getEventsList($data=array())
 	{
-		return View::factory('/admin/event/list',$data)->render();
+		if (isset($data['inline']))
+		{
+			$view = View::factory('/admin/event/list_grid',$data)->render();
+		}
+		else
+		{
+			$view = View::factory('/admin/event/list',$data)->render();
+		}
+		return $view;
 	}
 	
 	static function getUrlParams()
