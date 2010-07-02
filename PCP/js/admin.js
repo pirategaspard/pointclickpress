@@ -11,18 +11,18 @@ $(document).ready(function() {
 		if ($(this).val() == 'event_link')
 		{	
 			$('#container_select').show();		
-			$('#event_value').hide();			
+			//$('#event_value').hide();			
 		}
 		else
 		{
 			$('#container_select').hide();
-			$('#event_value').show();
+			//$('#event_value').show();
 		}
 	});
 	
 	// when container select is changed update the 'event_value' field
-	$('select[name="container_select"]').mouseout(function() {
-		$('textarea[name=event_value]').val($(this).val());			
+	$('select[name="container_select"]').mouseout(function() {														
+		$('textarea[name=event_value]').val($('select[name="container_select"]').val());			
 	});
 	
 	// change grid color based on cell_id list

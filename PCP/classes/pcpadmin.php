@@ -51,7 +51,7 @@ class PCPAdmin
 	static function getEvent($args=array())
 	{
 		if (!isset($args['id']) && isset($_REQUEST['event_id'])) { $args['id'] =  $_REQUEST['event_id']; }
-		$args = PCPAdmin::getArgs($args);		
+		$args = PCPAdmin::getArgs($args);				
 		return Events::getEvent($args); // get a event object and all its Containers
 	}
 	
