@@ -13,15 +13,16 @@ class event_link extends pcpevent
 		$this->description = 'Create a link to another scene container';	
 	}
 	
-	public function execute($args=array(),$session=null)
+	public function execute($args=array(),&$story_data=array())
 	{
 		/* 
-			update the container_id variabel in session with 
+			update the container_id variable in session with 
 			the new container_id from the event_value field
 		*/
 		if (Events::isNumeric($args['event_value']))
 		{
-			$session->set('container_id',$args['event_value']);
+			// simple assignment
+			$story_data['container_id'] = $args['event_value'];
 		}
 		return 1;
 	}

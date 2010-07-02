@@ -6,10 +6,10 @@ class Model_Story extends Model
 	protected $title = "";
 	protected $author = "";
 	protected $description = "";
-	protected $init_vars = "";
 	protected $grid_x = "";
 	protected $grid_y = "";
-	protected $first_scene_container_id = 0;
+	protected $first_scene_container_id = null;
+	protected $events = array();
 	protected $containers = array();
 	
 	public function __construct($args=array())
@@ -20,6 +20,7 @@ class Model_Story extends Model
 	
 	function init($args=array())
 	{
+		if (!isset($args['include_events'])) $args['include_events']=false;
 		if (!isset($args['include_containers'])) $args['include_containers']=false;
 		
 		if ((isset($args['id']))&&(is_numeric($args['id'])))
@@ -38,11 +39,7 @@ class Model_Story extends Model
 		{
 			$this->description = $args['description'];
 		}
-		if (isset($args['init_vars']))
-		{
-			$this->init_vars = $args['init_vars'];
-		}
-		if (isset($args['first_scene_container_id']))
+		if (isset($args['first_scene_container_id']) && ($args['first_scene_container_id'] > 0))
 		{
 			$this->first_scene_container_id = $args['first_scene_container_id'];
 		}
@@ -59,6 +56,11 @@ class Model_Story extends Model
 			$grid = explode('x',$args['grid']);			
 			$this->grid_x = $grid[0];
 			$this->grid_y = $grid[1];
+		}
+		if ($args['include_events'])
+		{			
+			$args['story'] = $this;
+			$this->events = Events::getStoryEvents($args);
 		}
 		if ($args['include_containers'])
 		{			
@@ -77,7 +79,6 @@ class Model_Story extends Model
 							,title
 							,author
 							,description
-							,init_vars
 							,first_scene_container_id
 							,grid_x
 							,grid_y
@@ -105,7 +106,6 @@ class Model_Story extends Model
 						(title
 						,author
 						,description
-						,init_vars
 						,first_scene_container_id
 						,grid_x
 						,grid_y)
@@ -113,8 +113,7 @@ class Model_Story extends Model
 						:title
 						,:author
 						,:description
-						,:first_scene_container_id
-						,:init_vars
+						,:first_scene_container_id						
 						,:grid_x
 						,:grid_y
 						)';
@@ -123,7 +122,6 @@ class Model_Story extends Model
 								->param(':title',$this->title)
 								->param(':author',$this->author)
 								->param(':description',$this->description)
-								->param(':init_vars',$this->init_vars)
 								->param(':first_scene_container_id',$this->first_scene_container_id)
 								->param(':grid_x',$this->grid_x)
 								->param(':grid_y',$this->grid_y)
@@ -145,7 +143,6 @@ class Model_Story extends Model
 						SET title = :title							
 							,author = :author
 							,description = :description
-							,init_vars = :init_vars
 							,first_scene_container_id = :first_scene_container_id
 							,grid_x = :grid_x
 							,grid_y = :grid_y
@@ -154,7 +151,6 @@ class Model_Story extends Model
 										->param(':title',$this->title)
 										->param(':author',$this->author)
 										->param(':description',$this->description)	
-										->param(':init_vars',$this->init_vars)
 										->param(':first_scene_container_id',$this->first_scene_container_id)
 										->param(':grid_x',$this->grid_x)
 										->param(':grid_y',$this->grid_y)

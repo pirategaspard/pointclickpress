@@ -10,19 +10,17 @@ Class Controller_admin_container extends Controller_Template_Admin
 	
 	function action_edit()
 	{		
-		if(count($_POST) > 0)
-		{					
-			$this->action_save();
-		}	
-
-		$data['story'] = PCPAdmin::getStory();
-		$data['container'] = PCPAdmin::getContainer(array('include_scenes'=>TRUE));		
-		$data['container_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'container','action'=>'save')));
-		$data['scene_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'save')));
-		$data['add_scene'] = View::factory('/admin/scene/add',$data)->render();
+		
+		$data = Events::getUrlParams();
+		$data['container'] = PCPAdmin::getContainer(array('include_scenes'=>TRUE,'include_events'=>TRUE));
+		$data['story'] = PCPAdmin::getStory(array('id'=>$data['container']->story_id));
+		$data['scenes'] = $data['container']->scenes;	
+		$data['events'] = $data['container']->events;	
+						
 		/*
 		if (($data['container']->id > 0)&&(count($data['container']->scenes) == 1))
 		{
+			$data['scene_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'save')));
 			$scenes = $data['container']->scenes;
 			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?story_id='.$_REQUEST['story_id'].'&container_id='.$_REQUEST['container_id'].'&scene_id='.reset($scenes)->id);
 		}
@@ -33,9 +31,18 @@ Class Controller_admin_container extends Controller_Template_Admin
 		}
 		else
 		{*/
-			$data['scene_list'] = View::factory('/admin/scene/list',$data)->render();
-		//}
+			
+		//}		
+		
 		$data['story_info'] =  View::factory('/admin/story/info',$data)->render();
+		
+		$data['event_add'] = View::factory('/admin/event/add',$data)->render();
+		$data['event_list'] = View::factory('/admin/event/list',$data)->render();	//get event information and load list of events
+		
+		$data['scene_add'] = View::factory('/admin/scene/add',$data)->render();
+		$data['scene_list'] = View::factory('/admin/scene/list',$data)->render();					
+		
+		$data['container_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'container','action'=>'save')));		
 		$data['container_info'] =  View::factory('/admin/container/info',$data)->render();			
 		$data['container_form'] =  View::factory('/admin/container/form',$data)->render();		
 				
@@ -52,7 +59,7 @@ Class Controller_admin_container extends Controller_Template_Admin
 		}
 		else
 		{
-			$results = 'safsdfasfsd';
+			$results = 'error';
 		}
 		//redirect to add a new story
 		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'container','action'=>'edit')).'?story_id='.$_REQUEST['story_id'].'&container_id='.$results['id']);

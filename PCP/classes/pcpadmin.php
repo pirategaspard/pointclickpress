@@ -6,14 +6,14 @@ class PCPAdmin
 	{
 		if (!isset($args['id']) && isset($_REQUEST['story_id'])) { $args['id'] = $_REQUEST['story_id']; }
 		$args = PCPAdmin::getArgs($args);
-		return Stories::getStory($args); // get a story object and all its Containers
+		return Stories::getStory($args); // get a story object 
 	}
 	
 	static function getStoryInfo($args=array())
 	{
 		if (!isset($args['id']) && isset($_REQUEST['story_id'])) { $args['id'] = $_REQUEST['story_id']; }
 		$args = PCPAdmin::getArgs($args);
-		return Stories::getStoryInfo($args); // get a story object and all its Containers
+		return Stories::getStoryInfo($args); // get a story info object 
 	}
 	
 	static function getStories($args=array())
@@ -26,7 +26,7 @@ class PCPAdmin
 	{
 		if (!isset($args['id'])  && isset($_REQUEST['container_id'])) { $args['id'] = $_REQUEST['container_id']; }
 		$args = PCPAdmin::getArgs($args);
-		return Containers::getContainer($args); // get a story object and all its Containers
+		return Containers::getContainer($args); // get a scene ontainer object
 	}
 	
 	static function getContainers($args=array())
@@ -47,20 +47,21 @@ class PCPAdmin
 		$args = PCPAdmin::getArgs($args);
 		return Scenes::getScenes($args);
 	}
-	
-	static function getAction($args=array())
+
+	static function getEvent($args=array())
 	{
-		if (!isset($args['id']) && isset($_REQUEST['action_id'])) { $args['id'] =  $_REQUEST['action_id']; }
+		if (!isset($args['id']) && isset($_REQUEST['event_id'])) { $args['id'] =  $_REQUEST['event_id']; }
 		$args = PCPAdmin::getArgs($args);
-		return Actions::getAction($args); // get a story object and all its Containers
+		return Events::getEvent($args); // get a story object and all its Containers
 	}
 	
-	static function getActions($args=array())
+	static function getEvents($args=array())
 	{
 		$args = PCPAdmin::getArgs($args);
-		return Actions::getActions($args); // get a story object and all its Containers
+		return Events::getEvents($args); // get a story object and all its Containers
 	}
-	
+
+
 	static private function getArgs($args=array())
 	{
 		if (!isset($args['story_id']) && isset($_REQUEST['story_id'])) { $args['story_id'] =  $_REQUEST['story_id']; }
@@ -71,14 +72,16 @@ class PCPAdmin
 		
 		if (!isset($args['include_scenes'])) { $args['include_scenes'] = TRUE; }
 		if (!isset($args['include_containers'])) { $args['include_containers'] = TRUE; }
-		if (!isset($args['include_actions'])) { $args['include_actions'] = TRUE; }
+		if (!isset($args['include_events'])) { $args['include_events'] = TRUE; }
 		
 		return $args;
 	}
 	
+/*	
 	static function getScreens()
 	{	
 		return Screens::getScreens();
-	}	
+	}
+*/	
 }
 ?>

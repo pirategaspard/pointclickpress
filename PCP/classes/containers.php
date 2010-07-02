@@ -16,7 +16,7 @@ class Containers
 		*/
 		
 		$q = '	SELECT c.*
-				FROM scene_containers c
+				FROM containers c
 				INNER JOIN stories s
 				ON s.id = c.story_id
 				WHERE 1 = 1 ';

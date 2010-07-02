@@ -11,8 +11,10 @@ class Model_Container extends Model
 	protected $id = 0;
 	protected $title = '';
 	protected $slug = '';
-	protected $scenes = array();	
-	protected $values = array();	
+	protected $events = array();
+	protected $scenes = array();
+		
+	//protected $values = array();	
 	
 	public function __construct($args=array())
 	{
@@ -23,6 +25,7 @@ class Model_Container extends Model
 	
 	function init($args=array())
 	{
+		if (!isset($args['include_events'])) $args['include_events']=false;
 		if (!isset($args['include_scenes'])) $args['include_scenes']=false;
 		
 		if ((isset($args['story_id']))&&(is_numeric($args['story_id'])))
@@ -37,6 +40,11 @@ class Model_Container extends Model
 		{
 			$this->title = $args['title'];
 			$this->slug = Formatting::createSlug($args['title']);
+		}
+		if ($args['include_events'])
+		{			
+			$args['container'] = $this;
+			$this->events = Events::getContainerEvents($args);
 		}
 		if ($args['include_scenes'])
 		{			
@@ -53,7 +61,7 @@ class Model_Container extends Model
 			$q = '	SELECT 	id
 							,story_id
 							,title
-					FROM scene_containers c
+					FROM containers c
 					WHERE id = :id';
 			$results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();
 			
@@ -61,11 +69,12 @@ class Model_Container extends Model
 			{
 				$this->init($results[0]);							
 				
+				/*
 				// get all possible values for scenes in this container
 				if (count($this->scenes) > 0)
 				{
 					$q = '	SELECT DISTINCT s.value
-							FROM scene_containers c
+							FROM containers c
 							INNER JOIN scenes s
 							ON s.container_id = c.id
 							WHERE c.id = :id
@@ -75,7 +84,7 @@ class Model_Container extends Model
 					{
 						$this->values[] = $result['value'];
 					}
-				}
+				}*/
 			}
 		}
 		return $this;
@@ -90,7 +99,7 @@ class Model_Container extends Model
 		if ($this->id == 0)
 		{
 			//INSERT new record
-				$q = '	INSERT INTO scene_containers
+				$q = '	INSERT INTO containers
 						(story_id,title)
 						VALUES (:story_id,:title)';
 				$results = DB::query(Database::INSERT,$q,TRUE)
@@ -108,7 +117,7 @@ class Model_Container extends Model
 			//UPDATE record
 			try
 			{
-				$q = '	UPDATE scene_containers
+				$q = '	UPDATE containers
 						SET title = :title
 						WHERE id = :id';
 				$results['success'] = DB::query(Database::UPDATE,$q,TRUE)
@@ -136,7 +145,7 @@ class Model_Container extends Model
 				$scene->delete();
 			}
 			
-			$q = '	DELETE FROM scene_containers
+			$q = '	DELETE FROM containers
 						WHERE id = :id';
 			$results =	DB::query(Database::DELETE,$q,TRUE)
 								->param(':id',$this->id)

@@ -55,9 +55,6 @@ ini_set('unserialize_callback_func', 'spl_autoload_call');
 $app_path = '/PCP/';
 Kohana::init(array('base_url' => $app_path,'index_file' => NULL));
 
- 
-Kohana::init(array('base_url' => '/PCP/'));
-
 /**
  * Attach the file write to logging. Multiple writers are supported.
  */

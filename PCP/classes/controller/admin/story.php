@@ -20,10 +20,11 @@ Class Controller_admin_story extends Controller_Template_Admin
 		List out all stories 
 	*/
 	function action_list()
-	{
+	{			
 		$data['stories'] = PCPAdmin::getStories(array('include_containers'=>true,'include_scenes'=>true));
 		if (count($data['stories']) > 0 )
 		{
+			$data['story_add'] = View::factory('/admin/story/add',$data)->render();
 			$this->template->content = View::factory('/admin/story/list',$data)->render();
 		}
 		else
@@ -36,18 +37,24 @@ Class Controller_admin_story extends Controller_Template_Admin
 		Show form to edit story 
 	*/
 	function action_edit()
-	{	
-		if(count($_POST) > 0)
-		{					
-			$this->action_save();
-		}		
-		$data['story'] = PCPAdmin::getStory(array('include_containers'=>TRUE));
+	{		
+		$data = Events::getUrlParams();
+		$data['story'] = PCPAdmin::getStory(array('include_events'=>true,'include_containers'=>TRUE));
 		$data['containers'] = $data['story']->containers;
+		$data['events'] = $data['story']->events;				
+		
+		$data['container_add'] = View::factory('/admin/container/add',$data)->render();
+		$data['container_list'] = View::factory('/admin/container/list',$data)->render();	//get container information and load list of containers
+		
+		$data['event_add'] = View::factory('/admin/event/add',$data)->render();
+		$data['event_list'] = View::factory('/admin/event/list',$data)->render();	//get event information and load list of events
+		
 		$data['story_info'] =  View::factory('/admin/story/info',$data)->render();
-		$data['story_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'story','action'=>'save')));		
-		$data['container_list'] = View::factory('/admin/container/list',$data)->render();	//get container information and load list of containers below story info
+		$data['story_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'story','action'=>'save')));			
+		$data['story_form'] = View::factory('/admin/story/form',$data)->render();
+		
 		$this->template->top_menu = View::factory('/admin/story/top_menu',$data)->render();
-		$this->template->content = View::factory('/admin/story/form',$data)->render();
+		$this->template->content = View::factory('/admin/story/template',$data)->render();
 	}
 	
 	/*

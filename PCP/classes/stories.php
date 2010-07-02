@@ -40,7 +40,7 @@ class Stories
 		{
 			if(isset($args['include_containers'])) $a['include_containers'] = $args['include_containers'];
 			if(isset($args['include_scenes'])) $a['include_scenes'] = $args['include_scenes'];
-			if(isset($args['include_actions'])) $a['include_actions'] = $args['include_actions'];
+			if(isset($args['include_events'])) $a['include_events'] = $args['include_events'];
 			
 			$stories[$a['id']] = stories::getStory()->init($a);
 		}

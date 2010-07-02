@@ -20,7 +20,7 @@ class Scenes
 		
 		$q = '	SELECT sc.*
 				FROM scenes sc
-				INNER JOIN scene_containers c
+				INNER JOIN containers c
 				ON c.id = sc.container_id
 				INNER JOIN stories s
 				ON s.id = c.story_id
@@ -60,11 +60,10 @@ class Scenes
 						,s.description
 						,s.filename
 						,s.value
-						,s.init_vars
 					FROM scenes s
-					INNER JOIN scene_containers c
-					ON c.id = s.container_id
-					AND c.id = :container_id
+					INNER JOIN containers c
+						ON c.id = s.container_id
+						AND c.id = :container_id
 					WHERE value = :value';
 		$results = DB::query(Database::SELECT,$q,TRUE)
 								->param(':container_id',$container_id)
@@ -73,7 +72,9 @@ class Scenes
 								->as_array();
 		if (count($results) > 0)			
 		{
-			$scene->init($results[0]); // populate scene object
+			$args = $results[0];
+			$args['include_events'] = true;
+			$scene->init($args); // populate scene object
 		}
 		return $scene;
 	}
@@ -116,7 +117,7 @@ class Scenes
 			->save($media_path.DIRECTORY_SEPARATOR.'default'.DIRECTORY_SEPARATOR.$filename);		
 			
 			//get array of Supported screens
-			$SCREENS = pcp::getScreens();		
+			$SCREENS = Screens::getScreens();		
 			// for each supported screen create image and save 	
 			foreach($SCREENS as $screen)
 			{

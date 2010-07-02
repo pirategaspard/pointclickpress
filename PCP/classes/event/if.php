@@ -12,10 +12,10 @@ class event_if extends pcpevent
 		// init this event
 		parent::__construct();
 		$this->label = 'If';
-		$this->description = 'Assign a new value to a session variable based on an if statement $var = (eval_value1 [>|<|<=|>=|==|!=] eval_value1 ) ? true_value1 : false_value 2;' ;	
+		$this->description = 'Assign a new value to story_data based on an if statement $var = (eval_value1 [>|<|<=|>=|==|!=] eval_value1 ) ? true_value1 : false_value 2;' ;	
 	}
 	
-	public function execute($args=array(),$session=null)
+	public function execute($args=array(),&$story_data=array())
 	{
 		$parsed = array(); // array of results
 		
@@ -97,8 +97,8 @@ class event_if extends pcpevent
 				
 			}			
 		}
-		$story_data = $session->get('story_data',array());
-		$session->set('story_data',array_merge($story_data,$parsed));
+		//update story_data
+		$story_data = array_merge($story_data,$parsed);
 		//die();
 		return 1;
 	}

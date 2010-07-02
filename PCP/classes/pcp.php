@@ -44,16 +44,22 @@ class PCP
 	  	a cell in a scene has been clicked, 
 	  	get the action attached to the cell (if there is one) 
 	 */
-	static function getAction($scene_id,$cell_id)
+	static function getCellEvent($scene_id,$cell_id)
 	{
 		$results['success'] = 0;
-		
-		$q = '	SELECT sa.*
-				FROM scene_action_cells sac
-				INNER JOIN scene_actions sa
-				ON (sa.id = sac.action_id
-				AND sa.scene_id = :scene_id)
-				WHERE sac.id = :cell_id';
+	
+		$q = '	SELECT 	e.id,
+						e.event,
+						e.event_label,
+						e.event_value
+				FROM cells c
+				INNER JOIN grids_events g
+					ON g.grid_event_id = c.grid_event_id
+				INNER JOIN events e
+					ON e.id = g.event_id
+				WHERE 	c.id = :cell_id
+					AND c.scene_id = :scene_id
+				ORDER BY e.id DESC';
 		$events = DB::query(Database::SELECT,$q,TRUE)
 								->param(':scene_id',$scene_id)
 								->param(':cell_id',$cell_id)
@@ -72,7 +78,7 @@ class PCP
 		When a user clicks on a cell this function determines 
 		if there is an action assigned to the cell
     */
-	static function getCellAction()
+	static function getGridEvent()
     {
 		$event_occured = 0;
 		
@@ -86,11 +92,11 @@ class PCP
 		if (($story != NULL) && ($scene != NULL) && (isset($_REQUEST['n'])))
 		{				
 			$cell_id = $_REQUEST['n'];
-			$results = PCP::getAction($scene->id,$cell_id);
+			$results = PCP::getCellEvent($scene->id,$cell_id);
 			
 			if ($results['success'] == 1 )
 			{
-				$event_occured = PCP::determineEvents($results['events']);
+				$event_occured = PCP::doEvents($results['events']);
 			}			
 		}
 		return $event_occured;	
@@ -100,18 +106,32 @@ class PCP
 		if an action is assigned to the cell this function 
 		interprets the cell action(s)
     */
-	static private function determineEvents($events)
+	static function doEvents($events)
 	{
-		$event_occured = 0;
-		
-		foreach($events as $event)
-		{
-			$session = Session::instance();
-			$class_name = $event['event'];
-			$action_class = new $class_name;
-			$event_occured = $action_class->execute(array('event_value'=>$event['event_value']),&$session);
-		}
+		$event_occured = Events::doEvents($events);
 		return $event_occured;		
+	}
+	
+	static function getCurrentContainerID()
+	{
+		$session = Session::instance();
+		$story_data = $session->get('story_data',array());
+		if (isset($story_data['container_id']))
+		{
+			$container_id = $story_data['container_id'];
+		}
+		else
+		{
+			$container_id = 0 ;
+		}		
+		return $container_id;
+	}
+	
+	static function getContainer($container_id = 0)
+	{
+		$args = PCP::getArgs();
+		$args['id'] = $container_id;
+		return Containers::getContainer($args);
 	}
 	
 	static private function getArgs($args=array())
@@ -124,14 +144,15 @@ class PCP
 		
 		if (!isset($args['include_scenes'])) { $args['include_scenes'] = FALSE; }
 		if (!isset($args['include_containers'])) { $args['include_containers'] = FALSE; }
-		if (!isset($args['include_actions'])) { $args['include_actions'] = FALSE; }
+		if (!isset($args['include_events'])) { $args['include_events'] = TRUE; } // always get actions 
 		
 		return $args;
 	}
-	
+/*	
 	static function getScreens()
 	{	
 		return Screens::getScreens();
 	}
+*/
 }
 ?>

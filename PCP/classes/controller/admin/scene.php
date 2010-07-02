@@ -5,32 +5,49 @@ Class Controller_admin_scene extends Controller_Template_Admin
 	
 	function action_edit()
 	{		
-		if(count($_POST) > 0)
-		{					
-			$this->action_save();
-		}	
-		$data['story'] = PCPAdmin::getStoryInfo(array('include_containers'=>true,'include_scenes'=>true));	
+		$data = Events::getUrlParams();
+		$data['scene'] = PCPAdmin::getScene(array('include_events'=>true));		
+		$data['story'] = PCPAdmin::getStoryInfo(array('id'=>$data['scene']->story_id,'include_containers'=>true,'include_scenes'=>false));
+		$data['container'] = $data['story']->containers[$data['scene']->container_id];
+		$data['events'] = $data['scene']->events;						
+				
+		// set the scene title equal to the parent container title if the scene title is empty, else set it to itself
+		$data['scene']->setTitle((strlen($data['scene']->title)>0) ? $data['scene']->title : $data['container']->title); //if (strlen($data['scene']->title)==0) $data['scene']->setTitle($data['container']->title);
+		// set the story size 
 		$data['story']->setDimensions(800,600);
-		$data['container'] = $data['story']->containers[$_REQUEST['container_id']];
-		$data['containers'] = $data['story']->containers;	
-		$data['scene'] = PCPAdmin::getScene(array('include_actions'=>true));	
-		if (strlen($data['scene']->title)==0) $data['scene']->setTitle($data['container']->title);
-		$data['actions'] = $data['scene']->actions;
-		$data['action'] = PCPAdmin::getAction();		
-		$data['event_types'] = Events::getEventTypes();
 		
-		$data['scene_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'save')));		
-		$data['actions_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'action','action'=>'save')));
-		
-		$data['scene_grid'] = View::factory('/admin/scene/grid',$data)->render();
-		$data['scene_form'] = View::factory('/admin/scene/form',$data)->render();
-		$data['add_action'] = View::factory('/admin/action/add',$data)->render();
-		$data['action_list'] = View::factory('/admin/action/list',$data)->render();					
-		$data['action_form'] = View::factory('/admin/action/form',$data)->render();			
-		$data['add_scene'] =  View::factory('/admin/scene/add',$data)->render();
 		$data['story_info'] =  View::factory('/admin/story/info',$data)->render();
 		$data['container_info'] =  View::factory('/admin/container/info',$data)->render();
 		$data['scene_info'] =  View::factory('/admin/scene/info',$data)->render();
+		$data['scene_add'] =  View::factory('/admin/scene/add',$data)->render();
+		
+		/* scene events */			
+		$data['event_add'] = View::factory('/admin/event/add',$data)->render();
+		$data['event_list'] = Events::getEventsList(array('events'=>$data['scene']->events,'url_params'=>$data['url_params']));				
+		
+		/* scene */
+		$data['scene_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'save')));						
+		$data['scene_form'] = View::factory('/admin/scene/form',$data)->render();
+						
+		if (strlen($data['scene']->filename) > 0)
+		{
+			/* grid events */
+			$data['event_types'] = Events::getEventTypes();						
+			$data['containers'] = $data['story']->containers;
+			$data['event'] = Events::getGridEvent();	
+			//$data['grid_event_add'] = View::factory('/admin/event/add',$data)->render(); //inline form
+			$data['grid_event_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'save')));
+			$data['back_url'] = Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?scene_id='.$data['scene']->id;						
+			$data['grid_event_form'] = View::factory('/admin/event/form_grid',$data)->render(); //inline form
+			$data['grid_event_list'] = Events::getEventsList(array('events'=>$data['scene']->grid_events,'url_params'=>$data['url_params']));		
+			
+			/* Grid */
+			$data['grid'] = View::factory('/admin/scene/grid',$data)->render();
+		}
+		else
+		{
+			$data['grid'] = '';
+		}
 		
 		$this->template->content = View::factory('/admin/scene/template',$data)->render();
 	}
