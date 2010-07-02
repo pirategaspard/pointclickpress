@@ -19,6 +19,10 @@ class Model_GridEvent extends Model_Event
 		{
 			$this->scene_id = $args['scene_id'];
 		}
+		if ((isset($args['grid_event_id']))&&(is_numeric($args['grid_event_id'])))
+		{
+			$this->grid_event_id = $args['grid_event_id'];
+		}
 		if (isset($args['cells']))
 		{
 			$this->cells = $args['cells'];
@@ -27,8 +31,8 @@ class Model_GridEvent extends Model_Event
 	}
 	
 	function load($args=array())
-	{		
-		if ($this->id > 0)
+	{			
+		if (($this->id > 0)&&($this->scene_id > 0))
 		{
 			$q = '	SELECT 	e.id
 							,e.event
@@ -39,11 +43,17 @@ class Model_GridEvent extends Model_Event
 					FROM grids_events g
 					INNER JOIN events e
 						ON e.id = g.event_id
-					WHERE g.event_id = :event_id';
-			$results = DB::query(Database::SELECT,$q,TRUE)->param(':event_id',$this->id)->execute()->as_array();											
+					WHERE g.event_id = :id
+						AND g.scene_id = :scene_id';
+			$results = DB::query(Database::SELECT,$q,TRUE)
+								->param(':id',$this->id)
+								->param(':scene_id',$this->scene_id)
+								->execute()
+								->as_array();											
 			
 			if (count($results) > 0 )
 			{				
+				
 				$this->init($results[0]);
 				$this->cells = Cells::getCells(array('event'=>$this));
 			}
@@ -56,7 +66,7 @@ class Model_GridEvent extends Model_Event
 	{	
 		$results['id'] = $this->id;	
 		$results['success'] = 0;
-		
+					
 		if ($this->id == 0)
 		{
 			parent::save();
@@ -71,11 +81,11 @@ class Model_GridEvent extends Model_Event
 								->param(':event_id',$this->id)
 								->execute();			
 			if ($results[1] > 0)
-			{
+			{				
 				$this->grid_event_id = $results[0];
 				foreach ($this->cells as $cell)
 				{
-					$results = Cells::getCell()->init(array('cell'=>$cell,'grid_event_id'=>$this->grid_event_id))->save();
+					$results = Cells::getCell()->init(array('id'=>$cell,'scene_id'=>$this->scene_id,'grid_event_id'=>$this->grid_event_id))->save();
 				}
 				$results['id'] = $this->id ;
 				$results['grid_event_id'] = $this->grid_event_id;
@@ -88,7 +98,7 @@ class Model_GridEvent extends Model_Event
 			}
 		}
 		elseif ($this->id > 0)
-		{
+		{			
 			//UPDATE record
 			try
 			{
@@ -102,7 +112,7 @@ class Model_GridEvent extends Model_Event
 				//save cells
 				foreach ($this->cells as $cell)
 				{
-					Cells::getCell()->init(array('id'=>$cell,'grid_event_id'=>$this->grid_event_id))->save();
+					Cells::getCell()->init(array('id'=>$cell,'scene_id'=>$this->scene_id,'grid_event_id'=>$this->grid_event_id))->save();
 				}					
 																		
 			}

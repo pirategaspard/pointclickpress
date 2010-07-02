@@ -34,17 +34,13 @@ class Model_Cell extends Model
 		
 		if ($this->id > 0)
 		{
-			$q = '	SELECT 	e.event_id
-							,e.event
-							,e.event_value														
-							,sce.scene_id
-							,sce.grid_event_id							
-				FROM cells sc
-				INNER JOIN grids_events sce
-					ON sce.grid_event_id = sc.grid_event_id
-				INNER JOIN events e
-					ON e.id = sce.event_id
-				WHERE sc.id = :id';
+			$q = '	SELECT 	c.id													
+							,g.scene_id
+							,g.grid_event_id							
+				FROM cells c
+				INNER JOIN grids_events g
+					ON g.grid_event_id = c.grid_event_id
+				WHERE c.id = :id';
 			$results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();											
 							
 			if (count($results) > 0 )
@@ -63,12 +59,12 @@ class Model_Cell extends Model
 		
 		//INSERT new record
 		$q = '	INSERT INTO cells
-					(scene_id,id,grid_event_id)
-				VALUES (:scene_id,:id,:grid_event_id)';
+					(id,scene_id,grid_event_id)
+				VALUES (:id,:scene_id,:grid_event_id)';
 					
-		$results = DB::query(Database::INSERT,$q,TRUE)
-							->param(':scene_id',$this->scene_id)
+		$results = DB::query(Database::INSERT,$q,TRUE)							
 							->param(':id',$this->id)
+							->param(':scene_id',$this->scene_id)
 							->param(':grid_event_id',$this->grid_event_id)
 							->execute();			
 		if ($results[1] > 0)

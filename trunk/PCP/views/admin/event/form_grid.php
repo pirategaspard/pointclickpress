@@ -9,6 +9,7 @@
 		<?php if (isset($story_id)){ ?><input type="hidden" name="story_id" value="<?php echo($story_id); ?>" /> <?php } ?>
 		<?php if (isset($container_id)){ ?><input type="hidden" name="container_id" value="<?php echo($container_id); ?>" /> <?php } ?>
 		<?php if (isset($scene_id)){ ?><input type="hidden" name="scene_id" value="<?php echo($scene_id); ?>" /> <?php } ?>
+		<?php if (isset($event->grid_event_id)){ ?><input type="hidden" name="grid_event_id" value="<?php echo($event->grid_event_id); ?>" /> <?php } ?>
 		<input type="hidden" name="back_url" value="<?php echo($back_url); ?>" />
 		<input type="hidden" name="type" value="<?php echo($type); ?>" />
 		<input type="hidden" name="id" value="<?php echo($event->id); ?>" />
