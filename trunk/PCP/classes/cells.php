@@ -12,17 +12,19 @@ class Cells
 	static function getCells($args=array())
 	{				
 		$q = '	SELECT 	scl.id,
-							scl.action_id,
-							sa.scene_id,
-							sa.container_id,
-							sa.event,
-							sa.event_value						
-				FROM scene_action_cells scl
-				INNER JOIN scene_actions sa
-					ON sa.id = scl.action_id
+							g.event_id,
+							se.scene_id,
+							se.container_id,
+							se.event,
+							se.event_value						
+				FROM cells cl
+				INNER JOIN grids_events g
+					ON g.grid_group_id = cl.grid_group_id
+				INNER JOIN events e
+					ON e.id = g.event_id
 				INNER JOIN scenes sc
-					ON sc.id = sa.scene_id
-				INNER JOIN scene_containers c
+					ON sc.id = g.scene_id
+				INNER JOIN containers c
 					ON c.id = sc.container_id
 				INNER JOIN stories s
 					ON s.id = c.story_id

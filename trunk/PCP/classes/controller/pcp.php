@@ -37,21 +37,22 @@ Class Controller_PCP extends Controller_Template_Base
 		if (isset($_REQUEST['story_id']))
 		{							
 			// Get the current session
-			$session = Session::instance();		
-			// Empty old session to start a new one
-			$session->set('story_data',array());
+			$session = Session::instance();	
 			
 			//get the story
-			$story = PCP::getStory(array('include_containers'=>FALSE));
+			$story = PCP::getStory();
 			// set the story dimensions
-			$story->setDimensions($session->get('screen_width'),$session->get('screen_height'));
-			
+			$story->setDimensions($session->get('screen_width'),$session->get('screen_height'));			
 			$session->set('story',$story);
-			$session->set('container_id',$story->getFirstContainerId());
 			
-			// put any story init_vars into session
-			Evaluate::parse($story->init_vars); 
-			
+			// Empty old session data 												
+			$story_data	= array();
+			// set first container
+			$story_data['container_id'] = $story->getFirstContainerId();
+			// set new story data into session 
+			$session->set('story_data',$story_data); 									
+			// put any story init events into session
+			PCP::doEvents($story->events);			
 			// redirect to the first scene
 			Request::instance()->redirect(Route::get('default')->uri(array('action'=>'scene')));
 		}		
@@ -71,24 +72,50 @@ Class Controller_PCP extends Controller_Template_Base
 		// get session
 		$session = Session::instance();			
 		// get story
-		$data['story'] = $session->get('story',NULL);		
+		$data['story'] = $session->get('story',NULL);
 		// get the scene
-		$data['scene'] = PCP::getScene($session->get('container_id',0));
-
-		// put any scene init_vars into session
-		Evaluate::parse($data['scene']->init_vars);
+		$data['scene'] = PCP::getScene(PCP::getCurrentContainerId());
 		
+		//get container from session (so that we can process any container events)
+		$container = $session->get('container',NULL);
+		if (!isset($container)||($container->id != $data['scene']->container_id))
+		{
+			$container = PCP::getContainer($data['scene']->container_id);
+		}		
+		
+		// put any container init events into session
+		PCP::doEvents($container->events);
+		// put any scene init events into session
+		PCP::doEvents($data['scene']->events);	
+		
+		//put scene into session
 		$session->set('scene',$data['scene']);
 		
 		// if we have valid data show the scene
 		if (($data['story'] != NULL) && ($data['scene']->id > 0) && (strlen($data['scene']->filename) > 0))
 		{				
-			/* Compose the scene*/			
-			$this->template->scripts[] = 'grid.js'; //get grid js 
-			$this->template->head[] = View::factory('pcp/style',$data)->render();//get grid style 			
-			$data['grid'] = View::factory('pcp/grid',$data)->render(); //get grid
-			// render the scene
-			$this->template->content = View::factory('pcp/scene',$data)->render();
+			if (Request::$is_ajax)
+    		{
+    			// disable auto render
+    			$this->auto_render = FALSE;
+    			// return some hand coded JSON
+				$returnstring = '
+					{
+						"filename": "'.$data['scene']->getPath($data['story']->scene_width,$data['story']->scene_height).'", 
+						"title": "'.$data['scene']->title.'",
+						"description": "'.$data['scene']->description.'"
+					}';	
+				echo $returnstring; 	
+    		}
+    		else
+    		{
+				/* Compose the scene*/			
+				$this->template->scripts[] = 'grid.js'; //get grid js 
+				$this->template->head[] = View::factory('pcp/style',$data)->render();//get grid style 			
+				$data['grid'] = View::factory('pcp/grid',$data)->render(); //get grid
+				// render the scene
+				$this->template->content = View::factory('pcp/scene',$data)->render();
+			}
 		}		
         else
         {
@@ -97,7 +124,7 @@ Class Controller_PCP extends Controller_Template_Base
 			
 			/*
 			//debug
-			var_dump($_SESSION);
+			//	var_dump($_SESSION);
 			if (($data['story'] == NULL))
 			{
 				echo ("No Story Data");				
@@ -118,44 +145,20 @@ Class Controller_PCP extends Controller_Template_Base
     /* for non-ajax cell action requests */
     function action_cellClick()
     {
-		PCP::getCellAction();
-		Request::instance()->redirect(Route::get('default')->uri(array('action'=>'scene')));
-	}
-	
-	/* for ajax cell action requests */
-    function action_cellClickAjax()
-    {
-		$this->auto_render = FALSE; // disable auto render		
-		echo PCP::getCellAction();	// display the results (0 or 1)	
-	}
-		
-	/* for ajax cell action requests */
-    function action_getSceneAjax()
-    {
-		$this->auto_render = FALSE; // disable auto render	
-		
-		// get session
-		$session = Session::instance();			
-		// get story
-		$data['story'] = $session->get('story',NULL);		
-		// get the scene
-		$data['scene'] = PCP::getScene($session->get('container_id',0));
-		// put any scene init_vars into session
-		Evaluate::parse($data['scene']->init_vars);
-		//put scene into session
-		$session->set('scene',$data['scene']);
-		
-		// if we have valid data show the scene
-		if (($data['story'] != NULL) && ($data['scene']->id > 0) && (strlen($data['scene']->filename) > 0))
-		{
-			$returnstring = '
-			{
-				"filename": "'.$data['scene']->getPath($data['story']->scene_width,$data['story']->scene_height).'", 
-				"title": "'.$data['scene']->title.'",
-				"description": "'.$data['scene']->description.'"
-			}';	
-			echo $returnstring;	// display the results (0 or 1)	
-		}		
+    	if (Request::$is_ajax)
+    	{
+    		// disable auto render	
+	    	$this->auto_render = FALSE;
+			// display the results (0 or 1) 	
+			echo PCP::getGridEvent();	
+			//(javascript will decide whether to refresh the page or not)	
+		}
+    	else 
+    	{
+    		// do the action, then refresh the page no matter what. 
+			PCP::getGridEvent();
+			Request::instance()->redirect(Route::get('default')->uri(array('action'=>'scene')));
+		}
 	}
 	
 	function action_screenSize()

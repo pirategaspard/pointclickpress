@@ -1,7 +1,3 @@
-
-<a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'story','action'=>'list')))); ?>">Back to story list</a>
-
-
 <fieldset>
 	<legend>Interactive Story Information</legend>
 	<form action="<?php echo($story_form_action); ?>" method="post" >
@@ -25,14 +21,10 @@
 				<option value="25x25" <?php if(strcmp($story->grid(),'25x25')===0) echo('selected="selected"'); ?>>25x25</option>
 				<option value="50x50" <?php if(strcmp($story->grid(),'50x50')===0) echo('selected="selected"'); ?>>50x50</option>
 			</select>
-		</label>
-        <label>
-			Story Custom Initalization Values:
-			<textarea name="init_vars"><?php echo($story->init_vars); ?></textarea>
-		</label>
+		</label>        
 		<label id="container_select" for="first_scene_container_id">First Scene Container:
 		<select name="first_scene_container_id" >
-			<option >Select a Scene Container</option>
+			<option value="" >Select a Scene Container</option>
 			<?php foreach($containers as $container)
 			{
 				$selected = '';
@@ -44,5 +36,3 @@
 		<input type="submit" name="submit" value="Save" />
 	</form>
 </fieldset>
-
-<?php echo($container_list); ?>

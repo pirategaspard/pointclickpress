@@ -13,7 +13,7 @@ class event_assign extends pcpevent
 		$this->description = 'Assign a new value to a session variable';	
 	}
 	
-	public function execute($args=array(),$session=null)
+	public function execute($args=array(),&$story_data=array())
 	{
 		$parsed = array(); // array of results
 		
@@ -93,8 +93,8 @@ class event_assign extends pcpevent
 				}
 			}
 		}
-		$story_data = $session->get('story_data',array());
-		$session->set('story_data',array_merge($story_data,$parsed));
+		//update story_data
+		$story_data = array_merge($story_data,$parsed);
 		//die();
 		return 1;
 	}

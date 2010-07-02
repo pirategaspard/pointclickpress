@@ -8,9 +8,9 @@ class Model_Scene extends Model
 	protected $title = "";
 	protected $description = "";
 	protected $filename = "";
-	protected $value = NULL;
-	protected $init_vars = "";
-	protected $actions = array();
+	protected $value = NULL;	
+	protected $events = array();
+	protected $grid_events = array();
 	
 	public function __construct($args=array())
 	{
@@ -42,7 +42,7 @@ class Model_Scene extends Model
 		}
 		if (isset($args['filename']))
 		{			
-			$this->filename = $args['filename'];					
+			$this->filename = $args['filename'];							
 		}
 		if (isset($args['value']))
 		{
@@ -52,10 +52,11 @@ class Model_Scene extends Model
 		{
 			$this->init_vars = $args['init_vars'];
 		} 
-		if (isset($args['include_actions']))
+		if (isset($args['include_events']))
 		{			
 			$args['scene'] = $this;
-			$this->actions = Actions::getActions($args);
+			$this->events = Events::getSceneEvents($args);
+			$this->grid_events = Events::getGridEvents($args);	
 		}
 		return $this;
 	}
@@ -72,7 +73,6 @@ class Model_Scene extends Model
 							,description
 							,filename
 							,value
-							,init_vars
 					FROM scenes s
 					WHERE id = :id';
 			$results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();
@@ -102,8 +102,7 @@ class Model_Scene extends Model
 							,title
 							,description
 							,filename
-							,value
-							,init_vars)
+							,value)
 						VALUES (
 							:story_id
 							,:container_id
@@ -111,7 +110,6 @@ class Model_Scene extends Model
 							,:description
 							,:filename
 							,:value
-							,:init_vars
 							)';
 							
 				$results = DB::query(Database::INSERT,$q,TRUE)
@@ -121,7 +119,6 @@ class Model_Scene extends Model
 									->param(':description',$this->description)
 									->param(':filename',$this->filename)
 									->param(':value',$this->value)
-									->param(':init_vars',$this->init_vars)
 									->execute();			
 				if ($results[1] > 0)
 				{
@@ -150,14 +147,12 @@ class Model_Scene extends Model
 							,description = :description
 							,filename = :filename
 							,value = :value
-							,init_vars = :init_vars
 						WHERE id = :id';
 				$results['success'] = DB::query(Database::UPDATE,$q,TRUE)
 										->param(':title',$this->title)
 										->param(':description',$this->description)
 										->param(':filename',$this->filename)
 										->param(':value',$this->value)
-										->param(':init_vars',$this->init_vars)
 										->param(':id',$this->id)
 										->execute();														
 			}
@@ -176,9 +171,13 @@ class Model_Scene extends Model
 		{
 			// delete children 1st
 			$this->load();
-			foreach($this->actions as $action)
+			foreach($this->events as $event)
 			{
-				$action->delete();
+				$event->delete();
+			}
+			foreach($this->grid_events as $event)
+			{
+				$event->delete();
 			}
 			
 			$q = '	DELETE FROM scenes
@@ -200,7 +199,10 @@ class Model_Scene extends Model
 		{
 			$screen = $w.'x'.$h;
 		}		
-		return Kohana::$base_url.MEDIAPATH.$this->story_id.DIRECTORY_SEPARATOR.$this->container_id.DIRECTORY_SEPARATOR.$this->id.DIRECTORY_SEPARATOR.$screen.DIRECTORY_SEPARATOR.$this->filename;
+		$regex = DIRECTORY_SEPARATOR;
+		//return Kohana::$base_url.MEDIAPATH.$this->story_id.DIRECTORY_SEPARATOR.$this->container_id.DIRECTORY_SEPARATOR.$this->id.DIRECTORY_SEPARATOR.$screen.DIRECTORY_SEPARATOR.$this->filename;
+		return preg_replace("/$regex /",'/',Kohana::$base_url.MEDIAPATH.'/'.trim($this->story_id).'/'.$this->container_id.'/'.$this->id.'/'.$screen.'/'.$this->filename);
+
 	}
 	
 	/*

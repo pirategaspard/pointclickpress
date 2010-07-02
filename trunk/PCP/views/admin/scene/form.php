@@ -32,10 +32,6 @@
 			Scene Value:
 			<input type="text" name="value" value="<?php print($scene->value); ?>" >
 		</label>
-		<label>
-			Scene Custom Initalization Values:
-			<input type="text" name="init_vars" value="<?php print($scene->init_vars); ?>" >
-		</label>
 		<input type="submit" name="submit" value="Save" />
 	</form>
 </fieldset>

@@ -1,5 +1,7 @@
 <?php 
 	//var_dump($container);
+	if (isset($container))
+	{
 ?>
 <fieldset>
 	<legend>Container <?php print($container->id); ?></legend>
@@ -12,9 +14,5 @@
 	</form>
 </fieldset>
 <?php 
-	if ($container->id > 0)
-	{ 
-		echo($add_scene); 
-		echo($scene_list); 	
-	}
+	} 	
 ?>

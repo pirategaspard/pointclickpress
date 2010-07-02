@@ -5,14 +5,17 @@
 	echo($story_info);
 	echo($container_info);
 	echo($scene_info);
-	echo($add_scene);
+	echo($scene_add);
 	echo($scene_form);
-	echo($scene_grid);
-	//echo($actions_form);
+	echo($event_add); 
+	echo($event_list);
+	echo($grid);
+	
 	if ($scene->id > 0)
 	{ 
-		echo($add_action); 
-		echo($action_form); 	
+		//echo($grid_event_add); 
+		echo($grid_event_form);
+		echo($grid_event_list);  	
 	}
 	
 ?>

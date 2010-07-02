@@ -17,7 +17,7 @@
 			<?php foreach($event_types as $event_type)
 			{
 				$selected = '';
-				if ($action->event == $event_type->event) $selected = ' selected="selected" ';
+				if ($event->event == $event_type->event) $selected = ' selected="selected" ';
 				echo ('<option value="'.$event_type->event.'"'.$selected.' >'.$event_type->label.'</option>');
 			} ?>
 		</select>
@@ -28,17 +28,17 @@
 			<?php foreach($containers as $container)
 			{
 				$selected = '';
-				if ($action->event_value == $container->id) $selected = ' selected="selected" ';
+				if ($event->event_value == $container->id) $selected = ' selected="selected" ';
 				echo ('<option value="'.$container->id.'"'.$selected.' >'.$container->title.'</option>');
 			} ?>
 		</select>
 		</label>
 		<?php } ?>
 		<label id="event_value" for="event_value">Event Value:
-			<textarea name="event_value"><?php echo($action->event_value); ?></textarea>
+			<textarea name="event_value"><?php echo($event->event_value); ?></textarea>
 		</label>
 		<label id="cell_ids" for="cell_ids">Cell Id List:
-			<input type="text" name="cell_ids" value="<?php echo($action->getCellIds()); ?>" />
+			<input type="text" name="cell_ids" value="<?php echo($event->getCellIds()); ?>" />
 		</label>
 		<input type="submit" name="submit" value="submit" />
 	</form>

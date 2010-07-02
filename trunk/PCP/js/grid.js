@@ -28,11 +28,11 @@ $(document).ready(function() {
 				On click send the number of the cell to the cellClickAjax
 				function in	the PCP controller
 			*/
-			$.post('cellClickAjax', {n: $(this).attr('n')}, function(data) {
+			$.post('cellClick', {n: $(this).attr('n')}, function(data) {
 			if (data == 1)
 			{
 				//get scene and swap the data so we don't have to reload the page!
-				var filename = $.getJSON('getSceneAjax',function(data){						
+				var filename = $.getJSON('getScene',function(data){						
 						$('#scene>h1').html(data.title);
 						$('#scene>p').html(data.description);						
 						// pre-load image and then swap background

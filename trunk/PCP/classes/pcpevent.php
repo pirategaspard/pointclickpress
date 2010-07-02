@@ -23,7 +23,7 @@ class pcpevent extends model
 		return $this->description;
 	}
 	
-	public function execute($args=array(),$session=null)
+	public function execute($args=array(),&$story_data=array())
 	{
 		// this function is meant to be extended 
 	}

@@ -3,7 +3,8 @@
 class Model_Cell extends Model 
 {
 	protected $id = 0;		
-	protected $action_id = 0;
+	protected $scene_id = 0;
+	protected $grid_event_id = 0;
 	
 	public function __construct($args=array())
 	{
@@ -16,26 +17,14 @@ class Model_Cell extends Model
 		if ((isset($args['id']))&&(is_numeric($args['id'])))
 		{
 			$this->id = $args['id'];
-		}		
-		if ((isset($args['action_id']))&&(is_numeric($args['action_id'])))
-		{
-			$this->action_id = $args['action_id'];
-		}
+		}				
 		if ((isset($args['scene_id']))&&(is_numeric($args['scene_id'])))
 		{
 			$this->scene_id = $args['scene_id'];
 		}
-		if ((isset($args['container_id']))&&(is_numeric($args['container_id'])))
+		if ((isset($args['grid_event_id']))&&(is_numeric($args['grid_event_id'])))
 		{
-			$this->container_id = $args['container_id'];
-		}
-		if (isset($args['event']))
-		{
-			$this->event = $args['event'];
-		}
-		if (isset($args['event_value']))
-		{
-			$this->event_value = $args['event_value'];
+			$this->grid_event_id = $args['grid_event_id'];
 		}
 		return $this;
 	}
@@ -45,16 +34,17 @@ class Model_Cell extends Model
 		
 		if ($this->id > 0)
 		{
-			$q = '	SELECT 	scl.id,
-							scl.action_id,
-							sa.scene_id,
-							sa.container_id,
-							sa.event,
-							sa.event_value
-				FROM scene_action_cells scl
-				INNER JOIN scene_actions sa
-					ON sa.id = scl.action_id
-					WHERE scl.id = :id';
+			$q = '	SELECT 	e.event_id
+							,e.event
+							,e.event_value														
+							,sce.scene_id
+							,sce.grid_event_id							
+				FROM cells sc
+				INNER JOIN grids_events sce
+					ON sce.grid_event_id = sc.grid_event_id
+				INNER JOIN events e
+					ON e.id = sce.event_id
+				WHERE sc.id = :id';
 			$results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();											
 							
 			if (count($results) > 0 )
@@ -72,13 +62,14 @@ class Model_Cell extends Model
 		$results['success'] = 0;
 		
 		//INSERT new record
-		$q = '	INSERT INTO scene_action_cells
-					(id,action_id)
-				VALUES (:id,:action_id)';
+		$q = '	INSERT INTO cells
+					(scene_id,id,grid_event_id)
+				VALUES (:scene_id,:id,:grid_event_id)';
 					
 		$results = DB::query(Database::INSERT,$q,TRUE)
+							->param(':scene_id',$this->scene_id)
 							->param(':id',$this->id)
-							->param(':action_id',$this->action_id)
+							->param(':grid_event_id',$this->grid_event_id)
 							->execute();			
 		if ($results[1] > 0)
 		{
@@ -97,7 +88,7 @@ class Model_Cell extends Model
 	{
 		if ($this->id > 0)
 		{
-			$q = '	DELETE FROM scene_action_cells
+			$q = '	DELETE FROM cells
 						WHERE id = :id';
 			$results =	DB::query(Database::DELETE,$q,TRUE)
 								->param(':id',$this->id)
