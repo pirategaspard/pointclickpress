@@ -201,7 +201,8 @@ class Model_Scene extends Model
 		}		
 		$regex = DIRECTORY_SEPARATOR;
 		//return Kohana::$base_url.MEDIAPATH.$this->story_id.DIRECTORY_SEPARATOR.$this->container_id.DIRECTORY_SEPARATOR.$this->id.DIRECTORY_SEPARATOR.$screen.DIRECTORY_SEPARATOR.$this->filename;
-		return preg_replace("/$regex /",'/',Kohana::$base_url.MEDIAPATH.'/'.trim($this->story_id).'/'.$this->container_id.'/'.$this->id.'/'.$screen.'/'.$this->filename);
+		//return preg_replace("/$regex /",'/',Kohana::$base_url.MEDIAPATH.'/'.trim($this->story_id).'/'.$this->container_id.'/'.$this->id.'/'.$screen.'/'.$this->filename);
+		return Kohana::$base_url.MEDIAPATH.'/'.trim($this->story_id).'/'.$this->container_id.'/'.$this->id.'/'.$screen.'/'.$this->filename;
 
 	}
 	
