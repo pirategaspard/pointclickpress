@@ -38,8 +38,9 @@ Class Controller_admin_scene extends Controller_Template_Admin
 			//$data['grid_event_add'] = View::factory('/admin/event/add',$data)->render(); //inline form
 			$data['grid_event_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'save')));
 			$data['back_url'] = Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?scene_id='.$data['scene']->id;						
+			$data['type'] = 'Grid';
 			$data['grid_event_form'] = View::factory('/admin/event/form_grid',$data)->render(); //inline form
-			$data['grid_event_list'] = Events::getEventsList(array('events'=>$data['scene']->grid_events,'url_params'=>$data['url_params'],'inline'=>true));		
+			$data['grid_event_list'] = Events::getEventsList(array('events'=>$data['scene']->grid_events,'url_params'=>$data['url_params'],'type'=>$data['type']));		
 			
 			/* Grid */
 			$data['grid'] = View::factory('/admin/scene/grid',$data)->render();

@@ -176,15 +176,17 @@ class Events
 		return $events;		
 	}
 	
-	static function getEventsList($data=array())
+	static function getEventsList($args=array())
 	{
-		if (isset($data['inline']))
+		if (!isset($args['type'])) {$args['type']='';}		
+		switch ($args['type'])
 		{
-			$view = View::factory('/admin/event/list_grid',$data)->render();
-		}
-		else
-		{
-			$view = View::factory('/admin/event/list',$data)->render();
+			case 'Grid':				
+				$view = View::factory('/admin/event/list_grid',$args)->render();
+			break;
+			default:
+				$view = View::factory('/admin/event/list',$args)->render();
+			break;
 		}
 		return $view;
 	}
