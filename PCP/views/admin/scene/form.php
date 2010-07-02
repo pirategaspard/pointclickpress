@@ -4,7 +4,6 @@
 <h3><?php print($scene->title); ?></h3>
 <fieldset>
 	<legend>scene <?php print($scene->id); ?> scene <?php print($scene->value); ?></legend>
-	<img src="" />
 	<form action="<?php print($scene_form_action); ?>" method="post" enctype="multipart/form-data" >
 		<input type="hidden" name="story_id" value="<?php print($scene->story_id); ?>" >
 		<input type="hidden" name="container_id" value="<?php print($scene->container_id); ?>" >
