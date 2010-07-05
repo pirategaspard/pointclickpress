@@ -82,8 +82,8 @@ class Scenes
 	static function uploadScene($args=array())
 	{
 		// Create the Upload and Media directories if they do not exist
-		dir::prep_directory(UPLOADPATH);
-		dir::prep_directory(MEDIAPATH);
+		dir::prep_directory(UPLOAD_PATH);
+		dir::prep_directory(MEDIA_PATH);
 		
 		//is our image file valid?
 		$valid = Validate::factory($_FILES)->rules('filename',array(
@@ -97,7 +97,7 @@ class Scenes
 			
 			// make a folders named story_id with a folder named container_id inside it
 			// final path will be: /media/story_id/container_id/screen_type/WxH/filename
-			$media_path = APPPATH.MEDIAPATH.$_POST['story_id'].DIRECTORY_SEPARATOR;
+			$media_path = APPPATH.MEDIA_PATH.$_POST['story_id'].DIRECTORY_SEPARATOR;
 			dir::prep_directory($media_path);
 			$media_path = $media_path.$_POST['container_id'].DIRECTORY_SEPARATOR;
 			dir::prep_directory($media_path);
@@ -105,7 +105,7 @@ class Scenes
 			dir::prep_directory($media_path);
 			
 			// upload original file from form 
-			$temp_file = upload::save($_FILES['filename'],$_FILES['filename']['name'],APPPATH.UPLOADPATH);
+			$temp_file = upload::save($_FILES['filename'],$_FILES['filename']['name'],APPPATH.UPLOAD_PATH);
 			
 			$filename = $_FILES['filename']['name'];  				
 			
@@ -126,7 +126,7 @@ class Scenes
 				
 				$success = Image::factory($temp_file)
 				->resize($screen['w'], $screen['h'], Image::WIDTH)
-				->save($media_path.DIRECTORY_SEPARATOR.$screen['w'].'x'.$screen['h'].DIRECTORY_SEPARATOR.$filename);
+				->save($media_path.DIRECTORY_SEPARATOR.$screen['w'].'x'.$screen['h'].DIRECTORY_SEPARATOR.$filename,IMAGE_QUALITY);
 			}
 			
 			/*
@@ -146,7 +146,7 @@ class Scenes
 				}
 			}*/
 			
-			$results = array('success'=>$success,'filename'=>$filename,'path'=>UPLOADPATH);
+			$results = array('success'=>$success,'filename'=>$filename,'path'=>UPLOAD_PATH);
 		}
 		else
 		{
