@@ -60,14 +60,18 @@ class PCP
 				WHERE 	c.id = :cell_id
 					AND c.scene_id = :scene_id
 				ORDER BY e.id DESC';
-		$events = DB::query(Database::SELECT,$q,TRUE)
+		$events_temp = DB::query(Database::SELECT,$q,TRUE)
 								->param(':scene_id',$scene_id)
 								->param(':cell_id',$cell_id)
 								->execute()
 								->as_array();
 		
-		if (count($events) > 0)
+		if (count($events_temp) > 0)
 		{
+			foreach($events_temp as $event_temp)
+			{
+				$events[] = Events::getGridEvent()->init($event_temp); 			
+			}
 			$results['success'] = 1;
 			$results['events'] = $events;
 		}

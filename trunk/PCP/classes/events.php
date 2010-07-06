@@ -254,11 +254,11 @@ class Events
 		foreach($events as $event)
 		{
 			// 'event' is the class name			
-			$class_name = $event['event'];
+			$class_name = $event->event;
 			// get the class
 			$event_class = new $class_name; 
 			//execute event. Events can directly manipulate session's "story_data" info
-			$event_occured = $event_class->execute(array('event_value'=>$event['event_value']),$story_data);
+			$event_occured = $event_class->execute(array('event_value'=>$event->event_value),$story_data);
 			//var_dump($story_data);
 		}
 		//update session
@@ -367,7 +367,7 @@ class Events
 	static function getOperators($expression)
 	{
 		$operators = array();
-		if (preg_match('/[<=|>=|<>|!=|==|<|>|+|-|//|*|%]/',$expression, $ops))
+		if (preg_match('/[<=|>=|<>|!=|==|<|>|+|-|\/|*|%]/',$expression, $ops))
 		{
 			$operators = $ops;
 		}
@@ -377,7 +377,7 @@ class Events
 	static function getOperator($expression)
 	{
 		$operator = null;
-		$operators = $this->getOperators($expression);
+		$operators = Events::getOperators($expression);
 		if (count($operators)>0)
 		{
 			$operator = $operators[0];

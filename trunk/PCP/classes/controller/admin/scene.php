@@ -34,7 +34,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 			/* grid events */
 			$data['event_types'] = Events::getEventTypes();						
 			$data['containers'] = $data['story']->containers;
-			$data['event'] = PCPAdmin::getEvent(array('scene_id'=>$data['scene']->id,'type'=>'Grid');				
+			$data['event'] = PCPAdmin::getEvent(array('scene_id'=>$data['scene']->id,'type'=>'Grid'));				
 			//$data['grid_event_add'] = View::factory('/admin/event/add',$data)->render(); //inline form
 			$data['grid_event_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'save')));
 			$data['back_url'] = Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?scene_id='.$data['scene']->id;						

@@ -90,7 +90,7 @@ class Scenes
 													'upload::valid'=>NULL, 
 													'upload::not_empty'=>array(), 
 													'upload::type'=>array(array('gif','jpg','jpeg','png')), 
-													'upload::size'=>array('1M')));
+													'upload::size'=>array('2M')));
 
 		if ($valid->Check())
 		{		
@@ -149,8 +149,9 @@ class Scenes
 			$results = array('success'=>$success,'filename'=>$filename,'path'=>UPLOAD_PATH);
 		}
 		else
-		{
+		{			
 			$results = array_merge(array('success'=>false),$valid->errors());
+			//var_dump ($results); die();
 		}
 		return $results;
 	}
