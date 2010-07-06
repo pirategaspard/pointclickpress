@@ -36,7 +36,7 @@
 		</label>
 		<?php } ?>
 		<label id="event_value" for="event_value">Event Value:
-			<textarea name="event_value"><?php echo($event->event_value); ?></textarea>
+			<textarea rows="3" cols="50" name="event_value"><?php echo($event->event_value); ?></textarea>
 		</label>
 		<label id="cell_ids" for="cell_ids">Cell Id List:
 			<input type="text" name="cell_ids" value="<?php echo($event->getCellIds()); ?>" />

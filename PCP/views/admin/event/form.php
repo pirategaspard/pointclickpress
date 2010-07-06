@@ -21,7 +21,7 @@
 			} ?>
 		</select><br />
 		<label id="event_value" for="event_value">Event Value:
-			<textarea name="event_value"><?php echo($event->event_value); ?></textarea>
+			<textarea rows="10" cols="50" name="event_value"><?php echo($event->event_value); ?></textarea>
 		</label>
 		<input type="submit" name="submit" value="submit" />
 	</form>
