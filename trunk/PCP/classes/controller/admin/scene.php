@@ -5,7 +5,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 	
 	function action_edit()
 	{		
-		$data = Events::getUrlParams();
+		$data = EventsAdmin::getUrlParams();
 		$data['scene'] = PCPAdmin::getScene(array('include_events'=>true));		
 		$data['story'] = PCPAdmin::getStoryInfo(array('id'=>$data['scene']->story_id,'include_containers'=>true,'include_scenes'=>false));
 		$data['container'] = $data['story']->containers[$data['scene']->container_id];
@@ -23,7 +23,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		
 		/* scene events */			
 		$data['event_add'] = View::factory('/admin/event/add',$data)->render();
-		$data['event_list'] = Events::getEventsList(array('events'=>$data['scene']->events,'url_params'=>$data['url_params']));				
+		$data['event_list'] = EventsAdmin::getEventsList(array('events'=>$data['scene']->events,'url_params'=>$data['url_params']));				
 		
 		/* scene */
 		$data['scene_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'save')));						
@@ -32,7 +32,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		if (strlen($data['scene']->filename) > 0)
 		{
 			/* grid events */
-			$data['event_types'] = Events::getEventTypes();						
+			$data['event_types'] = EventsAdmin::getEventTypes();						
 			$data['containers'] = $data['story']->containers;
 			$data['event'] = PCPAdmin::getEvent(array('scene_id'=>$data['scene']->id,'type'=>'Grid'));				
 			//$data['grid_event_add'] = View::factory('/admin/event/add',$data)->render(); //inline form
@@ -40,7 +40,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 			$data['back_url'] = Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?scene_id='.$data['scene']->id;						
 			$data['type'] = 'Grid';
 			$data['grid_event_form'] = View::factory('/admin/event/form_grid',$data)->render(); //inline form
-			$data['grid_event_list'] = Events::getEventsList(array('events'=>$data['scene']->grid_events,'url_params'=>$data['url_params'],'type'=>$data['type']));		
+			$data['grid_event_list'] = EventsAdmin::getEventsList(array('events'=>$data['scene']->grid_events,'url_params'=>$data['url_params'],'type'=>$data['type']));		
 			
 			/* Grid */
 			$data['grid'] = View::factory('/admin/scene/grid',$data)->render();

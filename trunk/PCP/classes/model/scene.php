@@ -55,8 +55,8 @@ class Model_Scene extends Model
 		if (isset($args['include_events']))
 		{			
 			$args['scene'] = $this;
-			$this->events = Events::getSceneEvents($args);
-			$this->grid_events = Events::getGridEvents($args);	
+			$this->events = EventsAdmin::getSceneEvents($args);
+			$this->grid_events = EventsAdmin::getGridEvents($args);	
 		}
 		return $this;
 	}
