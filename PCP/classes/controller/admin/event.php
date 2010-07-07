@@ -27,7 +27,7 @@ Class Controller_admin_event extends Controller_Template_Admin
 		$data['container'] = $data['story']->containers[$_REQUEST['container_id']];
 		*/
 		
-		$data = Events::getUrlParams();
+		$data = EventsAdmin::getUrlParams();
 		
 		if (isset($data['story_id']))
 		{
@@ -49,7 +49,7 @@ Class Controller_admin_event extends Controller_Template_Admin
 		$results = array();
 		if(count($_POST) > 0)
 		{
-			$data = Events::getUrlParams();
+			$data = EventsAdmin::getUrlParams();
 			if (isset($_POST['cell_ids']))
 			{
 				$_POST['cells'] = explode(',',$_POST['cell_ids']);
@@ -58,7 +58,7 @@ Class Controller_admin_event extends Controller_Template_Admin
 			$myevent = new $_POST['event'];
 			$_POST['event_label'] = $myevent->label;
 			//save event
-			Events::getEvent($data)->init($_POST)->save();		
+			EventsAdmin::getEvent($data)->init($_POST)->save();		
 			unset($_POST);
 		}
 		else
@@ -72,7 +72,7 @@ Class Controller_admin_event extends Controller_Template_Admin
 	function action_delete()
 	{	
 		$back_url = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
-		$results = Events::getEvent()->init(array('id'=>$_REQUEST['event_id']))->delete();
+		$results = EventsAdmin::getEvent()->init(array('id'=>$_REQUEST['event_id']))->delete();
 		//Go back to the parent
 		Request::instance()->redirect($back_url);
 	}

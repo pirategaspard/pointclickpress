@@ -70,7 +70,7 @@ class PCP
 		{
 			foreach($events_temp as $event_temp)
 			{
-				$events[] = Events::getGridEvent()->init($event_temp); 			
+				$events[] = EventsAdmin::getGridEvent()->init($event_temp); 			
 			}
 			$results['success'] = 1;
 			$results['events'] = $events;

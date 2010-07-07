@@ -11,7 +11,7 @@ Class Controller_admin_container extends Controller_Template_Admin
 	function action_edit()
 	{		
 		
-		$data = Events::getUrlParams();
+		$data = EventsAdmin::getUrlParams();
 		$data['container'] = PCPAdmin::getContainer(array('include_scenes'=>TRUE,'include_events'=>TRUE));
 		$data['story'] = PCPAdmin::getStory(array('id'=>$data['container']->story_id));
 		$data['scenes'] = $data['container']->scenes;	

@@ -60,7 +60,7 @@ class Model_Story extends Model
 		if ($args['include_events'])
 		{			
 			$args['story'] = $this;
-			$this->events = Events::getStoryEvents($args);
+			$this->events = EventsAdmin::getStoryEvents($args);
 		}
 		if ($args['include_containers'])
 		{			

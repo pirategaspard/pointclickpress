@@ -52,13 +52,13 @@ class PCPAdmin
 	{
 		if (!isset($args['id']) && isset($_REQUEST['event_id'])) { $args['id'] =  $_REQUEST['event_id']; }
 		$args = PCPAdmin::getArgs($args);				
-		return Events::getEvent($args); // get a event object and all its Containers
+		return EventsAdmin::getEvent($args); // get a event object and all its Containers
 	}
 	
 	static function getEvents($args=array())
 	{
 		$args = PCPAdmin::getArgs($args);
-		return Events::getEvents($args); // get a story object and all its Containers
+		return EventsAdmin::getEvents($args); // get a story object and all its Containers
 	}
 
 

@@ -44,7 +44,7 @@ class Model_Container extends Model
 		if ($args['include_events'])
 		{			
 			$args['container'] = $this;
-			$this->events = Events::getContainerEvents($args);
+			$this->events = EventsAdmin::getContainerEvents($args);
 		}
 		if ($args['include_scenes'])
 		{			
