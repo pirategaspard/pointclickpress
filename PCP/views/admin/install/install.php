@@ -4,6 +4,14 @@
 */
 	if (isset($_POST['install']))
 	{
+		// create first user
+		$user_data = new Model_Auth_Users();		
+		$user_data->username = 'admin';
+		$user_data->password = 'admin';
+		$user_data->email = 'abcd@localhost';
+		$results = simpleauth::instance()->create_user($user_data);
+		
+		
 		include("sql/install.php");		
 		// Done!
 		echo '<h3>Done!</h3>';
