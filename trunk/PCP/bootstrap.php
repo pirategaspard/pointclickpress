@@ -53,7 +53,7 @@ ini_set('unserialize_callback_func', 'spl_autoload_call');
  //automatically create the base_ur
 //$app_path =  substr($_SERVER['PHP_SELF'],0,strpos($_SERVER['PHP_SELF'],'index.php'));
 $app_path = '/PCP/';
-Kohana::init(array('base_url' => $app_path,'index_file' => NULL));
+Kohana::init(array('base_url' => $app_path,'index_file' => ''));
 
 /**
  * Attach the file write to logging. Multiple writers are supported.
