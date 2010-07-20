@@ -1,3 +1,4 @@
+<a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'users','action'=>'list')))); ?>">Back to user list</a>
 <?php if(isset($user)) { ?>
 <fieldset>
 	<legend>Interactive user Information</legend>
@@ -13,19 +14,15 @@
 		</label>      
 		<label>
 			password		
-			<input type="text" name="email" value="" >
-		</label> 
+			<input type="password" name="password" value="" >
+		</label>  
 		<label>
-			admin		
-			<input type="text" name="admin" value="<?php echo($user->admin); ?>" >
-		</label> 
-		<label>
-			moderator		
-			<input type="text" name="moderator" value="<?php echo($user->moderator); ?>" >
-		</label> 
+			password2
+			<input type="password" name="password2" value="" >
+		</label>
 		<label>
 			active		
-			<input type="text" name="moderator" value="<?php echo($user->active); ?>" >
+			<input type="text" name="active" value="<?php echo($user->active); ?>" >
 		</label>
 		<input type="submit" name="submit" value="Save" />
 	</form>
