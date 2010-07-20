@@ -26,34 +26,37 @@ class Usersadmin
 		returns 0 on failure, id of user record on success
 	 */
 	public static function authenticate($username = '', $password = '')
-	{
-		$id = 0;
-		if ((!empty($password)) && (is_string($password)) && (is_string($login))) 
+	{		
+		$results['id'] = 0;
+		$results['success'] = 0;
+		if ((!empty($password)) && (is_string($password)) && (is_string($username))) 
 		{
 			$q = '	SELECT id
 					FROM users
 					WHERE active = 1
 					AND username = :username
 					AND password = :password';
-			$tempArray = DB::query(Database::SELECT,$q,TRUE)
+			$result = DB::query(Database::SELECT,$q,TRUE)
 								->param(':username',$username)
 								->param(':password',UsersAdmin::hash($password))
 								->execute()
 								->as_array();
 								
 			// if we have 1 and only one record then we are good
-			if (count($tempArray) == 1)
+			if (count($result) == 1)
 			{				
-				$id = $tempArray['id'];
+				$results['id'] = $result[0]['id'];
+				$results['success'] = 1;
 			}			
 		}
-		return $id;
+		return $results;
 	}
 	
-	public static function login($id = 0,&$session=null)
+	public static function login($id = 0)
 	{	
 		$session_key = 'user_id';
 		$loggedin = FALSE; 
+		$session = Session::instance();
 		$user = UsersAdmin::getUser(array('id'=>$id));		
 		if (($user->id > 0) && ($session))
 		{

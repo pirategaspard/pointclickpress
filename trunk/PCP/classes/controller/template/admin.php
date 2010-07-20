@@ -13,12 +13,19 @@ Class Controller_Template_Admin extends Controller_Template_Base
 	{
 	// Run anything that need ot run before this.
 		parent::before();
-
-		if($this->auto_render)
+		
+		if ((Usersadmin::isloggedin())||((strcasecmp(Request::instance()->action,'login') == 0)||(strcasecmp(Request::instance()->action,'dologin') == 0)))
 		{
-			// Initialize empty values
-			$this->template->title = 'PointClickPress - Admin';
-			$this->template->message_console = '';
+			if($this->auto_render)
+			{
+				// Initialize empty values
+				$this->template->title = 'PointClickPress - Admin';
+				$this->template->message_console = '';
+			}
+		}
+		else
+		{	//redirect to login			
+			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'users','action'=>'Login')));	
 		}
 	}
 

@@ -2,34 +2,26 @@
 
 class Controller_admin_users extends Controller_Template_Admin
 {
-/*
+
 	function action_index()
 	{
 		//$this->action_list();
 	}	
 	
-	*/
-	
 	function action_list()
 	{
-		//if (Usersadmin::instance()->logged_in())
-		//	{
-			$data['users'] = PCPAdmin::getUsers();
-			$this->template->content = View::factory('/admin/user/list',$data)->render();
-			$this->template->top_menu = View::factory('/admin/user/top_menu',$data)->render();
-		//}
+		$data['users'] = PCPAdmin::getUsers();
+		$this->template->content = View::factory('/admin/user/list',$data)->render();
+		$this->template->top_menu = View::factory('/admin/user/top_menu',$data)->render();
 	}
 	
 	function action_edit()
 	{
-		//if (Usersadmin::instance()->logged_in())
-		//	{
-			$data['user'] = PCPAdmin::getUser();
-			$data['user_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'users','action'=>'save')));
-			$data['user_form'] = View::factory('/admin/user/form',$data)->render();
-			$this->template->content = View::factory('/admin/user/template',$data)->render();
-			$this->template->top_menu = View::factory('/admin/user/top_menu',$data)->render();
-		//}
+		$data['user'] = PCPAdmin::getUser();
+		$data['user_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'users','action'=>'save')));
+		$data['user_form'] = View::factory('/admin/user/form',$data)->render();
+		$this->template->content = View::factory('/admin/user/template',$data)->render();
+		$this->template->top_menu = View::factory('/admin/user/top_menu',$data)->render();
 	}
 	
 	function action_save()
@@ -57,42 +49,58 @@ class Controller_admin_users extends Controller_Template_Admin
 	
 	function action_delete()
 	{	
-		if (Usersadmin::instance()->logged_in())
-		{
-			
-			$results = PCPAdmin::getUser()->init(array('id'=>$_REQUEST['user_id']))->delete();
-			//Go back to the parent
-			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'users','action'=>'list')));
-		}
+		$results = PCPAdmin::getUser()->init(array('id'=>$_REQUEST['user_id']))->delete();
+		//Go back to the parent
+		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'users','action'=>'list')));
 	}
-	
-	/*
+
 	
 	function action_login()
 	{
-		if (!Usersadmin::instance()->logged_in())
+		$data['login_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'users','action'=>'dologin')));
+		$data['user_form'] = View::factory('/admin/user/form_login',$data)->render();
+		$this->template->content = View::factory('/admin/user/template',$data)->render();
+	}
+	
+	function action_dologin()
+	{
+		if (!Usersadmin::isloggedin())
 		{
 			if($_POST)
 			{
-				$result = Usersadmin::instance()->login($_POST['username'], $_POST['password'], false);
-				if($result)
+				$results = Usersadmin::authenticate($_POST['username'], $_POST['password']);
+				if(($results['success'])&&(($results['id'])>0))
 				{
-					url::redirect('/about');
+					Usersadmin::login($results['id']);
+					Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'list')));
 				}
 				else
 				{
-					$this->template->content = 'Password or username invalid';
+					$data['login_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'users','action'=>'dologin')));
+					$data['user_form'] = View::factory('/admin/user/form_login',$data)->render();
 				}
 			}
 			else
 			{
-				$this->template->content =  new View('content_punchthru/login_form');
+				$data['login_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'users','action'=>'dologin')));
+				$data['user_form'] = View::factory('/admin/user/form_login',$data)->render();
 			}
 		}
 		else        
 		{
 			$this->template->content = 'you are already logged in';
 		}
-	}*/
+	}
+	
+	function action_logout()
+	{
+		$this->action_dologout();
+	}
+	
+	function action_dologout()
+	{
+		Usersadmin::logout();
+		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'users','action'=>'Login')));
+	}
 }
 ?>
