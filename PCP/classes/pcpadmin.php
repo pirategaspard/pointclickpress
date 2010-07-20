@@ -60,6 +60,19 @@ class PCPAdmin
 		$args = PCPAdmin::getArgs($args);
 		return EventsAdmin::getEvents($args); // get a story object and all its Containers
 	}
+	
+	static function getUser($args=array())
+	{
+		if (!isset($args['id']) && isset($_REQUEST['user_id'])) { $args['id'] = $_REQUEST['user_id']; }
+		$args = PCPAdmin::getArgs($args);
+		return UsersAdmin::getUser($args); // get a story object 
+	}
+	
+	static function getUsers($args=array())
+	{
+		$args = PCPAdmin::getArgs($args);
+		return UsersAdmin::getUsers($args); // get a story object 
+	}
 
 
 	static private function getArgs($args=array())

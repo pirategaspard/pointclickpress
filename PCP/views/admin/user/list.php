@@ -1,3 +1,4 @@
+<a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'users','action'=>'edit')))); ?>">Add User</a>
 <?php 
 	if (isset($users))
 	{
