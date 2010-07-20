@@ -108,6 +108,9 @@ class Usersadmin
 		{
 			if (!UsersAdmin::exists($args['username']))
 			{
+				
+				
+				
 				$user = UsersAdmin::getUser()->init($args);
 				$user->email = $args['email'];	
 				$user->username = $args['username'];	
@@ -115,34 +118,8 @@ class Usersadmin
 				$user->logins = 0;	
 				$user->created = time();
 				$user->last_ip_address = $_SERVER['REMOTE_ADDR'];				
-				$q = '	INSERT INTO users
-						(email,username,password,active,logins,last_login,last_ip_address,created)
-						VALUES
-						(
-							email = :email,
-							username = :username,
-							password = :password,
-							active = :active,
-							logins = :logins,
-							last_login = :last_login,
-							last_ip_address = :last_ip_address,
-							created = :created
-						)';				
-				$results = DB::query(Database::SELECT,$q,TRUE)
-								->param(':email',$args['email'])
-								->param(':username',$args['username'])
-								->param(':password',$args['password'])
-								->param(':active',1)
-								->param(':logins',$args['logins'])
-								->param(':last_login',$args['last_login'])
-								->param(':last_ip_address',$args['last_ip_address'])
-								->param(':created',$args['created'])
-								->execute()
-								->as_array();
-				if ($results[1] > 0)
-				{
-					$results = $results[0];
-				}
+				
+				$results = $user->save();
 			} 
 		}
 		return $results; 

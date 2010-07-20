@@ -101,14 +101,54 @@ class Model_Useradmin extends model
 		
 		if ($this->id == 0)
 		{
-			// cannot create user from here
+				$q = '	INSERT INTO users
+						(email,username,password,active,logins,last_ip_address,created)
+						VALUES
+						(
+							:email
+							,:username
+							,:password
+							,:active
+							,:logins
+							,:last_ip_address
+							,:created
+						)';				
+				$results = DB::query(Database::INSERT,$q,TRUE)
+								->param(':email',$this->email)
+								->param(':username',$this->username)
+								->param(':password',$this->password)
+								->param(':active',$this->active)
+								->param(':logins',$this->logins)
+								->param(':last_ip_address',$this->last_ip_address)
+								->param(':created',$this->created)
+								->execute();	
+								
+				if ($results[1] > 0)
+				{
+					$this->id = $results[0];
+					$results['id'] = $this->id;
+					$results['success'] = $this->id;
+				}
+				else
+				{
+					echo('somethings wrong');
+					var_dump($results);
+				}
 		}
 		elseif ($this->id > 0)
 		{
 			//UPDATE record
 			try
 			{
-				;										
+				$q = '	UPDATE users
+						SET email = :email
+							,username = :username
+						WHERE id = :id';
+				$results['success'] = DB::query(Database::UPDATE,$q,TRUE)
+								->param(':email',$this->email)
+								->param(':username',$this->username)
+								->param(':id',$this->id)
+								->execute();										
 			}
 			catch( Database_Exception $e )
 			{
@@ -135,6 +175,11 @@ class Model_Useradmin extends model
 	function __get($prop)
 	{			
 		return $this->$prop;
+	}
+	
+	function __set($prop, $value)
+	{			
+		$this->$prop = $value;
 	}
 	
 }
