@@ -37,7 +37,14 @@ class Controller_admin_users extends Controller_Template_Admin
 		$results = array();
 		if(count($_POST) > 0)
 		{
-			$results = UsersAdmin::create($_POST);
+			if ((isset($_POST['id']))&&($_POST['id'] > 0))
+			{
+				$results = PCPAdmin::getUser()->init($_POST)->save();	
+			}
+			else
+			{
+				$results = UsersAdmin::create($_POST);
+			}
 			unset($_POST);
 		}
 		else

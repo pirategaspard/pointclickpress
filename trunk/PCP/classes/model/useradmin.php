@@ -143,10 +143,12 @@ class Model_Useradmin extends model
 				$q = '	UPDATE users
 						SET email = :email
 							,username = :username
+							,active = :active
 						WHERE id = :id';
 				$results['success'] = DB::query(Database::UPDATE,$q,TRUE)
 								->param(':email',$this->email)
 								->param(':username',$this->username)
+								->param(':active',$this->active)
 								->param(':id',$this->id)
 								->execute();										
 			}

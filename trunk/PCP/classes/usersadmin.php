@@ -2,7 +2,6 @@
 
 class Usersadmin
 {
-									 
 	public static function getUser($args=array())
 	{
 		$user = new Model_Useradmin($args);		
@@ -72,7 +71,7 @@ class Usersadmin
 	public static function logout($id = 0)
 	{
 		$results = FALSE;
-		if (UsersAdmin::logged_in($id))
+		if (UsersAdmin::isloggedin($id))
 		{
 			Session::instance()->destroy();		
 			$results = TRUE;
@@ -80,17 +79,15 @@ class Usersadmin
 		return $results;
 	}
 	
-	public static function logged_in($id = 0,$session=null)
-	{
+	public static function isloggedin()
+	{		
 		$session_key = 'user_id';
 		$results = FALSE;
-		if ($session)
+		$session = Session::instance();
+		$id = $session->get($session_key,0);
+		if ($id > 0)
 		{
-			$id = $session->get($session_key,0);
-			if ($id > 0)
-			{
-				$results = TRUE;
-			}
+			$results = TRUE;
 		}
 		return $results;
 	}
@@ -125,7 +122,7 @@ class Usersadmin
 		return $results; 
 	}
 	
-	public static function Exists($username='')
+	public static function exists($username='')
 	{					
 		$results = FALSE;
 		$q = '	SELECT 	id					
@@ -150,4 +147,5 @@ class Usersadmin
 		$salt_post = 'X7y8Z9';		
 		return hash($method, $salt_pre.$str.$salt_post); 
 	} 
+	
 }
