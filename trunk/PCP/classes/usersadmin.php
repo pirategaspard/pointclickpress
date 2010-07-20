@@ -41,7 +41,6 @@ class Usersadmin
 								->param(':password',UsersAdmin::hash($password))
 								->execute()
 								->as_array();
-								
 			// if we have 1 and only one record then we are good
 			if (count($result) == 1)
 			{				
@@ -108,9 +107,7 @@ class Usersadmin
 		{
 			if (!UsersAdmin::exists($args['username']))
 			{
-				
-				
-				
+
 				$user = UsersAdmin::getUser()->init($args);
 				$user->email = $args['email'];	
 				$user->username = $args['username'];	
