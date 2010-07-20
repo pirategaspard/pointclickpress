@@ -411,4 +411,19 @@ INSERT INTO `stories_events` (`story_id`, `event_id`) VALUES
 (2, 36);";
 $results = DB::Query(NULL,$q,FALSE)->execute();
 
+$q = "
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `email` varchar(127) NOT NULL,
+  `username` varchar(32) NOT NULL DEFAULT '',
+  `password` char(50) NOT NULL,
+  `active` tinyint(4) DEFAULT '1',
+  `logins` int(10) unsigned NOT NULL DEFAULT '0',
+  `last_ip_address` varchar(15) DEFAULT NULL,
+  `last_login` datetime DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=35 ;";
+$results = DB::Query(NULL,$q,FALSE)->execute();
+
 ?>
