@@ -76,19 +76,17 @@ class Controller_admin_users extends Controller_Template_Admin
 				}
 				else
 				{
-					$data['login_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'users','action'=>'dologin')));
-					$data['user_form'] = View::factory('/admin/user/form_login',$data)->render();
+					Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'users','action'=>'Login')));	
 				}
 			}
 			else
 			{
-				$data['login_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'users','action'=>'dologin')));
-				$data['user_form'] = View::factory('/admin/user/form_login',$data)->render();
+				Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'users','action'=>'Login')));	
 			}
 		}
 		else        
 		{
-			$this->template->content = 'you are already logged in';
+			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'users','action'=>'Login')));	
 		}
 	}
 	

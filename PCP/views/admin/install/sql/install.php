@@ -276,7 +276,7 @@ $q = "INSERT INTO `events` (`id`, `event`, `event_label`, `event_value`) VALUES
 (23, 'event_link', 'link', '25'),
 (24, 'event_link', 'link', '22'),
 (25, 'event_link', 'link', '22'),
-(26, 'event_assign', 'Assign value', '$grate = ''open'';'),
+(26, 'event_assign', 'Assign value', '\$grate = ''open'';'),
 (27, 'event_link', 'link', '25'),
 (28, 'event_link', 'link', '27'),
 (29, 'event_link', 'link', '26'),
@@ -285,8 +285,8 @@ $q = "INSERT INTO `events` (`id`, `event`, `event_label`, `event_value`) VALUES
 (32, 'event_link', 'link', '28'),
 (33, 'event_link', 'link', '18'),
 (34, 'event_link', 'link', '18'),
-(35, 'event_assign', 'Assign value', '$forest = ''no_hammer'';\n$grate = ''hammer'';'),
-(36, 'event_assign', 'Assign value', '$forest = ''hammer'';\n$grate = ''no_hammer'';'),
+(35, 'event_assign', 'Assign value', '\$forest = ''no_hammer'';\n\$grate = ''hammer'';'),
+(36, 'event_assign', 'Assign value', '\$forest = ''hammer'';\n\$grate = ''no_hammer'';'),
 (37, 'event_link', 'link', '22'),
 (38, 'event_link', 'link', '29');";
 $results = DB::Query(NULL,$q,FALSE)->execute();
@@ -377,8 +377,10 @@ $q = 'CREATE TABLE scenes_events (
 $results = DB::Query(NULL,$q,FALSE)->execute();
 
 /*data*/
+/*
 $q = "";
 $results = DB::Query(NULL,$q,FALSE)->execute();
+*/
 
 $q = 'CREATE TABLE stories (
   id bigint(20) unsigned NOT NULL auto_increment,
