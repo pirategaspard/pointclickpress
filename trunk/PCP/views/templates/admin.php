@@ -9,7 +9,10 @@
 	</head>
 	<body>
 		<div id="container">
-			<div id="header"><?php echo $header; ?></div>
+			<div id="header">
+				<a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'users','action'=>'logout')))); ?>">Logout</a><br />
+				<?php echo $header; ?>
+			</div>
 			<div id="topmenu"><?php echo $top_menu; ?></div>
 			<div id="content"><?php echo $content; ?></div>
 			<div id="bottommenu"><?php echo $bottom_menu; ?></div>

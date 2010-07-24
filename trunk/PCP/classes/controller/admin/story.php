@@ -25,6 +25,7 @@ Class Controller_admin_story extends Controller_Template_Admin
 		if (count($data['stories']) > 0 )
 		{
 			$data['story_add'] = View::factory('/admin/story/add',$data)->render();
+			$this->template->top_menu = View::factory('/admin/story/top_menu',$data)->render();
 			$this->template->content = View::factory('/admin/story/list',$data)->render();
 		}
 		else
