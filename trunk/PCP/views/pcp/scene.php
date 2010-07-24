@@ -1,5 +1,9 @@
 <?php 
-var_dump($_SESSION['story_data']);
+
+if (isset($_GET['debug']))
+{
+	var_dump($_SESSION['story_data']);
+}
 /*
 	
 	echo $story->scene_width;
