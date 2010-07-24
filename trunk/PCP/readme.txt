@@ -1,4 +1,5 @@
 PointClickPress Alpha 1 release
+www.pointclickpress.org
 
 To install:
 1) Mod_rewrite must be enabled in Apache
