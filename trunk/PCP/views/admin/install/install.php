@@ -4,7 +4,7 @@
 */
 	if (isset($_POST['install']))
 	{
-		//include("sql/install.php");		
+		include("sql/install.php");		
 		
 		// create first user		
 		$user_data['username'] = $_POST['username'];
