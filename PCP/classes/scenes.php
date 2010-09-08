@@ -58,11 +58,14 @@ class Scenes
 						,s.container_id
 						,s.title
 						,s.description
-						,s.filename
+						,s.image_id
+						,i.filename
 						,s.value
 					FROM scenes s
+					INNER JOIN images i
+					ON s.image_id = i.id
 					INNER JOIN containers c
-						ON c.id = s.container_id
+						ON s.container_id = c.id 
 						AND c.id = :container_id
 					WHERE value = :value';
 		$results = DB::query(Database::SELECT,$q,TRUE)

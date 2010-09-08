@@ -7,6 +7,7 @@ class Model_Scene extends Model
 	protected $id = 0;	
 	protected $title = "";
 	protected $description = "";
+	protected $image_id = 0;
 	protected $filename = "";
 	protected $value = NULL;	
 	protected $events = array();
@@ -40,6 +41,10 @@ class Model_Scene extends Model
 		{
 			$this->description = $args['description'];
 		}
+		if (isset($args['image_id']))
+		{			
+			$this->image_id = $args['image_id'];							
+		}
 		if (isset($args['filename']))
 		{			
 			$this->filename = $args['filename'];							
@@ -66,15 +71,18 @@ class Model_Scene extends Model
 		
 		if ($this->id > 0)
 		{
-			$q = '	SELECT 	id
-							,story_id
-							,container_id
-							,title
-							,description
-							,filename
-							,value
+			$q = '	SELECT 	s.id
+							,s.story_id
+							,s.container_id
+							,s.title
+							,s.description
+							,s.image_id
+							,i.filename
+							,s.value
 					FROM scenes s
-					WHERE id = :id';
+					INNER JOIN images i
+					ON s.image_id = i.id
+					WHERE s.id = :id';
 			$results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();
 
 			if (count($results) > 0 )
@@ -101,14 +109,14 @@ class Model_Scene extends Model
 							,container_id
 							,title
 							,description
-							,filename
+							,image_id
 							,value)
 						VALUES (
 							:story_id
 							,:container_id
 							,:title
 							,:description
-							,:filename
+							,:image_id
 							,:value
 							)';
 							
@@ -117,7 +125,7 @@ class Model_Scene extends Model
 									->param(':container_id',$this->container_id)
 									->param(':title',$this->title)
 									->param(':description',$this->description)
-									->param(':filename',$this->filename)
+									->param(':image_id',$this->image_id)
 									->param(':value',$this->value)
 									->execute();			
 				if ($results[1] > 0)
@@ -127,13 +135,13 @@ class Model_Scene extends Model
 				}
 				else
 				{
-					echo('somethings wrong scene.php 122');
+					echo('somethings wrong in '.__FILE__.' on '.__LINE__);
 					var_dump($results);
 				}
 			}
 			catch( Database_Exception $e )
 			{
-			  echo('somethings wrong scene.php 130 ');
+			  echo('somethings wrong in '.__FILE__.' on '.__LINE__);
 			  echo $e->getMessage(); die();
 			}
 		}
@@ -145,20 +153,20 @@ class Model_Scene extends Model
 				$q = '	UPDATE scenes
 						SET title = :title
 							,description = :description
-							,filename = :filename
+							,image_id = :image_id
 							,value = :value
 						WHERE id = :id';
 				$results['success'] = DB::query(Database::UPDATE,$q,TRUE)
 										->param(':title',$this->title)
 										->param(':description',$this->description)
-										->param(':filename',$this->filename)
+										->param(':image_id',$this->image_id)
 										->param(':value',$this->value)
 										->param(':id',$this->id)
 										->execute();														
 			}
 			catch( Database_Exception $e )
 			{
-			  echo('somethings wrong scene.php 147');
+			  echo('somethings wrong in '.__FILE__.' on '.__LINE__);
 			  echo $e->getMessage(); die();
 			}
 		}
