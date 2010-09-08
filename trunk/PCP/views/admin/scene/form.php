@@ -16,17 +16,10 @@
 			Description
 			<textarea name="description"><?php print($scene->description); ?></textarea>
 		</label>
-		<?php if (strlen($scene->filename) > 0) { ?>
 		<label>
-			Path:
-			<input type="text" name="filename" value="<?php print($scene->filename); ?>" readonly="readonly" >
-		</label>
-		<?php } else { ?>
-		<label>
-			Upload Image:
-			<input type="file" name="filename" value="" >
-		</label>	
-		<?php } ?>
+			Image Id:
+			<input type="text" name="image_id" value="<?php print($scene->image_id); ?>" >
+		</label>		
 		<label>
 			Scene Value:
 			<input type="text" name="value" value="<?php print($scene->value); ?>" >

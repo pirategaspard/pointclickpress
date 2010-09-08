@@ -67,10 +67,12 @@ Class Controller_admin_scene extends Controller_Template_Admin
 			}				
 			if ($results['success'])
 			{
+				/*
 				if (isset($_FILES['filename']['name']))
 				{
 					$_POST['filename'] = $_FILES['filename']['name'];
 				}
+				*/
 				
 				//save record to db
 				$results = PCPAdmin::getScene()->init($_POST)->save();
