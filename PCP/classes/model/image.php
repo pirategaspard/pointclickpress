@@ -2,7 +2,8 @@
 
 class Model_Image extends Model 
 {
-	protected $id = 0;		
+	protected $id = 0;
+	protected $story_id = 0;		
 	protected $filename = '';
 
 	public function __construct($args=array())
@@ -17,6 +18,10 @@ class Model_Image extends Model
 		{
 			$this->id = $args['id'];
 		}				
+		if ((isset($args['story_id']))&&(is_numeric($args['story_id'])))
+		{
+			$this->story_id = $args['story_id'];
+		}
 		if (isset($args['filename']))
 		{
 			$this->filename = $args['filename'];
@@ -28,7 +33,8 @@ class Model_Image extends Model
 	{		
 		if ($this->id > 0)
 		{
-			$q = '	SELECT 	i.id													
+			$q = '	SELECT 	i.id
+							,story_id													
 							,i.filename							
 					FROM images i
 					WHERE i.id = :id';
@@ -53,11 +59,11 @@ class Model_Image extends Model
 			{
 				//INSERT new record
 				$q = '	INSERT INTO images
-							(id,filename)
-						VALUES (:id,:filename)';
+							(story_id,filename)
+						VALUES (:story_id,:filename)';
 							
 				$results = DB::query(Database::INSERT,$q,TRUE)							
-									->param(':id',$this->id)
+									->param(':story_id',$this->story_id)
 									->param(':filename',$this->filename)
 									->execute();			
 				if ($results[1] > 0)
@@ -83,11 +89,13 @@ class Model_Image extends Model
 			try
 			{			
 				$q = '	UPDATE images
-							SET filename = :filename
+							SET story_id = :story_id
+								,filename = :filename
 						WHERE id = :id';
 							
 				$results = DB::query(Database::INSERT,$q,TRUE)							
 									->param(':id',$this->id)
+									->param(':story_id',$this->story_id)
 									->param(':filename',$this->filename)
 									->execute();				
 			}
