@@ -62,7 +62,7 @@ class Scenes
 						,i.filename
 						,s.value
 					FROM scenes s
-					INNER JOIN images i
+					LEFT OUTER JOIN images i
 					ON s.image_id = i.id
 					INNER JOIN containers c
 						ON s.container_id = c.id 
