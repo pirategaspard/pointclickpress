@@ -19,6 +19,7 @@
 		<label>
 			Image Id:
 			<input type="text" name="image_id" value="<?php print($scene->image_id); ?>" >
+			<a href="<?php print($assign_image_link); ?>">Assign Image</a>
 		</label>		
 		<label>
 			Scene Value:

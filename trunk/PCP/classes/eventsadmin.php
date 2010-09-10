@@ -217,7 +217,7 @@ class EventsAdmin
 			$data['type'] = 'Grid';
 		}	
 		return $data;
-	}
+	} 
 	
 	/*
 		Searches the EventsAdmin directory for class files
@@ -240,3 +240,4 @@ class EventsAdmin
 		return $EventsAdmin;		
 	}
 }
+

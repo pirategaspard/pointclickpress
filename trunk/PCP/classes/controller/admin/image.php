@@ -11,41 +11,100 @@ Class Controller_admin_image extends Controller_Template_Admin
 	function action_edit()
 	{		
 		$data['image'] = PCPAdmin::getImage();
-		$data['image_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'save')));		
-		//$data['image_info'] =  View::factory('/admin/image/info',$data)->render();			
+		if (strlen($data['image']->filename) > 0)
+		{
+			$data['image_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'delete')));			
+		}
+		else
+		{
+			$data['image_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'save')));
+		}
+									
+		$data['back_url'] = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
 		$data['image_form'] =  View::factory('/admin/image/form',$data)->render();		
-				
+		
+		$this->template->top_menu = View::factory('/admin/event/top_menu',$data)->render();						
 		$this->template->content = View::factory('/admin/image/template',$data)->render();
 	}
 	
 	function action_list()
 	{		
+		$data['back_url'] = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
+		$data['images'] = PCPAdmin::getImages();
+		if (isset($_REQUEST['scene_id']))
+		{
+			$data['assign_image_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'assign'))).'?scene_id='.$_REQUEST['scene_id'];
+		}	
 		
-		$data['images'] = PCPAdmin::getImages();	
+		$this->template->top_menu = View::factory('/admin/event/top_menu',$data)->render();
 		$this->template->content = View::factory('/admin/image/list',$data)->render();
 	}
 	
 	function action_save()
-	{
-		$results = array();
-		if(count($_POST) > 0)
-		{
-			$results = PCPAdmin::getimage()->init($_POST)->save();
-			unset($_POST);
+	{		
+		$results = Images::upload();
+		if ($results['success'])
+		{			
+			if (isset($_REQUEST['scene_id']))
+			{
+				$_REQUEST['image_id'] = $results['image_id'];
+				action_assign();
+			}	
+			else
+			{
+				//redirect to edit screen
+				$params = $this->getURLParams();
+				Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'image','action'=>'edit')).$params.'&image_id='.$results['image_id']);
+			}
 		}
 		else
 		{
-			$results = 'error';
+			//error;
+			// We aren't saving anything, go back to edit
+			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'image','action'=>'edit')).$params.'&image_id='.$_REQUEST['id']);		
 		}
-		//redirect to add a new story
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'image','action'=>'edit')).'?&image_id='.$results['id']);
+	}
+	
+	function action_assign()
+	{				
+		if ((isset($_REQUEST['scene_id']))&&isset($_REQUEST['image_id']))
+		{
+			$scene = PCPAdmin::getScene();
+			$results = $scene->init(array('image_id'=>$_REQUEST['image_id']))->save();
+			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?scene_id='.$_REQUEST['scene_id']);
+		}
+		else
+		{
+			//Go back to the parent
+			$params = $this->getURLParams();
+			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'image','action'=>'list')).$params);
+		}
 	}
 	
 	function action_delete()
-	{		
-		$results = PCPAdmin::getimage()->init(array('id'=>$_REQUEST['image_id']))->delete();
+	{	
+		$params = $this->getURLParams();	
+		$results = Images::getimage()->init(array('id'=>$_REQUEST['id']))->delete();
 		//Go back to the parent
-		//Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'edit')).'?story_id='.$_REQUEST['story_id']);
+		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'image','action'=>'edit')).$params);
+	}
+	
+	function getURLParams()
+	{
+		if (isset($_REQUEST['scene_id']))
+		{
+			$params = '?story_id='.$_REQUEST['scene_id'];
+		}
+		else
+		{
+			$params = '?';
+		}
+
+		if (isset($_REQUEST['scene_id']))
+		{
+			$params .= '&scene_id='.$_REQUEST['scene_id'];
+		}
+		return $params;
 	}
 }
 

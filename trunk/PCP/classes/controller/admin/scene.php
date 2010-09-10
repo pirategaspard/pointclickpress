@@ -15,6 +15,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		$data['scene']->setTitle((strlen($data['scene']->title)>0) ? $data['scene']->title : $data['container']->title); //if (strlen($data['scene']->title)==0) $data['scene']->setTitle($data['container']->title);
 		// set the story size 
 		$data['story']->setDimensions(800,600);
+		$data['assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?story_id='.$data['scene']->story_id.'&container_id='.$data['scene']->container_id.'&scene_id='.$_REQUEST['scene_id'];
 		
 		$data['story_info'] =  View::factory('/admin/story/info',$data)->render();
 		$data['container_info'] =  View::factory('/admin/container/info',$data)->render();
@@ -67,22 +68,8 @@ Class Controller_admin_scene extends Controller_Template_Admin
 			}				
 			if ($results['success'])
 			{
-				/*
-				if (isset($_FILES['filename']['name']))
-				{
-					$_POST['filename'] = $_FILES['filename']['name'];
-				}
-				*/
-				
 				//save record to db
 				$results = PCPAdmin::getScene()->init($_POST)->save();
-				if ($results['success'])
-				{
-					$_POST['id'] = $results['id'];
-					$_REQUEST['id'] = $results['id'];
-					//save uploaded image
-					$results = scenes::uploadScene();
-				}
 			}
 			unset($_POST);
 		
