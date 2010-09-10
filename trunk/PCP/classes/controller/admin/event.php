@@ -36,7 +36,7 @@ Class Controller_admin_event extends Controller_Template_Admin
 		}
 			
 		$data['event'] = PCPAdmin::getEvent();
-		$data['event_types'] = Events::getEventTypes();
+		$data['event_types'] = EventsAdmin::getEventTypes();
 		$data['back_url'] = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
 		$data['event_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'save')));
 		$this->template->top_menu = View::factory('/admin/event/top_menu',$data)->render();
