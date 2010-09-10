@@ -80,7 +80,7 @@ class Model_Scene extends Model
 							,i.filename
 							,s.value
 					FROM scenes s
-					INNER JOIN images i
+					LEFT OUTER JOIN images i
 					ON s.image_id = i.id
 					WHERE s.id = :id';
 			$results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();
