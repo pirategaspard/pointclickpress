@@ -20,8 +20,7 @@ Class Controller_admin_event extends Controller_Template_Admin
 	}
 	
 	function action_edit()
-	{		
-		
+	{				
 		/*
 		$data['containers'] = $data['story']->containers;
 		$data['container'] = $data['story']->containers[$_REQUEST['container_id']];
