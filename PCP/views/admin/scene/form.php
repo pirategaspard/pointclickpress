@@ -17,8 +17,9 @@
 			<textarea name="description"><?php print($scene->description); ?></textarea>
 		</label>
 		<label>
-			Image Id:
-			<input type="text" name="image_id" value="<?php print($scene->image_id); ?>" >
+			Image filename:
+			<input type="hidden" name="image_id" value="<?php print($scene->image_id); ?>" >
+			<input type="text" name="image_filename" value="<?php print($scene->filename); ?>" >
 			<a href="<?php print($assign_image_link); ?>">Assign Image</a>
 		</label>		
 		<label>
