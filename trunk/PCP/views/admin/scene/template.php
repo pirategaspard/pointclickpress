@@ -11,7 +11,7 @@
 	echo($event_list);
 	echo($grid);
 	
-	if ($scene->id > 0)
+	if (strlen($scene->filename) > 0)
 	{ 
 		//echo($grid_event_add); 
 		echo($grid_event_form);

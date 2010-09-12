@@ -19,7 +19,8 @@ Class Controller_admin_image extends Controller_Template_Admin
 		{
 			$data['image_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'save')));
 		}
-									
+		
+						
 		$data['back_url'] = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
 		$data['image_form'] =  View::factory('/admin/image/form',$data)->render();		
 		
@@ -29,7 +30,14 @@ Class Controller_admin_image extends Controller_Template_Admin
 	
 	function action_list()
 	{		
-		$data['back_url'] = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
+		if (isset($_REQUEST['scene_id']))	
+		{
+			$data['back_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit'))).'?scene_id='.$_REQUEST['scene_id'];
+		}
+		else
+		{						
+			$data['back_url'] = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
+		}
 		$data['images'] = PCPAdmin::getImages();
 		if (isset($_REQUEST['scene_id']))
 		{
