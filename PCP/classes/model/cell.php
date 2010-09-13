@@ -74,8 +74,8 @@ class Model_Cell extends Model
 		}
 		else
 		{
-			echo('somethings wrong cell.php 90');
-			var_dump($results);
+			echo('somethings wrong in '.__FILE__.' on '.__LINE__);
+			var_dump($results); die();
 		}
 		return $results;
 	}

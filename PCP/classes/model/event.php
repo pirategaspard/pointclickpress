@@ -79,6 +79,7 @@ class Model_Event extends Model
 								->param(':event_label',$this->event_label)
 								->param(':event_value',$this->event_value)
 								->execute();			
+			
 			if ($results[1] > 0)
 			{
 				$this->id = $results[0];
@@ -87,8 +88,8 @@ class Model_Event extends Model
 			}
 			else
 			{
-				echo('somethings wrong event.php 111');
-				var_dump($results);
+				echo('somethings wrong in '.__FILE__.' on '.__LINE__);
+				var_dump($results); die();
 			}
 		}
 		elseif ($this->id > 0)
@@ -106,13 +107,12 @@ class Model_Event extends Model
 								->param(':event_value',$this->event_value)
 								->param(':event_label',$this->event_label)
 								->param(':id',$this->id)
-								->execute();
-																	
+								->execute();																	
 			}
 			catch( Database_Exception $e )
 			{
-			 echo('somethings wrong event.php 116');
-			  echo $e->getMessage(); die();
+				echo('somethings wrong in '.__FILE__.' on '.__LINE__);
+			  	echo $e->getMessage(); die();
 			}
 		}
 		return $results;

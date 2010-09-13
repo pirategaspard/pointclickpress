@@ -11,8 +11,8 @@ class EventsAdmin
 			// what kind of event are we getting? 
 			switch ($args['type'])
 			{	
-				case 'Grid':
-					$event = EventsAdmin::getGridEvent($args);
+				case 'Grid':					
+					$event = EventsAdmin::getGridEvent($args);					
 				break;
 				case 'Scene':
 					$event = EventsAdmin::getSceneEvent($args);
@@ -211,6 +211,10 @@ class EventsAdmin
 			$data['scene_id'] = $_REQUEST['scene_id'];
 			$data['url_params'] .= '&scene_id='.$_REQUEST['scene_id'];
 			$data['type'] = 'Scene';
+		}
+		if (isset($_REQUEST['id']))
+		{
+			$data['id'] = $_REQUEST['id'];
 		}
 		if (isset($_POST['cell_ids']))
 		{
