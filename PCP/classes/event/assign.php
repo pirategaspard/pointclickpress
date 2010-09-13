@@ -15,6 +15,7 @@ class event_assign extends pcpevent implements ipcpevent
 	
 	public function execute($args=array(),&$story_data=array())
 	{
+		$results = NOP;
 		$parsed = array(); // array of results
 		
 		// explode on semi-colon if there is more than one statement here
@@ -43,6 +44,7 @@ class event_assign extends pcpevent implements ipcpevent
 						
 						//echo (' simple assignment: ');
 						$parsed[$var] = Events::replaceSessionVariables($exp);
+						$results = REFRESH_SCENE;
 					}
 					else if (Events::isString($exp))
 					{
@@ -54,6 +56,7 @@ class event_assign extends pcpevent implements ipcpevent
 						
 						//echo (' simple assignment: ');
 						$parsed[$var] = preg_replace('/[\'"]/','',$exp);
+						$results = REFRESH_SCENE;
 					}
 					else if(preg_match('/((\$[a-zA-Z\'\[\]0-9]+)|([0-9]+))\s*([\+\-\*\/])\s*((\$[a-zA-Z\'\[\]0-9]+)|([0-9]+))/',$exp))
 					{
@@ -69,7 +72,8 @@ class event_assign extends pcpevent implements ipcpevent
 						{
 							$eval_values[0] = Events::replaceSessionVariables($eval_values[0]);
 							$eval_values[1] = Events::replaceSessionVariables($eval_values[1]);
-							$parsed[$var] = Events::doBasicMath($operator,$eval_values[0],$eval_values[1]);							
+							$parsed[$var] = Events::doBasicMath($operator,$eval_values[0],$eval_values[1]);	
+							$results = REFRESH_SCENE;						
 						}
 					}
 				}
@@ -78,7 +82,7 @@ class event_assign extends pcpevent implements ipcpevent
 		//update story_data
 		$story_data = array_merge($story_data,$parsed);
 		//die();
-		return 1;
+		return $results;
 	}
 }
 ?>

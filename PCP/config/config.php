@@ -22,7 +22,7 @@ $supported_screens = '480x320,640x480,800x600'; //,1024x768
 
 
 /* 
-	Define as global values
+	Define constants
  */
 define('UPLOAD_PATH', $upload_dir);
 define('MEDIA_PATH', $media_dir);

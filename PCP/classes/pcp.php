@@ -84,7 +84,7 @@ class PCP
     */
 	static function getGridEvent()
     {
-		$event_occured = 0;
+		$event_results = '';
 		
 		// get session
 		$session = Session::instance();					
@@ -100,10 +100,10 @@ class PCP
 			
 			if ($results['success'] == 1 )
 			{
-				$event_occured = PCP::doEvents($results['events']);
+				$event_results = PCP::doEvents($results['events']);
 			}			
 		}
-		return $event_occured;	
+		return $event_results;	
 	}
 
 	/*
@@ -112,8 +112,8 @@ class PCP
     */
 	static function doEvents($events)
 	{
-		$event_occured = Events::doEvents($events);
-		return $event_occured;		
+		$event_results = implode(',',Events::doEvents($events));
+		return $event_results;		
 	}
 	
 	static function getCurrentContainerID()

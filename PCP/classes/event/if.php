@@ -17,6 +17,7 @@ class event_if extends pcpevent implements ipcpevent
 	
 	public function execute($args=array(),&$story_data=array())
 	{
+		$results = NOP;
 		$parsed = array(); // array of results
 		
 		// explode on semi-colon if there is more than one statement here
@@ -87,6 +88,7 @@ class event_if extends pcpevent implements ipcpevent
 											$parsed[$var] = ($eval_values[0] > $eval_values[1] ) ? $values[0] : $values[1]; 
 										break;
 									}
+									$results = REFRESH_SCENE .',SHOW_MESSAGE';
 									//echo (' results: '.$parsed[$var]);
 								}
 							}
@@ -100,7 +102,7 @@ class event_if extends pcpevent implements ipcpevent
 		//update story_data
 		$story_data = array_merge($story_data,$parsed);
 		//die();
-		return 1;
+		return $results;
 	}
 }
 ?>

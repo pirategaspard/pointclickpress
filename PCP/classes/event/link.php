@@ -19,12 +19,14 @@ class event_link extends pcpevent implements ipcpevent
 			update the container_id variable in session with 
 			the new container_id from the event_value field
 		*/
+		$results = NOP;
 		if (Events::isNumeric($args['event_value']))
 		{
 			// simple assignment
 			$story_data['container_id'] = $args['event_value'];
+			$results = REFRESH_SCENE;
 		}
-		return 1;
+		return $results;
 	}
 }
 ?>

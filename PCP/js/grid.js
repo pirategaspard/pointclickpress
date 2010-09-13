@@ -28,20 +28,36 @@ $(document).ready(function() {
 				On click send the number of the cell to the cellClickAjax
 				function in	the PCP controller
 			*/
-			$.post('cellClick', {n: $(this).attr('n')}, function(data) {
-			if (data == 1)
-			{
-				//get scene and swap the data so we don't have to reload the page!
-				var filename = $.getJSON('Scene',function(data){						
-						// pre-load image and then swap background
-						var img = new Image();
-						$(img).load(function() {
-								$('#scene_image').css({backgroundImage:'url('+this.src+')'});
-							}).attr('src', data.filename);
-							$('#scene>h1').html(data.title);
-							$('#scene>p').html(data.description);	
-						});
-			}
-		});
+			$.post('cellClick', {n: $(this).attr('n')}, parseData);
 	});; 
 });
+
+
+function parseData(data)
+{
+	if (data.length > 0)
+	{			
+		// get array of events from list 
+		events = data.split(','); 
+		// loop over events 
+		for(i=0;i<events.length;i++)
+		{	
+			// refresh the scene					
+			if (events[i] == 'refresh')
+			{
+				//get scene and swap the data so we don't have to reload the page
+				var filename = $.getJSON('Scene',function(data)
+				{						
+				// pre-load image and then swap background
+					var img = new Image();
+					$(img).load(function() {
+							$('#scene_image').css({backgroundImage:'url('+this.src+')'});
+						}).attr('src', data.filename);
+						$('#scene>h1').html(data.title);
+						$('#scene>p').html(data.description);	
+				});
+			}
+			
+		}
+	}
+}
