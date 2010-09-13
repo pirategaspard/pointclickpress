@@ -5,7 +5,7 @@
 	$var = (eval_value1 [>|<|<=|>=|==|!=] eval_value1 ) ? true_value1 : false_value 2;
  */
 
-class event_if extends pcpevent
+class event_if extends pcpevent implements ipcpevent
 {	
 	public function __construct()
 	{

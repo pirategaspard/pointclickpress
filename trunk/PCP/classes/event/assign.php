@@ -3,7 +3,7 @@
 	Basic session variable class for PointClickPress
  */
 
-class event_assign extends pcpevent
+class event_assign extends pcpevent //implements ipcpevent
 {	
 	public function __construct()
 	{
@@ -69,25 +69,7 @@ class event_assign extends pcpevent
 						{
 							$eval_values[0] = Events::replaceSessionVariables($eval_values[0]);
 							$eval_values[1] = Events::replaceSessionVariables($eval_values[1]);
-							
-							switch ($operator)
-							{
-								case '+':
-									$parsed[$var] = ($eval_values[0] + $eval_values[1] ); 
-								break;
-								case '-':
-									$parsed[$var] = ($eval_values[0] - $eval_values[1] ); 
-								break;
-								case '/':
-									$parsed[$var] = ($eval_values[0] / $eval_values[1] ); 
-								break;
-								case '*':
-									$parsed[$var] = ($eval_values[0] * $eval_values[1] ); 
-								break;
-								case '%':
-									$parsed[$var] = ($eval_values[0] % $eval_values[1] ); 
-								break;
-							}							
+							$parsed[$var] = Events::doBasicMath($operator,$eval_values[0],$eval_values[1]);							
 						}
 					}
 				}
