@@ -1,5 +1,9 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
+define('NOP', '');
+define('REFRESH_SCENE', 'refresh');
+
+
 class Events
 {	
 	/*
@@ -8,7 +12,7 @@ class Events
     */
 	static function doEvents($events)
 	{
-		$event_occured = 0;
+		$event_results = array();
 		// get session 
 		$session = Session::instance();
 		//get story_data from session. This is the info events are allowed to manipulate
@@ -22,17 +26,17 @@ class Events
 			if ($event_class instanceof ipcpevent)
 			{
 				//execute event. Events can directly manipulate session's "story_data" info
-				$event_occured = $event_class->execute(array('event_value'=>$event->event_value),$story_data);
+				$event_results[] = $event_class->execute(array('event_value'=>$event->event_value),$story_data);
 			}
 			else
 			{
-				throw new Exception($class_name . ' is not of type ipcpevent.');
+				throw new Exception($class_name . ' is not of type IPCPEvent.');
 			}
 			//var_dump($story_data);
 		}
 		//update session
 		$session->set('story_data',$story_data); 
-		return $event_occured;		
+		return $event_results;		
 	}
 	
 	/*
@@ -41,20 +45,8 @@ class Events
     */
 	static function doEvent($event)
 	{
-		$event_occured = 0;
-		// get session 
-		$session = Session::instance();
-		//get story_data from session. This is the info events are allowed to manipulate
-		$story_data = $session->get('story_data',array());			
-		// 'event' is the class name			
-		$class_name = $event->event;
-		// get the class
-		$event_class = new $class_name; 
-		//execute event. Events can directly manipulate session's "story_data" info
-		$event_occured = $event_class->execute(array('event_value'=>$event->event_value),$story_data);
-		//update session
-		$session->set('story_data',$story_data); 
-		return $event_occured;		
+		$events[] = $event;
+		return Events::doEvents($events);	
 	}
 
 	// Regex used for parsing expressions in the event classes
