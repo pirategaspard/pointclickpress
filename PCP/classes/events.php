@@ -19,8 +19,15 @@ class Events
 			$class_name = $event->event;
 			// get the class
 			$event_class = new $class_name; 
-			//execute event. Events can directly manipulate session's "story_data" info
-			$event_occured = $event_class->execute(array('event_value'=>$event->event_value),$story_data);
+			if ($event_class instanceof ipcpevent)
+			{
+				//execute event. Events can directly manipulate session's "story_data" info
+				$event_occured = $event_class->execute(array('event_value'=>$event->event_value),$story_data);
+			}
+			else
+			{
+				throw new Exception($class_name . ' is not of type ipcpevent.');
+			}
 			//var_dump($story_data);
 		}
 		//update session
@@ -49,6 +56,8 @@ class Events
 		$session->set('story_data',$story_data); 
 		return $event_occured;		
 	}
+
+	// Regex used for parsing expressions in the event classes
 
 	static function isVariable($var)
 	{
@@ -145,6 +154,30 @@ class Events
 			$operator = $operators[0];
 		}
 		return $operator;
+	}
+	
+	static function doBasicMath($operator,$val1,$val2)
+	{
+		$results = 0;
+		switch ($operator)
+		{
+			case '+':
+				$results = ($val1 + $val2); 
+			break;
+			case '-':
+				$results = ($val1 - $val2); 
+			break;
+			case '/':
+				$results = ($val1 / $val2); 
+			break;
+			case '*':
+				$results = ($val1 * $val2); 
+			break;
+			case '%':
+				$results = ($val1 % $val2); 
+			break;
+		}
+		return $results;
 	}	
 }
 
