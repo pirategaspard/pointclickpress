@@ -1,9 +1,9 @@
 <?php 
 /*
-	Basic session variable class for PointClickPress
+	Basic session variable assignment class for PointClickPress
  */
 
-class event_assign extends pcpevent //implements ipcpevent
+class event_assign extends pcpevent implements ipcpevent
 {	
 	public function __construct()
 	{
