@@ -224,7 +224,7 @@ class EventsAdmin
 	} 
 	
 	/*
-		Searches the EventsAdmin directory for class files
+		Searches the Event directory for class files 
 	*/
 	static function getEventTypes($args=array())
 	{	
