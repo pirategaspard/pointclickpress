@@ -13,7 +13,7 @@ if (isset($_GET['debug']))
 	//echo('screen dimensions'.$_SESSION['screen_width'].'x'.$_SESSION['screen_height']);
 ?>
 <div id="scene">
-	<h1><?php echo($scene->title); ?></h1>
+	<h1 id="title"><?php echo($scene->title); ?></h1>
 	<?php echo($grid); ?>
-	<p><?php echo($scene->description); ?></p>
+	<p id="description"><?php echo($scene->description); ?></p>
 </div>
