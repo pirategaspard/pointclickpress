@@ -18,11 +18,11 @@ Class Controller_admin_image extends Controller_Template_Admin
 		else
 		{
 			$data['image_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'save')));
-		}
-		
+		}		
 						
 		$data['back_url'] = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
 		$data['image_form'] =  View::factory('/admin/image/form',$data)->render();		
+		$data['add_image_link'] =  View::factory('/admin/image/add',$data)->render();
 		
 		$this->template->top_menu = View::factory('/admin/event/top_menu',$data)->render();						
 		$this->template->content = View::factory('/admin/image/template',$data)->render();
@@ -43,6 +43,7 @@ Class Controller_admin_image extends Controller_Template_Admin
 		{
 			$data['assign_image_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'assign'))).'?scene_id='.$_REQUEST['scene_id'];
 		}	
+		$data['add_image_link'] =  View::factory('/admin/image/add',$data)->render();
 		
 		$this->template->top_menu = View::factory('/admin/event/top_menu',$data)->render();
 		$this->template->content = View::factory('/admin/image/list',$data)->render();
@@ -67,8 +68,9 @@ Class Controller_admin_image extends Controller_Template_Admin
 		}
 		else
 		{
+			//var_dump($results); die();
 			//error;
-			// We aren't saving anything, go back to edit
+			$params = $this->getURLParams();
 			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'image','action'=>'edit')).$params.'&image_id='.$_REQUEST['id']);		
 		}
 	}
@@ -99,9 +101,9 @@ Class Controller_admin_image extends Controller_Template_Admin
 	
 	function getURLParams()
 	{
-		if (isset($_REQUEST['scene_id']))
+		if (isset($_REQUEST['story_id']))
 		{
-			$params = '?story_id='.$_REQUEST['scene_id'];
+			$params = '?story_id='.$_REQUEST['story_id'];
 		}
 		else
 		{

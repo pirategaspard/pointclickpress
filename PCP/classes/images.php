@@ -106,7 +106,7 @@ class Images
 				}
 				else
 				{			
-					$results = array('success'=>false);
+					$results = array('success'=>false, 'message'=>'File was not saved to db');
 				}
 			}
 			else
@@ -116,7 +116,7 @@ class Images
 		}
 		else
 		{			
-			$results = array('success'=>false);
+			$results = array('success'=>false, 'message'=>'No files and/or no story ID');
 		}
 		return $results;
 	}
