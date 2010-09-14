@@ -7,21 +7,18 @@
   The site will refresh the page on each click if they do not have 
   javascript.
   
-  
 */
-$(document).ready(function() {
-	
+$(document).ready(function() 
+{
 	// get all the cells in the grid
 	var cells = $('#grid').children('a'); 
-	
 	/*
 		if browser supports javascript then 
 		the href atribute will be removed and we will use
 		the ajax method below instead. otherwise page will refresh 
 		everytime user clicks on a cell
 	*/
-	cells.removeAttr('href'); 
-	
+	cells.removeAttr('href'); 	
 	// attach ajax listener to cell click
 	cells.click(function() {
 			/* 
@@ -31,7 +28,6 @@ $(document).ready(function() {
 			$.post('cellClick', {n: $(this).attr('n')}, parseData);
 	});; 
 });
-
 
 function parseData(data)
 {
