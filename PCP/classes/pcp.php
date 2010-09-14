@@ -152,11 +152,11 @@ class PCP
 		
 		return $args;
 	}
-/*	
-	static function getScreens()
+	
+	static function getJSEventTypes()
 	{	
-		return Screens::getScreens();
+		return EventsAdmin::getJSEventTypes();
 	}
-*/
+
 }
 ?>

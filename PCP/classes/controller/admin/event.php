@@ -55,7 +55,7 @@ Class Controller_admin_event extends Controller_Template_Admin
 			}
 			// get event label by creating event obj
 			$myevent = new $_POST['event'];
-			$_POST['event_label'] = $myevent->label;
+			$_POST['event_label'] = $myevent->getLabel();
 			//save event
 			EventsAdmin::getEvent($data)->init($_POST)->save();		
 			unset($_POST);

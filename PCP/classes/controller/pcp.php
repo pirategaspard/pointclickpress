@@ -24,6 +24,7 @@ Class Controller_PCP extends Controller_Template_Base
     function action_story()
     {
 		$data['story'] = PCP::getStory();
+		$this->template->scripts = array_merge($this->template->scripts,PCP::getJSEventTypes());
 		$this->template->scripts[] = 'screen.js'; //get screen js to determine user's screen resolution 
         $this->template->content = View::factory('pcp/story',$data)->render();
     }
@@ -98,18 +99,17 @@ Class Controller_PCP extends Controller_Template_Base
     		{
     			// disable auto render
     			$this->auto_render = FALSE;
-    			// return some hand coded JSON
-				$returnstring = '
-					{
-						"filename": "'.$data['scene']->getPath($data['story']->scene_width,$data['story']->scene_height).'", 
-						"title": "'.$data['scene']->title.'",
-						"description": "'.$data['scene']->description.'"
-					}';	
-				echo $returnstring; 	
+    			// create response
+    			$JSON['filename'] = $data['scene']->getPath($data['story']->scene_width,$data['story']->scene_height);
+    			$JSON['title'] = $data['scene']->title;
+    			$JSON['description'] = $data['scene']->description;
+    			// return data as JSON
+				echo json_encode($JSON);	
     		}
     		else
     		{
-				/* Compose the scene*/			
+				/* Compose the scene*/
+				$this->template->scripts = array_merge($this->template->scripts,PCP::getJSEventTypes());			
 				$this->template->scripts[] = 'grid.js'; //get grid js 
 				$this->template->head[] = View::factory('pcp/style',$data)->render();//get grid style 			
 				$data['grid'] = View::factory('pcp/grid',$data)->render(); //get grid
@@ -149,12 +149,13 @@ Class Controller_PCP extends Controller_Template_Base
     	{
     		// disable auto render	
 	    	$this->auto_render = FALSE;
-			// display the results (0 or 1) 	
+			// display the results 	
 			echo PCP::getGridEvent();	
-			//(javascript will decide whether to refresh the page or not)	
+			//(javascript will decide what to do next)	
 		}
     	else 
     	{
+    		// no javascript
     		// do the action, then refresh the page no matter what. 
 			PCP::getGridEvent();
 			Request::instance()->redirect(Route::get('default')->uri(array('action'=>'scene')));
@@ -171,6 +172,22 @@ Class Controller_PCP extends Controller_Template_Base
 			$session->set('screen_width',$_POST['w']);
 			$session->set('screen_height',$_POST['h']);
 		}
+	}
+	
+	function action_API()
+	{
+		// disable auto render	
+	    $this->auto_render = FALSE;
+		if (Request::$is_ajax)
+    	{
+    		// get session
+			$session = Session::instance();	
+			$story_data = $session->get('story_data',array());			
+    		// intersect request variables with session to get response
+    		$JSON = array_intersect_key($story_data,$_REQUEST);
+    		// send back the data as JSON
+    		echo json_encode($JSON);
+    	}
 	}
 }
 

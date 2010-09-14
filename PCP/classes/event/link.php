@@ -3,7 +3,7 @@
 	Basic scene container link class for PointClickPress
  */
 
-class event_link extends pcpevent implements ipcpevent
+class event_link extends pcpevent
 {	
 	public function __construct()
 	{
