@@ -42,22 +42,12 @@ function parseData(data)
 		// loop over events 
 		for(i=0;i<events.length;i++)
 		{	
-			// refresh the scene					
-			if (events[i] == 'refresh')
-			{
-				//get scene and swap the data so we don't have to reload the page
-				var filename = $.getJSON('Scene',function(data)
-				{						
-				// pre-load image and then swap background
-					var img = new Image();
-					$(img).load(function() {
-							$('#scene_image').css({backgroundImage:'url('+this.src+')'});
-						}).attr('src', data.filename);
-						$('#scene>h1').html(data.title);
-						$('#scene>p').html(data.description);	
-				});
-			}
 			
+			if(events[i].length > 0)
+			{	
+				// attempt to do function				
+				eval('$().'+ events[i] + '()');
+			}			
 		}
 	}
 }

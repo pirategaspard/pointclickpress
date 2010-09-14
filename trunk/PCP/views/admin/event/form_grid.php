@@ -18,8 +18,8 @@
 			<?php foreach($event_types as $event_type)
 			{
 				$selected = '';
-				if ($event->event == $event_type->event) $selected = ' selected="selected" ';
-				echo ('<option value="'.$event_type->event.'"'.$selected.' >'.$event_type->label.'</option>');
+				if ($event->event == $event_type->getEvent()) $selected = ' selected="selected" ';
+				echo ('<option value="'.$event_type->getEvent().'"'.$selected.' >'.$event_type->getLabel().'</option>');
 			} ?>
 		</select>
 		<?php if(isset($containers)) { ?>

@@ -2,7 +2,7 @@
 /*
 	Base Class for PointClickPress Events
  */
-class pcpevent extends model 
+class pcpevent extends model implements iPCPevent
 {
 	protected $event = '';
 	protected $label = '';
@@ -13,6 +13,11 @@ class pcpevent extends model
 		$this->event = get_class($this);	
 	}
 	
+	public function getEvent()
+	{
+		return $this->event;
+	}
+	
 	public function getLabel()
 	{
 		return $this->label;
@@ -21,6 +26,11 @@ class pcpevent extends model
 	public function getDescription()
 	{
 		return $this->description;
+	}
+	
+	public function execute($args=array(),&$story_data=array())
+	{
+		;// Extend this
 	}
 	
 	public function __get($prop)

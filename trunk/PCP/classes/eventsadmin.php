@@ -226,22 +226,44 @@ class EventsAdmin
 	/*
 		Searches the Event directory for class files 
 	*/
-	static function getEventTypes($args=array())
+	static function getEventTypes()
 	{	
-		$EventsAdmin = array();	// array to hold any event classes we find
-		$files = scandir(APPPATH.'classes/event/');// get all the files in the event directory
+		$EventTypes = array();	// array to hold any event classes we find
+		$dir = 'classes/event/';
+		$files = scandir(APPPATH.$dir);// get all the files in the event directory
 		foreach($files as $file)
 		{
-			$pathinfo = pathinfo(APPPATH.'classes/event/'.$file);
+			$pathinfo = pathinfo(APPPATH.$dir.$file);
 			// if a file is php assume its a class 
 			if (($pathinfo['extension']) == 'php')
 			{
 				// add new event object to event array 
 				$class_name = 'event_'.$pathinfo['filename'];
-				$EventsAdmin[] = new $class_name;
+				$EventTypes[] = new $class_name;	
+			}		
+		}
+		return $EventTypes;		
+	}
+	
+	/*
+		Searches the Event directory for class files 
+	*/
+	static function getJSEventTypes()
+	{	
+		$EventTypes = array();	// array to hold any event scripts we find
+		$dir = '/js/event/';
+		$files = scandir(APPPATH.$dir);// get all the files in the event directory
+		foreach($files as $file)
+		{
+			$pathinfo = pathinfo(APPPATH.$dir.$file);
+			// if a file is php assume its a class 
+			if (($pathinfo['extension']) == 'js')
+			{
+				// add new event object to event array 
+				$EventTypes[] = 'event/'.$pathinfo['basename'];
 			}			
 		}
-		return $EventsAdmin;		
+		return $EventTypes;		
 	}
 }
 

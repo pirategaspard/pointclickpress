@@ -3,7 +3,7 @@
 	Basic session variable assignment class for PointClickPress
  */
 
-class event_assign extends pcpevent implements ipcpevent
+class event_assign extends pcpevent
 {	
 	public function __construct()
 	{

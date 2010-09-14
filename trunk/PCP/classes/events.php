@@ -1,7 +1,9 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
+/* EVENT CONSTANTS */
+/* ToDO: move these somewhere else? */
 define('NOP', '');
-define('REFRESH_SCENE', 'refresh');
+define('REFRESH_SCENE', 'REFRESH_SCENE');
 
 
 class Events
@@ -23,7 +25,7 @@ class Events
 			$class_name = $event->event;
 			// get the class
 			$event_class = new $class_name; 
-			if ($event_class instanceof ipcpevent)
+			if ($event_class instanceof iPCPevent)
 			{
 				//execute event. Events can directly manipulate session's "story_data" info
 				$event_results[] = $event_class->execute(array('event_value'=>$event->event_value),$story_data);
