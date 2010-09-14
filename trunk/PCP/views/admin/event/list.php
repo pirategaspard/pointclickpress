@@ -13,6 +13,7 @@
 			<th>Value</th>
 			<th></th>
 			<th></th>
+			<th></th>
 		</tr>
 		<?php foreach ($events as $event) { ?>
 		<tr>
@@ -30,6 +31,7 @@
 				?>
 			</td>
 			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'edit'))).'?event_id='.$event->id.$url_params); ?>">Edit</a></td>
+			<td>&nbsp;&nbsp;</td>
 			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'delete'))).'?event_id='.$event->id.$url_params); ?>">Delete</a></td>
 		</tr>
 		<?php } ?>

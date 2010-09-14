@@ -93,8 +93,8 @@ class Model_GridEvent extends Model_Event
 			}
 			else
 			{
-				echo('somethings wrong in '.__FILE__.' on '.__LINE__);
-				var_dump($results); die();
+				throw new Exception('somethings wrong in '.__FILE__.' on '.__LINE__);
+				//var_dump($results); die();
 			}
 		}
 		elseif ($this->id > 0)
@@ -118,8 +118,8 @@ class Model_GridEvent extends Model_Event
 			}
 			catch( Database_Exception $e )
 			{
-			 echo('somethings wrong in '.__FILE__.' on '.__LINE__);
-			  echo $e->getMessage(); die();
+			 	echo('somethings wrong in '.__FILE__.' on '.__LINE__);
+			  	echo $e->getMessage(); die();
 			}
 		}
 		return $results;
