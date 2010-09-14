@@ -150,12 +150,12 @@ class Model_GridEvent extends Model_Event
 	
 	function getCellIds()
 	{
-		$cell_ids = '';
+		$cell_ids = array();				
 		foreach ($this->cells as $cell)
 		{
-			$cell_ids .= $cell->id.',';
-		}
-		return $cell_ids;
+			$cell_ids[] = $cell->id;
+		}		
+		return implode(',',$cell_ids);
 	}
 
 	function __get($prop)
