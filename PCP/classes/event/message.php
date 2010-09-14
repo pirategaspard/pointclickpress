@@ -22,12 +22,12 @@ class event_message implements iPCPevent
 	
 	public function getLabel()
 	{
-		return 'User Alert Message';
+		return 'User Message';
 	}
 	
 	public function getDescription()
 	{
-		return 'Displays a User Alert Message';
+		return 'Displays a Message to the User';
 	}
 }
 ?>
