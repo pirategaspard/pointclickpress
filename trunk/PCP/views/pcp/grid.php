@@ -6,6 +6,6 @@
 		$cells.= '<a n="'.$i.'" href="'.Kohana::$base_url.'cellClick?n='.$i.'" ></a>';
 	}
 ?>	
-	<div id="scene_image">
+	<div id="grid">
 	<?php echo($cells); ?>		
 	</div>

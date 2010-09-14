@@ -12,7 +12,7 @@
 $(document).ready(function() {
 	
 	// get all the cells in the grid
-	var cells = $('#scene_image').children('a'); 
+	var cells = $('#grid').children('a'); 
 	
 	/*
 		if browser supports javascript then 
@@ -42,10 +42,10 @@ function parseData(data)
 		// loop over events 
 		for(i=0;i<events.length;i++)
 		{	
-			
+			// if we have an event			
 			if(events[i].length > 0)
 			{	
-				// attempt to do function				
+				// attempt to do event function				
 				eval('$().'+ events[i] + '()');
 			}			
 		}
