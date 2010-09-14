@@ -18,7 +18,17 @@
 		<tr>
 			<td><?php echo ($event->id); ?></td>
 			<td><?php echo ($event->event_label); ?></td>
-			<td><?php echo ($event->event_value); ?></td>
+			<td><?php 
+					if (strlen($event->event_value) > 15 )
+					{
+						echo (substr($event->event_value,0,15).'...');
+					}
+					else
+					{
+						echo ($event->event_value);
+					} 
+				?>
+			</td>
 			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'edit'))).'?event_id='.$event->id.$url_params); ?>">Edit</a></td>
 			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'delete'))).'?event_id='.$event->id.$url_params); ?>">Delete</a></td>
 		</tr>
