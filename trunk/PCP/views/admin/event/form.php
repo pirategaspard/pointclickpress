@@ -16,8 +16,8 @@
 			<?php foreach($event_types as $event_type)
 			{
 				$selected = '';
-				if ($event->event == $event_type->event) $selected = ' selected="selected" ';
-				echo ('<option value="'.$event_type->event.'"'.$selected.' >'.$event_type->label.'</option>');
+				if ($event->event == $event_type->getClass()) $selected = ' selected="selected" ';
+				echo ('<option value="'.$event_type->getClass().'"'.$selected.' >'.$event_type->getLabel().'</option>');
 			} ?>
 		</select><br />
 		<label id="event_value" for="event_value">Event Value:

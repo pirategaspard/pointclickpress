@@ -4,18 +4,18 @@
  */
 class pcpevent extends model implements iPCPevent
 {
-	protected $event = '';
+	protected $class_name = '';
 	protected $label = '';
 	protected $description = '';
 
 	public function __construct()
 	{
-		$this->event = get_class($this);	
+		$this->class_name = get_class($this);	
 	}
 	
-	public function getEvent()
+	public function getClass()
 	{
-		return $this->event;
+		return $this->class_name;
 	}
 	
 	public function getLabel()

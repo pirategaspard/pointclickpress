@@ -15,7 +15,7 @@ class event_message implements iPCPevent
 		return $results;
 	}
 	
-	public function getEvent()
+	public function getClass()
 	{
 		return get_class($this);
 	}
