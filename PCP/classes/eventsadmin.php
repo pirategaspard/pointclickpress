@@ -239,7 +239,16 @@ class EventsAdmin
 			{
 				// add new event object to event array 
 				$class_name = 'event_'.$pathinfo['filename'];
-				$EventTypes[] = new $class_name;	
+				// test class to make sure it is an ipcpevent 
+				$event = new $class_name;				 
+				if ($event instanceof iPCPevent)
+				{
+					$EventTypes[] = $event;
+				}
+				else
+				{
+					unset($event);
+				}	
 			}		
 		}
 		return $EventTypes;		
@@ -250,7 +259,7 @@ class EventsAdmin
 	*/
 	static function getJSEventTypes()
 	{	
-		$EventTypes = array();	// array to hold any event scripts we find
+		$JSEventTypes = array();	// array to hold any event scripts we find
 		$dir = '/js/event/';
 		$files = scandir(APPPATH.$dir);// get all the files in the event directory
 		foreach($files as $file)
@@ -260,10 +269,10 @@ class EventsAdmin
 			if (($pathinfo['extension']) == 'js')
 			{
 				// add new event object to event array 
-				$EventTypes[] = 'event/'.$pathinfo['basename'];
+				$JSEventTypes[] = 'event/'.$pathinfo['basename'];
 			}			
 		}
-		return $EventTypes;		
+		return $JSEventTypes;		
 	}
 }
 
