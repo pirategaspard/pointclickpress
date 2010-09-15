@@ -1,4 +1,15 @@
 <?php 
+	
+	$plugins = Plugins::getPlugins();
+    $sceneplugins = $plugins['pre_scene'];
+    foreach ($sceneplugins as $pluginclass)
+    {
+    	$plugin = new $pluginclass;
+		$plugin->execute();
+	}
+?>
+
+<?php 
 
 if (isset($_GET['debug']))
 {
@@ -17,3 +28,15 @@ if (isset($_GET['debug']))
 	<?php echo($grid); ?>
 	<p id="description"><?php echo($scene->description); ?></p>
 </div>
+
+
+<?php 
+	
+	$plugins = Plugins::getPlugins();
+    $sceneplugins = $plugins['post_scene'];
+    foreach ($sceneplugins as $pluginclass)
+    {
+    	$plugin = new $pluginclass;
+		$plugin->execute();
+	}
+?>
