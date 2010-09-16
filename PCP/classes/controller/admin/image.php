@@ -38,7 +38,7 @@ Class Controller_admin_image extends Controller_Template_Admin
 		{						
 			$data['back_url'] = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
 		}
-		$data['images'] = PCPAdmin::getImages();
+		$data['images'] = PCPAdmin::getImages(array('story_id'=>$_REQUEST['story_id']));
 		if (isset($_REQUEST['scene_id']))
 		{
 			$data['assign_image_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'assign'))).'?scene_id='.$_REQUEST['scene_id'];
