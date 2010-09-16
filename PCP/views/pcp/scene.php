@@ -1,27 +1,18 @@
 <?php 
-	
-	$plugins = Plugins::getPlugins();
-    $sceneplugins = $plugins['pre_scene'];
-    foreach ($sceneplugins as $pluginclass)
-    {
-    	$plugin = new $pluginclass;
-		$plugin->execute();
-	}
+	$plugins = pluginadmin::instance();
+	$plugins->executeHook('pre_scene');
 ?>
 
 <?php 
 
 if (isset($_GET['debug']))
 {
-	var_dump($_SESSION['story_data']);
-}
-/*
-	
+	var_dump($_SESSION['story_data']);		
 	echo $story->scene_width;
 	echo $story->scene_height;
-*/
-	//var_dump($scene->init_vars);	
-	//echo('screen dimensions'.$_SESSION['screen_width'].'x'.$_SESSION['screen_height']);
+	var_dump($scene->init_vars);	
+	echo('screen dimensions'.$_SESSION['screen_width'].'x'.$_SESSION['screen_height']);
+}
 ?>
 <div id="scene">
 	<h1 id="title"><?php echo($scene->title); ?></h1>
@@ -31,12 +22,5 @@ if (isset($_GET['debug']))
 
 
 <?php 
-	
-	$plugins = Plugins::getPlugins();
-    $sceneplugins = $plugins['post_scene'];
-    foreach ($sceneplugins as $pluginclass)
-    {
-    	$plugin = new $pluginclass;
-		$plugin->execute();
-	}
+	$plugins->executeHook('post_scene');
 ?>

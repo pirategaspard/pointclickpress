@@ -7,8 +7,8 @@ interface ipcpplugin
 	public function getClass();	
 	public function getLabel();	
 	public function getDescription();
-	public function getHook();	
-	public function execute(&$args=array());
+	public function getHooks();	
+	public function execute($hook_name='');
 }
 
 ?>

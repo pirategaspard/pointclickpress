@@ -20,13 +20,18 @@ class plugin_helloworld implements ipcpplugin
 		return 'helloworld';
 	}
 	
-	public function getHook()
+	public function getHooks()
 	{
-		return 'pre_scene';
+		return array('pre_scene');
 	}
 		
-	public function execute(&$args=array())
+	public function execute($hook_name='')
 	{
-		echo('Hello World!');
+		$session = Session::instance();
+		$story_data = $session->get('story_data',array());		
+		//var_dump($story_data);die();		
+		$story_data['container_id'] = 28;
+		$story_data = $session->set('story_data',$story_data);			
+		echo('Hello World!<br/>');
 	}
 }

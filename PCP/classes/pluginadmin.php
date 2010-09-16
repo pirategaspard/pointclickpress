@@ -2,7 +2,7 @@
 
 // Holds all our plugin and hook information 
 
-class Plugins
+class pluginadmin
 {
 	// Singleton static instance
 	protected static $_instance;	
@@ -69,7 +69,7 @@ class Plugins
 		foreach($plugins as $pluginclass)
 		{
 			$plugin = new $pluginclass();
-			$plugin->execute();
+			$plugin->execute($hook_name);
 			unset($plugin);	
 		}		
 	}
@@ -92,8 +92,13 @@ class Plugins
 				// test class to make sure it is an ipcpplugin 
 				$plugin = new $class_name;				 
 				if ($plugin instanceof iPCPplugin)
-				{					
-					$this->registerPlugin($plugin->getHook(),$plugin->getClass());
+				{	
+					// get array of hooks that this plugin will be executed on
+					$hooks = $plugin->getHooks(); 
+					foreach($hooks as $hook)
+					{									
+						$this->registerPlugin($hook,$plugin->getClass());
+					}
 				}
 				unset($plugin);					
 			}		

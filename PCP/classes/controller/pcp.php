@@ -18,7 +18,7 @@ Class Controller_PCP extends Controller_Template_Base
     }
     
     /*
-		This gets a single Interactive stories and
+		This gets a single Interactive story and
 		displays its details to the user
     */
     function action_story()
@@ -36,7 +36,7 @@ Class Controller_PCP extends Controller_Template_Base
     function action_start_story()
     {
 		if (isset($_REQUEST['story_id']))
-		{							
+		{										
 			// Get the current session
 			$session = Session::instance();	
 			
