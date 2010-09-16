@@ -1,4 +1,4 @@
-<?php 
+<?php defined('SYSPATH') or die('No direct script access.');
 /*
 	Basic session variable assignment class for PointClickPress
  */
