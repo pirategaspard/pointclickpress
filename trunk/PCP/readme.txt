@@ -1,4 +1,4 @@
-PointClickPress Alpha 1 release
+PointClickPress Alpha 2 release
 www.pointclickpress.org
 
 To install:

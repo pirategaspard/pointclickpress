@@ -50,8 +50,8 @@ ini_set('unserialize_callback_func', 'spl_autoload_call');
  * - boolean  caching     enable or disable internal caching                 FALSE
  */
  
- //automatically create the base_ur
-$app_path = '/PCP/';
+ //automatically create the base_url
+$app_path = '/'.substr(strrchr(__DIR__,DIRECTORY_SEPARATOR),1).'/';
 Kohana::init(array('base_url' => $app_path,'index_file' => ''));
 
 /**
