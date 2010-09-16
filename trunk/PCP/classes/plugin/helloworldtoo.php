@@ -20,13 +20,26 @@ class plugin_helloworldtoo implements ipcpplugin
 		return 'helloworldtoo';
 	}
 	
-	public function getHook()
+	public function getHooks()
 	{
-		return 'post_scene';
+		return array('pre_scene','post_scene');
 	}
 		
-	public function execute(&$args=array())
+	public function execute($hook_name='')
 	{
-		echo('Hello World Too!');
+		switch($hook_name)
+		{
+			case 'pre_scene':
+			{
+				echo ('Whut Up?');
+				break;
+			}
+			case 'post_scene':
+			{
+				echo('Hello World Too!');
+				break;
+			}
+		}
+		
 	}
 }
