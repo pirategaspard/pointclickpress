@@ -23,7 +23,7 @@ class plugin_helloworld implements ipcpplugin
 	public function getHooks()
 	{
 		// You can list multiple hooks to be called from
-		return array('display_pre_scene','display_post_scene');
+		return array('post_start_story','display_pre_scene','display_post_scene');
 	}
 		
 	public function execute($hook_name='')
@@ -52,11 +52,14 @@ class plugin_helloworld implements ipcpplugin
 		*/
 		$session = Session::instance();
 		
-		// uncomment for secret cheat to go immediately to last scene!
-		/*$session = Session::instance();
-		$story_data = $session->get('story_data',array());			
-		$story_data['container_id'] = 28;
-		$story_data = $session->set('story_data',$story_data);
+		// uncomment the code block below for secret cheat to go immediately to last scene!
+		/*
+		if ($hook_name == 'post_start_story')
+		{
+			$story_data = $session->get('story_data',array());			
+			$story_data['container_id'] = 28;
+			$story_data = $session->set('story_data',$story_data);
+		}
 		*/
 					
 	}
