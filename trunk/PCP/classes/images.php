@@ -15,16 +15,19 @@ class Images
 		// get all the Images in the db
 		$q = '	SELECT i.*
 				FROM Images i
+				INNER JOIN stories s
+				ON i.story_id = s.id
 				WHERE 1 = 1 ';
 				
-		if (isset($args['image'])) $q .= 'AND i.id = :image_id'; //if we have a id
+		if (isset($args['image'])) $q .= 'AND i.id = :image_id'; 
+		if (isset($args['story_id'])) $q .= 'AND s.id = :story_id'; 
 		
 		$q .= ' ORDER BY i.id DESC';
 		
 		$q = DB::query(Database::SELECT,$q,TRUE);
 		
 		if (isset($args['image']))	 $q->param(':image_id',$args['image']->id);
-		if (isset($args['story']))	 $q->param(':story_id',$args['story']->id);
+		if (isset($args['story_id']))	 $q->param(':story_id',$args['story_id']);
 								
 		$tempArray = $q->execute()->as_array();		
 		
