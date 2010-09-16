@@ -23,7 +23,7 @@ class plugin_debug implements ipcpplugin
 	
 	public function getHooks()
 	{
-		return array('post_scene','post_story');
+		return array('display_post_scene');
 	}
 		
 	public function execute($hook_name='')

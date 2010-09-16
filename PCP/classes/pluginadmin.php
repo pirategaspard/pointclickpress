@@ -63,9 +63,10 @@ class pluginadmin
 	}
 	
 	// execute all plugins in a hook
-	function executeHook($hook_name)
-	{			
-		$plugins = $this->getPlugins($hook_name);
+	static function executeHook($hook_name)
+	{	
+		$instance = self::instance();		
+		$plugins = $instance->getPlugins($hook_name);
 		foreach($plugins as $pluginclass)
 		{
 			$plugin = new $pluginclass();

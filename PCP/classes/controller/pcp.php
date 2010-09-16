@@ -36,7 +36,8 @@ Class Controller_PCP extends Controller_Template_Base
     function action_start_story()
     {
 		if (isset($_REQUEST['story_id']))
-		{										
+		{			
+			pluginadmin::executeHook('pre_start_story');									
 			// Get the current session
 			$session = Session::instance();	
 			
@@ -49,9 +50,10 @@ Class Controller_PCP extends Controller_Template_Base
 			// Empty old session data 												
 			$story_data	= array();
 			// set first container
-			$story_data['container_id'] = $story->getFirstContainerId();
+			$story_data['container_id'] = $story->getFirstContainerId();				
 			// set new story data into session 
-			$session->set('story_data',$story_data); 									
+			$session->set('story_data',$story_data); 
+			pluginadmin::executeHook('post_start_story');									
 			// put any story init events into session
 			PCP::doEvents($story->events);			
 			// redirect to the first scene
@@ -69,7 +71,8 @@ Class Controller_PCP extends Controller_Template_Base
 		This function displays a scene to the user
     */
     function action_scene()
-    {
+    {    	
+    	pluginadmin::executeHook('pre_scene');	    
 		// get session
 		$session = Session::instance();			
 		// get story
@@ -87,10 +90,10 @@ Class Controller_PCP extends Controller_Template_Base
 		// put any container init events into session
 		PCP::doEvents($container->events);
 		// put any scene init events into session
-		PCP::doEvents($data['scene']->events);	
-		
+		PCP::doEvents($data['scene']->events);							
 		//put scene into session
 		$session->set('scene',$data['scene']);
+		pluginadmin::executeHook('post_scene');	
 		
 		// if we have valid data show the scene
 		if (($data['story'] != NULL) && ($data['scene']->id > 0) && (strlen($data['scene']->filename) > 0))
@@ -145,19 +148,23 @@ Class Controller_PCP extends Controller_Template_Base
     /* for non-ajax cell action requests */
     function action_cellClick()
     {
+    	pluginadmin::executeHook('pre_cellClick');
+    	// do the action (if any)
+    	$results = PCP::getGridEvent();
+    	pluginadmin::executeHook('post_cellClick');
+    
     	if (Request::$is_ajax)
     	{
     		// disable auto render	
 	    	$this->auto_render = FALSE;
 			// display the results 	
-			echo PCP::getGridEvent();	
+			echo $results;	
 			//(javascript will decide what to do next)	
 		}
     	else 
     	{
     		// no javascript
-    		// do the action, then refresh the page no matter what. 
-			PCP::getGridEvent();
+    		// refresh the page no matter what. 
 			Request::instance()->redirect(Route::get('default')->uri(array('action'=>'scene')));
 		}
 	}
