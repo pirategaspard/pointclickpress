@@ -256,6 +256,7 @@ class EventsAdmin
 	
 	/*
 		Searches the Event directory for class files 
+		TODO: save this data into a file so that we do not scan js/event/ on each refresh
 	*/
 	static function getJSEventTypes()
 	{	

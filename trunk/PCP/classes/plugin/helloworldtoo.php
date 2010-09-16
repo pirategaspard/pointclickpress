@@ -31,7 +31,7 @@ class plugin_helloworldtoo implements ipcpplugin
 		{
 			case 'pre_scene':
 			{
-				echo ('Whut Up?');
+				include('helloworldtoo/index.htm');
 				break;
 			}
 			case 'post_scene':
