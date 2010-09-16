@@ -22,27 +22,34 @@ class plugin_helloworld implements ipcpplugin
 	
 	public function getHooks()
 	{
-		return array('display_post_scene');
+		// You can list multiple hooks to be called from
+		return array('display_pre_scene','display_post_scene');
 	}
 		
 	public function execute($hook_name='')
 	{						
-		// You can perform different actions based on which hook your are being called from
+		/*
+			You are passed the hook you are currently being called from
+			If you wish you can use this to decide to perform different actions
+		*/
 		switch($hook_name)
 		{
-			case 'pre_scene':
-			{
-				include('helloworld/index.htm');
-				break;
-			}
-			case 'post_scene':
+			case 'display_pre_scene':
 			{
 				echo('Hello World!');
 				break;
 			}
+			case 'display_post_scene':
+			{
+				include('helloworld/index.htm');
+				break;
+			}			
 		}
 		
-		// You can also access session from here
+		/* 
+			You can also access session from here!
+			You could add something awesome, or do some damage
+		*/
 		$session = Session::instance();
 		
 		// uncomment for secret cheat to go immediately to last scene!
