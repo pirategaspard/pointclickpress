@@ -22,16 +22,18 @@ class plugin_helloworld implements ipcpplugin
 	
 	public function getHooks()
 	{
-		return array('pre_scene');
+		return array('display_pre_scene');
 	}
 		
 	public function execute($hook_name='')
 	{
-		$session = Session::instance();
-		$story_data = $session->get('story_data',array());		
-		//var_dump($story_data);die();		
+		
+		// uncomment for the secret cheat to go immediately to last scene!
+		/*$session = Session::instance();
+		$story_data = $session->get('story_data',array());			
 		$story_data['container_id'] = 28;
-		$story_data = $session->set('story_data',$story_data);			
+		$story_data = $session->set('story_data',$story_data);
+		*/			
 		echo('Hello World!<br/>');
 	}
 }

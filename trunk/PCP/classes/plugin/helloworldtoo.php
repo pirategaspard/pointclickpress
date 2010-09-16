@@ -22,7 +22,7 @@ class plugin_helloworldtoo implements ipcpplugin
 	
 	public function getHooks()
 	{
-		return array('pre_scene','post_scene');
+		return array('display_pre_scene','display_post_scene');
 	}
 		
 	public function execute($hook_name='')
