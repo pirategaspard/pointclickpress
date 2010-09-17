@@ -17,7 +17,7 @@ class plugin_helloworld implements ipcpplugin
 		
 	public function getDescription()
 	{
-		return 'helloworld';
+		return 'This is the helloworld demonstration plugin';
 	}
 	
 	public function getHooks()
@@ -30,13 +30,13 @@ class plugin_helloworld implements ipcpplugin
 	{						
 		/*
 			You are passed the hook you are currently being called from
-			If you wish you can use this to decide to perform different actions
+			You can use this to decide to perform different actions
 		*/
 		switch($hook_name)
 		{
 			case 'display_pre_scene':
 			{
-				echo('Hello World!');
+				echo('PointClickPress Alpha 2');
 				break;
 			}
 			case 'display_post_scene':
@@ -56,8 +56,11 @@ class plugin_helloworld implements ipcpplugin
 		/*
 		if ($hook_name == 'post_start_story')
 		{
-			$story_data = $session->get('story_data',array());			
+			// get story data out of session
+			$story_data = $session->get('story_data',array());
+			// update the current container id to #28 (last scene)			
 			$story_data['container_id'] = 28;
+			//save story data back into session
 			$story_data = $session->set('story_data',$story_data);
 		}
 		*/
