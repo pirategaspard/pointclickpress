@@ -104,11 +104,17 @@ class PCPAdmin
 		return $args;
 	}
 	
-/*	
-	static function getScreens()
-	{	
-		return Screens::getScreens();
+	static function loadEventTypes()
+	{
+		EventsAdmin::cacheJSEventTypes(); // cache JS event files
+		return EventsAdmin::loadEventTypes(); // get php event classes 
 	}
-*/	
+	
+	/*
+	static function loadJSEventTypes()
+	{	
+		return EventsAdmin::loadJSEventTypes();
+	}
+	*/	
 }
 ?>

@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 class EventsAdmin
-{	
+{		
 	// get a single Event object and populate it based on the arguments
 	static function getEvent($args=array())
 	{		
@@ -226,7 +226,7 @@ class EventsAdmin
 	/*
 		Searches the Event directory for class files 
 	*/
-	static function getEventTypes()
+	static function loadEventTypes()
 	{	
 		$EventTypes = array();	// array to hold any event classes we find
 		$dir = 'classes/event/';
@@ -258,7 +258,7 @@ class EventsAdmin
 		Searches the Event directory for class files 
 		TODO: save this data into a file so that we do not scan js/event/ on each refresh
 	*/
-	static function getJSEventTypes()
+	static function loadJSEventTypes()
 	{	
 		$JSEventTypes = array();	// array to hold any event scripts we find
 		$dir = '/js/event/';
@@ -272,8 +272,20 @@ class EventsAdmin
 				// add new event object to event array 
 				$JSEventTypes[] = 'event/'.$pathinfo['basename'];
 			}			
-		}
+		}		
 		return $JSEventTypes;		
 	}
+	
+	/* 
+		saves the js event files as a serialized array
+		so that we don't have to rescan js/event/ on each request
+	*/ 
+	static function cacheJSEventTypes()
+	{		
+		$JSEventTypes = self::loadJSEventTypes();
+		$file = APPPATH.'/js/event/cached_js_events.php';	
+		$r = file_put_contents ($file,serialize($JSEventTypes));
+	}
+	
 }
 
