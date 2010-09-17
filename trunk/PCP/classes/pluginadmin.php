@@ -19,7 +19,7 @@ class pluginadmin
 	}
 	
 	/* 	
-		A hook is a place in PCP where a plugin can be called from such as "pre-scene"
+		A hook is a place in PCP where a plugin can be called from such as "pre_scene"
 		Each hook has an array of plugin class names that it should call when the hook is reached  
 	*/
 	function registerHook($hook_name)
@@ -49,6 +49,9 @@ class pluginadmin
 		$this->plugins[$hook_name][]= $class_name;
 	}
 	
+	/*
+		get all plugins for a specific hook 
+	*/
 	function getPlugins($hook_name)
 	{
 		if ($this->HookRegistered($hook_name))
@@ -77,7 +80,7 @@ class pluginadmin
 	
 	/*
 		Searches the Plugin directory for class files 
-		TO DO: cache this so we don't have to scan the plugin directory per request
+		TO DO: cache so we don't have to scan the plugin directory per instance
 	*/
 	private function loadPlugins()
 	{		
