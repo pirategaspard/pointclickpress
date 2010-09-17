@@ -77,6 +77,7 @@ class pluginadmin
 	
 	/*
 		Searches the Plugin directory for class files 
+		TO DO: cache this so we don't have to scan the plugin directory per request
 	*/
 	private function loadPlugins()
 	{		
