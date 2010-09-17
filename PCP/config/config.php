@@ -29,5 +29,4 @@ define('MEDIA_PATH', $media_dir);
 define('IMAGE_QUALITY', 50);
 define('SUPPORTED_SCREENS', $supported_screens);
 define('THUMBNAIL_IMAGE_SIZE', '100x100');
-
 ?>

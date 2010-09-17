@@ -172,6 +172,20 @@ class Events
 			break;
 		}
 		return $results;
+	}
+	
+	static function getJSEventTypes()
+	{	
+		//return EventsAdmin::loadJSEventTypes();
+		try
+		{
+			$file = APPPATH.'/js/event/cached_js_events.php';	
+			return unserialize(file_get_contents($file));
+		}
+		catch(Exception $e)
+		{
+			return array();
+		} 
 	}	
 }
 

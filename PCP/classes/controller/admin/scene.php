@@ -33,7 +33,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		if (strlen($data['scene']->filename) > 0)
 		{
 			/* grid events */
-			$data['event_types'] = EventsAdmin::getEventTypes();						
+			$data['event_types'] = PCPAdmin::loadEventTypes();						
 			$data['containers'] = $data['story']->containers;
 			$data['event'] = PCPAdmin::getEvent(array('scene_id'=>$data['scene']->id,'type'=>'Grid'));				
 			//$data['grid_event_add'] = View::factory('/admin/event/add',$data)->render(); //inline form

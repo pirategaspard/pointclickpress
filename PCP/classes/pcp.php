@@ -155,7 +155,7 @@ class PCP
 	
 	static function getJSEventTypes()
 	{	
-		return EventsAdmin::getJSEventTypes();
+		return Events::getJSEventTypes();
 	}
 
 }
