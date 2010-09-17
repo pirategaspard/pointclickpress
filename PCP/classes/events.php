@@ -179,7 +179,7 @@ class Events
 		//return EventsAdmin::loadJSEventTypes();
 		try
 		{
-			$file = APPPATH.'/js/event/cached_js_events.php';	
+			$file = APPPATH.'/cache/cached_js_events.php';	
 			return unserialize(file_get_contents($file));
 		}
 		catch(Exception $e)
