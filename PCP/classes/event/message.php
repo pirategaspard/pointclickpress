@@ -1,17 +1,19 @@
 <?php 
 /*
-	Creates a user message. 
+	Creates a simple user message. 
+	Requires message.js
 	Demonstrates a PCP event implementing the iPCPevent interface
  */
 
-define('USER_MESSAGE','USER_MESSAGE');
+define('MESSAGE','MESSAGE'); // our event name
 class event_message implements iPCPevent
 {	
 	public function execute($args=array(),&$story_data=array())
 	{
-		// put user message into story data
-		$story_data[USER_MESSAGE] = $args['event_value'];
-		$results = USER_MESSAGE;
+		$data = array();
+		$data['message'] = $args['event_value'];	
+		// return message response
+		$results = new pcpresponse(MESSAGE,$data); 
 		return $results;
 	}
 	

@@ -3,7 +3,7 @@
 	Basic scene container link class for PointClickPress
  */
 
-class event_link extends pcpevent
+class event_link extends event_refresh
 {	
 	public function __construct()
 	{
@@ -22,9 +22,10 @@ class event_link extends pcpevent
 		$results = NOP;
 		if (Events::isNumeric($args['event_value']))
 		{
-			// simple assignment
+			// simple assignment, just update the container id 
 			$story_data['container_id'] = $args['event_value'];
-			$results = REFRESH_SCENE;
+			// pass to the parent event to refresh the scene
+			$results = parent::execute($args,$story_data);	
 		}
 		return $results;
 	}

@@ -45,12 +45,12 @@ Class Controller_PCP extends Controller_Template_Base
 			$story = PCP::getStory();
 			// set the story dimensions
 			$story->setDimensions($session->get('screen_width'),$session->get('screen_height'));			
-			$session->set('story',$story);
+			$session->set('story',$story);			
 			
 			// Empty old session data 												
 			$story_data	= array();
 			// set first container
-			$story_data['container_id'] = $story->getFirstContainerId();				
+			$story_data['container_id'] = $story->getFirstContainerId();
 			// set new story data into session 
 			$session->set('story_data',$story_data); 
 			pluginadmin::executeHook('post_start_story');									
@@ -76,19 +76,19 @@ Class Controller_PCP extends Controller_Template_Base
 		// get session
 		$session = Session::instance();			
 		// get story
-		$data['story'] = $session->get('story',NULL);
+		$data['story'] = $session->get('story',NULL);						
 		// get the scene
-		$data['scene'] = PCP::getScene(PCP::getCurrentContainerId());
+		$data['scene'] = PCP::getScene(PCP::getCurrentContainerId());										
 		
 		//get container from session (so that we can process any container events)
 		$container = $session->get('container',NULL);
 		if (!isset($container)||($container->id != $data['scene']->container_id))
 		{
 			$container = PCP::getContainer($data['scene']->container_id);
-		}		
-		
+		}								
+				
 		// put any container init events into session
-		PCP::doEvents($container->events);
+		PCP::doEvents($container->events);						
 		// put any scene init events into session
 		PCP::doEvents($data['scene']->events);							
 		//put scene into session
@@ -158,7 +158,7 @@ Class Controller_PCP extends Controller_Template_Base
     		// disable auto render	
 	    	$this->auto_render = FALSE;
 			// display the results 	
-			echo $results;	
+			echo json_encode($results);	
 			//(javascript will decide what to do next)	
 		}
     	else 
