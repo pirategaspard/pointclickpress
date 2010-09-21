@@ -3,9 +3,6 @@
 /* EVENT CONSTANTS */
 /* ToDO: move these somewhere else? */
 define('NOP', '');
-define('REFRESH_SCENE', 'REFRESH_SCENE');
-
-
 class Events
 {	
 	/*
@@ -27,14 +24,17 @@ class Events
 			$event_class = new $class_name; 
 			if ($event_class instanceof iPCPevent)
 			{
+				//var_dump($story_data);
+			
 				//execute event. Events can directly manipulate session's "story_data" info
 				$event_results[] = $event_class->execute(array('event_value'=>$event->event_value),$story_data);
+				
+				//var_dump($story_data);
 			}
 			else
 			{
 				throw new Exception($class_name . ' is not of type IPCPEvent.');
 			}
-			//var_dump($story_data);
 		}
 		//update session
 		$session->set('story_data',$story_data); 

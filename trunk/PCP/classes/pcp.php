@@ -42,7 +42,7 @@ class PCP
 	
 	/* 
 	  	a cell in a scene has been clicked, 
-	  	get the action attached to the cell (if there is one) 
+	  	get the action attached to the cell(s) (if any) 
 	 */
 	static function getCellEvent($scene_id,$cell_id)
 	{
@@ -84,15 +84,14 @@ class PCP
     */
 	static function getGridEvent()
     {
-		$event_results = '';
-		
+		$event_results = array();		
 		// get session
 		$session = Session::instance();					
 		// get story
 		$story = $session->get('story',NULL);		
 		// get the scene_id
 		$scene = $session->get('scene',NULL);
-		
+		//if story and scene are not null and we have a cell id(n)
 		if (($story != NULL) && ($scene != NULL) && (isset($_REQUEST['n'])))
 		{				
 			$cell_id = $_REQUEST['n'];
@@ -112,7 +111,7 @@ class PCP
     */
 	static function doEvents($events)
 	{
-		$event_results = implode(',',Events::doEvents($events));
+		$event_results = Events::doEvents($events);
 		return $event_results;		
 	}
 	

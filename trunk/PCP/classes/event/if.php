@@ -5,7 +5,7 @@
 	$var = (eval_value1 [>|<|<=|>=|==|!=] eval_value1 ) ? true_value1 : false_value 2;
  */
 
-class event_if extends pcpevent
+class event_if extends event_refresh
 {	
 	public function __construct()
 	{
@@ -87,9 +87,7 @@ class event_if extends pcpevent
 										case '>':
 											$parsed[$var] = ($eval_values[0] > $eval_values[1] ) ? $values[0] : $values[1]; 
 										break;
-									}
-									$results = REFRESH_SCENE .',SHOW_MESSAGE';
-									//echo (' results: '.$parsed[$var]);
+									}										
 								}
 							}
 						}
@@ -99,9 +97,13 @@ class event_if extends pcpevent
 				
 			}			
 		}
-		//update story_data
-		$story_data = array_merge($story_data,$parsed);
-		//die();
+		if (count($parsed) > 0)
+		{
+			//update story_data
+			$story_data = array_merge($story_data,$parsed);		
+			// pass to the parent event to refresh the scene
+			$results = parent::execute($args,$story_data);
+		}
 		return $results;
 	}
 }

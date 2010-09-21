@@ -25,25 +25,23 @@ $(document).ready(function()
 				On click send the number of the cell to the cellClickAjax
 				function in	the PCP controller
 			*/
-			$.post('cellClick', {n: $(this).attr('n')}, parseData);
+			$.getJSON('cellClick',{n: $(this).attr('n')},parseData);
+			//$.post('cellClick', {n: $(this).attr('n')}, parseData);
 	});; 
 });
 
-function parseData(data)
+function parseData(events)
 {
-	if (data.length > 0)
-	{			
-		// get array of events from list 
-		events = data.split(','); 
+	// events contains array of pcpresponse objects. 
+	// events[i].function_name - name of plugin to execute
+	// events[i].data - data for plugin
+	if (events.length > 0)
+	{					
 		// loop over events 
 		for(i=0;i<events.length;i++)
 		{	
-			// if we have an event			
-			if(events[i].length > 0)
-			{	
-				// attempt to do event function				
-				eval('$().'+ events[i] + '()');
-			}			
+			// attempt to do event function			
+			eval('$().'+ events[i].function_name + '(events[i].data)');					
 		}
 	}
 }

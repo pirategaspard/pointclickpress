@@ -1,0 +1,69 @@
+<?php 
+/*
+	Refreshes the scene.
+	Requires refresh.js 
+	This is the base event for many other events. 
+	In general Events should strive to only manipulate story_data. 
+	This event cheats a bit. -dg
+ */
+
+define('REFRESH','REFRESH'); // our event name
+class event_refresh extends pcpevent implements iPCPevent
+{	
+	public function execute($args=array(),&$story_data=array())
+	{
+		// init response data
+		$data = array();
+		$data['filename'] = '';
+		$data['title'] = '';
+		$data['description'] = '';
+		// do hook
+		pluginadmin::executeHook('pre_scene');		
+		// get session
+		$session = Session::instance();
+		// set story data 
+		$session->set('story_data',$story_data);						
+		// get story
+		$story = $session->get('story',NULL);	
+		// get scene
+		$scene = PCP::getScene($story_data['container_id']);	
+		//get container 
+		$container = PCP::getContainer($scene->container_id);
+		// if we have valid data continue
+		if (($scene)&&($container)&&($story))
+		{
+			// put any container init events into session
+			PCP::doEvents($container->events);
+			// put any scene init events into session
+			PCP::doEvents($scene->events);							
+			// populate response data 					
+			$data['filename'] = $scene->getPath($story->scene_width,$story->scene_height);
+			$data['title'] = $scene->title;
+			$data['description'] = $scene->description;
+		}
+		// set data back into session
+		$session->set('scene',$scene);
+		$session->set('container',$container);
+		// do hook
+		pluginadmin::executeHook('post_scene');					
+		// return REFRESH response
+		$results = new pcpresponse(REFRESH,$data);
+		return $results;
+	}
+	
+	public function getClass()
+	{
+		return get_class($this);
+	}
+	
+	public function getLabel()
+	{
+		return 'Scene Refresh';
+	}
+	
+	public function getDescription()
+	{
+		return 'Refreshes the scene';
+	}
+}
+?>

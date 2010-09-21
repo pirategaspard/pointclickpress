@@ -3,7 +3,7 @@
 	Basic session variable assignment class for PointClickPress
  */
 
-class event_assign extends pcpevent
+class event_assign extends event_refresh
 {	
 	public function __construct()
 	{
@@ -44,7 +44,6 @@ class event_assign extends pcpevent
 						
 						//echo (' simple assignment: ');
 						$parsed[$var] = Events::replaceSessionVariables($exp);
-						$results = REFRESH_SCENE;
 					}
 					else if (Events::isString($exp))
 					{
@@ -55,8 +54,7 @@ class event_assign extends pcpevent
 						*/
 						
 						//echo (' simple assignment: ');
-						$parsed[$var] = preg_replace('/[\'"]/','',$exp);
-						$results = REFRESH_SCENE;
+						$parsed[$var] = preg_replace('/[\'"]/','',$exp);	
 					}
 					else if(preg_match('/((\$[a-zA-Z\'\[\]0-9]+)|([0-9]+))\s*([\+\-\*\/])\s*((\$[a-zA-Z\'\[\]0-9]+)|([0-9]+))/',$exp))
 					{
@@ -72,16 +70,19 @@ class event_assign extends pcpevent
 						{
 							$eval_values[0] = Events::replaceSessionVariables($eval_values[0]);
 							$eval_values[1] = Events::replaceSessionVariables($eval_values[1]);
-							$parsed[$var] = Events::doBasicMath($operator,$eval_values[0],$eval_values[1]);	
-							$results = REFRESH_SCENE;						
+							$parsed[$var] = Events::doBasicMath($operator,$eval_values[0],$eval_values[1]);														
 						}
 					}
 				}
 			}
 		}
-		//update story_data
-		$story_data = array_merge($story_data,$parsed);
-		//die();
+		if (count($parsed) > 0)
+		{
+			//update story_data
+			$story_data = array_merge($story_data,$parsed);		
+			// pass to the parent event to refresh the scene
+			$results = parent::execute($args,$story_data);
+		}
 		return $results;
 	}
 }
