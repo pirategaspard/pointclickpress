@@ -19,7 +19,7 @@ Class Controller_Template_Admin extends Controller_Template_Base
 			if($this->auto_render)
 			{
 				// Initialize values
-				$this->template->title = DEFAULT_PAGE_TITLE.' - Admin';
+				$this->template->title = DEFAULT_PAGE_TITLE.' Admin';
 				$this->template->scripts[] = 'thickbox-compressed.js';
 				$this->template->scripts[] = 'admin.js';
 				$this->template->styles[] = 'thickbox.css';
