@@ -1,8 +1,9 @@
-body {text-align: center; }
+body { }
 #container {}
 #header {}
 #topmenu {}
 #content {}
-#grid {margin: 0 auto; text-align: center;  width:80%;}
+#scene { text-align: center;}
+#grid {margin: 0 auto; width:80%;}
 #bottommenu {}
 #footer {}
