@@ -38,6 +38,8 @@ Class Controller_admin_event extends Controller_Template_Admin
 		$data['event_types'] = PCPAdmin::loadEventTypes();
 		$data['back_url'] = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
 		$data['event_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'save')));
+		
+		$this->template->header = '' ;
 		$this->template->top_menu = View::factory('/admin/event/top_menu',$data)->render();
 		$this->template->content = View::factory('/admin/event/form',$data)->render();
 		//Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?story_id='.$_REQUEST['story_id'].'&container_id='.$_REQUEST['container_id'].'&scene_id='.$_REQUEST['scene_id'].'&event_id='.$_REQUEST['event_id']);
