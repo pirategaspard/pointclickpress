@@ -1,6 +1,8 @@
-#container {margin: 0 auto}
+body {text-align: center; }
+#container {}
 #header {}
 #topmenu {}
 #content {}
+#grid {margin: 0 auto; text-align: center;  width:80%;}
 #bottommenu {}
 #footer {}
