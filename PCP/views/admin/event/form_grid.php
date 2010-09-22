@@ -1,7 +1,5 @@
 <?php 
 
-	//var_dump($event_types); die();
-
 	if (isset($event) && (isset($event_types)))
 	{ 
 ?>

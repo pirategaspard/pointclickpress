@@ -18,8 +18,12 @@ Class Controller_Template_Admin extends Controller_Template_Base
 		{
 			if($this->auto_render)
 			{
-				// Initialize empty values
-				$this->template->title = 'PointClickPress - Admin';
+				// Initialize values
+				$this->template->title = DEFAULT_PAGE_TITLE.' - Admin';
+				$this->template->scripts[] = 'thickbox-compressed.js';
+				$this->template->scripts[] = 'admin.js';
+				$this->template->styles[] = 'thickbox.css';
+				$this->template->header = View::factory('/admin/header')->render();	;
 				$this->template->message_console = '';
 			}
 		}

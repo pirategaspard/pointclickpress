@@ -8,7 +8,8 @@
 	$(img).load(function() {
 			$('#grid').css({backgroundImage:'url('+this.src+')'});
 		}).attr('src', data.filename);
-		$('#title').html(data.title);
+		document.title = data.title;
+		/* $('#title').html(data.title); */
 		$('#description').html(data.description);	
   };
 })( jQuery );

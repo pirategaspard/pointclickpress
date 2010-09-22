@@ -11,5 +11,10 @@ class pcpresponse
 		$this->data = $data;
 	}
 	
-
+	function asArray()
+	{
+		$a = array();
+		$a[] = $this;
+		return $a;
+	}
 }

@@ -81,8 +81,8 @@ class Images
 					//create directory for default image
 					dir::prep_directory($media_path.DIRECTORY_SEPARATOR.'default'.DIRECTORY_SEPARATOR);
 					//create default image and save it			
-					$success = Image::factory($temp_file)
-												->resize(800, 600, Image::WIDTH)
+					$success = Image_GD::factory($temp_file)
+												->resize(800, 600, Image_GD::WIDTH)
 												->save($media_path.DIRECTORY_SEPARATOR.'default'.DIRECTORY_SEPARATOR.$filename);		
 					
 					// did we resize & save the file to the upload dir ok?
@@ -99,8 +99,8 @@ class Images
 							//create directory to put image
 							dir::prep_directory($media_path.DIRECTORY_SEPARATOR.$screen['w'].'x'.$screen['h'].DIRECTORY_SEPARATOR);
 							
-							$success = Image::factory($temp_file)
-							->resize($screen['w'], $screen['h'], Image::WIDTH)
+							$success = Image_GD::factory($temp_file)
+							->resize($screen['w'], $screen['h'], Image_GD::WIDTH)
 							->save($media_path.DIRECTORY_SEPARATOR.$screen['w'].'x'.$screen['h'].DIRECTORY_SEPARATOR.$filename,IMAGE_QUALITY);
 						}
 					}

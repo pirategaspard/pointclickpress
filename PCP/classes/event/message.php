@@ -13,8 +13,8 @@ class event_message implements iPCPevent
 		$data = array();
 		$data['message'] = $args['event_value'];	
 		// return message response
-		$results = new pcpresponse(MESSAGE,$data); 
-		return $results;
+		$response = new pcpresponse(MESSAGE,$data); 
+		return $response->asArray();
 	}
 	
 	public function getClass()

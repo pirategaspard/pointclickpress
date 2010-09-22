@@ -36,4 +36,5 @@ define('MEDIA_PATH', $media_dir);
 define('IMAGE_QUALITY', $image_quality);
 define('SUPPORTED_SCREENS', $supported_screens);
 define('THUMBNAIL_IMAGE_SIZE', $thumbnail_size);
+define('DEFAULT_PAGE_TITLE', "PointClickPress - ");
 ?>

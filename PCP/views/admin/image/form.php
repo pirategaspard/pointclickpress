@@ -3,9 +3,25 @@
 	if (isset($image))
 	{
 ?>
+<script language="JavaScript" type="text/javascript">
+<!--
+	$().ready(function() 
+	{
+		$("form.thickbox").submit(function() 
+		{
+			var t = this.title || this.name || null;
+			var g = null;
+			// show the ThickBox
+			tb_show(t, this.action, null);
+			return true;
+		});
+	});
+// -->
+</script>
+<a href="<?php echo($back_url); ?>" >Back</a>
 <fieldset>
 	<legend>image <?php print($image->id); ?></legend>
-	<form action="<?php print($image_form_action); ?>" method="post" enctype="multipart/form-data" >
+	<form action="<?php print($image_form_action); ?>?keepThis=true&TB_iframe=true" method="post" enctype="multipart/form-data" class="thickbox" >
 		<input type="hidden" name="story_id" value="<?php print($image->story_id); ?>" >
 		<?php if(isset($_REQUEST['scene_id'])) { ?><input type="hidden" name="scene_id" value="<?php print($_REQUEST['scene_id']); ?>" <?php } ?>
 		<input type="hidden" name="id" value="<?php print($image->id); ?>" >

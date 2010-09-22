@@ -10,8 +10,19 @@
 define('REFRESH','REFRESH'); // our event name
 class event_refresh extends pcpevent implements iPCPevent
 {	
+	
+	public function __construct()
+	{
+		// init this event
+		parent::__construct();
+		$this->label = 'Scene Refresh';
+		$this->description = 'Refreshes the scene' ;	
+	}
+
 	public function execute($args=array(),&$story_data=array())
 	{
+		$results = array();
+	
 		// init response data
 		$data = array();
 		$data['filename'] = '';
@@ -33,12 +44,12 @@ class event_refresh extends pcpevent implements iPCPevent
 		if (($scene)&&($container)&&($story))
 		{
 			// put any container init events into session
-			PCP::doEvents($container->events);
+			$results = array_merge($results,PCP::doEvents($container->events));
 			// put any scene init events into session
-			PCP::doEvents($scene->events);							
+			$results = array_merge($results,PCP::doEvents($scene->events));							
 			// populate response data 					
 			$data['filename'] = $scene->getPath($story->scene_width,$story->scene_height);
-			$data['title'] = $scene->title;
+			$data['title'] = DEFAULT_PAGE_TITLE.$story->title.' : '.$scene->title;
 			$data['description'] = $scene->description;
 		}
 		// set data back into session
@@ -47,23 +58,14 @@ class event_refresh extends pcpevent implements iPCPevent
 		// do hook
 		pluginadmin::executeHook('post_scene');					
 		// return REFRESH response
-		$results = new pcpresponse(REFRESH,$data);
+		$response = new pcpresponse(REFRESH,$data);
+		$results = array_merge($results,$response->asArray());
 		return $results;
 	}
 	
 	public function getClass()
 	{
 		return get_class($this);
-	}
-	
-	public function getLabel()
-	{
-		return 'Scene Refresh';
-	}
-	
-	public function getDescription()
-	{
-		return 'Refreshes the scene';
 	}
 }
 ?>

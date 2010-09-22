@@ -24,16 +24,13 @@ class Events
 			$event_class = new $class_name; 
 			if ($event_class instanceof iPCPevent)
 			{
-				//var_dump($story_data);
-			
-				//execute event. Events can directly manipulate session's "story_data" info
-				$event_results[] = $event_class->execute(array('event_value'=>$event->event_value),$story_data);
-				
-				//var_dump($story_data);
+				// execute event. Events manipulate session's "story_data" info
+				$event_results = array_merge($event_results,$event_class->execute(array('event_value'=>$event->event_value),$story_data));
+				//$event_results = $event_class->execute(array('event_value'=>$event->event_value),$story_data);
 			}
 			else
 			{
-				throw new Exception($class_name . ' is not of type IPCPEvent.');
+				throw new Exception($class_name . ' is not of type iPCPEvent.');
 			}
 		}
 		//update session

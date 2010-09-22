@@ -17,7 +17,7 @@ Class Controller_Template_Base extends Controller_Template
 		if($this->auto_render)
 		{
 			// Initialize empty values
-			$this->template->title = 'PointClickPress';
+			$this->template->title = DEFAULT_PAGE_TITLE;
 			$this->template->scripts = array('jquery-1.4.2.min.js');
 			$this->template->styles = array('pcp.css');
 			$this->template->head = array();
