@@ -70,8 +70,10 @@ Class Controller_PCP extends Controller_Template_Base
     /*
 		This function displays a scene to the user
     */
-    function action_scene()
-    {    	
+   	function action_scene()
+    {    
+		$results = array();
+		
     	pluginadmin::executeHook('pre_scene');	    
 		// get session
 		$session = Session::instance();			
@@ -88,9 +90,9 @@ Class Controller_PCP extends Controller_Template_Base
 		}								
 				
 		// put any container init events into session
-		PCP::doEvents($container->events);						
+		$results = array_merge($results,PCP::doEvents($container->events));
 		// put any scene init events into session
-		PCP::doEvents($data['scene']->events);							
+		$results = array_merge($results,PCP::doEvents($data['scene']->events));							
 		//put scene into session
 		$session->set('scene',$data['scene']);
 		pluginadmin::executeHook('post_scene');	
@@ -106,15 +108,21 @@ Class Controller_PCP extends Controller_Template_Base
     			$JSON['filename'] = $data['scene']->getPath($data['story']->scene_width,$data['story']->scene_height);
     			$JSON['title'] = $data['scene']->title;
     			$JSON['description'] = $data['scene']->description;
+    			
+    			$response = new pcpresponse(REFRESH,$JSON);
+				$results = array_merge($results,$response->asArray());
+    			
     			// return data as JSON
-				echo json_encode($JSON);	
+				//echo json_encode($JSON);
+				echo json_encode($results);
     		}
     		else
     		{
-				/* Compose the scene*/
+				// Compose the scene 
 				$this->template->scripts = array_merge($this->template->scripts,PCP::getJSEventTypes());			
 				$this->template->scripts[] = 'grid.js'; //get grid js 
-				$this->template->head[] = View::factory('pcp/style',$data)->render();//get grid style 			
+				$this->template->head[] = View::factory('pcp/style',$data)->render();//get grid style
+				$this->template->title .= $data['story']->title.' : '.$data['scene']->title; 			
 				$data['grid'] = View::factory('pcp/grid',$data)->render(); //get grid
 				// render the scene
 				$this->template->content = View::factory('pcp/scene',$data)->render();
@@ -143,9 +151,9 @@ Class Controller_PCP extends Controller_Template_Base
 			}	
 			*/
 		}
-    }    
+    } 
   
-    /* for non-ajax cell action requests */
+    /* handles cell clicks */
     function action_cellClick()
     {
     	pluginadmin::executeHook('pre_cellClick');

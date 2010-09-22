@@ -3,14 +3,13 @@
 	<head>
 		<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
 		<meta http-equiv="Content-Language" content="en-us" />
-		<script src="<?php echo(Kohana::$base_url.'js/jquery-1.4.2.min.js'); ?>" ></script>
-		<script src="<?php echo(Kohana::$base_url.'js/admin.js'); ?>" ></script>
+		<?php foreach ($scripts as $script)	{ ?><script src="<?php echo(Kohana::$base_url.'js/'.$script); ?>" ></script><?php } ?>
+		<?php foreach ($styles as $style)	{ ?><link href="<?php echo(Kohana::$base_url.'css/'.$style); ?>" rel="stylesheet" type="text/css" ><?php } ?>
 		<title><?php echo $title;?></title>
 	</head>
 	<body>
 		<div id="container">
-			<div id="header">
-				<a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'users','action'=>'logout')))); ?>">Logout</a><br />
+			<div id="header">				
 				<?php echo $header; ?>
 			</div>
 			<div id="topmenu"><?php echo $top_menu; ?></div>

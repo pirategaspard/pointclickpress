@@ -30,7 +30,7 @@ class Model_ContainerEvent extends Model_Event
 							,e.event
 							,e.event_label
 							,e.event_value
-							,se.container_id
+							,ce.container_id
 					FROM events e
 					INNER JOIN containers_events ce
 					ON event_id = id

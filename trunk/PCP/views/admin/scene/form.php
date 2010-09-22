@@ -20,7 +20,7 @@
 			Image filename:
 			<input type="hidden" name="image_id" value="<?php print($scene->image_id); ?>" >
 			<input type="text" name="image_filename" value="<?php print($scene->filename); ?>" >
-			<a href="<?php print($assign_image_link); ?>">Assign Image</a>
+			<a href="<?php print($assign_image_link); ?>&KeepThis=true&TB_iframe=true" class="thickbox" >Assign Image</a>
 		</label>		
 		<label>
 			Scene Value:
