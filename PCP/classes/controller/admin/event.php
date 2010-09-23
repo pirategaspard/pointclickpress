@@ -62,7 +62,6 @@ Class Controller_admin_event extends Controller_Template_Admin
 			//save event
 			$results = EventsAdmin::getEvent($data)->init($_POST)->save();	
 			$session->set('results',$results);	
-			unset($_POST);
 		}
 		else
 		{
