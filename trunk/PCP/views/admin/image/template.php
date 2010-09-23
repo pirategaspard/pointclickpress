@@ -1,3 +1,3 @@
 <?php 
-	echo($image_form);
+	echo($image_form);	
 ?>

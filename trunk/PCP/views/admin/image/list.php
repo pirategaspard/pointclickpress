@@ -27,4 +27,7 @@
 				<?php } ?>
 			</table>
 		</fieldset>
-<?php } ?>
+<?php } 
+
+var_dump($_SESSION);
+?>

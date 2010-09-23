@@ -67,7 +67,7 @@ class Scenes
 					INNER JOIN containers c
 						ON s.container_id = c.id 
 						AND c.id = :container_id
-					WHERE value = :value';
+					WHERE s.value = :value';
 		$results = DB::query(Database::SELECT,$q,TRUE)
 								->param(':container_id',$container_id)
 								->param(':value',$value)

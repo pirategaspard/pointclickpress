@@ -97,7 +97,7 @@ class PCPAdmin
 	/* get a scene by container ID and value */
 	static function getSceneByContainerId($container_id,$value='')
 	{
-		return Scenes::getSceneByContainerId($container_id,$value='');
+		return Scenes::getSceneByContainerId($container_id,$value);
 	}
 
 
