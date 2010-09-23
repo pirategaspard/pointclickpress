@@ -27,10 +27,22 @@ Class Controller_admin_event extends Controller_Template_Admin
 		*/
 		$session = Session::instance();
 		$data['type'] = EventsAdmin::getEventType();		
-		if (isset($data['type']) && $data['type'] == 'story')
+		if ($data['type'] == 'Story')
 		{
 			$data['story'] = PCPAdmin::getStoryInfo(array('id'=>$session->get('story_id'),'include_containers'=>true,'include_scenes'=>false));
+			$data['story_id'] = $session->get('story_id');
 			$data['containers'] = $data['story']->containers;	
+		}
+		if ($data['type'] == 'Container')
+		{
+			$data['story_id'] = $session->get('story_id');
+			$data['container_id'] = $session->get('container_id');
+		}
+		if ($data['type'] == 'Scene')
+		{
+			$data['story_id'] = $session->get('story_id');
+			$data['container_id'] = $session->get('container_id');
+			$data['scene_id'] = $session->get('scene_id');
 		}
 			
 		$data['event'] = PCPAdmin::getEvent();
