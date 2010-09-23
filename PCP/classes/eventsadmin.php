@@ -191,28 +191,27 @@ class EventsAdmin
 		return $view;
 	}
 	
-	static function getUrlParams()
+	static function getEventType()
 	{
-		$session = Session::instance();
-		$data['url_params'] = '';
-		$data['type'] = '';
+		$type = '';
+		$session = Session::instance();		
 		if (isset($_REQUEST['story_id'])||$session->get('story_id'))
 		{
-			$data['type'] = 'Story';
+			$type = 'Story';
 		}
 		if (isset($_REQUEST['container_id'])||$session->get('container_id'))
 		{
-			$data['type'] = 'Container';
+			$type = 'Container';
 		}
 		if (isset($_REQUEST['scene_id'])||$session->get('scene_id'))
 		{
-			$data['type'] = 'Scene';
+			$type = 'Scene';
 		}
 		if (isset($_POST['cell_ids'])||$session->get('cell_ids'))
 		{
-			$data['type'] = 'Grid';
+			$type = 'Grid';
 		}	
-		return $data;
+		return $type;
 	} 
 	
 	/*

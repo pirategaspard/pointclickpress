@@ -12,10 +12,8 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		{
 			$session->set('image_id',0);			
 		}
-
-		$session = Session::instance();
 						
-		$data = EventsAdmin::getUrlParams();
+		$data['type'] = EventsAdmin::getEventType();
 		$data['scene'] = PCPAdmin::getScene(array('include_events'=>true));		
 		$data['story'] = PCPAdmin::getStoryInfo(array('id'=>$data['scene']->story_id,'include_containers'=>true,'include_scenes'=>false));
 		$data['container'] = $data['story']->containers[$data['scene']->container_id];
@@ -34,7 +32,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		
 		/* scene events */			
 		$data['event_add'] = View::factory('/admin/event/add',$data)->render();
-		$data['event_list'] = EventsAdmin::getEventsList(array('events'=>$data['scene']->events,'url_params'=>$data['url_params']));				
+		$data['event_list'] = EventsAdmin::getEventsList(array('events'=>$data['scene']->events));				
 		
 		/* scene */
 		$data['scene_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'save')));						
@@ -51,7 +49,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 			$data['back_url'] = Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?scene_id='.$data['scene']->id;						
 			$data['type'] = 'Grid';
 			$data['grid_event_form'] = View::factory('/admin/event/form_grid',$data)->render(); //inline form
-			$data['grid_event_list'] = EventsAdmin::getEventsList(array('events'=>$data['scene']->grid_events,'url_params'=>$data['url_params'],'type'=>$data['type']));		
+			$data['grid_event_list'] = EventsAdmin::getEventsList(array('events'=>$data['scene']->grid_events,'type'=>$data['type']));		
 			
 			/* Grid */
 			$data['grid'] = View::factory('/admin/scene/grid',$data)->render();
@@ -85,7 +83,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 				if ($session->get('scene_id') == 0)
 				{
 					// check that there is not already a scene in this container with this value
-					$scene = PCPAdmin::getSceneByContainerId($_POST['container_id'],$_POST['value']);								
+					$scene = PCPAdmin::getSceneByContainerId($_POST['container_id'],$_POST['value']);													
 					if ($scene->id > 0)
 					{				
 						$results['success'] = 0;

@@ -39,7 +39,7 @@ Class Controller_admin_story extends Controller_Template_Admin
 	*/
 	function action_edit()
 	{		
-		$data = EventsAdmin::getUrlParams();
+		$data['type'] = EventsAdmin::getEventType();
 		$data['story'] = PCPAdmin::getStory(array('include_events'=>true,'include_containers'=>TRUE));
 		$data['containers'] = $data['story']->containers;
 		$data['events'] = $data['story']->events;				

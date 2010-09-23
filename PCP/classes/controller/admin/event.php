@@ -26,7 +26,7 @@ Class Controller_admin_event extends Controller_Template_Admin
 		$data['container'] = $data['story']->containers[$_REQUEST['container_id']];
 		*/
 		$session = Session::instance();
-		$data = EventsAdmin::getUrlParams();		
+		$data['type'] = EventsAdmin::getEventType();		
 		if (isset($data['type']) && $data['type'] == 'story')
 		{
 			$data['story'] = PCPAdmin::getStoryInfo(array('id'=>$session->get('story_id'),'include_containers'=>true,'include_scenes'=>false));
@@ -51,7 +51,7 @@ Class Controller_admin_event extends Controller_Template_Admin
 		$session->set('results',$results);
 		if(count($_POST) > 0)
 		{
-			$data = EventsAdmin::getUrlParams();
+			$data['type'] = EventsAdmin::getEventType();
 			if (isset($_POST['cell_ids']))
 			{
 				$_POST['cells'] = explode(',',$_POST['cell_ids']);
