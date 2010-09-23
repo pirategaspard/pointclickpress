@@ -30,9 +30,9 @@
 					} 
 				?>
 			</td>
-			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'edit'))).'?event_id='.$event->id.$url_params); ?>" class="thickbox">Edit</a></td>
+			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'edit'))).'?event_id='.$event->id); ?>" class="thickbox">Edit</a></td>
 			<td>&nbsp;&nbsp;</td>
-			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'delete'))).'?event_id='.$event->id.$url_params); ?>">Delete</a></td>
+			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'delete'))).'?event_id='.$event->id); ?>">Delete</a></td>
 		</tr>
 		<?php } ?>
 	</table>
