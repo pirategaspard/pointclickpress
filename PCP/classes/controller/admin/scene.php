@@ -6,7 +6,15 @@ Class Controller_admin_scene extends Controller_Template_Admin
 	function action_edit()
 	{	
 		$session = Session::instance();
-		
+	
+		// if we have a new scene, reset the image_id to zero
+		if ((isset($_REQUEST['scene_id'])) && ($_REQUEST['scene_id'] == 0))
+		{
+			$session->set('image_id',0);			
+		}
+
+		$session = Session::instance();
+						
 		$data = EventsAdmin::getUrlParams();
 		$data['scene'] = PCPAdmin::getScene(array('include_events'=>true));		
 		$data['story'] = PCPAdmin::getStoryInfo(array('id'=>$data['scene']->story_id,'include_containers'=>true,'include_scenes'=>false));
