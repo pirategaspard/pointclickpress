@@ -63,10 +63,14 @@ Class Controller_admin_story extends Controller_Template_Admin
 	*/
 	function action_save()
 	{
+		$session = Session::instance();
 		$results = array();
+		$session->set('results',$results);
 		if(count($_POST) > 0)
 		{
 			$results = PCPAdmin::getStory()->init($_POST)->save();
+			$session->set('story_id',$results['id']);
+			$session->set('results',$results);
 			unset($_POST);
 		}
 		else
@@ -74,7 +78,7 @@ Class Controller_admin_story extends Controller_Template_Admin
 			$results = 'error';
 		}
 		//redirect to edit the story just saved
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'edit')).'?story_id='.$results['id']);
+		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'edit')));
 	}
 	
 	function action_delete()

@@ -25,12 +25,11 @@ Class Controller_admin_event extends Controller_Template_Admin
 		$data['containers'] = $data['story']->containers;
 		$data['container'] = $data['story']->containers[$_REQUEST['container_id']];
 		*/
-		
-		$data = EventsAdmin::getUrlParams();
-		
-		if (isset($data['story_id']))
+		$session = Session::instance();
+		$data = EventsAdmin::getUrlParams();		
+		if (isset($data['type']) && $data['type'] == 'story')
 		{
-			$data['story'] = PCPAdmin::getStoryInfo(array('id'=>$data['story_id'],'include_containers'=>true,'include_scenes'=>false));
+			$data['story'] = PCPAdmin::getStoryInfo(array('id'=>$session->get('story_id'),'include_containers'=>true,'include_scenes'=>false));
 			$data['containers'] = $data['story']->containers;	
 		}
 			
@@ -47,7 +46,9 @@ Class Controller_admin_event extends Controller_Template_Admin
 	
 	function action_save()
 	{
+		$session = Session::instance();
 		$results = array();
+		$session->set('results',$results);
 		if(count($_POST) > 0)
 		{
 			$data = EventsAdmin::getUrlParams();
@@ -59,15 +60,18 @@ Class Controller_admin_event extends Controller_Template_Admin
 			$myevent = new $_POST['event'];
 			$_POST['event_label'] = $myevent->getLabel();
 			//save event
-			EventsAdmin::getEvent($data)->init($_POST)->save();		
+			$results = EventsAdmin::getEvent($data)->init($_POST)->save();	
+			$session->set('results',$results);	
 			unset($_POST);
 		}
 		else
 		{
-			$results = 'error';
+				$results['success'] = 0;
+				$results['message'] = 'Could not save event';
+				$session->set('results',$results);
 		}
 		//redirect to add a new story
-		Request::instance()->redirect($_REQUEST['back_url']);
+		Request::instance()->redirect($_POST['back_url']);
 	}
 	
 	function action_delete()

@@ -10,7 +10,6 @@ Class Controller_admin_container extends Controller_Template_Admin
 	
 	function action_edit()
 	{		
-		
 		$data = EventsAdmin::getUrlParams();
 		$data['container'] = PCPAdmin::getContainer(array('include_scenes'=>TRUE,'include_events'=>TRUE));
 		$data['story'] = PCPAdmin::getStory(array('id'=>$data['container']->story_id));
@@ -51,25 +50,31 @@ Class Controller_admin_container extends Controller_Template_Admin
 	
 	function action_save()
 	{
+		$session = Session::instance();
 		$results = array();
+		$session->set('results',$results);
 		if(count($_POST) > 0)
 		{
 			$results = PCPAdmin::getContainer()->init($_POST)->save();
+			$session->set('container_id',$results['id']);
 			unset($_POST);
 		}
 		else
 		{
 			$results = 'error';
 		}
+		
+		$session->set('results',$results);
+		
 		//redirect to add a new story
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'container','action'=>'edit')).'?story_id='.$_REQUEST['story_id'].'&container_id='.$results['id']);
+		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'container','action'=>'edit')));
 	}
 	
 	function action_delete()
 	{		
 		$results = PCPAdmin::getcontainer()->init(array('id'=>$_REQUEST['container_id']))->delete();
 		//Go back to the parent
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'edit')).'?story_id='.$_REQUEST['story_id']);
+		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'edit')));
 	}
 }
 

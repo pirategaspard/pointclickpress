@@ -4,7 +4,9 @@ Class Controller_admin_scene extends Controller_Template_Admin
 {
 	
 	function action_edit()
-	{		
+	{	
+		$session = Session::instance();
+		
 		$data = EventsAdmin::getUrlParams();
 		$data['scene'] = PCPAdmin::getScene(array('include_events'=>true));		
 		$data['story'] = PCPAdmin::getStoryInfo(array('id'=>$data['scene']->story_id,'include_containers'=>true,'include_scenes'=>false));
@@ -15,7 +17,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		$data['scene']->setTitle((strlen($data['scene']->title)>0) ? $data['scene']->title : $data['container']->title); //if (strlen($data['scene']->title)==0) $data['scene']->setTitle($data['container']->title);
 		// set the story size 
 		$data['story']->setDimensions(800,600);
-		$data['assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?story_id='.$data['scene']->story_id.'&container_id='.$data['scene']->container_id.'&scene_id='.$_REQUEST['scene_id'];
+		$data['assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?story_id='.$data['scene']->story_id.'&container_id='.$data['scene']->container_id.'&scene_id='.$session->get('scene_id');
 		
 		$data['story_info'] =  View::factory('/admin/story/info',$data)->render();
 		$data['container_info'] =  View::factory('/admin/container/info',$data)->render();
@@ -56,7 +58,9 @@ Class Controller_admin_scene extends Controller_Template_Admin
 	
 	function action_save()
 	{
+		$session = Session::instance();		
 		$results = array();
+		$session->set('results',$results);
 		if(count($_POST) > 0)
 		{
 			$results['success'] = 1;
@@ -65,21 +69,43 @@ Class Controller_admin_scene extends Controller_Template_Admin
 			if ((!isset($_POST['container_id'])) ||(strlen($_POST['container_id'])<=0)||($_POST['container_id']<=0))
 			{	
 				$results = PCPAdmin::getContainer()->init($_POST)->save();
+				$_POST['container_id'] = $results['id'];
 			}				
 			if ($results['success'])
-			{
+			{				
+				//check for duplicates
+				if ($session->get('scene_id') == 0)
+				{
+					// check that there is not already a scene in this container with this value
+					$scene = PCPAdmin::getSceneByContainerId($_POST['container_id'],$_POST['value']);								
+					if ($scene->id > 0)
+					{				
+						$results['success'] = 0;
+						$results['message'] = 'Containers cannot have two scenes with the same value';
+						$session->set('results',$results);
+						//redirect to edit screen
+						Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')));
+					}
+				}
+				
 				//save record to db
 				$results = PCPAdmin::getScene()->init($_POST)->save();
+				if ($results['success'])
+				{
+					// update scene id in session
+					$session->set('scene_id',$results['id']);
+				}
 			}
 			unset($_POST);
-		
+			$session->set('results',$results);
+			
 			//redirect to edit screen
-			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?story_id='.$_REQUEST['story_id'].'&container_id='.$_REQUEST['container_id'].'&scene_id='.$_REQUEST['id']);
+			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')));
 		}
 		else
 		{
 			// We aren't saving anything, go back to the parent
-			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'container','action'=>'edit')).'?story_id='.$_REQUEST['story_id'].'&container_id='.$_REQUEST['container_id']);
+			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'container','action'=>'edit')));
 		}
 	}
 	
@@ -87,7 +113,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 	{		
 		$results = PCPAdmin::getScene()->init(array('id'=>$_REQUEST['scene_id']))->delete();
 		//Go back to the parent
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'container','action'=>'edit')).'?story_id='.$_REQUEST['story_id'].'&container_id='.$_REQUEST['container_id']);
+		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'container','action'=>'edit')));
 	}
 }
 
