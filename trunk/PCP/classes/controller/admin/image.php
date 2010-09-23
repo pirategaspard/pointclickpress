@@ -30,19 +30,20 @@ Class Controller_admin_image extends Controller_Template_Admin
 	}
 	
 	function action_list()
-	{		
-		if (isset($_REQUEST['scene_id']))	
+	{	
+		$session = Session::instance();	
+		if ($session->get('scene_id'))	
 		{
-			$data['back_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit'))).'?scene_id='.$_REQUEST['scene_id'];
+			$data['back_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')));
 		}
 		else
 		{						
 			$data['back_url'] = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
 		}
-		$data['images'] = PCPAdmin::getImages(array('story_id'=>$_REQUEST['story_id']));
-		if (isset($_REQUEST['scene_id']))
+		$data['images'] = PCPAdmin::getImages(array('story_id'=>$session->get('story_id')));
+		if ($session->get('scene_id'))
 		{
-			$data['assign_image_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'assign'))).'?scene_id='.$_REQUEST['scene_id'];
+			$data['assign_image_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'assign')));
 		}	
 		$data['add_image_link'] =  View::factory('/admin/image/add',$data)->render();
 		
@@ -53,19 +54,19 @@ Class Controller_admin_image extends Controller_Template_Admin
 	
 	function action_save()
 	{		
+		$session = Session::instance();
 		$results = Images::upload();
+		$session->set('results',$results);
 		if ($results['success'])
 		{			
-			if (isset($_REQUEST['scene_id']))
+			if ($session->get('scene_id'))
 			{
-				$_REQUEST['image_id'] = $results['image_id'];
+				$session->set('image_id',$results['image_id']);
 				action_assign();
 			}	
 			else
 			{
-				//redirect to edit screen
-				$params = $this->getURLParams();
-				Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'image','action'=>'edit')).$params.'&image_id='.$results['image_id']);
+				Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'image','action'=>'edit')));
 			}
 		}
 		else
@@ -73,50 +74,31 @@ Class Controller_admin_image extends Controller_Template_Admin
 			//var_dump($results); die();
 			//error;
 			$params = $this->getURLParams();
-			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'image','action'=>'edit')).$params.'&image_id='.$_REQUEST['id']);		
+			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'image','action'=>'edit')));		
 		}
 	}
 	
 	function action_assign()
-	{				
-		if ((isset($_REQUEST['scene_id']))&&isset($_REQUEST['image_id']))
+	{		
+		$session = Session::instance();				
+		if ($session->get('scene_id') && $session->get('image_id'))
 		{
 			$scene = PCPAdmin::getScene();
-			$results = $scene->init(array('image_id'=>$_REQUEST['image_id']))->save();
-			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?scene_id='.$_REQUEST['scene_id']);
+			$results = $scene->init(array('image_id'=>$session->get('image_id')))->save();
+			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')));
 		}
 		else
 		{
 			//Go back to the parent
-			$params = $this->getURLParams();
-			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'image','action'=>'list')).$params);
+			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'image','action'=>'list')));
 		}
 	}
 	
 	function action_delete()
-	{	
-		$params = $this->getURLParams();	
+	{		
 		$results = Images::getimage()->init(array('id'=>$_REQUEST['id']))->delete();
 		//Go back to the parent
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'image','action'=>'edit')).$params);
-	}
-	
-	function getURLParams()
-	{
-		if (isset($_REQUEST['story_id']))
-		{
-			$params = '?story_id='.$_REQUEST['story_id'];
-		}
-		else
-		{
-			$params = '?';
-		}
-
-		if (isset($_REQUEST['scene_id']))
-		{
-			$params .= '&scene_id='.$_REQUEST['scene_id'];
-		}
-		return $params;
+		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'image','action'=>'edit')));
 	}
 }
 

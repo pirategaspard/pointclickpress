@@ -17,5 +17,6 @@
 		echo($grid_event_form);
 		echo($grid_event_list);  	
 	}
-	
+
+	var_dump($_SESSION);	
 ?>

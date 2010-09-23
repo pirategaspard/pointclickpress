@@ -193,30 +193,22 @@ class EventsAdmin
 	
 	static function getUrlParams()
 	{
+		$session = Session::instance();
 		$data['url_params'] = '';
-		if (isset($_REQUEST['story_id']))
+		$data['type'] = '';
+		if (isset($_REQUEST['story_id'])||$session->get('story_id'))
 		{
-			$data['story_id'] = $_REQUEST['story_id'];			
-			$data['url_params'] .= '&story_id='.$_REQUEST['story_id'];
 			$data['type'] = 'Story';
 		}
-		if (isset($_REQUEST['container_id']))
+		if (isset($_REQUEST['container_id'])||$session->get('container_id'))
 		{
-			$data['container_id'] = $_REQUEST['container_id'];
-			$data['url_params'] .= '&container_id='.$_REQUEST['container_id'];
 			$data['type'] = 'Container';
 		}
-		if (isset($_REQUEST['scene_id']))
+		if (isset($_REQUEST['scene_id'])||$session->get('scene_id'))
 		{
-			$data['scene_id'] = $_REQUEST['scene_id'];
-			$data['url_params'] .= '&scene_id='.$_REQUEST['scene_id'];
 			$data['type'] = 'Scene';
 		}
-		if (isset($_REQUEST['id']))
-		{
-			$data['id'] = $_REQUEST['id'];
-		}
-		if (isset($_POST['cell_ids']))
+		if (isset($_POST['cell_ids'])||$session->get('cell_ids'))
 		{
 			$data['type'] = 'Grid';
 		}	

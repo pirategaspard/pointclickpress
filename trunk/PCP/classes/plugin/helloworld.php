@@ -23,7 +23,8 @@ class plugin_helloworld implements ipcpplugin
 	public function getHooks()
 	{
 		// You can list multiple hooks to be called from
-		return array('post_start_story','display_pre_scene','display_post_scene');
+		//return array('post_start_story','display_pre_scene','display_post_scene');
+		return array();
 	}
 		
 	public function execute($hook_name='')
