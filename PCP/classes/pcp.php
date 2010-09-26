@@ -156,6 +156,11 @@ class PCP
 	{	
 		return Events::getJSEventTypes();
 	}
+	
+	static function getScreens()
+	{
+		return Screens::getScreens();
+	}
 
 }
 ?>
