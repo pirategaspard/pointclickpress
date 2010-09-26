@@ -23,7 +23,14 @@ Class Controller_PCP extends Controller_Template_Base
     */
     function action_story()
     {
+    	// set default story screen size
+    	$session = Session::instance();	
+    	$session->set('screen_width',DEFAULT_STORY_WIDTH);
+		$session->set('screen_height',DEFAULT_STORY_HEIGHT);
+    	
+    
 		$data['story'] = PCP::getStory();
+		$data['screens'] = PCP::getScreens();
 		$this->template->scripts = array_merge($this->template->scripts,PCP::getJSEventTypes());
 		$this->template->scripts[] = 'screen.js'; //get screen js to determine user's screen resolution 
         $this->template->content = View::factory('pcp/story',$data)->render();
@@ -37,9 +44,17 @@ Class Controller_PCP extends Controller_Template_Base
     {
 		if (isset($_REQUEST['story_id']))
 		{			
+		
 			pluginadmin::executeHook('pre_start_story');									
 			// Get the current session
 			$session = Session::instance();	
+			// get user selected screen size
+			if (isset($_POST['screens']))
+			{				
+				$screen = explode('x',$_POST['screens']);				
+				$session->set('screen_width',$screen[0]);
+				$session->set('screen_height',$screen[1]);
+			}
 			
 			//get the story
 			$story = PCP::getStory();

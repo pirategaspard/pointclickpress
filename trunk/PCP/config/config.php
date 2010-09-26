@@ -37,4 +37,7 @@ define('IMAGE_QUALITY', $image_quality);
 define('SUPPORTED_SCREENS', $supported_screens);
 define('THUMBNAIL_IMAGE_SIZE', $thumbnail_size);
 define('DEFAULT_PAGE_TITLE', "PointClickPress - ");
+
+define('DEFAULT_STORY_WIDTH', 800);
+define('DEFAULT_STORY_HEIGHT', 600);
 ?>

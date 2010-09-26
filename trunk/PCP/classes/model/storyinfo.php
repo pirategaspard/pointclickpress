@@ -12,25 +12,23 @@ class Model_StoryInfo extends Model_Story
 		parent::__construct($args);			
 	}
 	
-	function setDimensions($orig_width=800,$orig_height=600)
+	// set the story screen size
+	function setDimensions($orig_width=DEFAULT_STORY_WIDTH,$orig_height=DEFAULT_STORY_HEIGHT)
 	{
 		$screens = Screens::getScreens();
-		$width = 800;
-		$height = 600;
+		$width = $orig_width;
+		$height = $orig_height;
 		foreach($screens as $screen)
 		{
-			if (($orig_width >= $screen['w']))
+			if (($orig_width >= $screen['w'])&&($orig_width >= $screen['h']))
 			{				
 				$width = $screen['w'];
-			}
-			if (($orig_width >= $screen['h']))
-			{
 				$height = $screen['h'];
 			}
-		}
-				
+		}	
 		$this->scene_width = $width;
 		$this->scene_height = $height;
+		
 		$this->cell_width = round($this->scene_width / $this->grid_x);
 		$this->cell_height = round($this->scene_height / $this->grid_y);
 	}
