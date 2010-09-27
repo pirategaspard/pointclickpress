@@ -25,6 +25,7 @@ Class Controller_Template_Admin extends Controller_Template_Base
 				$this->template->styles[] = 'thickbox.css';
 				$this->template->header = View::factory('/admin/header')->render();	;
 				$this->template->message_console = '';
+				$this->template->footer = View::factory('admin/footer')->render();
 			}
 		}
 		else

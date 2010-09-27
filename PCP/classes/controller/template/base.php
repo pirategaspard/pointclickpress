@@ -25,7 +25,7 @@ Class Controller_Template_Base extends Controller_Template
 			$this->template->top_menu = '';
 			$this->template->content = '';
 			$this->template->bottom_menu = '';
-			$this->template->footer = '';
+			$this->template->footer = View::factory('pcp/footer')->render();
 		}
 	}
 
