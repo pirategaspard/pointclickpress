@@ -1,6 +1,6 @@
 body { }
-#container {}
-#header {}
+#container {margin: 0 auto; width:80%;}
+#header {float: right;}
 #topmenu {}
 #content {}
 #scene { text-align: center;}
@@ -8,3 +8,8 @@ body { }
 #grid a {display:block; float: left; } /* border: solid 1px black; margin: -1px; */
 #bottommenu {}
 #footer {}
+
+
+.menu {}
+ul.menu {display: inline;}
+ul.menu li {display: inline;} 

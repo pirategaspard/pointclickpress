@@ -2,6 +2,8 @@
 
 class Usersadmin
 {
+	static protected $session_key = 'loggedin_user_id';
+
 	public static function getUser($args=array())
 	{
 		$user = new Model_Useradmin($args);		
@@ -53,7 +55,6 @@ class Usersadmin
 	
 	public static function login($id = 0)
 	{	
-		$session_key = 'user_id';
 		$loggedin = FALSE; 
 		$session = Session::instance();
 		$user = UsersAdmin::getUser(array('id'=>$id));		
@@ -64,7 +65,7 @@ class Usersadmin
 			$user->last_ip_address = $_SERVER['REMOTE_ADDR'];
 			$user->save();
 			$session->regenerate();
-			$session->set($session_key, $user->id);
+			$session->set(Usersadmin::$session_key, $user->id);
 			$loggedin = TRUE;
 		}
 		return $loggedin;
@@ -83,10 +84,9 @@ class Usersadmin
 	
 	public static function isloggedin()
 	{		
-		$session_key = 'user_id';
 		$results = FALSE;
 		$session = Session::instance();
-		$id = $session->get($session_key,0);
+		$id = $session->get(Usersadmin::$session_key,0);
 		if ($id > 0)
 		{
 			$results = TRUE;
@@ -113,7 +113,7 @@ class Usersadmin
 				$user->username = $args['username'];	
 				$user->password = UsersAdmin::hash($args['password']);
 				$user->logins = 0;	
-				$user->created = time();
+				//$user->created = time();
 				$user->last_ip_address = $_SERVER['REMOTE_ADDR'];				
 				
 				$results = $user->save();
