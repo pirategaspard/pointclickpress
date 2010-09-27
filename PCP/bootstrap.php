@@ -50,7 +50,17 @@ ini_set('unserialize_callback_func', 'spl_autoload_call');
  * - boolean  caching     enable or disable internal caching                 FALSE
  */
  
- //automatically create the base_url
+//__DIR__ support for PHP < 5.3
+if (!defined('__DIR__')) { 
+  class __FILE_CLASS__ { 
+    function  __toString() { 
+      $X = debug_backtrace(); 
+      return dirname($X[1]['file']); 
+    } 
+  } 
+  define('__DIR__', new __FILE_CLASS__); 
+} 
+//automatically create the base_url
 $app_path = '/'.substr(strrchr(__DIR__,DIRECTORY_SEPARATOR),1).'/';
 Kohana::init(array('base_url' => $app_path,'index_file' => ''));
 
