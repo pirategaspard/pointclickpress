@@ -32,6 +32,12 @@
 				echo ('<option value="'.$container->id.'"'.$selected.' >'.$container->title.'</option>');
 			} ?>
 		</select>
+		<label>
+			Cover Image filename:
+			<input type="hidden" name="image_id" value="<?php print($story->image_id); ?>" >
+			<input type="text" name="image_filename" value="<?php print($story->filename); ?>" >
+			<a href="<?php print($assign_image_link); ?>&KeepThis=true&TB_iframe=true" class="thickbox" >Assign Image</a>
+		</label>
 		</label>
 		<input type="submit" name="submit" value="Save" />
 	</form>

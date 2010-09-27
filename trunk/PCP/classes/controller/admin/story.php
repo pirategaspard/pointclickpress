@@ -51,7 +51,8 @@ Class Controller_admin_story extends Controller_Template_Admin
 		$data['event_list'] = View::factory('/admin/event/list',$data)->render();	//get event information and load list of events
 		
 		$data['story_info'] =  View::factory('/admin/story/info',$data)->render();
-		$data['story_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'story','action'=>'save')));			
+		$data['story_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'story','action'=>'save')));
+		$data['assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?story_id='.$data['story']->id;
 		$data['story_form'] = View::factory('/admin/story/form',$data)->render();
 		
 		$this->template->top_menu = View::factory('/admin/story/top_menu',$data)->render();
@@ -78,6 +79,18 @@ Class Controller_admin_story extends Controller_Template_Admin
 			$results = 'error';
 		}
 		//redirect to edit the story just saved
+		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'edit')));
+	}
+	
+	function action_assignStoryImage()
+	{		
+		$session = Session::instance();	
+		PCPAdmin::getArgs();			
+		if ($session->get('story_id') && $session->get('image_id'))
+		{
+			$story = PCPAdmin::getStory();
+			$results = $story->init(array('image_id'=>$session->get('image_id')))->save();			
+		}
 		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'edit')));
 	}
 	

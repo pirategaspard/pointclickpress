@@ -9,6 +9,8 @@ class Model_Story extends Model
 	protected $grid_x = "";
 	protected $grid_y = "";
 	protected $first_scene_container_id = null;
+	protected $image_id = null;
+	protected $filename = "";
 	protected $events = array();
 	protected $containers = array();
 	
@@ -43,6 +45,14 @@ class Model_Story extends Model
 		{
 			$this->first_scene_container_id = $args['first_scene_container_id'];
 		}
+		if (isset($args['image_id']))
+		{			
+			$this->image_id = $args['image_id'];							
+		}
+		if (isset($args['filename']))
+		{			
+			$this->filename = $args['filename'];							
+		}
 		if (isset($args['grid_x']))
 		{
 			$this->grid_x = $args['grid_x'];
@@ -75,15 +85,19 @@ class Model_Story extends Model
 		if ($this->id > 0)
 		{
 			
-			$q = '	SELECT 	id
-							,title
-							,author
-							,description
-							,first_scene_container_id
-							,grid_x
-							,grid_y
+			$q = '	SELECT 	s.id
+							,s.title
+							,s.author
+							,s.description
+							,s.first_scene_container_id
+							,s.image_id
+							,i.filename
+							,s.grid_x
+							,s.grid_y
 					FROM stories s
-					WHERE id = :id';
+					LEFT OUTER JOIN images i
+						ON s.image_id = i.id
+					WHERE s.id = :id';
 			$results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();				
 							
 			if (count($results) > 0 )
@@ -107,13 +121,15 @@ class Model_Story extends Model
 						,author
 						,description
 						,first_scene_container_id
+						,image_id
 						,grid_x
 						,grid_y)
 					VALUES (
 						:title
 						,:author
 						,:description
-						,:first_scene_container_id						
+						,:first_scene_container_id
+						,:image_id						
 						,:grid_x
 						,:grid_y
 						)';
@@ -123,6 +139,7 @@ class Model_Story extends Model
 								->param(':author',$this->author)
 								->param(':description',$this->description)
 								->param(':first_scene_container_id',$this->first_scene_container_id)
+								->param(':image_id',$this->image_id)
 								->param(':grid_x',$this->grid_x)
 								->param(':grid_y',$this->grid_y)
 								->execute();			
@@ -144,6 +161,7 @@ class Model_Story extends Model
 							,author = :author
 							,description = :description
 							,first_scene_container_id = :first_scene_container_id
+							,image_id = :image_id
 							,grid_x = :grid_x
 							,grid_y = :grid_y
 						WHERE id = :id';
@@ -152,6 +170,7 @@ class Model_Story extends Model
 										->param(':author',$this->author)
 										->param(':description',$this->description)	
 										->param(':first_scene_container_id',$this->first_scene_container_id)
+										->param(':image_id',$this->image_id)
 										->param(':grid_x',$this->grid_x)
 										->param(':grid_y',$this->grid_y)
 										->param(':id',$this->id)
@@ -159,8 +178,8 @@ class Model_Story extends Model
 			}
 			catch( Database_Exception $e )
 			{
-			echo('somethings wrong story.php 165');
-			  echo $e->getMessage(); die();
+				echo('somethings wrong in '.__FILE__.' on '.__LINE__);
+			  	echo $e->getMessage(); die();
 			}
 		}
 		return $results;

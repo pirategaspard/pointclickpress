@@ -121,6 +121,18 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		//Go back to the parent
 		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'container','action'=>'edit')));
 	}
+	
+	function action_assignSceneImage()
+	{		
+		$session = Session::instance();	
+		PCPAdmin::getArgs();			
+		if ($session->get('scene_id') && $session->get('image_id'))
+		{
+			$scene = PCPAdmin::getScene();
+			$results = $scene->init(array('image_id'=>$session->get('image_id')))->save();			
+		}
+		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')));
+	}
 }
 
 ?>
