@@ -14,7 +14,7 @@ class Images
 	{				
 		// get all the Images in the db
 		$q = '	SELECT i.*
-				FROM Images i
+				FROM images i
 				INNER JOIN stories s
 				ON i.story_id = s.id
 				WHERE 1 = 1 ';
