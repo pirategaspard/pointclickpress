@@ -431,14 +431,15 @@ CREATE TABLE IF NOT EXISTS `stories` (
   `author` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `first_scene_container_id` bigint(20) unsigned default NULL,
+  `image_id` bigint(20) default NULL,
   `grid_x` smallint(5) unsigned NOT NULL,
   `grid_y` smallint(5) unsigned NOT NULL,
   `create_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
-INSERT INTO `stories` (`id`, `title`, `author`, `description`, `first_scene_container_id`, `grid_x`, `grid_y`, `create_date`) VALUES
-(2, 'A Walk Down The Cobble Stone Path', 'Dan', 'A Walk through the forest on the mysterious cobblestone path', 18, 10, 10, '2010-07-02 08:36:56');
+INSERT INTO `stories` (`id`, `title`, `author`, `description`, `first_scene_container_id`, `image_id`, `grid_x`, `grid_y`, `create_date`) VALUES
+(2, 'A Walk Down The Cobble Stone Path', 'Dan', 'A Walk through the forest on the mysterious cobblestone path', 18, 0, 10, 10, '2010-07-02 08:36:56');
 
 CREATE TABLE IF NOT EXISTS `stories_events` (
   `story_id` bigint(20) unsigned NOT NULL,
