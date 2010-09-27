@@ -5,6 +5,7 @@
 <h1><?php echo ($story->title); ?></h1>
 <h3>By: <?php echo ($story->author); ?></h3>
 <p><?php echo ($story->description); ?></p>
+<img src="<?php echo (Kohana::$base_url.MEDIA_PATH.'/'.$story->id.'/'.$story->image_id.'/'.THUMBNAIL_IMAGE_SIZE.'/'.$story->filename); ?>" />
 
 <div id="options">
 	<h3>Options:</h3>

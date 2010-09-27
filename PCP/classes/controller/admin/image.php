@@ -11,6 +11,7 @@ Class Controller_admin_image extends Controller_Template_Admin
 	function action_edit()
 	{		
 		$data['image'] = PCPAdmin::getImage();
+		$data['story_id'] = $session->get('story_id');
 		if (strlen($data['image']->filename) > 0)
 		{
 			$data['image_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'delete')));			
@@ -32,6 +33,7 @@ Class Controller_admin_image extends Controller_Template_Admin
 	function action_list()
 	{	
 		$session = Session::instance();	
+		$data['story_id'] = $session->get('story_id');
 		if ($session->get('scene_id'))	
 		{
 			$data['back_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')));
@@ -43,8 +45,12 @@ Class Controller_admin_image extends Controller_Template_Admin
 		$data['images'] = PCPAdmin::getImages(array('story_id'=>$session->get('story_id')));
 		if ($session->get('scene_id'))
 		{
-			$data['assign_image_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'assign')));
+			$data['assign_image_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'assignSceneImage')));
 		}	
+		elseif ($session->get('story_id'))
+		{
+			$data['assign_image_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'story','action'=>'assignStoryImage')));
+		}
 		$data['add_image_link'] =  View::factory('/admin/image/add',$data)->render();
 		
 		$this->template->header = '' ;
@@ -78,7 +84,8 @@ Class Controller_admin_image extends Controller_Template_Admin
 		}
 	}
 	
-	function action_assign()
+	/*
+	function action_assignScene()
 	{		
 		$session = Session::instance();				
 		if ($session->get('scene_id') && $session->get('image_id'))
@@ -93,6 +100,23 @@ Class Controller_admin_image extends Controller_Template_Admin
 			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'image','action'=>'list')));
 		}
 	}
+	
+	function action_assignStory()
+	{		
+		$session = Session::instance();				
+		if ($session->get('story_id') && $session->get('image_id'))
+		{
+			$story = PCPAdmin::getStory();
+			$results = $story->init(array('image_id'=>$session->get('image_id')))->save();
+			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'edit')));
+		}
+		else
+		{
+			//Go back to the parent
+			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'image','action'=>'list')));
+		}
+	}
+	*/
 	
 	function action_delete()
 	{		

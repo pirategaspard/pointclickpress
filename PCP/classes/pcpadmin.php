@@ -101,13 +101,15 @@ class PCPAdmin
 	}
 
 
-	static private function getArgs($args=array())
+	static public function getArgs($args=array())
 	{
 
-		$session = Session::instance();
+		$session = Session::instance();		
 		if (isset($_REQUEST['story_id']))
 		{
 			$session->set('story_id',$_REQUEST['story_id']);
+			$session->delete('container_id');
+			$session->delete('scene_id');
 		}
 		if (isset($_REQUEST['container_id']))
 		{
