@@ -113,7 +113,6 @@ class Usersadmin
 				$user->username = $args['username'];	
 				$user->password = UsersAdmin::hash($args['password']);
 				$user->logins = 0;	
-				//$user->created = time();
 				$user->last_ip_address = $_SERVER['REMOTE_ADDR'];				
 				
 				$results = $user->save();
