@@ -1,15 +1,7 @@
 
 <IfModule mod_rewrite.c>
-	
-	<IfModule mod_headers.c>
-		# any Header directives go here
-		# 1 WEEK
-		<FilesMatch "\.(jpg|jpeg|png|gif|swf)$">
-		Header set Cache-Control "max-age=604800, public"
-		</FilesMatch>
-	</IfModule>
 
-	# Turn on URL rewriting
+	## Turn on URL rewriting
 	RewriteEngine On
 
 	# Put your installation directory here:
@@ -36,4 +28,17 @@
 	# Rewrite all other URLs to index.php/URL
 	RewriteRule ^(.*)$ index.php/$1 [PT,L]
 
+	
+	## Performance Tuning	
+	#Cache Images
+	<IfModule mod_headers.c>
+		# any Header directives go here
+		# 1 WEEK
+		<FilesMatch "\.(jpg|jpeg|png|gif|swf)$">
+		Header set Cache-Control "max-age=604800, public"
+		</FilesMatch>
+	</IfModule>
+	
+	
+	
 </IfModule>
