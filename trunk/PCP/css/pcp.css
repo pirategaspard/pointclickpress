@@ -7,7 +7,7 @@ body { }
 #grid {margin: 0 auto; width:80%; } /* overflow: hidden;} */
 #grid a {display:block; float: left; } /* border: solid 1px black; margin: -1px; */
 #bottommenu {}
-#footer {}
+#footer {text-align: center;}
 
 
 .menu {}
