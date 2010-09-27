@@ -1,6 +1,13 @@
 
 <IfModule mod_rewrite.c>
 	
+	<IfModule mod_headers.c>
+		# any Header directives go here
+		# 1 WEEK
+		<FilesMatch "\.(jpg|jpeg|png|gif|swf)$">
+		Header set Cache-Control "max-age=604800, public"
+		</FilesMatch>
+	</IfModule>
 
 	# Turn on URL rewriting
 	RewriteEngine On
@@ -8,7 +15,7 @@
 	# Put your installation directory here:
 	# If your URL is www.example.com/kohana/, use /kohana/
 	# If your URL is www.example.com/, use /
-	RewriteBase /PCP/
+	RewriteBase /demo/
 
 	# Protect application and system files from being viewed
 	RewriteCond $1 ^(application|system)
