@@ -62,10 +62,6 @@ class Model_Useradmin extends model
 		{
 			$this->last_login = $args['last_login'];
 		}
-		if (isset($args['created']))
-		{
-			$this->created = $args['created'];
-		}
 		return $this;
 	}
 	
@@ -111,7 +107,7 @@ class Model_Useradmin extends model
 							,:active
 							,:logins
 							,:last_ip_address
-							,:created
+							,NOW()
 						)';				
 				$results = DB::query(Database::INSERT,$q,TRUE)
 								->param(':email',$this->email)
@@ -120,7 +116,6 @@ class Model_Useradmin extends model
 								->param(':active',$this->active)
 								->param(':logins',$this->logins)
 								->param(':last_ip_address',$this->last_ip_address)
-								->param(':created',$this->created)
 								->execute();	
 								
 				if ($results[1] > 0)

@@ -135,6 +135,10 @@ class PCPAdmin
 		{
 			$session->set('id',$_REQUEST['id']);
 		}
+		if (isset($_REQUEST['user_id']))
+		{
+			$session->set('user_id',$_REQUEST['user_id']);
+		}
 				
 		if (!isset($args['story_id']) && $session->get('story_id')) { $args['story_id'] =  $session->get('story_id'); }
 		if (!isset($args['container_id']) && $session->get('container_id')) { $args['container_id'] = $session->get('container_id'); }
@@ -142,6 +146,7 @@ class PCPAdmin
 		if (!isset($args['cell_id']) &&  $session->get('cell_id')) { $args['cell_id'] =   $session->get('cell_id'); }
 		if (!isset($args['event_id']) &&  $session->get('event_id')) { $args['event_id'] =   $session->get('event_id'); }
 		if (!isset($args['image_id']) &&  $session->get('image_id')) { $args['image_id'] =   $session->get('image_id'); }
+		if (!isset($args['user_id']) &&  $session->get('user_id')) { $args['user_id'] =   $session->get('user_id'); }
 		
 		// defaults
 		if (!isset($args['include_scenes'])) { $args['include_scenes'] = TRUE; }
