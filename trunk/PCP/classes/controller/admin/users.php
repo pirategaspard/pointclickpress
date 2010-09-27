@@ -59,6 +59,7 @@ class Controller_admin_users extends Controller_Template_Admin
 	{
 		$data['login_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'users','action'=>'dologin')));
 		$data['user_form'] = View::factory('/admin/user/form_login',$data)->render();
+		$this->template->header = '';
 		$this->template->content = View::factory('/admin/user/template',$data)->render();
 	}
 	
