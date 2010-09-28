@@ -4,7 +4,7 @@
 	{
 ?>
 <fieldset>
-	<legend>location <?php print($location->id); ?></legend>
+	<legend>Location <?php print($location->id); ?></legend>
 	<form action="<?php print($location_form_action); ?>" method="post" >
 		<input type="hidden" name="story_id" value="<?php print($location->story_id); ?>" >
 		<input type="hidden" name="id" value="<?php print($location->id); ?>" >
