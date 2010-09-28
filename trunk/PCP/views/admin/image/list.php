@@ -21,7 +21,7 @@
 					<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'edit'))).'?image_id='.$image->id.'&story_id='.$story_id); ?>" >Edit</a></td>
 					<td>
 					<?php if (isset($assign_image_url))	{ ?>
-						<a href='<?php print($assign_image_url.'?image_id='.$image->id); ?>' target="_parent" >Assign Image To Scene</a>
+						<a href='<?php print($assign_image_url.'?image_id='.$image->id); ?>' target="_parent" >Assign Image</a>
 					<?php }	?>
 					</td>
 				</tr>
