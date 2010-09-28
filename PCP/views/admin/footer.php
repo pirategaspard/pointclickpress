@@ -1,1 +1,1 @@
-&copy; <?php echo date('Y'); ?> <a href="http://www.PointClickPress.org/" target="_blank">PointClickPress.org</a>
+<a href="http://www.PointClickPress.org/" target="_blank">PointClickPress.org</a> - They don't build them like they used to
