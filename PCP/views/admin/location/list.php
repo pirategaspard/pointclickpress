@@ -4,7 +4,7 @@
 ?>
 <?php //if (isset($location_add)) echo($location_add); ?>
 		<fieldset>
-			<legend>Scene locations</legend>
+			<legend>Locations</legend>
 			<table>
 				<tr>
 					<th>Id</th>
