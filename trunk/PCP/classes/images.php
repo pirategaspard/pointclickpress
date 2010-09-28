@@ -60,8 +60,8 @@ class Images
 				// get original file name 
 				$filename = $_FILES['filename']['name'];
 					 
-				// remove original extension and create alternate file type
-				//$filename = substr($filename,0,strpos($filename,'.')).'.gif'; 
+				// remove original extension and create alternate file type. JPG always seems to be smallest 
+				//$filename = substr($filename,0,strpos($filename,'.')).'.png'; 
 					
 				//save filename to db & get image_id
 				$results = images::getImage(array('story_id'=>$_POST['story_id'],'filename'=>$filename))->save();
@@ -83,15 +83,18 @@ class Images
 					$temp_file = upload::save($_FILES['filename'],$_FILES['filename']['name'],APPPATH.UPLOAD_PATH.DIRECTORY_SEPARATOR);																				
 					
 					//create directory for default image
-					dir::prep_directory($media_path.DIRECTORY_SEPARATOR.'default'.DIRECTORY_SEPARATOR);
+					$dest = $media_path.DIRECTORY_SEPARATOR.'default'.DIRECTORY_SEPARATOR;
+					dir::prep_directory($dest);
 					//create default image and save it			
 					$success = Image_GD::factory($temp_file)
 												->resize(DEFAULT_STORY_WIDTH, DEFAULT_STORY_HEIGHT, Image_GD::WIDTH)
-												->save($media_path.DIRECTORY_SEPARATOR.'default'.DIRECTORY_SEPARATOR.$filename);		
-					
+												->save($dest.$filename);		
+															
 					// did we resize & save the file to the upload dir ok?
 					if ($success)
-					{																
+					{
+						$orig_image = $dest.$filename;
+																					
 						//get array of Supported screens and add in the thumbnail size 
 						$SCREENS = Screens::getScreens();
 						$temp = explode('x',THUMBNAIL_IMAGE_SIZE);
@@ -100,12 +103,15 @@ class Images
 						// for each supported screen create image and save 	
 						foreach($SCREENS as $screen)
 						{
+							$dest = $media_path.DIRECTORY_SEPARATOR.$screen['w'].'x'.$screen['h'].DIRECTORY_SEPARATOR;
 							//create directory to put image
-							dir::prep_directory($media_path.DIRECTORY_SEPARATOR.$screen['w'].'x'.$screen['h'].DIRECTORY_SEPARATOR);
+							dir::prep_directory($dest);
 							
 							$success = Image_GD::factory($temp_file)
 							->resize($screen['w'], $screen['h'], Image_GD::WIDTH)
-							->save($media_path.DIRECTORY_SEPARATOR.$screen['w'].'x'.$screen['h'].DIRECTORY_SEPARATOR.$filename,IMAGE_QUALITY);
+							->save($dest.$filename,IMAGE_QUALITY);
+							
+							//Images::resize_png($orig_image,$dest.$filename,$screen['w'],$screen['h']);
 						}
 					}
 					
@@ -126,6 +132,30 @@ class Images
 			$results = array('success'=>false, 'message'=>'No files and/or no story ID');
 		}
 		return $results;
+	}			
+	
+	/*
+	static function resize_png($src,$dst,$dstw,$dsth)
+	{
+	    list($width, $height, $type, $attr) = getimagesize($src);
+	    $im = imagecreatefrompng($src);
+	    $tim = imagecreatetruecolor($dstw,$dsth);
+	    imagecopyresampled($tim,$im,0,0,0,0,$dstw,$dsth,$width,$height);
+	    $tim = Images::ImageTrueColorToPalette2($tim,false,255);
+	    imagepng($tim,$dst,0,PNG_ALL_FILTERS);
 	}
 	
+	//zmorris at zsculpt dot com function, a bit completed
+	static function ImageTrueColorToPalette2($image, $dither, $ncolors) 
+	{
+	    $width = imagesx( $image );
+	    $height = imagesy( $image );
+	    $colors_handle = ImageCreateTrueColor( $width, $height );
+	    ImageCopyMerge( $colors_handle, $image, 0, 0, 0, 0, $width, $height, 100 );
+	    ImageTrueColorToPalette( $image, $dither, $ncolors );
+	    ImageColorMatch( $colors_handle, $image );
+	    ImageDestroy($colors_handle);
+	    return $image;
+	}
+	*/	
 }
