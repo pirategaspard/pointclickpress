@@ -37,14 +37,14 @@ class event_refresh extends pcpevent implements iPCPevent
 		// get story
 		$story = $session->get('story',NULL);	
 		// get scene
-		$scene = PCP::getScene($story_data['container_id']);	
-		//get container 
-		$container = PCP::getContainer($scene->container_id);
+		$scene = PCP::getScene($story_data['location_id']);	
+		//get location 
+		$location = PCP::getlocation($scene->location_id);
 		// if we have valid data continue
-		if (($scene)&&($container)&&($story))
+		if (($scene)&&($location)&&($story))
 		{
-			// put any container init events into session
-			$results = array_merge($results,PCP::doEvents($container->events));
+			// put any location init events into session
+			$results = array_merge($results,PCP::doEvents($location->events));
 			// put any scene init events into session
 			$results = array_merge($results,PCP::doEvents($scene->events));							
 			// populate response data 					
@@ -54,7 +54,7 @@ class event_refresh extends pcpevent implements iPCPevent
 		}
 		// set data back into session
 		$session->set('scene',$scene);
-		$session->set('container',$container);
+		$session->set('location',$location);
 		// do hook
 		pluginadmin::executeHook('post_scene');					
 		// return REFRESH response

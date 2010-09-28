@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-Class Controller_admin_container extends Controller_Template_Admin
+Class Controller_admin_location extends Controller_Template_Admin
 {
 	
 	function action_index()
@@ -11,22 +11,22 @@ Class Controller_admin_container extends Controller_Template_Admin
 	function action_edit()
 	{		
 		$data['type'] = EventsAdmin::getEventType();
-		$data['container'] = PCPAdmin::getContainer(array('include_scenes'=>TRUE,'include_events'=>TRUE));
-		$data['story'] = PCPAdmin::getStory(array('id'=>$data['container']->story_id));
-		$data['scenes'] = $data['container']->scenes;	
-		$data['events'] = $data['container']->events;	
+		$data['location'] = PCPAdmin::getlocation(array('include_scenes'=>TRUE,'include_events'=>TRUE));
+		$data['story'] = PCPAdmin::getStory(array('id'=>$data['location']->story_id));
+		$data['scenes'] = $data['location']->scenes;	
+		$data['events'] = $data['location']->events;	
 						
 		/*
-		if (($data['container']->id > 0)&&(count($data['container']->scenes) == 1))
+		if (($data['location']->id > 0)&&(count($data['location']->scenes) == 1))
 		{
 			$data['scene_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'save')));
-			$scenes = $data['container']->scenes;
-			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?story_id='.$_REQUEST['story_id'].'&container_id='.$_REQUEST['container_id'].'&scene_id='.reset($scenes)->id);
+			$scenes = $data['location']->scenes;
+			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?story_id='.$_REQUEST['story_id'].'&location_id='.$_REQUEST['location_id'].'&scene_id='.reset($scenes)->id);
 		}
 		
-		if (($data['container']->id > 0)&&(count($data['container']->scenes) <= 1))
+		if (($data['location']->id > 0)&&(count($data['location']->scenes) <= 1))
 		{
-			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?story_id='.$_REQUEST['story_id'].'&container_id='.$_REQUEST['container_id'].'&scene_id=0');
+			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?story_id='.$_REQUEST['story_id'].'&location_id='.$_REQUEST['location_id'].'&scene_id=0');
 		}
 		else
 		{*/
@@ -41,11 +41,11 @@ Class Controller_admin_container extends Controller_Template_Admin
 		$data['scene_add'] = View::factory('/admin/scene/add',$data)->render();
 		$data['scene_list'] = View::factory('/admin/scene/list',$data)->render();					
 		
-		$data['container_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'container','action'=>'save')));		
-		$data['container_info'] =  View::factory('/admin/container/info',$data)->render();			
-		$data['container_form'] =  View::factory('/admin/container/form',$data)->render();		
+		$data['location_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'location','action'=>'save')));		
+		$data['location_info'] =  View::factory('/admin/location/info',$data)->render();			
+		$data['location_form'] =  View::factory('/admin/location/form',$data)->render();		
 				
-		$this->template->content = View::factory('/admin/container/template',$data)->render();
+		$this->template->content = View::factory('/admin/location/template',$data)->render();
 	}
 	
 	function action_save()
@@ -55,8 +55,8 @@ Class Controller_admin_container extends Controller_Template_Admin
 		$session->set('results',$results);
 		if(count($_POST) > 0)
 		{
-			$results = PCPAdmin::getContainer()->init($_POST)->save();
-			$session->set('container_id',$results['id']);
+			$results = PCPAdmin::getlocation()->init($_POST)->save();
+			$session->set('location_id',$results['id']);
 			unset($_POST);
 		}
 		else
@@ -67,12 +67,12 @@ Class Controller_admin_container extends Controller_Template_Admin
 		$session->set('results',$results);
 		
 		//redirect to add a new story
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'container','action'=>'edit')));
+		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'location','action'=>'edit')));
 	}
 	
 	function action_delete()
 	{		
-		$results = PCPAdmin::getcontainer()->init(array('id'=>$_REQUEST['container_id']))->delete();
+		$results = PCPAdmin::getlocation()->init(array('id'=>$_REQUEST['location_id']))->delete();
 		//Go back to the parent
 		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'edit')));
 	}

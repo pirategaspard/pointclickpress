@@ -3,7 +3,7 @@
 class Model_Scene extends Model 
 {
 	protected $story_id = 0;
-	protected $container_id = 0;
+	protected $location_id = 0;
 	protected $id = 0;	
 	protected $title = "";
 	protected $description = "";
@@ -25,9 +25,9 @@ class Model_Scene extends Model
 		{
 			$this->story_id = $args['story_id'];
 		}
-		if ((isset($args['container_id']))&&(is_numeric($args['container_id'])))
+		if ((isset($args['location_id']))&&(is_numeric($args['location_id'])))
 		{
-			$this->container_id = $args['container_id'];
+			$this->location_id = $args['location_id'];
 		}
 		if ((isset($args['id']))&&(is_numeric($args['id'])))
 		{
@@ -73,7 +73,7 @@ class Model_Scene extends Model
 		{
 			$q = '	SELECT 	s.id
 							,s.story_id
-							,s.container_id
+							,s.location_id
 							,s.title
 							,s.description
 							,s.image_id
@@ -106,14 +106,14 @@ class Model_Scene extends Model
 				//INSERT new record
 				$q = '	INSERT INTO scenes
 							(story_id
-							,container_id
+							,location_id
 							,title
 							,description
 							,image_id
 							,value)
 						VALUES (
 							:story_id
-							,:container_id
+							,:location_id
 							,:title
 							,:description
 							,:image_id
@@ -122,7 +122,7 @@ class Model_Scene extends Model
 							
 				$results = DB::query(Database::INSERT,$q,TRUE)
 									->param(':story_id',$this->story_id)
-									->param(':container_id',$this->container_id)
+									->param(':location_id',$this->location_id)
 									->param(':title',$this->title)
 									->param(':description',$this->description)
 									->param(':image_id',$this->image_id)
@@ -208,16 +208,16 @@ class Model_Scene extends Model
 			$screen = $w.'x'.$h;
 		}		
 		$regex = DIRECTORY_SEPARATOR;
-		//return Kohana::$base_url.MEDIA_PATH.$this->story_id.DIRECTORY_SEPARATOR.$this->container_id.DIRECTORY_SEPARATOR.$this->id.DIRECTORY_SEPARATOR.$screen.DIRECTORY_SEPARATOR.$this->filename;
-		//return preg_replace("/$regex /",'/',Kohana::$base_url.MEDIA_PATH.'/'.trim($this->story_id).'/'.$this->container_id.'/'.$this->id.'/'.$screen.'/'.$this->filename);
-		//return Kohana::$base_url.MEDIA_PATH.'/'.trim($this->story_id).'/'.$this->container_id.'/'.$this->id.'/'.$screen.'/'.$this->filename;
+		//return Kohana::$base_url.MEDIA_PATH.$this->story_id.DIRECTORY_SEPARATOR.$this->location_id.DIRECTORY_SEPARATOR.$this->id.DIRECTORY_SEPARATOR.$screen.DIRECTORY_SEPARATOR.$this->filename;
+		//return preg_replace("/$regex /",'/',Kohana::$base_url.MEDIA_PATH.'/'.trim($this->story_id).'/'.$this->location_id.'/'.$this->id.'/'.$screen.'/'.$this->filename);
+		//return Kohana::$base_url.MEDIA_PATH.'/'.trim($this->story_id).'/'.$this->location_id.'/'.$this->id.'/'.$screen.'/'.$this->filename;
 		return Kohana::$base_url.MEDIA_PATH.'/'.trim($this->story_id).'/'.$this->image_id.'/'.$screen.'/'.$this->filename;
 
 	}
 	
 	/*
 		This function allows the Admin to set the title 
-		of an empty scene to be the same as the container it is in
+		of an empty scene to be the same as the location it is in
 	*/
 	function setTitle($string)
 	{			

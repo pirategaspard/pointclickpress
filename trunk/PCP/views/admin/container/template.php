@@ -3,9 +3,9 @@
 	//echo($page->id);
 
 	echo($story_info);
-	echo($container_info);
-	echo($container_form);
-	if ($container->id > 0)
+	echo($location_info);
+	echo($location_form);
+	if ($location->id > 0)
 	{
 		echo($event_add); 
 		echo($event_list); 	 

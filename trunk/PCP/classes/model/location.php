@@ -1,11 +1,11 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 /*
-	A scene container hold multiple versions of a scene.
+	A scene location hold multiple versions of a scene.
 	For instance a scene where the door to the house is closed
 	and a scene where the door the house is open.
  */
-class Model_Container extends Model 
+class Model_location extends Model 
 {
 	protected $story_id = 0;
 	protected $id = 0;
@@ -43,12 +43,12 @@ class Model_Container extends Model
 		}
 		if ($args['include_events'])
 		{			
-			$args['container'] = $this;
-			$this->events = EventsAdmin::getContainerEvents($args);
+			$args['location'] = $this;
+			$this->events = EventsAdmin::getlocationEvents($args);
 		}
 		if ($args['include_scenes'])
 		{			
-			$args['container'] = $this;
+			$args['location'] = $this;
 			$this->scenes = scenes::getScenes($args);
 		}
 		return $this;
@@ -61,7 +61,7 @@ class Model_Container extends Model
 			$q = '	SELECT 	id
 							,story_id
 							,title
-					FROM containers c
+					FROM locations c
 					WHERE id = :id';
 			$results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();
 			
@@ -70,13 +70,13 @@ class Model_Container extends Model
 				$this->init($results[0]);							
 				
 				/*
-				// get all possible values for scenes in this container
+				// get all possible values for scenes in this location
 				if (count($this->scenes) > 0)
 				{
 					$q = '	SELECT DISTINCT s.value
-							FROM containers c
+							FROM locations c
 							INNER JOIN scenes s
-							ON s.container_id = c.id
+							ON s.location_id = c.id
 							WHERE c.id = :id
 							AND s.value != ""';  // 
 					$results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();
@@ -99,7 +99,7 @@ class Model_Container extends Model
 		if ($this->id == 0)
 		{
 			//INSERT new record
-				$q = '	INSERT INTO containers
+				$q = '	INSERT INTO locations
 						(story_id,title)
 						VALUES (:story_id,:title)';
 				$results = DB::query(Database::INSERT,$q,TRUE)
@@ -117,7 +117,7 @@ class Model_Container extends Model
 			//UPDATE record
 			try
 			{
-				$q = '	UPDATE containers
+				$q = '	UPDATE locations
 						SET title = :title
 						WHERE id = :id';
 				$results['success'] = DB::query(Database::UPDATE,$q,TRUE)
@@ -127,7 +127,7 @@ class Model_Container extends Model
 			}
 			catch( Database_Exception $e )
 			{
-			  echo('somethings wrong container.php 114');
+			  echo('somethings wrong location.php 114');
 			  echo $e->getMessage(); die();
 			}
 		}
@@ -138,14 +138,14 @@ class Model_Container extends Model
 	{	
 		if ($this->id > 0)
 		{
-			//delete all scenes in container first
+			//delete all scenes in location first
 			$this->load();
 			foreach($this->scenes as $scene)
 			{
 				$scene->delete();
 			}
 			
-			$q = '	DELETE FROM containers
+			$q = '	DELETE FROM locations
 						WHERE id = :id';
 			$results =	DB::query(Database::DELETE,$q,TRUE)
 								->param(':id',$this->id)

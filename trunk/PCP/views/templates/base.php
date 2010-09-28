@@ -9,7 +9,7 @@
     <title><?php echo $title; ?></title>
   </head>
   <body>
-    <div id="container">
+    <div id="location">
 		<div id="header"><?php echo $header; ?></div>
 		<div id="topmenu"><?php echo $top_menu; ?></div>
 		<div id="content"><?php echo $content; ?></div>

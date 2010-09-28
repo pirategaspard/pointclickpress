@@ -8,11 +8,11 @@ class Model_Story extends Model
 	protected $description = "";
 	protected $grid_x = "";
 	protected $grid_y = "";
-	protected $first_scene_container_id = null;
+	protected $first_location_id = null;
 	protected $image_id = null;
 	protected $filename = "";
 	protected $events = array();
-	protected $containers = array();
+	protected $locations = array();
 	
 	public function __construct($args=array())
 	{
@@ -23,7 +23,7 @@ class Model_Story extends Model
 	function init($args=array())
 	{
 		if (!isset($args['include_events'])) $args['include_events']=false;
-		if (!isset($args['include_containers'])) $args['include_containers']=false;
+		if (!isset($args['include_locations'])) $args['include_locations']=false;
 		
 		if ((isset($args['id']))&&(is_numeric($args['id'])))
 		{
@@ -41,9 +41,9 @@ class Model_Story extends Model
 		{
 			$this->description = $args['description'];
 		}
-		if (isset($args['first_scene_container_id']) && ($args['first_scene_container_id'] > 0))
+		if (isset($args['first_location_id']) && ($args['first_location_id'] > 0))
 		{
-			$this->first_scene_container_id = $args['first_scene_container_id'];
+			$this->first_location_id = $args['first_location_id'];
 		}
 		if (isset($args['image_id']))
 		{			
@@ -72,10 +72,10 @@ class Model_Story extends Model
 			$args['story'] = $this;
 			$this->events = EventsAdmin::getStoryEvents($args);
 		}
-		if ($args['include_containers'])
+		if ($args['include_locations'])
 		{			
 			$args['story'] = $this;
-			$this->containers = Containers::getContainers($args);
+			$this->locations = locations::getlocations($args);
 		}
 		return $this;
 	}
@@ -89,7 +89,7 @@ class Model_Story extends Model
 							,s.title
 							,s.author
 							,s.description
-							,s.first_scene_container_id
+							,s.first_location_id
 							,s.image_id
 							,i.filename
 							,s.grid_x
@@ -120,7 +120,7 @@ class Model_Story extends Model
 						(title
 						,author
 						,description
-						,first_scene_container_id
+						,first_location_id
 						,image_id
 						,grid_x
 						,grid_y)
@@ -128,7 +128,7 @@ class Model_Story extends Model
 						:title
 						,:author
 						,:description
-						,:first_scene_container_id
+						,:first_location_id
 						,:image_id						
 						,:grid_x
 						,:grid_y
@@ -138,7 +138,7 @@ class Model_Story extends Model
 								->param(':title',$this->title)
 								->param(':author',$this->author)
 								->param(':description',$this->description)
-								->param(':first_scene_container_id',$this->first_scene_container_id)
+								->param(':first_location_id',$this->first_location_id)
 								->param(':image_id',$this->image_id)
 								->param(':grid_x',$this->grid_x)
 								->param(':grid_y',$this->grid_y)
@@ -160,7 +160,7 @@ class Model_Story extends Model
 						SET title = :title							
 							,author = :author
 							,description = :description
-							,first_scene_container_id = :first_scene_container_id
+							,first_location_id = :first_location_id
 							,image_id = :image_id
 							,grid_x = :grid_x
 							,grid_y = :grid_y
@@ -169,7 +169,7 @@ class Model_Story extends Model
 										->param(':title',$this->title)
 										->param(':author',$this->author)
 										->param(':description',$this->description)	
-										->param(':first_scene_container_id',$this->first_scene_container_id)
+										->param(':first_location_id',$this->first_location_id)
 										->param(':image_id',$this->image_id)
 										->param(':grid_x',$this->grid_x)
 										->param(':grid_y',$this->grid_y)
@@ -191,9 +191,9 @@ class Model_Story extends Model
 		{
 			//delete children 1st
 			$this->load();
-			foreach($this->containers as $container)
+			foreach($this->locations as $location)
 			{
-				$container->delete();
+				$location->delete();
 			}
 			
 			$q = '	DELETE FROM stories
@@ -208,9 +208,9 @@ class Model_Story extends Model
 	function getScenes()
 	{
 		$available_scenes = array();
-		foreach($this->containers as $container)
+		foreach($this->locations as $location)
 		{
-			foreach($container->scenes as $scene)
+			foreach($location->scenes as $scene)
 			{
 				$available_scenes[] = $scene;
 			}
@@ -218,9 +218,9 @@ class Model_Story extends Model
 		return $available_scenes;
 	}
 	
-	function getFirstContainerId()
+	function getFirstlocationId()
 	{
-		return $this->first_scene_container_id;
+		return $this->first_location_id;
 	}
 		
 	function grid()

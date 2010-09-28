@@ -59,8 +59,8 @@ class plugin_helloworld implements ipcpplugin
 		{
 			// get story data out of session
 			$story_data = $session->get('story_data',array());
-			// update the current container id to #28 (last scene)			
-			$story_data['container_id'] = 28;
+			// update the current location id to #28 (last scene)			
+			$story_data['location_id'] = 28;
 			//save story data back into session
 			$story_data = $session->set('story_data',$story_data);
 		}

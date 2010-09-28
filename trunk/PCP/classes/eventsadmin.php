@@ -17,8 +17,8 @@ class EventsAdmin
 				case 'Scene':
 					$event = EventsAdmin::getSceneEvent($args);
 				break;
-				case 'Container':
-					$event = EventsAdmin::getContainerEvent($args);
+				case 'location':
+					$event = EventsAdmin::getlocationEvent($args);
 				break;
 				case 'Story':
 					$event = EventsAdmin::getStoryEvent($args);
@@ -42,10 +42,10 @@ class EventsAdmin
 		return $event->load($args);
 	}
 	
-	static function getContainerEvent($args=array())
+	static function getlocationEvent($args=array())
 	{
 		// get a single event object and populate it based on the arguments
-		$event = new Model_ContainerEvent($args);
+		$event = new Model_locationEvent($args);
 		return $event->load($args);
 	}
 	
@@ -69,9 +69,9 @@ class EventsAdmin
 		{
   			$EventsAdmin = EventsAdmin::getSceneEventsAdmin($args);
 		}
-		else if (isset($args['container'])) 
+		else if (isset($args['location'])) 
 		{
-  			$EventsAdmin = EventsAdmin::getContainerEventsAdmin($args);
+  			$EventsAdmin = EventsAdmin::getlocationEventsAdmin($args);
 		}	
 		else if (isset($args['story'])) 
 		{
@@ -104,20 +104,20 @@ class EventsAdmin
 		return $EventsAdmin;		
 	}
 	
-	static function getContainerEvents($args=array())
+	static function getlocationEvents($args=array())
 	{				
 		$q = '	SELECT 	e.id,
 						e.event,
 						e.event_label,
 						e.event_value
 				FROM events e
-				INNER JOIN containers_events b
+				INNER JOIN locations_events b
 					ON (b.event_id = e.id
-					AND b.container_id = :container_id)
+					AND b.location_id = :location_id)
 				ORDER BY e.id DESC';
 		
 		$tempArray = DB::query(Database::SELECT,$q,TRUE)
-					->param(':container_id',$args['container']->id)
+					->param(':location_id',$args['location']->id)
 					->execute()
 					->as_array();			
 		$EventsAdmin = array();
@@ -199,9 +199,9 @@ class EventsAdmin
 		{
 			$type = 'Story';
 		}
-		if (isset($_REQUEST['container_id'])||$session->get('container_id'))
+		if (isset($_REQUEST['location_id'])||$session->get('location_id'))
 		{
-			$type = 'Container';
+			$type = 'location';
 		}
 		if (isset($_REQUEST['scene_id'])||$session->get('scene_id'))
 		{

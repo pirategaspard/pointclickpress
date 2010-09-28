@@ -64,8 +64,8 @@ Class Controller_PCP extends Controller_Template_Base
 			
 			// Empty old session data 												
 			$story_data	= array();
-			// set first container
-			$story_data['container_id'] = $story->getFirstContainerId();
+			// set first location
+			$story_data['location_id'] = $story->getFirstlocationId();
 			// set new story data into session 
 			$session->set('story_data',$story_data); 
 			pluginadmin::executeHook('post_start_story');									
@@ -95,17 +95,17 @@ Class Controller_PCP extends Controller_Template_Base
 		// get story
 		$data['story'] = $session->get('story',NULL);						
 		// get the scene
-		$data['scene'] = PCP::getScene(PCP::getCurrentContainerId());										
+		$data['scene'] = PCP::getScene(PCP::getCurrentlocationId());										
 		
-		//get container from session (so that we can process any container events)
-		$container = $session->get('container',NULL);
-		if (!isset($container)||($container->id != $data['scene']->container_id))
+		//get location from session (so that we can process any location events)
+		$location = $session->get('location',NULL);
+		if (!isset($location)||($location->id != $data['scene']->location_id))
 		{
-			$container = PCP::getContainer($data['scene']->container_id);
+			$location = PCP::getlocation($data['scene']->location_id);
 		}								
 				
-		// put any container init events into session
-		$results = array_merge($results,PCP::doEvents($container->events));
+		// put any location init events into session
+		$results = array_merge($results,PCP::doEvents($location->events));
 		// put any scene init events into session
 		$results = array_merge($results,PCP::doEvents($data['scene']->events));							
 		//put scene into session

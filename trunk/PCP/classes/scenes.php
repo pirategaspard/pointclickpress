@@ -13,21 +13,21 @@ class Scenes
 	static function getScenes($args=array())
 	{				
 		/*
-			$args['container'] - story object		   
+			$args['location'] - story object		   
 		*/		
 		
 		// get all the scenes in the db
 		
 		$q = '	SELECT sc.*
 				FROM scenes sc
-				INNER JOIN containers c
-				ON c.id = sc.container_id
+				INNER JOIN locations c
+				ON c.id = sc.location_id
 				INNER JOIN stories s
 				ON s.id = c.story_id
 				WHERE 1 = 1 ';
 				
 		if (isset($args['scene'])) $q .= 'AND sc.id = :scene'; //if we have a scene id
-		if (isset($args['container'])) $q .= 'AND c.id = :container'; //if we have a container id
+		if (isset($args['location'])) $q .= 'AND c.id = :location'; //if we have a location id
 		if (isset($args['story'])) $q .= 'AND s.id = :story'; //if we have a story id
 		
 		$q .= ' ORDER BY sc.id DESC';
@@ -35,7 +35,7 @@ class Scenes
 		$q = DB::query(Database::SELECT,$q,TRUE);
 		
 		if (isset($args['scene']))	 $q->param(':scene',$args['scene']->id);
-		if (isset($args['container']))	 $q->param(':container',$args['container']->id);
+		if (isset($args['location']))	 $q->param(':location',$args['location']->id);
 		if (isset($args['story']))	 $q->param(':story',$args['story']->id);
 								
 		$tempArray = $q->execute()->as_array();
@@ -49,13 +49,13 @@ class Scenes
 		return $Scenes;		
 	}
 	
-	/* get a scene by container ID and value */
-	static function getSceneByContainerId($container_id,$value='')
+	/* get a scene by location ID and value */
+	static function getSceneBylocationId($location_id,$value='')
 	{	
 		$scene = Scenes::getScene(); // get empty scene object
 		$q = '	SELECT 	s.id
 						,s.story_id
-						,s.container_id
+						,s.location_id
 						,s.title
 						,s.description
 						,s.image_id
@@ -64,12 +64,12 @@ class Scenes
 					FROM scenes s
 					LEFT OUTER JOIN images i
 					ON s.image_id = i.id
-					INNER JOIN containers c
-						ON s.container_id = c.id 
-						AND c.id = :container_id
+					INNER JOIN locations c
+						ON s.location_id = c.id 
+						AND c.id = :location_id
 					WHERE s.value = :value';
 		$results = DB::query(Database::SELECT,$q,TRUE)
-								->param(':container_id',$container_id)
+								->param(':location_id',$location_id)
 								->param(':value',$value)
 								->execute()
 								->as_array();

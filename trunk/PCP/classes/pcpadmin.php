@@ -24,18 +24,18 @@ class PCPAdmin
 		return Stories::getStories($args);		
 	}
 	
-	static function getContainer($args=array())
+	static function getlocation($args=array())
 	{
 		$session = Session::instance();
 		$args = PCPAdmin::getArgs($args);
-		if (!isset($args['id']) && $session->get('container_id')) { $args['id'] =  $session->get('container_id'); }
-		return Containers::getContainer($args); // get a scene container object
+		if (!isset($args['id']) && $session->get('location_id')) { $args['id'] =  $session->get('location_id'); }
+		return locations::getlocation($args); // get a scene location object
 	}
 	
-	static function getContainers($args=array())
+	static function getlocations($args=array())
 	{	
 		$args = PCPAdmin::getArgs($args);
-		return Containers::getContainers($args);		
+		return locations::getlocations($args);		
 	}
 	
 	static function getScene($args=array())
@@ -57,13 +57,13 @@ class PCPAdmin
 		$session = Session::instance();
 		$args = PCPAdmin::getArgs($args);
 		if (!isset($args['id']) && $session->get('event_id')) { $args['id'] =  $session->get('event_id'); }				
-		return EventsAdmin::getEvent($args); // get a event object and all its Containers
+		return EventsAdmin::getEvent($args); // get a event object and all its locations
 	}
 	
 	static function getEvents($args=array())
 	{
 		$args = PCPAdmin::getArgs($args);
-		return EventsAdmin::getEvents($args); // get a story object and all its Containers
+		return EventsAdmin::getEvents($args); // get a story object and all its locations
 	}
 	
 	static function getUser($args=array())
@@ -94,10 +94,10 @@ class PCPAdmin
 		return Images::getImages($args); 
 	}
 	
-	/* get a scene by container ID and value */
-	static function getSceneByContainerId($container_id,$value='')
+	/* get a scene by location ID and value */
+	static function getSceneBylocationId($location_id,$value='')
 	{
-		return Scenes::getSceneByContainerId($container_id,$value);
+		return Scenes::getSceneBylocationId($location_id,$value);
 	}
 
 
@@ -108,12 +108,12 @@ class PCPAdmin
 		if (isset($_REQUEST['story_id']))
 		{
 			$session->set('story_id',$_REQUEST['story_id']);
-			$session->delete('container_id');
+			$session->delete('location_id');
 			$session->delete('scene_id');
 		}
-		if (isset($_REQUEST['container_id']))
+		if (isset($_REQUEST['location_id']))
 		{
-			$session->set('container_id',$_REQUEST['container_id']);
+			$session->set('location_id',$_REQUEST['location_id']);
 		}
 		if (isset($_REQUEST['scene_id']))
 		{
@@ -141,7 +141,7 @@ class PCPAdmin
 		}
 				
 		if (!isset($args['story_id']) && $session->get('story_id')) { $args['story_id'] =  $session->get('story_id'); }
-		if (!isset($args['container_id']) && $session->get('container_id')) { $args['container_id'] = $session->get('container_id'); }
+		if (!isset($args['location_id']) && $session->get('location_id')) { $args['location_id'] = $session->get('location_id'); }
 		if (!isset($args['scene_id']) && $session->get('scene_id')) { $args['scene_id'] =  $session->get('scene_id'); }
 		if (!isset($args['cell_id']) &&  $session->get('cell_id')) { $args['cell_id'] =   $session->get('cell_id'); }
 		if (!isset($args['event_id']) &&  $session->get('event_id')) { $args['event_id'] =   $session->get('event_id'); }
@@ -150,7 +150,7 @@ class PCPAdmin
 		
 		// defaults
 		if (!isset($args['include_scenes'])) { $args['include_scenes'] = TRUE; }
-		if (!isset($args['include_containers'])) { $args['include_containers'] = TRUE; }
+		if (!isset($args['include_locations'])) { $args['include_locations'] = TRUE; }
 		if (!isset($args['include_events'])) { $args['include_events'] = TRUE; }
 		
 		return $args;
