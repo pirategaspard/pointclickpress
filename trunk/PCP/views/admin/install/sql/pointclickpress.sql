@@ -256,14 +256,14 @@ INSERT INTO `cells` (`id`, `scene_id`, `grid_event_id`) VALUES
 (16, 22, 45),
 (6, 22, 45);
 
-CREATE TABLE IF NOT EXISTS `containers` (
+CREATE TABLE IF NOT EXISTS `locations` (
   `story_id` bigint(20) unsigned NOT NULL,
   `id` bigint(20) unsigned NOT NULL auto_increment,
   `title` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=30 ;
 
-INSERT INTO `containers` (`story_id`, `id`, `title`) VALUES
+INSERT INTO `locations` (`story_id`, `id`, `title`) VALUES
 (2, 18, 'Start'),
 (2, 20, 'Scene 2'),
 (2, 21, 'Scene 3'),
@@ -274,13 +274,13 @@ INSERT INTO `containers` (`story_id`, `id`, `title`) VALUES
 (2, 28, 'Ocean'),
 (2, 29, 'Forest');
 
-CREATE TABLE IF NOT EXISTS `containers_events` (
-  `container_id` bigint(20) unsigned NOT NULL,
+CREATE TABLE IF NOT EXISTS `locations_events` (
+  `location_id` bigint(20) unsigned NOT NULL,
   `event_id` bigint(20) unsigned NOT NULL,
-  KEY `containerid` (`container_id`)
+  KEY `locationid` (`location_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `containers_events` (`container_id`, `event_id`) VALUES
+INSERT INTO `locations_events` (`location_id`, `event_id`) VALUES
 (25, 39);
 
 CREATE TABLE IF NOT EXISTS `events` (
@@ -394,17 +394,17 @@ INSERT INTO `images` (`id`, `story_id`, `filename`) VALUES
 CREATE TABLE IF NOT EXISTS `scenes` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
   `story_id` bigint(20) unsigned NOT NULL,
-  `container_id` bigint(20) unsigned NOT NULL,
+  `location_id` bigint(20) unsigned NOT NULL,
   `title` varchar(255) default NULL,
   `description` text,
   `filename` varchar(255) default NULL,
   `image_id` bigint(20) default NULL,
   `value` varchar(255) default NULL,
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `scene_value` (`value`,`container_id`)
+  UNIQUE KEY `scene_value` (`value`,`location_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=42 ;
 
-INSERT INTO `scenes` (`id`, `story_id`, `container_id`, `title`, `description`, `filename`, `image_id`, `value`) VALUES
+INSERT INTO `scenes` (`id`, `story_id`, `location_id`, `title`, `description`, `filename`, `image_id`, `value`) VALUES
 (22, 2, 18, 'Start', 'You are at the start of the trail', 'Image000.jpg', 3, ''),
 (23, 2, 20, 'Scene 2', 'I wonder where the path goes?', 'Image001.jpg', 13, ''),
 (24, 2, 21, 'Scene 3', 'There is a turn ahead', 'Image002.jpg', 5, ''),
@@ -430,7 +430,7 @@ CREATE TABLE IF NOT EXISTS `stories` (
   `title` varchar(255) NOT NULL,
   `author` varchar(255) NOT NULL,
   `description` text NOT NULL,
-  `first_scene_container_id` bigint(20) unsigned default NULL,
+  `first_scene_location_id` bigint(20) unsigned default NULL,
   `image_id` bigint(20) default NULL,
   `grid_x` smallint(5) unsigned NOT NULL,
   `grid_y` smallint(5) unsigned NOT NULL,
@@ -438,7 +438,7 @@ CREATE TABLE IF NOT EXISTS `stories` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
-INSERT INTO `stories` (`id`, `title`, `author`, `description`, `first_scene_container_id`, `image_id`, `grid_x`, `grid_y`, `create_date`) VALUES
+INSERT INTO `stories` (`id`, `title`, `author`, `description`, `first_location_id`, `image_id`, `grid_x`, `grid_y`, `create_date`) VALUES
 (2, 'A Walk Down The Cobble Stone Path', 'Dan', 'A Walk through the forest on the mysterious cobblestone path', 18, 0, 10, 10, '2010-07-02 08:36:56');
 
 CREATE TABLE IF NOT EXISTS `stories_events` (
