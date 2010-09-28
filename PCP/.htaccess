@@ -8,7 +8,7 @@
 	# Put your installation directory here:
 	# If your URL is www.example.com/kohana/, use /kohana/
 	# If your URL is www.example.com/, use /
-	RewriteBase /demo/
+	RewriteBase /PCP/
 
 	# Protect application and system files from being viewed
 	RewriteCond $1 ^(application|system)
