@@ -71,53 +71,13 @@ Class Controller_admin_image extends Controller_Template_Admin
 				$session->set('image_id',$results['image_id']);
 				action_assign();
 			}	
-			else
-			{
-				Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'image','action'=>'edit')));
-			}
 		}
 		else
 		{
-			//var_dump($results); die();
-			//error;
-			$params = $this->getURLParams();
-			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'image','action'=>'edit')));		
+			$params = $this->getURLParams();				
 		}
+		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'image','action'=>'list')));	
 	}
-	
-	/*
-	function action_assignScene()
-	{		
-		$session = Session::instance();				
-		if ($session->get('scene_id') && $session->get('image_id'))
-		{
-			$scene = PCPAdmin::getScene();
-			$results = $scene->init(array('image_id'=>$session->get('image_id')))->save();
-			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')));
-		}
-		else
-		{
-			//Go back to the parent
-			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'image','action'=>'list')));
-		}
-	}
-	
-	function action_assignStory()
-	{		
-		$session = Session::instance();				
-		if ($session->get('story_id') && $session->get('image_id'))
-		{
-			$story = PCPAdmin::getStory();
-			$results = $story->init(array('image_id'=>$session->get('image_id')))->save();
-			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'edit')));
-		}
-		else
-		{
-			//Go back to the parent
-			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'image','action'=>'list')));
-		}
-	}
-	*/
 	
 	function action_delete()
 	{		

@@ -56,9 +56,15 @@ class Images
 														'upload::size'=>array('2M')));
 			//is our image file valid?
 			if ($valid->Check())
-			{		
+			{
+				// get original file name 
+				$filename = $_FILES['filename']['name'];
+					 
+				// remove original extension and create alternate file type
+				//$filename = substr($filename,0,strpos($filename,'.')).'.gif'; 
+					
 				//save filename to db & get image_id
-				$results = images::getImage(array('story_id'=>$_POST['story_id'],'filename'=>$_FILES['filename']['name']))->save();
+				$results = images::getImage(array('story_id'=>$_POST['story_id'],'filename'=>$filename))->save();
 				
 				//did we save to the db ok?
 				if ($results['success'])
@@ -74,15 +80,13 @@ class Images
 					dir::prep_directory($media_path);
 					
 					// upload original file from form 
-					$temp_file = upload::save($_FILES['filename'],$_FILES['filename']['name'],APPPATH.UPLOAD_PATH.DIRECTORY_SEPARATOR);
-					
-					$filename = $_FILES['filename']['name'];  				
+					$temp_file = upload::save($_FILES['filename'],$_FILES['filename']['name'],APPPATH.UPLOAD_PATH.DIRECTORY_SEPARATOR);																				
 					
 					//create directory for default image
 					dir::prep_directory($media_path.DIRECTORY_SEPARATOR.'default'.DIRECTORY_SEPARATOR);
 					//create default image and save it			
 					$success = Image_GD::factory($temp_file)
-												->resize(800, 600, Image_GD::WIDTH)
+												->resize(DEFAULT_STORY_WIDTH, DEFAULT_STORY_HEIGHT, Image_GD::WIDTH)
 												->save($media_path.DIRECTORY_SEPARATOR.'default'.DIRECTORY_SEPARATOR.$filename);		
 					
 					// did we resize & save the file to the upload dir ok?
