@@ -6,7 +6,7 @@
 	<legend>scene <?php print($scene->id); ?> scene <?php print($scene->value); ?></legend>
 	<form action="<?php print($scene_form_action); ?>" method="post" enctype="multipart/form-data" >
 		<input type="hidden" name="story_id" value="<?php print($scene->story_id); ?>" >
-		<input type="hidden" name="container_id" value="<?php print($scene->container_id); ?>" >
+		<input type="hidden" name="location_id" value="<?php print($scene->location_id); ?>" >
 		<input type="hidden" name="id" value="<?php print($scene->id); ?>" >		
 		<label>
 			Title

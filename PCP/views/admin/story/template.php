@@ -4,7 +4,7 @@
 	{
 		echo($event_add);
 		echo($event_list);
-		echo($container_add);
-		echo($container_list);
+		echo($location_add);
+		echo($location_list);
 	}	
 ?>

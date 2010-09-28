@@ -21,7 +21,7 @@ Class Controller_admin_story extends Controller_Template_Admin
 	*/
 	function action_list()
 	{			
-		$data['stories'] = PCPAdmin::getStories(array('include_containers'=>true,'include_scenes'=>true));
+		$data['stories'] = PCPAdmin::getStories(array('include_locations'=>true,'include_scenes'=>true));
 		if (count($data['stories']) > 0 )
 		{
 			$data['story_add'] = View::factory('/admin/story/add',$data)->render();
@@ -40,12 +40,12 @@ Class Controller_admin_story extends Controller_Template_Admin
 	function action_edit()
 	{		
 		$data['type'] = EventsAdmin::getEventType();
-		$data['story'] = PCPAdmin::getStory(array('include_events'=>true,'include_containers'=>TRUE));
-		$data['containers'] = $data['story']->containers;
+		$data['story'] = PCPAdmin::getStory(array('include_events'=>true,'include_locations'=>TRUE));
+		$data['locations'] = $data['story']->locations;
 		$data['events'] = $data['story']->events;				
 		
-		$data['container_add'] = View::factory('/admin/container/add',$data)->render();
-		$data['container_list'] = View::factory('/admin/container/list',$data)->render();	//get container information and load list of containers
+		$data['location_add'] = View::factory('/admin/location/add',$data)->render();
+		$data['location_list'] = View::factory('/admin/location/list',$data)->render();	//get location information and load list of locations
 		
 		$data['event_add'] = View::factory('/admin/event/add',$data)->render();
 		$data['event_list'] = View::factory('/admin/event/list',$data)->render();	//get event information and load list of events

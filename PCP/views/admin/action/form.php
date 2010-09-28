@@ -7,7 +7,7 @@
 ?>
 	<form method="post" action="<?php echo($grid_event_form_action); ?>">
 		<?php if (isset($story_id)){ ?><input type="hidden" name="story_id" value="<?php echo($story_id); ?>" /> <?php } ?>
-		<?php if (isset($container_id)){ ?><input type="hidden" name="container_id" value="<?php echo($container_id); ?>" /> <?php } ?>
+		<?php if (isset($location_id)){ ?><input type="hidden" name="location_id" value="<?php echo($location_id); ?>" /> <?php } ?>
 		<?php if (isset($scene_id)){ ?><input type="hidden" name="scene_id" value="<?php echo($scene_id); ?>" /> <?php } ?>
 		<input type="hidden" name="back_url" value="<?php echo($back_url); ?>" />
 		<input type="hidden" name="type" value="<?php echo($type); ?>" />
@@ -21,15 +21,15 @@
 				echo ('<option value="'.$event_type->event.'"'.$selected.' >'.$event_type->label.'</option>');
 			} ?>
 		</select>
-		<?php if(isset($containers)) { ?>
-		<label id="container_select" for="container_select">Scene Container:
-		<select name="container_select" >
-			<option >Select a Scene Container</option>
-			<?php foreach($containers as $container)
+		<?php if(isset($locations)) { ?>
+		<label id="location_select" for="location_select">Scene location:
+		<select name="location_select" >
+			<option >Select a Scene location</option>
+			<?php foreach($locations as $location)
 			{
 				$selected = '';
-				if ($action->event_value == $container->id) $selected = ' selected="selected" ';
-				echo ('<option value="'.$container->id.'"'.$selected.' >'.$container->title.'</option>');
+				if ($action->event_value == $location->id) $selected = ' selected="selected" ';
+				echo ('<option value="'.$location->id.'"'.$selected.' >'.$location->title.'</option>');
 			} ?>
 		</select>
 		</label>

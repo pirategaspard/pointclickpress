@@ -8,7 +8,7 @@
 		<title><?php echo $title;?></title>
 	</head>
 	<body>
-		<div id="container">
+		<div id="location">
 			<div id="header">				
 				<?php echo $header; ?>
 			</div>

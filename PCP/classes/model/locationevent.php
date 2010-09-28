@@ -1,8 +1,8 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Model_ContainerEvent extends Model_Event 
+class Model_locationEvent extends Model_Event 
 {	
-	protected $container_id = 0;
+	protected $location_id = 0;
 	protected $cells = array();
 	
 	public function __construct($args=array())
@@ -14,9 +14,9 @@ class Model_ContainerEvent extends Model_Event
 	function init($args=array())
 	{		
 		parent::init($args);
-		if ((isset($args['container_id']))&&(is_numeric($args['container_id'])))
+		if ((isset($args['location_id']))&&(is_numeric($args['location_id'])))
 		{
-			$this->container_id = $args['container_id'];
+			$this->location_id = $args['location_id'];
 		}
 		return $this;
 	}
@@ -30,9 +30,9 @@ class Model_ContainerEvent extends Model_Event
 							,e.event
 							,e.event_label
 							,e.event_value
-							,ce.container_id
+							,ce.location_id
 					FROM events e
-					INNER JOIN containers_events ce
+					INNER JOIN locations_events ce
 					ON event_id = id
 					WHERE e.id = :id';
 			$results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();											
@@ -54,12 +54,12 @@ class Model_ContainerEvent extends Model_Event
 		{			
 			parent::save();
 			//INSERT new record
-			$q = '	INSERT INTO containers_events
-						(container_id,event_id)
-					VALUES (:container_id,:id)';
+			$q = '	INSERT INTO locations_events
+						(location_id,event_id)
+					VALUES (:location_id,:id)';
 						
 			$results = DB::query(Database::INSERT,$q,TRUE)
-								->param(':container_id',$this->container_id)
+								->param(':location_id',$this->location_id)
 								->param(':id',$this->id)
 								->execute();			
 			if ($results[1] > 0)
@@ -89,7 +89,7 @@ class Model_ContainerEvent extends Model_Event
 		if ($this->id > 0)
 		{
 			
-			$q = '	DELETE FROM containers_events
+			$q = '	DELETE FROM locations_events
 						WHERE event_id = :id';
 			$results =	DB::query(Database::DELETE,$q,TRUE)
 								->param(':id',$this->id)

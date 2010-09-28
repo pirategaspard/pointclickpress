@@ -1,10 +1,10 @@
 <?php 
-	if (isset($containers))
+	if (isset($locations))
 	{
 ?>
-<?php //if (isset($container_add)) echo($container_add); ?>
+<?php //if (isset($location_add)) echo($location_add); ?>
 		<fieldset>
-			<legend>Scene Containers</legend>
+			<legend>Scene locations</legend>
 			<table>
 				<tr>
 					<th>Id</th>
@@ -13,13 +13,13 @@
 					<th></th>
 					<th></th>
 				</tr>
-				<?php foreach($containers as $container) { ?>
+				<?php foreach($locations as $location) { ?>
 				<tr>
-					<td><?php echo($container->id); ?></td>
-					<td><?php echo($container->title); ?></td>
-					<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'container','action'=>'edit'))).'?story_id='.$container->story_id.'&container_id='.$container->id); ?>">Edit</a></td>
+					<td><?php echo($location->id); ?></td>
+					<td><?php echo($location->title); ?></td>
+					<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'location','action'=>'edit'))).'?story_id='.$location->story_id.'&location_id='.$location->id); ?>">Edit</a></td>
 					<td>&nbsp;&nbsp;</td>
-					<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'container','action'=>'delete'))).'?story_id='.$container->story_id.'&container_id='.$container->id); ?>">Delete</a></td>
+					<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'location','action'=>'delete'))).'?story_id='.$location->story_id.'&location_id='.$location->id); ?>">Delete</a></td>
 				</tr>
 				<?php } ?>
 			</table>

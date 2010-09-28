@@ -15,7 +15,7 @@ class Cells
 		,
 						g.event_id,
 						sc.id AS scene_id,
-						c.id AS container_id,
+						c.id AS location_id,
 						e.id AS event_id,
 						e.event,
 						e.event_label,
@@ -31,8 +31,8 @@ class Cells
 					ON e.id = g.event_id
 				INNER JOIN scenes sc
 					ON sc.id = g.scene_id
-				INNER JOIN containers c
-					ON c.id = sc.container_id
+				INNER JOIN locations c
+					ON c.id = sc.location_id
 				INNER JOIN stories s
 					ON s.id = c.story_id
 				WHERE 1 = 1 ';
@@ -40,7 +40,7 @@ class Cells
 		if (isset($args['cell'])) $q .= ' AND cl.id = :cell '; //if we have a cell id
 		if (isset($args['event'])) $q .= ' AND e.id = :event '; //if we have a action id
 		if (isset($args['scene'])) $q .= ' AND sc.id = :scene '; //if we have a scene id
-		if (isset($args['container'])) $q .= ' AND c.id = :container '; //if we have a container id
+		if (isset($args['location'])) $q .= ' AND c.id = :location '; //if we have a location id
 		if (isset($args['story'])) $q .= ' AND s.id = :story '; //if we have a story id
 		
 		$q .= ' ORDER BY cl.id DESC';
@@ -50,7 +50,7 @@ class Cells
 		if (isset($args['cell']))	 	$q->param(':cell',$args['cell']->id);
 		if (isset($args['event']))		$q->param(':event',$args['event']->id);
 		if (isset($args['scene']))		$q->param(':scene',$args['scene']->id);
-		if (isset($args['container']))	$q->param(':container',$args['container']->id);
+		if (isset($args['location']))	$q->param(':location',$args['location']->id);
 		if (isset($args['story']))		$q->param(':story',$args['story']->id);
 								
 		$tempArray = $q->execute()->as_array();

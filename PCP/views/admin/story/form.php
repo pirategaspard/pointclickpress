@@ -22,14 +22,14 @@
 				<option value="50x50" <?php if(strcmp($story->grid(),'50x50')===0) echo('selected="selected"'); ?>>50x50</option>
 			</select>
 		</label>        
-		<label id="container_select" for="first_scene_container_id">First Scene Container:
-		<select name="first_scene_container_id" >
-			<option value="" >Select a Scene Container</option>
-			<?php foreach($containers as $container)
+		<label id="location_select" for="first_location_id">First Scene location:
+		<select name="first_location_id" >
+			<option value="" >Select a Scene location</option>
+			<?php foreach($locations as $location)
 			{
 				$selected = '';
-				if ($story->first_scene_container_id == $container->id) $selected = ' selected="selected" ';
-				echo ('<option value="'.$container->id.'"'.$selected.' >'.$container->title.'</option>');
+				if ($story->first_location_id == $location->id) $selected = ' selected="selected" ';
+				echo ('<option value="'.$location->id.'"'.$selected.' >'.$location->title.'</option>');
 			} ?>
 		</select>
 		<label>

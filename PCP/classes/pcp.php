@@ -7,7 +7,7 @@ class PCP
 	{
 		if (!isset($args['id']) && isset($_REQUEST['story_id'])) { $args['id'] = $_REQUEST['story_id']; }
 		$args = PCP::getArgs($args);
-		return Stories::getStoryInfo($args); // get a story object and all its Containers
+		return Stories::getStoryInfo($args); // get a story object and all its locations
 	}
 	
 	/* get all stories available for the story list page */
@@ -17,27 +17,27 @@ class PCP
 	}
 	
 	/* get all the information we need to render a scene */
-	static function getScene($container_id)
+	static function getScene($location_id)
 	{			
-		$container = Containers::getContainer(array('id'=>$container_id));	
+		$location = locations::getlocation(array('id'=>$location_id));	
 		$session = Session::instance();
 		$story_data = $session->get('story_data',array());
 		
 		/*
-			Switch for different scenes within container
+			Switch for different scenes within location
 			 
 			if a there is a key set in the session story_data array then use that value
 			othewise use empty string
 		*/			
-		if (isset($story_data[$container->slug]))
+		if (isset($story_data[$location->slug]))
 		{
-			$scene_value = $story_data[$container->slug];
+			$scene_value = $story_data[$location->slug];
 		}
 		else
 		{
 			$scene_value = '';
 		}
-		return Scenes::getSceneByContainerId($container_id,$scene_value); 
+		return Scenes::getSceneBylocationId($location_id,$scene_value); 
 	}
 	
 	/* 
@@ -115,38 +115,38 @@ class PCP
 		return $event_results;		
 	}
 	
-	static function getCurrentContainerID()
+	static function getCurrentlocationID()
 	{
 		$session = Session::instance();
 		$story_data = $session->get('story_data',array());
-		if (isset($story_data['container_id']))
+		if (isset($story_data['location_id']))
 		{
-			$container_id = $story_data['container_id'];
+			$location_id = $story_data['location_id'];
 		}
 		else
 		{
-			$container_id = 0 ;
+			$location_id = 0 ;
 		}		
-		return $container_id;
+		return $location_id;
 	}
 	
-	static function getContainer($container_id = 0)
+	static function getlocation($location_id = 0)
 	{
 		$args = PCP::getArgs();
-		$args['id'] = $container_id;
-		return Containers::getContainer($args);
+		$args['id'] = $location_id;
+		return locations::getlocation($args);
 	}
 	
 	static private function getArgs($args=array())
 	{
 		if (!isset($args['story_id']) && isset($_REQUEST['story_id'])) { $args['story_id'] =  $_REQUEST['story_id']; }
-		if (!isset($args['container_id']) && isset($_REQUEST['container_id'])) { $args['container_id'] = $_REQUEST['container_id']; }
+		if (!isset($args['location_id']) && isset($_REQUEST['location_id'])) { $args['location_id'] = $_REQUEST['location_id']; }
 		if (!isset($args['scene_id']) && isset($_REQUEST['scene_id'])) { $args['scene_id'] =  $_REQUEST['scene_id']; }
 		if (!isset($args['cell_id']) && isset($_REQUEST['cell_id'])) { $args['cell_id'] =  $_REQUEST['cell_id']; }
 		if (!isset($args['action_id']) && isset($_REQUEST['action_id'])) { $args['action_id'] =  $_REQUEST['action_id']; }
 		
 		if (!isset($args['include_scenes'])) { $args['include_scenes'] = FALSE; }
-		if (!isset($args['include_containers'])) { $args['include_containers'] = FALSE; }
+		if (!isset($args['include_locations'])) { $args['include_locations'] = FALSE; }
 		if (!isset($args['include_events'])) { $args['include_events'] = TRUE; } // always get actions 
 		
 		return $args;
