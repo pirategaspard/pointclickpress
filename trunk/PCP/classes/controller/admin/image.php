@@ -10,6 +10,7 @@ Class Controller_admin_image extends Controller_Template_Admin
 	
 	function action_edit()
 	{		
+		$session = Session::instance();	
 		$data['image'] = PCPAdmin::getImage();
 		$data['story_id'] = $session->get('story_id');
 		if (strlen($data['image']->filename) > 0)
