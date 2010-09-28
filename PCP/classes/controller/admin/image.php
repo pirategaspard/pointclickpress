@@ -83,7 +83,7 @@ Class Controller_admin_image extends Controller_Template_Admin
 	{		
 		$results = Images::getimage()->init(array('id'=>$_REQUEST['id']))->delete();
 		//Go back to the parent
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'image','action'=>'edit')));
+		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'image','action'=>'list')));
 	}
 }
 
