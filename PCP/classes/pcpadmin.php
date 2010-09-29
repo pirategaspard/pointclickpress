@@ -118,6 +118,7 @@ class PCPAdmin
 		if (isset($_REQUEST['scene_id']))
 		{
 			$session->set('scene_id',$_REQUEST['scene_id']);
+			$session->delete('event_id');
 		}
 		if (isset($_REQUEST['cell_id']))
 		{
