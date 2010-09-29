@@ -10,7 +10,7 @@ $supported_screens = '480x320,640x480,800x600'; //,1024x768
 /* 
 	JPG image quality
 */
-$image_quality = 50;
+$image_quality = 90;
 
 /* 
 	Size of generated thumbnails
