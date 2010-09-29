@@ -1,1 +1,1 @@
-<a href="http://www.PointClickPress.org/" target="_blank">PointClickPress.org</a> - They don't build them like they used to
+They don't build them like they used to - now you can! <a href="http://www.PointClickPress.org/" target="_blank">PointClickPress.org</a>
