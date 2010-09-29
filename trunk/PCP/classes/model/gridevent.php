@@ -63,7 +63,7 @@ class Model_GridEvent extends Model_Event
 	
 	
 	function save()
-	{	
+	{				
 		$results['id'] = $this->id;	
 		$results['success'] = 0;
 					
@@ -78,10 +78,11 @@ class Model_GridEvent extends Model_Event
 						
 			$results = DB::query(Database::INSERT,$q,TRUE)
 								->param(':scene_id',$this->scene_id)
-								->param(':event_id',$this->id)
-								->execute();			
+								->param(':event_id',$this->id)				
+								->execute();
+													
 			if ($results[1] > 0)
-			{				
+			{											
 				$this->grid_event_id = $results[0];
 				foreach ($this->cells as $cell)
 				{
