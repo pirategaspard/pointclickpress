@@ -73,7 +73,13 @@ $(document).ready(function() {
 		cell_id_list.focusout(); // focus on cell_ids input field so that the grid will update
 	});
 	
-	//when the page loads fire these two events to set up the form
+	//when the page loads fire these events to set up the form
 	$('#event_type').change();
 	$('input[name=cell_ids]').focusout();
+	// set cancel button link
+	$('#button_cancel').click(function()
+		{
+			scene_id = $(this).attr('scene_id');
+			document.location.href='edit?scene_id='+scene_id;
+		});
 });		
