@@ -43,8 +43,7 @@ Class Controller_admin_event extends Controller_Template_Admin
 			$data['story_id'] = $session->get('story_id');
 			$data['location_id'] = $session->get('location_id');
 			$data['scene_id'] = $session->get('scene_id');
-		}
-			
+		}					
 		$data['event'] = PCPAdmin::getEvent();
 		$data['event_types'] = PCPAdmin::loadEventTypes();
 		$data['back_url'] = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';

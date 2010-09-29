@@ -21,11 +21,11 @@ class Events
 			// 'event' is the class name			
 			$class_name = $event->event;
 			// get the class
-			$event_class = new $class_name; 
-			if ($event_class instanceof iPCPevent)
+			$event_obj = new $class_name; 
+			if ($event_obj instanceof iPCPevent)
 			{
 				// execute event. Events manipulate session's "story_data" info
-				$event_results = array_merge($event_results,$event_class->execute(array('event_value'=>$event->event_value),$story_data));
+				$event_results = array_merge($event_results,$event_obj->execute(array('event_value'=>$event->event_value),$story_data));
 				//$event_results = $event_class->execute(array('event_value'=>$event->event_value),$story_data);
 			}
 			else

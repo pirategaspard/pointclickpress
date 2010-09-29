@@ -41,6 +41,10 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		if (strlen($data['scene']->filename) > 0)
 		{
 			/* grid events */
+			$data['story_id'] = $session->get('story_id');
+			$data['location_id'] = $session->get('location_id');
+			$data['scene_id'] = $session->get('scene_id');
+			
 			$data['event_types'] = PCPAdmin::loadEventTypes();						
 			$data['locations'] = $data['story']->locations;
 			$data['event'] = PCPAdmin::getEvent(array('scene_id'=>$data['scene']->id,'type'=>'Grid'));				
