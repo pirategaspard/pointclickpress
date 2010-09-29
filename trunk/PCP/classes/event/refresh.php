@@ -49,6 +49,7 @@ class event_refresh extends pcpevent implements iPCPevent
 			$results = array_merge($results,PCP::doEvents($scene->events));							
 			// populate response data 					
 			$data['filename'] = $scene->getPath($story->scene_width,$story->scene_height);
+			$data['preload_filename'] = $scene->getPath(NULL,NULL,THUMBNAIL_IMAGE_SIZE);
 			$data['title'] = DEFAULT_PAGE_TITLE.$story->title.' : '.$scene->title;
 			$data['description'] = $scene->description;
 		}

@@ -197,21 +197,21 @@ class Model_Scene extends Model
 		return 1;
 	}
 	
-	function getPath($w=NULL,$h=NULL)
+	function getPath($w=NULL,$h=NULL,$screen_size=NULL)
 	{
-		if(($w == NULL) || ($h == NULL))
+		if((($w == NULL) || ($h == NULL)) && ($screen_size == NULL))
 		{
-			$screen = 'default';
+			$screen_size = 'default';
 		}		
-		else
+		elseif (($w)&&($h))
 		{
-			$screen = $w.'x'.$h;
-		}		
+			$screen_size = $w.'x'.$h;
+		}
 		$regex = DIRECTORY_SEPARATOR;
 		//return Kohana::$base_url.MEDIA_PATH.$this->story_id.DIRECTORY_SEPARATOR.$this->location_id.DIRECTORY_SEPARATOR.$this->id.DIRECTORY_SEPARATOR.$screen.DIRECTORY_SEPARATOR.$this->filename;
 		//return preg_replace("/$regex /",'/',Kohana::$base_url.MEDIA_PATH.'/'.trim($this->story_id).'/'.$this->location_id.'/'.$this->id.'/'.$screen.'/'.$this->filename);
 		//return Kohana::$base_url.MEDIA_PATH.'/'.trim($this->story_id).'/'.$this->location_id.'/'.$this->id.'/'.$screen.'/'.$this->filename;
-		return Kohana::$base_url.MEDIA_PATH.'/'.trim($this->story_id).'/'.$this->image_id.'/'.$screen.'/'.$this->filename;
+		return Kohana::$base_url.MEDIA_PATH.'/'.trim($this->story_id).'/'.$this->image_id.'/'.$screen_size.'/'.$this->filename;
 
 	}
 	
