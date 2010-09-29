@@ -108,7 +108,7 @@ class Images
 							dir::prep_directory($dest);
 							
 							$success = Image_GD::factory($temp_file)
-							->resize($screen['w'], $screen['h'])
+							->resize($screen['w'], $screen['h'],Image::NONE)
 							->save($dest.$filename,IMAGE_QUALITY);
 							
 							//Images::resize_png($orig_image,$dest.$filename,$screen['w'],$screen['h']);
