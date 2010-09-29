@@ -10,25 +10,25 @@ $(document).ready(function() {
 	$('#event_type').change(function() {
 		if ($(this).val() == 'event_link')
 		{	
-			$('#container_select').show();		
+			$('#location_select').show();		
 			$('#event_value').hide();			
 		}
 		else
 		{
-			$('#container_select').hide();
+			$('#location_select').hide();
 			$('#event_value').show();
 		}
 	});
 	
-	// when container select is changed update the 'event_value' field
-	$('select[name="container_select"]').mouseout(function() {														
-		$('textarea[name=event_value]').val($('select[name="container_select"]').val());			
+	// when location select is changed update the 'event_value' field
+	$('select[name="location_select"]').mouseout(function() {														
+		$('textarea[name=event_value]').val($('select[name="location_select"]').val());			
 	});
 	
 	// change grid color based on cell_id list
 	$('input[name=cell_ids]').focusout(function() {
 		//reset grid to have no selected cells
-		var cells = $('#scene_image').children('b'); //get the cells that are selected
+		var cells = $('#grid').children('b'); //get the cells that are selected
 		cells.removeClass('selected'); 
 		cells.addClass('not_selected');
 
@@ -41,7 +41,7 @@ $(document).ready(function() {
 	});
 
 	// catch grid clicks and update the cell_id list
-	$('#scene_image').children('b').click(function() {
+	$('#grid').children('b').click(function() {
 		var list = '';
 		var newcss = '';
 		var cell_id = $(this).attr('n');
