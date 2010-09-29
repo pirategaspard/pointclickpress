@@ -39,6 +39,9 @@
 		<label id="cell_ids" for="cell_ids">Cell Id List:
 			<input type="text" name="cell_ids" value="<?php echo($event->getCellIds()); ?>" />
 		</label>
-		<input type="submit" name="submit" value="submit" />
+		<input id="button_submit" type="submit" name="submit" value="submit" />
+		<?php if($event->id > 0 ) { ?>
+		<input id="button_cancel" type="button" name="cancel" value="cancel" scene_id="<?php echo($scene_id); ?>" />
+		<?php } ?>
 	</form>
 <?php } ?>
