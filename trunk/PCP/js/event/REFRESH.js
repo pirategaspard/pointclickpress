@@ -5,7 +5,7 @@
 	$.fn.REFRESH = function(data) 
   	{  
 	  	// Attempt to load a low res image before fetching the highres 
-	  	if($.browser.msie && parseFloat($.browser.version) < 7)
+	  	if($.browser.msie && parseFloat($.browser.version) < 9)
 		{
 			// if we are IE 6 or lower we can't stretch a background image so do nothing
 	  	}
@@ -14,10 +14,10 @@
 			// load low res image background and stretch it to fill scene 
 		  	var css = {
 		      	'background-image': 'url('+data.preload_filename+')',
+				'background-size':'100% 100%, auto auto',
 		    	'-o-background-size':'100% 100%, auto auto',
 		    	'-moz-background-size':'100% 100%, auto auto',
-		    	'-webkit-background-size':'100% 100%, auto auto',
-		    	'background-size':'100% 100%, auto auto'
+		    	'-webkit-background-size':'100% 100%, auto auto'
 		    }
 		  	$('#grid').css(css);
 	  	}
