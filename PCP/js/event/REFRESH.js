@@ -14,7 +14,9 @@
 			// load low res image background and stretch it to fill scene 
 		  	var css = {
 		      	'background-image': 'url('+data.preload_filename+')',
+		    	'-o-background-size':'100% 100%, auto auto',
 		    	'-moz-background-size':'100% 100%, auto auto',
+		    	'-webkit-background-size':'100% 100%, auto auto',
 		    	'background-size':'100% 100%, auto auto'
 		    }
 		  	$('#grid').css(css);
