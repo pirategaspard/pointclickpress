@@ -1,4 +1,12 @@
-<?php defined('SYSPATH') or exit('Install tests must be loaded from within index.php!'); ?>
+<?php
+
+// Sanity check, install should only be checked from index.php
+defined('SYSPATH') or exit('Install tests must be loaded from within index.php!');
+
+// Clear out the cache to prevent errors. This typically happens on Windows/FastCGI.
+clearstatcache(TRUE);
+
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
@@ -31,8 +39,8 @@
 	<h1>Environment Tests</h1>
 
 	<p>
-		The following tests have been run to determine if <a href="http://kohanaphp.com/">Kohana</a> will work in your environment.
-		If any of the tests have failed, consult the <a href="http://docs.kohanaphp.com/installation">documentation</a>
+		The following tests have been run to determine if <a href="http://kohanaframework.org/">Kohana</a> will work in your environment.
+		If any of the tests have failed, consult the <a href="http://kohanaframework.org/guide/about.install">documentation</a>
 		for more information on how to correct the problem.
 	</p>
 
@@ -131,6 +139,14 @@
 			<?php endif ?>
 		</tr>
 		<?php endif ?>
+		<tr>
+			<th>Character Type (CTYPE) Extension</th>
+			<?php if ( ! function_exists('ctype_digit')): $failed = TRUE ?>
+				<td class="fail">The <a href="http://php.net/ctype">ctype</a> extension is not enabled.</td>
+			<?php else: ?>
+				<td class="pass">Pass</td>
+			<?php endif ?>
+		</tr>
 		<tr>
 			<th>URI Determination</th>
 			<?php if (isset($_SERVER['REQUEST_URI']) OR isset($_SERVER['PHP_SELF']) OR isset($_SERVER['PATH_INFO'])): ?>
