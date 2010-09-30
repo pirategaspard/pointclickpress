@@ -2,8 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 	<head>
 		<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
-		<meta http-equiv="Content-Language" content="en-us" />
-		<?php foreach ($scripts as $script)	{ ?><script src="<?php echo(Kohana::$base_url.'js/'.$script); ?>" ></script><?php } ?>
+		<meta http-equiv="Content-Language" content="en-us" />		
 		<?php foreach ($styles as $style)	{ ?><link href="<?php echo(Kohana::$base_url.'css/'.$style); ?>" rel="stylesheet" type="text/css" ><?php } ?>
 		<title><?php echo $title;?></title>
 	</head>
@@ -17,5 +16,6 @@
 			<div id="bottommenu"><?php echo $bottom_menu; ?></div>
 			<div id="footer"><?php echo $footer; ?></div>
 		</div>
+		<?php foreach ($scripts as $script)	{ ?><script src="<?php echo(Kohana::$base_url.'js/'.$script); ?>" ></script><?php print("\n"); } ?>
 	</body>
 </html>
