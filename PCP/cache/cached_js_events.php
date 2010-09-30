@@ -1,1 +1,0 @@
-a:2:{i:0;s:16:"event/MESSAGE.js";i:1;s:16:"event/REFRESH.js";}
