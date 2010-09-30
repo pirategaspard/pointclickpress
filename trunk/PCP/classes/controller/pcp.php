@@ -123,6 +123,7 @@ Class Controller_PCP extends Controller_Template_Base
     			$this->auto_render = FALSE;
     			// create response
     			$JSON['filename'] = $data['scene']->getPath($data['story']->scene_width,$data['story']->scene_height);
+    			$JSON['preload_filename'] = $data['scene']->getPath(NULL,NULL,THUMBNAIL_IMAGE_SIZE);
     			$JSON['title'] = $data['scene']->title;
     			$JSON['description'] = $data['scene']->description;
     			
