@@ -87,28 +87,7 @@ class Model_SceneEvent extends Model_Event
 		}
 		elseif ($this->id > 0)
 		{
-			//UPDATE record
-			try
-			{
-				parent::save();
-				//delete any existing cells on this action
-				$q = '	DELETE FROM scenes_events
-						WHERE event_id = :id';
-				$results['success'] = DB::query(Database::DELETE,$q,TRUE)
-								->param(':id',$this->id)
-								->execute();
-				//save cells
-				foreach ($this->cells as $cell)
-				{
-					Cells::getCell()->init(array('id'=>$cell,'event_id'=>$this->id))->save();
-				}					
-																		
-			}
-			catch( Database_Exception $e )
-			{
-			 echo('somethings wrong '.__FILE__.' 109');
-			  echo $e->getMessage(); die();
-			}
+			parent::save();
 		}
 		return $results;
 	}
