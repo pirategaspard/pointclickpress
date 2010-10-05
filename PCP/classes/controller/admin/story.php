@@ -8,7 +8,7 @@ Class Controller_admin_story extends Controller_Template_Admin
 		if (is_numeric($this->request->param('story_id')))
 		{
 			//redirect to edit story	
-			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'story','id'=>$this->request->param('story_id'),'action'=>'edit')));
+			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'edit')));
 		}
 		else
 		{
@@ -30,7 +30,7 @@ Class Controller_admin_story extends Controller_Template_Admin
 		}
 		else
 		{	//redirect to add a new story with id 0			
-			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'story','id'=>0,'action'=>'edit')));	
+			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'edit')).'?story_id=0');	
 		}		
 	}
 	
