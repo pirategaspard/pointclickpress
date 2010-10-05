@@ -15,7 +15,7 @@ class Model_StoryInfo extends Model_Story
 	// set the story screen size
 	function setDimensions($orig_width=DEFAULT_STORY_WIDTH,$orig_height=DEFAULT_STORY_HEIGHT)
 	{
-		$screens = Screens::getScreens();
+		$screens = Model_Screens::getScreens();
 		$width = $orig_width;
 		$height = $orig_height;
 		foreach($screens as $screen)

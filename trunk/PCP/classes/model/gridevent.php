@@ -45,17 +45,16 @@ class Model_GridEvent extends Model_Event
 						ON e.id = g.event_id
 					WHERE g.event_id = :id
 						AND g.scene_id = :scene_id';
-			$results = DB::query(Database::SELECT,$q,TRUE)
+			$q_results = DB::query(Database::SELECT,$q,TRUE)
 								->param(':id',$this->id)
 								->param(':scene_id',$this->scene_id)
 								->execute()
 								->as_array();											
 			
-			if (count($results) > 0 )
+			if (count($q_results) > 0 )
 			{				
-				
-				$this->init($results[0]);
-				$this->cells = Cells::getCells(array('event'=>$this));
+				$this->init($q_results[0]);
+				$this->cells = Model_Cells::getCells(array('event'=>$this));
 			}
 		}
 		return $this;
@@ -64,38 +63,34 @@ class Model_GridEvent extends Model_Event
 	
 	function save()
 	{				
-		$results['id'] = $this->id;	
-		$results['success'] = 0;
-					
+		$results = new pcpresult();	
 		if ($this->id == 0)
 		{
 			parent::save();
-		
 			//INSERT new record
 			$q = '	INSERT INTO grids_events
 						(scene_id,event_id)
 					VALUES (:scene_id,:event_id)';
 						
-			$results = DB::query(Database::INSERT,$q,TRUE)
+			$q_results = DB::query(Database::INSERT,$q,TRUE)
 								->param(':scene_id',$this->scene_id)
 								->param(':event_id',$this->id)				
 								->execute();
 													
-			if ($results[1] > 0)
+			if ($q_results[1] > 0)
 			{											
-				$this->grid_event_id = $results[0];
+				$this->grid_event_id = $q_results[0];
 				foreach ($this->cells as $cell)
 				{
-					$results = Cells::getCell()->init(array('id'=>$cell,'scene_id'=>$this->scene_id,'grid_event_id'=>$this->grid_event_id))->save();
+					Model_Cells::getCell()->init(array('id'=>$cell,'scene_id'=>$this->scene_id,'grid_event_id'=>$this->grid_event_id))->save();
 				}
-				$results['id'] = $this->id ;
-				$results['grid_event_id'] = $this->grid_event_id;
-				$results['success'] = 1;
+				$results->data = array('id'=>$this->id,'grid_event_id' => $this->grid_event_id);
+				$results->success = 1;
 			}
 			else
 			{
-				throw new Exception('somethings wrong in '.__FILE__.' on '.__LINE__);
-				//var_dump($results); die();
+				throw new Kohana_Exception('Error Inserting Record in file: :file',
+					array(':file' => Kohana::debug_path($file)));
 			}
 		}
 		elseif ($this->id > 0)
@@ -107,13 +102,13 @@ class Model_GridEvent extends Model_Event
 				//delete any existing cells on this event
 				$q = '	DELETE FROM cells
 						WHERE grid_event_id = :grid_event_id';
-				$results['success'] = DB::query(Database::DELETE,$q,TRUE)
-								->param(':grid_event_id',$this->grid_event_id)
-								->execute();
+				$results->success = DB::query(Database::DELETE,$q,TRUE)
+										->param(':grid_event_id',$this->grid_event_id)
+										->execute();
 				//save cells
 				foreach ($this->cells as $cell)
 				{
-					Cells::getCell()->init(array('id'=>$cell,'scene_id'=>$this->scene_id,'grid_event_id'=>$this->grid_event_id))->save();
+					Model_Cells::getCell()->init(array('id'=>$cell,'scene_id'=>$this->scene_id,'grid_event_id'=>$this->grid_event_id))->save();
 				}					
 																		
 			}
@@ -128,25 +123,25 @@ class Model_GridEvent extends Model_Event
 	
 	function delete()
 	{
-		if ($this->id > 0)
-		{
-			
+		$results = new pcpresult();
+		$results->data = array('id'=>$this->id,'grid_event_id' => $this->grid_event_id);
+		if ($this->grid_event_id > 0)
+		{					
 			//delete any cells on this action
 			$q = '	DELETE FROM cells
 					WHERE grid_event_id = :grid_event_id';
-			$results['success'] = DB::query(Database::UPDATE,$q,TRUE)
+			$results->success = DB::query(Database::UPDATE,$q,TRUE)
 							->param(':grid_event_id',$this->grid_event_id)
 							->execute();
 							
 			$q = '	DELETE FROM grids_events
-						WHERE event_id = :event_id';
-			$results =	DB::query(Database::DELETE,$q,TRUE)
-								->param(':event_id',$this->id)
-								->execute();						
-								
-			parent::delete();
-		}
-		return 1;
+						WHERE grid_event_id = :grid_event_id';
+			$results->success =	DB::query(Database::DELETE,$q,TRUE)
+								->param(':grid_event_id',$this->grid_event_id)
+								->execute();
+			parent::delete();																	
+		}		
+		return $results;
 	}
 	
 	function getCellIds()
@@ -158,12 +153,6 @@ class Model_GridEvent extends Model_Event
 		}		
 		return implode(',',$cell_ids);
 	}
-
-	function __get($prop)
-	{			
-		return $this->$prop;
-	}
-
 }
 
 ?>

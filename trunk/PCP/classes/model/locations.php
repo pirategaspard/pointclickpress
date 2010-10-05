@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class locations
+class Model_locations
 {	
 	static function getlocation($args=array())
 	{
@@ -37,8 +37,8 @@ class locations
 		foreach($tempArray as $a)
 		{
 			if(isset($args['include_scenes'])) $a['include_scenes'] = $args['include_scenes'];
-			if(isset($args['include_actions'])) $a['include_actions'] = $args['include_actions'];
-			$locations[$a['id']] = locations::getlocation()->init($a);
+			if(isset($args['include_events'])) $a['include_events'] = $args['include_events'];
+			$locations[$a['id']] = Model_locations::getlocation()->init($a);
 		}
 		return $locations;		
 	}

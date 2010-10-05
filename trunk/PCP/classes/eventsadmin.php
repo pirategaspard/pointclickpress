@@ -71,7 +71,7 @@ class EventsAdmin
 		}
 		else if (isset($args['location'])) 
 		{
-  			$EventsAdmin = EventsAdmin::getlocationEventsAdmin($args);
+  			$EventsAdmin = EventsAdmin::getLocationEventsAdmin($args);
 		}	
 		else if (isset($args['story'])) 
 		{
@@ -85,7 +85,8 @@ class EventsAdmin
 		$q = '	SELECT 	e.id,
 						e.event,
 						e.event_label,
-						e.event_value
+						e.event_value,
+						b.story_id
 				FROM events e
 				INNER JOIN stories_events b
 					ON (b.event_id = e.id
@@ -99,17 +100,18 @@ class EventsAdmin
 		$EventsAdmin = array();
 		foreach($tempArray as $e)
 		{
-			$EventsAdmin[$e['id']] = EventsAdmin::getEvent()->init($e);
+			$EventsAdmin[$e['id']] = EventsAdmin::getStoryEvent()->init($e);
 		}
 		return $EventsAdmin;		
 	}
 	
-	static function getlocationEvents($args=array())
+	static function getLocationEvents($args=array())
 	{				
 		$q = '	SELECT 	e.id,
 						e.event,
 						e.event_label,
-						e.event_value
+						e.event_value,
+						b.location_id
 				FROM events e
 				INNER JOIN locations_events b
 					ON (b.event_id = e.id
@@ -123,7 +125,7 @@ class EventsAdmin
 		$EventsAdmin = array();
 		foreach($tempArray as $e)
 		{
-			$EventsAdmin[$e['id']] = EventsAdmin::getEvent()->init($e);
+			$EventsAdmin[$e['id']] = EventsAdmin::getLocationEvent()->init($e);
 		}
 		return $EventsAdmin;		
 	}
@@ -133,7 +135,8 @@ class EventsAdmin
 		$q = '	SELECT 	e.id,
 						e.event,
 						e.event_label,
-						e.event_value
+						e.event_value,
+						b.scene_id
 				FROM events e
 				INNER JOIN scenes_events b
 					ON (b.event_id = e.id
@@ -147,7 +150,7 @@ class EventsAdmin
 		$EventsAdmin = array();
 		foreach($tempArray as $e)
 		{
-			$EventsAdmin[$e['id']] = EventsAdmin::getEvent()->init($e);
+			$EventsAdmin[$e['id']] = EventsAdmin::getSceneEvent()->init($e);
 		}
 		return $EventsAdmin;		
 	}
@@ -157,7 +160,9 @@ class EventsAdmin
 		$q = '	SELECT 	e.id,
 						e.event,
 						e.event_label,
-						e.event_value
+						e.event_value,
+						b.grid_event_id,
+						b.scene_id
 				FROM events e
 				INNER JOIN grids_events b
 					ON (b.event_id = e.id
@@ -171,7 +176,7 @@ class EventsAdmin
 		$EventsAdmin = array();
 		foreach($tempArray as $e)
 		{
-			$EventsAdmin[$e['id']] = EventsAdmin::getEvent()->init($e);
+			$EventsAdmin[$e['id']] = EventsAdmin::getGridEvent()->init($e);
 		}
 		return $EventsAdmin;		
 	}

@@ -12,6 +12,8 @@
 				<?php echo $header; ?>
 			</div>
 			<div id="topmenu"><?php echo $top_menu; ?></div>
+			<div id="breadcrumb"><?php echo $breadcrumb; ?></div>
+			<div id="messages"><?php echo $messages; ?></div>
 			<div id="content"><?php echo $content; ?></div>
 			<div id="bottommenu"><?php echo $bottom_menu; ?></div>
 			<div id="footer"><?php echo $footer; ?></div>

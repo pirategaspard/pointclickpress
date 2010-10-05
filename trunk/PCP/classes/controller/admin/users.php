@@ -26,30 +26,48 @@ class Controller_admin_users extends Controller_Template_Admin
 	
 	function action_save()
 	{
-		$results = array();
+		$session = Session::instance();
+		$session->delete('result');
 		if(count($_POST) > 0)
 		{
 			if ((isset($_POST['id']))&&($_POST['id'] > 0))
 			{
-				$results = PCPAdmin::getUser()->init($_POST)->save();	
+				$result = PCPAdmin::getUser()->init($_POST)->save();	
 			}
 			else
 			{
-				$results = UsersAdmin::create($_POST);
+				$result = UsersAdmin::create($_POST);
 			}
 			unset($_POST);
 		}
 		else
 		{
-			$results = 'error'; 
+			$result = new pcpresult(0,'unable to save user');
 		}
+		if ($result->success)
+		{
+			$result->message = "User Saved";
+		}
+		$session->set('result',$result);
 		//redirect to edit the story just saved
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'users','action'=>'edit')).'?user_id='.$results['id']);
+		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'users','action'=>'edit')).'?user_id='.$result->data['id']);
 	}
 	
 	function action_delete()
 	{	
-		$results = PCPAdmin::getUser()->init(array('id'=>$_REQUEST['user_id']))->delete();
+		$session = Session::instance();	
+		$session->delete('result');
+		$result = PCPAdmin::getUser()->init(array('id'=>$_REQUEST['user_id']))->delete();
+		// Create User Message
+		if ($result->success)
+		{
+			$result->message = "User Deleted";
+		}
+		elseif($result->success == 0)
+		{
+			$result->message = "Unable to Delete User";
+		}
+		$session->set('result',$result);
 		//Go back to the parent
 		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'users','action'=>'list')));
 	}
@@ -69,10 +87,10 @@ class Controller_admin_users extends Controller_Template_Admin
 		{
 			if($_POST)
 			{
-				$results = Usersadmin::authenticate($_POST['username'], $_POST['password']);
-				if(($results['success'])&&(($results['id'])>0))
+				$result = Usersadmin::authenticate($_POST['username'], $_POST['password']);
+				if(($result->success)&&(($result->data['id'])>0))
 				{
-					Usersadmin::login($results['id']);
+					Usersadmin::login($result->data['id']);
 					Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'list')));
 				}
 				else

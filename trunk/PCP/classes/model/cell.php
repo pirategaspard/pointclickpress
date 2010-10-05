@@ -30,8 +30,7 @@ class Model_Cell extends Model
 	}
 	
 	function load($args=array())
-	{
-		
+	{		
 		if ($this->id > 0)
 		{
 			$q = '	SELECT 	c.id													
@@ -41,11 +40,11 @@ class Model_Cell extends Model
 				INNER JOIN grids_events g
 					ON g.grid_event_id = c.grid_event_id
 				WHERE c.id = :id';
-			$results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();											
+			$q_results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();											
 							
-			if (count($results) > 0 )
+			if (count($q_results) > 0 )
 			{				
-				$this->init($results[0]);	
+				$this->init($q_results[0]);	
 			}
 		}
 		return $this;
@@ -54,50 +53,44 @@ class Model_Cell extends Model
 	
 	function save()
 	{	
-		$results['id'] = $this->id;	
-		$results['success'] = 0;
-		
+		$results = new pcpresult();
 		//INSERT new record
 		$q = '	INSERT INTO cells
 					(id,scene_id,grid_event_id)
 				VALUES (:id,:scene_id,:grid_event_id)';
 					
-		$results = DB::query(Database::INSERT,$q,TRUE)							
+		$q_results = DB::query(Database::INSERT,$q,TRUE)							
 							->param(':id',$this->id)
 							->param(':scene_id',$this->scene_id)
 							->param(':grid_event_id',$this->grid_event_id)
 							->execute();			
-		if ($results[1] > 0)
+		if ($q_results[1] > 0)
 		{
-			$results['id'] = $results[0];
-			$results['success'] = 1;
+			$this->id = $q_results[0];
+			$results->success = 1;
 		}
 		else
 		{
-			echo('somethings wrong in '.__FILE__.' on '.__LINE__);
-			var_dump($results); die();
+			throw new Kohana_Exception('Error Inserting Record in file: :file',
+					array(':file' => Kohana::debug_path($file)));
 		}
+		$results->data = array('id'=>$this->id);
 		return $results;
 	}
 	
 	function delete()
 	{
+		$results = new pcpresult();
+		$results->data = array('id'=>$this->id);
 		if ($this->id > 0)
 		{
 			$q = '	DELETE FROM cells
 						WHERE id = :id';
-			$results =	DB::query(Database::DELETE,$q,TRUE)
+			$results->success =	DB::query(Database::DELETE,$q,TRUE)
 								->param(':id',$this->id)
 								->execute();						
-		}
-		return 1;
+		}		
+		return $results;
 	}
-
-	function __get($prop)
-	{			
-		return $this->$prop;
-	}
-
 }
-
 ?>

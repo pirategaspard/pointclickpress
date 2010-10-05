@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Images
+class ImagesAdmin
 {	
 	static function getImage($args=array())
 	{
@@ -34,7 +34,7 @@ class Images
 		$Images = array();
 		foreach($tempArray as $a)
 		{
-			$Images[$a['id']] = Images::getImage()->init($a);
+			$Images[$a['id']] = ImagesAdmin::getImage()->init($a);
 		}
 		return $Images;		
 	}
@@ -53,7 +53,7 @@ class Images
 														'upload::valid'=>NULL, 
 														'upload::not_empty'=>array(), 
 														'upload::type'=>array(array('gif','jpg','jpeg','png')), 
-														'upload::size'=>array('2M')));
+														'upload::size'=>array('3M')));
 			//is our image file valid?
 			if ($valid->Check())
 			{
@@ -64,13 +64,13 @@ class Images
 				//$filename = substr($filename,0,strpos($filename,'.')).'.png'; 
 					
 				//save filename to db & get image_id
-				$results = images::getImage(array('story_id'=>$_POST['story_id'],'filename'=>$filename))->save();
+				$results = ImagesAdmin::getImage(array('story_id'=>$_POST['story_id'],'filename'=>$filename))->save();
 				
 				//did we save to the db ok?
-				if ($results['success'])
+				if ($results->success)
 				{
 					//get image Id from results
-					$image_id = $results['id'];
+					$image_id = $results->data['id'];
 					
 					// make a folders named story_id with a folder image_id inside it
 					// final path will be: /media/story_id/image_id/WxH/filename
@@ -86,8 +86,8 @@ class Images
 					$dest = $media_path.DIRECTORY_SEPARATOR.'default'.DIRECTORY_SEPARATOR;
 					dir::prep_directory($dest);
 					//create default image and save it			
-					$success = Image_GD::factory($temp_file)
-												->resize(DEFAULT_STORY_WIDTH, DEFAULT_STORY_HEIGHT, Image_GD::WIDTH)
+					$success = Image::factory($temp_file)
+												->resize(DEFAULT_STORY_WIDTH, DEFAULT_STORY_HEIGHT, Image::WIDTH)
 												->save($dest.$filename);		
 															
 					// did we resize & save the file to the upload dir ok?
@@ -96,7 +96,7 @@ class Images
 						$orig_image = $dest.$filename;
 																					
 						//get array of Supported screens and add in the thumbnail size 
-						$SCREENS = Screens::getScreens();
+						$SCREENS = Model_Screens::getScreens();
 						$temp = explode('x',THUMBNAIL_IMAGE_SIZE);
 						$SCREENS[] = array('w'=>$temp[0],'h'=>$temp[1]); 						
 								
@@ -107,7 +107,7 @@ class Images
 							//create directory to put image
 							dir::prep_directory($dest);
 							
-							$success = Image_GD::factory($temp_file)
+							$success = Image::factory($temp_file)
 							->resize($screen['w'], $screen['h'],Image::NONE)
 							->save($dest.$filename,IMAGE_QUALITY);
 							
@@ -115,21 +115,21 @@ class Images
 						}
 					}
 					
-					$results = array('success'=>$success,'filename'=>$filename,'path'=>UPLOAD_PATH.DIRECTORY_SEPARATOR,'image_id'=>$image_id);
+					$results = new pcpresult($success,'',array('filename'=>$filename,'path'=>UPLOAD_PATH.DIRECTORY_SEPARATOR,'image_id'=>$image_id));
 				}
 				else
 				{			
-					$results = array('success'=>false, 'message'=>'File was not saved to db');
+					$results = new pcpresult(0,'File was not saved to db');
 				}
 			}
 			else
 			{			
-				$results = array_merge(array('success'=>false),$valid->errors());
+				$results = new pcpresult(0,'',array('errors'=>$valid->errors()));
 			}
 		}
 		else
 		{			
-			$results = array('success'=>false, 'message'=>'No files and/or no story ID');
+			$results = new pcpresult(0,'No files and/or no story ID');
 		}
 		return $results;
 	}			

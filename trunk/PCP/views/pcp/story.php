@@ -1,6 +1,4 @@
-<?php 
-	$screens = Screens::getScreens();
-?>
+<?php ?>
 
 <h1><?php echo ($story->title); ?></h1>
 <h3>By: <?php echo ($story->author); ?></h3>

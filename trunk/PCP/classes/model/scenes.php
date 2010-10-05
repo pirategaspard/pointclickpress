@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Scenes 
+class Model_Scenes 
 {
 									 
 	static function getScene($args=array())
@@ -43,8 +43,8 @@ class Scenes
 		$Scenes = array();
 		foreach($tempArray as $a)
 		{
-			if(isset($args['include_actions'])) $a['include_actions'] = $args['include_actions'];			
-			$Scenes[$a['id']] = Scenes::getScene()->init($a);
+			if(isset($args['include_events'])) $a['include_events'] = $args['include_events'];			
+			$Scenes[$a['id']] = Model_Scenes::getScene()->init($a);
 		}
 		return $Scenes;		
 	}
@@ -52,7 +52,7 @@ class Scenes
 	/* get a scene by location ID and value */
 	static function getSceneBylocationId($location_id,$value='')
 	{	
-		$scene = Scenes::getScene(); // get empty scene object
+		$scene = Model_Scenes::getScene(); // get empty scene object
 		$q = '	SELECT 	s.id
 						,s.story_id
 						,s.location_id
@@ -68,14 +68,14 @@ class Scenes
 						ON s.location_id = c.id 
 						AND c.id = :location_id
 					WHERE s.value = :value';
-		$results = DB::query(Database::SELECT,$q,TRUE)
+		$q_results = DB::query(Database::SELECT,$q,TRUE)
 								->param(':location_id',$location_id)
 								->param(':value',$value)
 								->execute()
 								->as_array();
-		if (count($results) > 0)			
+		if (count($q_results) > 0)			
 		{
-			$args = $results[0];
+			$args = $q_results[0];
 			$args['include_events'] = true;
 			$scene->init($args); // populate scene object
 		}

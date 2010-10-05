@@ -24,7 +24,8 @@ Class Controller_Template_Admin extends Controller_Template_Base
 				$this->template->scripts[] = 'admin.js';
 				$this->template->styles[] = 'thickbox.css';
 				$this->template->header = View::factory('/admin/header')->render();	;
-				$this->template->message_console = '';
+				$this->template->breadcrumb = '';
+				$this->template->messages = '';
 				$this->template->footer = View::factory('admin/footer')->render();
 			}
 		}
@@ -41,8 +42,29 @@ Class Controller_Template_Admin extends Controller_Template_Base
 	{
 		// Run anything that needs to run after this.
 		parent::after();
+		
+		// decide if we have a result and how to display it
+		$session = Session::instance();
+		$result = $session->get('result');		
+		if ($result)
+		{
+			if ($result->success)
+			{				
+				//$this->template->messages = "Success";
+				$this->template->messages = $result->message;				
+			}
+			elseif ($result->success == 0)
+			{
+				//$this->template->messages = "Failed";
+				$this->template->messages = $result->message;				
+			}
+			elseif ($result->success < 0)
+			{
+				$this->template->messages = "No Action";
+				//$this->template->messages = $result->message;				
+			}
+		}
 	}
 
 }
-
 ?>

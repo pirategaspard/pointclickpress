@@ -117,35 +117,15 @@ Class Controller_PCP extends Controller_Template_Base
 		// if we have valid data show the scene
 		if (($data['story'] != NULL) && ($data['scene']->id > 0) && (strlen($data['scene']->filename) > 0))
 		{				
-			if (Request::$is_ajax)
-    		{
-    			// disable auto render
-    			$this->auto_render = FALSE;
-    			// create response
-    			$JSON['filename'] = $data['scene']->getPath($data['story']->scene_width,$data['story']->scene_height);
-    			$JSON['preload_filename'] = $data['scene']->getPath(NULL,NULL,THUMBNAIL_IMAGE_SIZE);
-    			$JSON['title'] = $data['scene']->title;
-    			$JSON['description'] = $data['scene']->description;
-    			
-    			$response = new pcpresponse(REFRESH,$JSON);
-				$results = array_merge($results,$response->asArray());
-    			
-    			// return data as JSON
-				//echo json_encode($JSON);
-				echo json_encode($results);
-    		}
-    		else
-    		{
-				// Compose the scene 
-				$this->template->scripts = array_merge($this->template->scripts,PCP::getJSEventTypes());			
-				$this->template->scripts[] = 'grid.js'; //get grid js 
-				$this->template->head[] = View::factory('pcp/style',$data)->render();//get grid style
-				$this->template->title .= $data['story']->title.' : '.$data['scene']->title;
-				$this->template->bottom_menu = View::factory('pcp/scene_menu',$data)->render();  			
-				$data['grid'] = View::factory('pcp/grid',$data)->render(); //get grid
-				// render the scene
-				$this->template->content = View::factory('pcp/scene',$data)->render();				
-			}
+			// Compose the scene 
+			$this->template->scripts = array_merge($this->template->scripts,PCP::getJSEventTypes());			
+			$this->template->scripts[] = 'grid.js'; //get grid js 
+			$this->template->head[] = View::factory('pcp/style',$data)->render();//get grid style
+			$this->template->title .= $data['story']->title.' : '.$data['scene']->title;
+			$this->template->bottom_menu = View::factory('pcp/scene_menu',$data)->render();  			
+			$data['grid'] = View::factory('pcp/grid',$data)->render(); //get grid
+			// render the scene
+			$this->template->content = View::factory('pcp/scene',$data)->render();				
 		}		
         else
         {
@@ -175,15 +155,15 @@ Class Controller_PCP extends Controller_Template_Base
     /* handles cell clicks */
     function action_cellClick()
     {
+		// disable auto render	
+	    $this->auto_render = FALSE;
     	pluginadmin::executeHook('pre_cellClick');
     	// do the action (if any)
     	$results = PCP::getGridEvent();
     	pluginadmin::executeHook('post_cellClick');
     
     	if (Request::$is_ajax)
-    	{
-    		// disable auto render	
-	    	$this->auto_render = FALSE;
+    	{    		
 			// display the results 	
 			echo json_encode($results);	
 			//(javascript will decide what to do next)	
@@ -206,22 +186,6 @@ Class Controller_PCP extends Controller_Template_Base
 			$session->set('screen_width',$_POST['w']);
 			$session->set('screen_height',$_POST['h']);
 		}
-	}
-	
-	function action_API()
-	{
-		// disable auto render	
-	    $this->auto_render = FALSE;
-		if (Request::$is_ajax)
-    	{
-    		// get session
-			$session = Session::instance();	
-			$story_data = $session->get('story_data',array());			
-    		// intersect request variables with session to get response
-    		$JSON = array_intersect_key($story_data,$_REQUEST);
-    		// send back the data as JSON
-    		echo json_encode($JSON);
-    	}
 	}
 }
 

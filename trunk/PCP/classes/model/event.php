@@ -45,11 +45,11 @@ class Model_Event extends Model
 							,event_value
 					FROM events e
 					WHERE id = :id';
-			$results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();											
+			$q_results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();											
 							
-			if (count($results) > 0 )
+			if (count($q_results) > 0 )
 			{				
-				$this->init($results[0]);	
+				$this->init($q_results[0]);	
 			}
 		}
 		return $this;
@@ -58,9 +58,7 @@ class Model_Event extends Model
 	
 	function save()
 	{	
-		$results['id'] = $this->id;	
-		$results['success'] = 0;
-		
+		$results = new pcpresult();
 		if ($this->id == 0)
 		{
 			//INSERT new record
@@ -72,24 +70,21 @@ class Model_Event extends Model
 						:event
 						,:event_label
 						,:event_value
-						)';
-						
-			$results = DB::query(Database::INSERT,$q,TRUE)
+						)';						
+			$q_results = DB::query(Database::INSERT,$q,TRUE)
 								->param(':event',$this->event)
 								->param(':event_label',$this->event_label)
 								->param(':event_value',$this->event_value)
-								->execute();			
-			
-			if ($results[1] > 0)
+								->execute();						
+			if ($q_results[1] > 0)
 			{
-				$this->id = $results[0];
-				$results['id'] = $this->id ;
-				$results['success'] = 1;
+				$this->id = $q_results[0];
+				$results->success = 1;
 			}
 			else
 			{
-				echo('somethings wrong in '.__FILE__.' on '.__LINE__);
-				var_dump($results); die();
+				throw new Kohana_Exception('Error Inserting Record in file: :file',
+					array(':file' => Kohana::debug_path($file)));
 			}
 		}
 		elseif ($this->id > 0)
@@ -102,7 +97,7 @@ class Model_Event extends Model
 							event_label = :event_label,
 							event_value = :event_value
 						WHERE id = :id';
-				$results['success'] = DB::query(Database::UPDATE,$q,TRUE)
+				$results->success = DB::query(Database::UPDATE,$q,TRUE)
 								->param(':event',$this->event)
 								->param(':event_value',$this->event_value)
 								->param(':event_label',$this->event_label)
@@ -111,32 +106,29 @@ class Model_Event extends Model
 			}
 			catch( Database_Exception $e )
 			{
-				echo('somethings wrong in '.__FILE__.' on '.__LINE__);
-			  	echo $e->getMessage(); die();
+				throw new Kohana_Exception('Error Updating Record in file: :file',
+					array(':file' => Kohana::debug_path($file)));
 			}
 		}
+		$results->data = array('id'=>$this->id);
 		return $results;
 	}
 	
 	function delete()
 	{
+		$results = new pcpresult();
 		if ($this->id > 0)
 		{
 				
 			$q = '	DELETE FROM events
 						WHERE id = :id';
-			$results =	DB::query(Database::DELETE,$q,TRUE)
+			$results->success =	DB::query(Database::DELETE,$q,TRUE)
 								->param(':id',$this->id)
 								->execute();						
 		}
-		return 1;
+		$results->data = array('id'=>$this->id);
+		return $results;
 	}
-
-	function __get($prop)
-	{			
-		return $this->$prop;
-	}
-
 }
 
 ?>

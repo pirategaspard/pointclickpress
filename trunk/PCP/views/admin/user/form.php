@@ -26,7 +26,6 @@
 				<option value="0" <?php if($user->active == 0){ echo('selected="selected"'); }?>>No</option>
 				<option value="1" <?php if($user->active == 1){ echo('selected="selected"'); }?>>Yes</option>
 			</select>	
-			<input type="text" value="<?php echo($user->active); ?>" >
 		</label>
 		<input type="submit" name="submit" value="Save" />
 	</form>

@@ -49,7 +49,7 @@ class Model_location extends Model
 		if ($args['include_scenes'])
 		{			
 			$args['location'] = $this;
-			$this->scenes = scenes::getScenes($args);
+			$this->scenes = PCPAdmin::getScenes($args);
 		}
 		return $this;
 	}
@@ -63,11 +63,11 @@ class Model_location extends Model
 							,title
 					FROM locations c
 					WHERE id = :id';
-			$results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();
+			$q_results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();
 			
-			if (count($results) > 0 )
+			if (count($q_results) > 0 )
 			{
-				$this->init($results[0]);							
+				$this->init($q_results[0]);							
 				
 				/*
 				// get all possible values for scenes in this location
@@ -79,10 +79,10 @@ class Model_location extends Model
 							ON s.location_id = c.id
 							WHERE c.id = :id
 							AND s.value != ""';  // 
-					$results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();
-					foreach($results as $result)
+					$q_results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();
+					foreach($q_results as $q_result)
 					{
-						$this->values[] = $result['value'];
+						$this->values[] = $q_result['value'];
 					}
 				}*/
 			}
@@ -93,23 +93,29 @@ class Model_location extends Model
 	
 	function save()
 	{	
-		$results['id'] = $this->id;	
-		$results['success'] = 0;
-		
+		$results = new pcpresult();
 		if ($this->id == 0)
 		{
 			//INSERT new record
+			try
+			{
 				$q = '	INSERT INTO locations
 						(story_id,title)
 						VALUES (:story_id,:title)';
-				$results = DB::query(Database::INSERT,$q,TRUE)
+				$q_results = DB::query(Database::INSERT,$q,TRUE)
 								->param(':story_id',$this->story_id)
 								->param(':title',$this->title)
 								->execute();						
-			if ($results[1] > 0)
+				if ($q_results[1] > 0)
+				{
+					$this->id = $q_results[0];
+					$results->success = 1;
+				}
+			}
+			catch( Database_Exception $e )
 			{
-				$results['id'] = $results[0];
-				$results['success'] = 1;
+				throw new Kohana_Exception('Error Updating Record in file: :file',
+					array(':file' => Kohana::debug_path($file)));
 			}
 		}
 		elseif ($this->id > 0)
@@ -120,45 +126,46 @@ class Model_location extends Model
 				$q = '	UPDATE locations
 						SET title = :title
 						WHERE id = :id';
-				$results['success'] = DB::query(Database::UPDATE,$q,TRUE)
+				$results->success = DB::query(Database::UPDATE,$q,TRUE)
 										->param(':title',$this->title)
 										->param(':id',$this->id)
 										->execute();															
 			}
 			catch( Database_Exception $e )
 			{
-			  echo('somethings wrong location.php 114');
-			  echo $e->getMessage(); die();
+				throw new Kohana_Exception('Error Updating Record in file: :file',
+					array(':file' => Kohana::debug_path($file)));
 			}
 		}
+		$results->data = array('id'=>$this->id);
 		return $results;
 	}
 	
 	function delete()
 	{	
+		$results = new pcpresult();
+		$results->data = array('id'=>$this->id);
 		if ($this->id > 0)
 		{
-			//delete all scenes in location first
-			$this->load();
+			//delete all children first
+			$this->init(array('include_locations'=>true,'include_scenes'=>true,'include_events'=>true))->load();
 			foreach($this->scenes as $scene)
 			{
 				$scene->delete();
 			}
+			foreach($this->events as $event)
+			{
+				$event->delete();
+			}
 			
 			$q = '	DELETE FROM locations
 						WHERE id = :id';
-			$results =	DB::query(Database::DELETE,$q,TRUE)
-								->param(':id',$this->id)
-								->execute();								
-		}
-		return 1;
+			$results->success =	DB::query(Database::DELETE,$q,TRUE)
+									->param(':id',$this->id)
+									->execute();								
+		}		
+		return $results;
 	}
-
-	function __get($prop)
-	{	
-		return $this->$prop;
-	}
-
 }
 
 ?>

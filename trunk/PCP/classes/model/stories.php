@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Stories
+class Model_Stories
 {	
 	static function getStory($args=array())
 	{
@@ -42,7 +42,7 @@ class Stories
 			if(isset($args['include_scenes'])) $a['include_scenes'] = $args['include_scenes'];
 			if(isset($args['include_events'])) $a['include_events'] = $args['include_events'];
 			
-			$stories[$a['id']] = stories::getStory()->init($a);
+			$stories[$a['id']] = Model_Stories::getStory()->init($a);
 		}
 		return $stories;		
 	}
