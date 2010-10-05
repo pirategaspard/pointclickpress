@@ -96,9 +96,7 @@ class Model_Scene extends Model
 	
 	function save()
 	{	
-		$results['id'] = $this->id;	
-		$results['success'] = 0;
-		
+		$results = new pcpresult();					
 		if ($this->id == 0)
 		{
 			try
@@ -120,7 +118,7 @@ class Model_Scene extends Model
 							,:value
 							)';
 							
-				$results = DB::query(Database::INSERT,$q,TRUE)
+				$q_results = DB::query(Database::INSERT,$q,TRUE)
 									->param(':story_id',$this->story_id)
 									->param(':location_id',$this->location_id)
 									->param(':title',$this->title)
@@ -128,21 +126,21 @@ class Model_Scene extends Model
 									->param(':image_id',$this->image_id)
 									->param(':value',$this->value)
 									->execute();			
-				if ($results[1] > 0)
+				if ($q_results[1] > 0)
 				{
-					$results['id'] = $results[0];
-					$results['success'] = 1;
+					$this->id = $q_results[0];
+					$results->success = 1;
 				}
 				else
 				{
-					echo('somethings wrong in '.__FILE__.' on '.__LINE__);
-					var_dump($results);
+					throw new Kohana_Exception('Error Updating Record in file: :file',
+					array(':file' => Kohana::debug_path($file)));
 				}
 			}
 			catch( Database_Exception $e )
 			{
-			  echo('somethings wrong in '.__FILE__.' on '.__LINE__);
-			  echo $e->getMessage(); die();
+				throw new Kohana_Exception('Error Updating Record in file: :file',
+					array(':file' => Kohana::debug_path($file)));
 			}
 		}
 		elseif ($this->id > 0)
@@ -156,7 +154,7 @@ class Model_Scene extends Model
 							,image_id = :image_id
 							,value = :value
 						WHERE id = :id';
-				$results['success'] = DB::query(Database::UPDATE,$q,TRUE)
+				$results->success = DB::query(Database::UPDATE,$q,TRUE)
 										->param(':title',$this->title)
 										->param(':description',$this->description)
 										->param(':image_id',$this->image_id)
@@ -166,35 +164,44 @@ class Model_Scene extends Model
 			}
 			catch( Database_Exception $e )
 			{
-			  echo('somethings wrong in '.__FILE__.' on '.__LINE__);
-			  echo $e->getMessage(); die();
+				throw new Kohana_Exception('Error Updating Record in file: :file',
+					array(':file' => Kohana::debug_path($file)));
 			}
 		}
+		$results->data = array('id'=>$this->id);
 		return $results;
 	}
 	
 	function delete()
 	{
+		$results = new pcpresult();
+		$results->data = array('id'=>$this->id);
 		if ($this->id > 0)
 		{
 			// delete children 1st
-			$this->load();
+			$this->init(array('include_events'=>true))->load();						
 			foreach($this->events as $event)
 			{
 				$event->delete();
 			}
-			foreach($this->grid_events as $event)
+			foreach($this->grid_events as $grid_event)
 			{
-				$event->delete();
+				$grid_event->delete();
 			}
+			
+			$q = '	DELETE FROM images
+						WHERE id = :image_id';
+			$results->success =	DB::query(Database::DELETE,$q,TRUE)
+											->param(':image_id',$this->image_id)
+											->execute();
 			
 			$q = '	DELETE FROM scenes
 						WHERE id = :id';
-			$results =	DB::query(Database::DELETE,$q,TRUE)
-								->param(':id',$this->id)
-								->execute();							
-		}
-		return 1;
+			$results->success =	DB::query(Database::DELETE,$q,TRUE)
+											->param(':id',$this->id)
+											->execute();							
+		}		
+		return $results;
 	}
 	
 	function getPath($w=NULL,$h=NULL,$screen_size=NULL)
@@ -208,9 +215,6 @@ class Model_Scene extends Model
 			$screen_size = $w.'x'.$h;
 		}
 		$regex = DIRECTORY_SEPARATOR;
-		//return Kohana::$base_url.MEDIA_PATH.$this->story_id.DIRECTORY_SEPARATOR.$this->location_id.DIRECTORY_SEPARATOR.$this->id.DIRECTORY_SEPARATOR.$screen.DIRECTORY_SEPARATOR.$this->filename;
-		//return preg_replace("/$regex /",'/',Kohana::$base_url.MEDIA_PATH.'/'.trim($this->story_id).'/'.$this->location_id.'/'.$this->id.'/'.$screen.'/'.$this->filename);
-		//return Kohana::$base_url.MEDIA_PATH.'/'.trim($this->story_id).'/'.$this->location_id.'/'.$this->id.'/'.$screen.'/'.$this->filename;
 		return Kohana::$base_url.MEDIA_PATH.'/'.trim($this->story_id).'/'.$this->image_id.'/'.$screen_size.'/'.$this->filename;
 
 	}
@@ -222,11 +226,6 @@ class Model_Scene extends Model
 	function setTitle($string)
 	{			
 		$this->title = $string;
-	}
-
-	function __get($prop)
-	{			
-		return $this->$prop;
 	}
 
 }

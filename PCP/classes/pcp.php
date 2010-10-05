@@ -7,19 +7,19 @@ class PCP
 	{
 		if (!isset($args['id']) && isset($_REQUEST['story_id'])) { $args['id'] = $_REQUEST['story_id']; }
 		$args = PCP::getArgs($args);
-		return Stories::getStoryInfo($args); // get a story object and all its locations
+		return Model_Stories::getStoryInfo($args); // get a story object and all its locations
 	}
 	
 	/* get all stories available for the story list page */
 	static function getStories($args=array())
 	{	
-		return Stories::getStories($args);		
+		return Model_Stories::getStories($args);		
 	}
 	
 	/* get all the information we need to render a scene */
 	static function getScene($location_id)
 	{			
-		$location = locations::getlocation(array('id'=>$location_id));	
+		$location = Model_locations::getlocation(array('id'=>$location_id));	
 		$session = Session::instance();
 		$story_data = $session->get('story_data',array());
 		
@@ -37,7 +37,7 @@ class PCP
 		{
 			$scene_value = '';
 		}
-		return Scenes::getSceneBylocationId($location_id,$scene_value); 
+		return Model_Scenes::getSceneBylocationId($location_id,$scene_value); 
 	}
 	
 	/* 
@@ -46,8 +46,7 @@ class PCP
 	 */
 	static function getCellEvent($scene_id,$cell_id)
 	{
-		$results['success'] = 0;
-	
+		$results = new pcpresult();
 		$q = '	SELECT 	e.id,
 						e.event,
 						e.event_label,
@@ -72,8 +71,8 @@ class PCP
 			{
 				$events[] = EventsAdmin::getGridEvent()->init($event_temp); 			
 			}
-			$results['success'] = 1;
-			$results['events'] = $events;
+			$results->success = 1;
+			$results->data = array('events'=>$events);
 		}
 		return $results;
 	}
@@ -97,9 +96,9 @@ class PCP
 			$cell_id = $_REQUEST['n'];
 			$results = PCP::getCellEvent($scene->id,$cell_id);
 			
-			if ($results['success'] == 1 )
+			if ($results->success == 1 )
 			{
-				$event_results = PCP::doEvents($results['events']);
+				$event_results = PCP::doEvents($results->data['events']);
 			}			
 		}
 		return $event_results;	
@@ -111,7 +110,7 @@ class PCP
     */
 	static function doEvents($events)
 	{
-		$event_results = Events::doEvents($events);
+		$event_results = Model_Events::doEvents($events);
 		return $event_results;		
 	}
 	
@@ -134,7 +133,7 @@ class PCP
 	{
 		$args = PCP::getArgs();
 		$args['id'] = $location_id;
-		return locations::getlocation($args);
+		return Model_locations::getlocation($args);
 	}
 	
 	static private function getArgs($args=array())
@@ -143,7 +142,7 @@ class PCP
 		if (!isset($args['location_id']) && isset($_REQUEST['location_id'])) { $args['location_id'] = $_REQUEST['location_id']; }
 		if (!isset($args['scene_id']) && isset($_REQUEST['scene_id'])) { $args['scene_id'] =  $_REQUEST['scene_id']; }
 		if (!isset($args['cell_id']) && isset($_REQUEST['cell_id'])) { $args['cell_id'] =  $_REQUEST['cell_id']; }
-		if (!isset($args['action_id']) && isset($_REQUEST['action_id'])) { $args['action_id'] =  $_REQUEST['action_id']; }
+		if (!isset($args['event_id']) && isset($_REQUEST['event_id'])) { $args['event_id'] =  $_REQUEST['event_id']; }
 		
 		if (!isset($args['include_scenes'])) { $args['include_scenes'] = FALSE; }
 		if (!isset($args['include_locations'])) { $args['include_locations'] = FALSE; }
@@ -154,12 +153,12 @@ class PCP
 	
 	static function getJSEventTypes()
 	{	
-		return Events::getJSEventTypes();
+		return Model_Events::getJSEventTypes();
 	}
 	
 	static function getScreens()
 	{
-		return Screens::getScreens();
+		return Model_Screens::getScreens();
 	}
 
 }

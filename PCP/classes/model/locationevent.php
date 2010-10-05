@@ -35,11 +35,11 @@ class Model_locationEvent extends Model_Event
 					INNER JOIN locations_events ce
 					ON event_id = id
 					WHERE e.id = :id';
-			$results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();											
+			$q_results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();											
 							
-			if (count($results) > 0 )
+			if (count($q_results) > 0 )
 			{				
-				$this->init($results[0]);	
+				$this->init($q_results[0]);	
 			}
 		}
 		return $this;
@@ -47,63 +47,56 @@ class Model_locationEvent extends Model_Event
 	
 	function save()
 	{	
-		$results['id'] = $this->id;	
-		$results['success'] = 0;
-		
+		$results = new ();
 		if ($this->id == 0)
 		{			
 			parent::save();
 			//INSERT new record
 			$q = '	INSERT INTO locations_events
 						(location_id,event_id)
-					VALUES (:location_id,:id)';
-						
-			$results = DB::query(Database::INSERT,$q,TRUE)
+					VALUES (:location_id,:id)';						
+			$q_results = DB::query(Database::INSERT,$q,TRUE)
 								->param(':location_id',$this->location_id)
 								->param(':id',$this->id)
 								->execute();			
-			if ($results[1] > 0)
+			if ($q_results[1] > 0)
 			{
 				foreach ($this->cells as $cell)
 				{
-					$results = Cells::getCell()->init(array('id'=>$cell,'event_id'=>$this->id))->save();
+					Cells::getCell()->init(array('id'=>$cell,'event_id'=>$this->id))->save();
 				}
-				$results['id'] = $this->id ;
-				$results['success'] = 1;
+				$this->id = $q_results[0];
+				$results->success = 1;
 			}
 			else
 			{
-				echo('somethings wrong action.php 111');
-				var_dump($results);
+				throw new Kohana_Exception('Error Updating Record in file: :file',
+					array(':file' => Kohana::debug_path($file)));
 			}
 		}
 		elseif ($this->id > 0)
 		{
-			parent::save();														
+			$results = parent::save();														
 		}
+		$results->data = array('id'=>$this->id);
 		return $results;
 	}
 	
 	function delete()
 	{
+		$results = new ();
 		if ($this->id > 0)
 		{
-			
 			$q = '	DELETE FROM locations_events
 						WHERE event_id = :id';
-			$results =	DB::query(Database::DELETE,$q,TRUE)
-								->param(':id',$this->id)
-								->execute();									
+			$results->success =	DB::query(Database::DELETE,$q,TRUE)
+									->param(':id',$this->id)
+									->execute();									
 			parent::delete();
 		}
-		return 1;
+		$results->data = array('id'=>$this->id);
+		return $results;
 	}
-
-	function __get($prop)
-	{			
-		return $this->$prop;
-	}
-
 }
 
 ?>

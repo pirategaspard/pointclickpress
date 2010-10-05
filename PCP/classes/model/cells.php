@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Cells
+class Model_Cells
 {	
 	static function getCell($args=array())
 	{
@@ -11,18 +11,6 @@ class Cells
 	
 	static function getCells($args=array())
 	{		
-		/*
-		,
-						g.event_id,
-						sc.id AS scene_id,
-						c.id AS location_id,
-						e.id AS event_id,
-						e.event,
-						e.event_label,
-						e.event_value
-		
-		*/
-	
 		$q = '	SELECT 	cl.id						
 				FROM cells cl
 				INNER JOIN grids_events g
@@ -59,7 +47,7 @@ class Cells
 		foreach($tempArray as $a)
 		{
 			
-			$cells[$a['id']] = Cells::getCell()->init($a);
+			$cells[$a['id']] = Model_Cells::getCell()->init($a);
 		}
 		return $cells;		
 	}

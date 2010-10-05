@@ -38,11 +38,11 @@ class Model_Image extends Model
 							,i.filename							
 					FROM images i
 					WHERE i.id = :id';
-			$results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();											
+			$q_results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();											
 							
-			if (count($results) > 0 )
+			if (count($q_results) > 0 )
 			{				
-				$this->init($results[0]);	
+				$this->init($q_results[0]);	
 			}
 		}
 		return $this;
@@ -50,9 +50,7 @@ class Model_Image extends Model
 	
 	function save()
 	{	
-		$results['id'] = $this->id;	
-		$results['success'] = 0;
-		
+		$results = new pcpresult();
 		if ($this->id == 0)
 		{
 			try
@@ -62,25 +60,25 @@ class Model_Image extends Model
 							(story_id,filename)
 						VALUES (:story_id,:filename)';
 							
-				$results = DB::query(Database::INSERT,$q,TRUE)							
+				$q_results = DB::query(Database::INSERT,$q,TRUE)							
 									->param(':story_id',$this->story_id)
 									->param(':filename',$this->filename)
 									->execute();			
-				if ($results[1] > 0)
+				if ($q_results[1] > 0)
 				{
-					$results['id'] = $results[0];
-					$results['success'] = 1;
+					$this->id = $q_results[0];
+					$results->success = 1;
 				}
 				else
 				{
-					echo('somethings wrong in '.__FILE__.' on '.__LINE__);
-					var_dump($results);
+					throw new Kohana_Exception('Error Inserting Record in file: :file',
+						array(':file' => Kohana::debug_path($file)));
 				}
 			}
 			catch( Database_Exception $e )
 			{
-			  echo('somethings wrong in '.__FILE__.' on '.__LINE__);
-			  echo $e->getMessage(); die();
+				throw new Kohana_Exception('Error Inserting Record in file: :file',
+					array(':file' => Kohana::debug_path($file)));
 			}
 		}
 		elseif ($this->id > 0)
@@ -93,7 +91,7 @@ class Model_Image extends Model
 								,filename = :filename
 						WHERE id = :id';
 							
-				$results = DB::query(Database::INSERT,$q,TRUE)							
+				$results->success = DB::query(Database::INSERT,$q,TRUE)							
 									->param(':id',$this->id)
 									->param(':story_id',$this->story_id)
 									->param(':filename',$this->filename)
@@ -101,31 +99,28 @@ class Model_Image extends Model
 			}
 			catch( Database_Exception $e )
 			{
-			  echo('somethings wrong in '.__FILE__.' on '.__LINE__);
-			  echo $e->getMessage(); die();
+			  throw new Kohana_Exception('Error Updating Record in file: :file',
+				array(':file' => Kohana::debug_path($file)));
 			}
-		}			
+		}	
+		$results->data = array('id'=>$this->id);		
 		return $results;
 	}
 	
 	function delete()
 	{
+		$results = new pcpresult();
 		if ($this->id > 0)
 		{
 			$q = '	DELETE FROM images
 						WHERE id = :id';
-			$results =	DB::query(Database::DELETE,$q,TRUE)
+			$results->success =	DB::query(Database::DELETE,$q,TRUE)
 								->param(':id',$this->id)
 								->execute();						
 		}
-		return 1;
+		$results->data = array('id'=>$this->id);
+		return $results;
 	}
-
-	function __get($prop)
-	{			
-		return $this->$prop;
-	}
-
 }
 
 ?>

@@ -4,9 +4,7 @@ Class Controller_admin_image extends Controller_Template_Admin
 {
 	
 	function action_index()
-	{
-		//$this->action_list();
-	}
+	{}
 	
 	function action_edit()
 	{		
@@ -64,14 +62,13 @@ Class Controller_admin_image extends Controller_Template_Admin
 	function action_save()
 	{		
 		$session = Session::instance();
-		$results = Images::upload();
-		$session->set('results',$results);
-		if ($results['success'])
+		$result = ImagesAdmin::upload();
+		$session->set('result',$result);
+		if ($result->success)
 		{			
 			if ($session->get('scene_id'))
 			{
-				$session->set('image_id',$results['image_id']);
-				//action_assign();
+				$session->set('image_id',$result->data['image_id']);
 			}	
 		}
 		else
@@ -82,8 +79,20 @@ Class Controller_admin_image extends Controller_Template_Admin
 	}
 	
 	function action_delete()
-	{		
-		$results = Images::getimage()->init(array('id'=>$_REQUEST['id']))->delete();
+	{	
+		$session = Session::instance();	
+		$session->delete('result');	
+		$result = ImagesAdmin::getimage()->init(array('id'=>$_REQUEST['id']))->delete();
+		// Create User Message
+		if ($result->success)
+		{
+			$result->message = "Image Deleted";
+		}
+		else
+		{
+			$result->message = "Unable to Delete Image";
+		}
+		$session->set('result',$result);
 		//Go back to the parent
 		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'image','action'=>'list')));
 	}

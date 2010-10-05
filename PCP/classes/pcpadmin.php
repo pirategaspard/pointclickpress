@@ -7,7 +7,7 @@ class PCPAdmin
 		$session = Session::instance();
 		$args = PCPAdmin::getArgs($args);
 		if (!isset($args['id']) && $session->get('story_id')) { $args['id'] =  $session->get('story_id'); }
-		return Stories::getStory($args); // get a story object 
+		return Model_Stories::getStory($args); // get a story object 
 	}
 	
 	static function getStoryInfo($args=array())
@@ -15,13 +15,13 @@ class PCPAdmin
 		$session = Session::instance();
 		$args = PCPAdmin::getArgs($args);
 		if (!isset($args['id']) && $session->get('story_id')) { $args['id'] =  $session->get('story_id'); }
-		return Stories::getStoryInfo($args); // get a story info object 
+		return Model_Stories::getStoryInfo($args); // get a story info object 
 	}
 	
 	static function getStories($args=array())
 	{	
 		//if (!isset($args['user_id'])) { $args['user_id'] = '' }	
-		return Stories::getStories($args);		
+		return Model_Stories::getStories($args);		
 	}
 	
 	static function getlocation($args=array())
@@ -29,13 +29,13 @@ class PCPAdmin
 		$session = Session::instance();
 		$args = PCPAdmin::getArgs($args);
 		if (!isset($args['id']) && $session->get('location_id')) { $args['id'] =  $session->get('location_id'); }
-		return locations::getlocation($args); // get a scene location object
+		return Model_locations::getlocation($args); // get a scene location object
 	}
 	
 	static function getlocations($args=array())
 	{	
 		$args = PCPAdmin::getArgs($args);
-		return locations::getlocations($args);		
+		return Model_locations::getlocations($args);		
 	}
 	
 	static function getScene($args=array())
@@ -43,13 +43,13 @@ class PCPAdmin
 		$session = Session::instance();
 		$args = PCPAdmin::getArgs($args);
 		if (!isset($args['id']) && $session->get('scene_id')) { $args['id'] =  $session->get('scene_id'); }
-		return Scenes::getScene($args); // get a scene object
+		return Model_Scenes::getScene($args); // get a scene object
 	}
 	
 	static function getScenes($args=array())
 	{		
 		$args = PCPAdmin::getArgs($args);
-		return Scenes::getScenes($args);
+		return Model_Scenes::getScenes($args);
 	}
 
 	static function getEvent($args=array())
@@ -85,19 +85,19 @@ class PCPAdmin
 		$session = Session::instance();
 		$args = PCPAdmin::getArgs($args);
 		if (!isset($args['id']) && $session->get('image_id')) { $args['id'] =  $session->get('image_id'); }
-		return Images::getImage($args);  
+		return ImagesAdmin::getImage($args);  
 	}
 	
 	static function getImages($args=array())
 	{
 		$args = PCPAdmin::getArgs($args);
-		return Images::getImages($args); 
+		return ImagesAdmin::getImages($args); 
 	}
 	
 	/* get a scene by location ID and value */
 	static function getSceneBylocationId($location_id,$value='')
 	{
-		return Scenes::getSceneBylocationId($location_id,$value);
+		return Model_Scenes::getSceneBylocationId($location_id,$value);
 	}
 
 

@@ -1,8 +1,4 @@
 <?php 
-
-	echo($story_info);
-	echo($location_info);
-	echo($scene_info);
 	echo($scene_add);
 	echo($scene_form);
 	if ($scene->id > 0)

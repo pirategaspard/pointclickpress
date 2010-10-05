@@ -39,12 +39,12 @@ class Model_SceneEvent extends Model_Event
 					INNER JOIN scenes_events se
 					ON event_id = id
 					WHERE e.id = :id';
-			$results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();											
+			$q_results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();											
 							
-			if (count($results) > 0 )
+			if (count($q_results) > 0 )
 			{				
-				$this->init($results[0]);
-				$this->cells = Cells::getCells(array('action'=>$this));
+				$this->init($q_results[0]);
+				$this->cells = Cells::getCells(array('scene'=>$this));
 					
 			}
 		}
@@ -54,41 +54,43 @@ class Model_SceneEvent extends Model_Event
 	
 	function save()
 	{	
-		$results['id'] = $this->id;	
-		$results['success'] = 0;
-		
+		$results = new pcpresult();
 		if ($this->id == 0)
 		{
 			parent::save();
-		
 			//INSERT new record
-			$q = '	INSERT INTO scenes_events
-						(scene_id,event_id)
-					VALUES (:scene_id,:id)';
-						
-			$results = DB::query(Database::INSERT,$q,TRUE)
-								->param(':scene_id',$this->scene_id)
-								->param(':id',$this->id)
-								->execute();			
-			if ($results[1] > 0)
+			try
 			{
-				foreach ($this->cells as $cell)
+				$q = '	INSERT INTO scenes_events
+							(scene_id,event_id)
+						VALUES (:scene_id,:id)';
+							
+				$q_results = DB::query(Database::INSERT,$q,TRUE)
+									->param(':scene_id',$this->scene_id)
+									->param(':id',$this->id)
+									->execute();			
+				if ($q_results[1] > 0)
 				{
-					$results = Cells::getCell()->init(array('id'=>$cell,'event_id'=>$this->id))->save();
+					$this->id = $q_results[0];
+					$results->success = 1;
 				}
-				$results['id'] = $this->id ;
-				$results['success'] = 1;
+				else
+				{
+					throw new Kohana_Exception('Error Updating Record in file: :file',
+						array(':file' => Kohana::debug_path($file)));
+				}
 			}
-			else
+			catch( Database_Exception $e )
 			{
-				echo('somethings wrong '.__FILE__.' 84');
-				var_dump($results);
+				throw new Kohana_Exception('Error Updating Record in file: :file',
+					array(':file' => Kohana::debug_path($file)));
 			}
 		}
 		elseif ($this->id > 0)
 		{
-			parent::save();
+			$results = parent::save();
 		}
+		$results->data = array('id'=>$this->id);
 		return $results;
 	}
 	
@@ -99,30 +101,15 @@ class Model_SceneEvent extends Model_Event
 							
 			$q = '	DELETE FROM scenes_events
 						WHERE event_id = :id';
-			$results =	DB::query(Database::DELETE,$q,TRUE)
+			$q_results =	DB::query(Database::DELETE,$q,TRUE)
 								->param(':id',$this->id)
 								->execute();						
 								
-			parent::delete();
+			$results = parent::delete();
 		}
+		$results->data = array('id'=>$this->id);
 		return 1;
 	}
-	
-	function getCellIds()
-	{
-		$cell_ids = '';
-		foreach ($this->cells as $cell)
-		{
-			$cell_ids .= $cell->id.',';
-		}
-		return $cell_ids;
-	}
-
-	function __get($prop)
-	{			
-		return $this->$prop;
-	}
-
 }
 
 ?>

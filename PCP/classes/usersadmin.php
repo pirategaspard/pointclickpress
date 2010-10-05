@@ -29,8 +29,7 @@ class Usersadmin
 	 */
 	public static function authenticate($username = '', $password = '')
 	{		
-		$results['id'] = 0;
-		$results['success'] = 0;
+		$results = new pcpresult();
 		if ((!empty($password)) && (is_string($password)) && (is_string($username))) 
 		{
 			$q = '	SELECT id
@@ -46,8 +45,8 @@ class Usersadmin
 			// if we have 1 and only one record then we are good
 			if (count($result) == 1)
 			{				
-				$results['id'] = $result[0]['id'];
-				$results['success'] = 1;
+				$results->data = array('id'=>$result[0]['id']);
+				$results->success = 1;
 			}			
 		}
 		return $results;
@@ -138,7 +137,6 @@ class Usersadmin
 		return $results;		
 	}
 	
-	
 	private static function hash($str='')
 	{
 		$method = 'sha1';
@@ -146,5 +144,4 @@ class Usersadmin
 		$salt_post = 'X7y8Z9';		
 		return hash($method, $salt_pre.$str.$salt_post); 
 	} 
-	
 }

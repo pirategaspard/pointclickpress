@@ -10,7 +10,7 @@
 		<input type="hidden" name="id" value="<?php print($location->id); ?>" >
 		Title: <input type="text" name="title" value="<?php print($location->title); ?>" >
 		Slug: <?php print($location->slug); ?>
-		<input type="submit" name="submit" value="submit" >
+		<input type="submit" name="submit" value="Save" >
 	</form>
 </fieldset>
 <?php 

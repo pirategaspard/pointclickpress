@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Model_Useradmin extends model 
+class Model_Useradmin extends Model 
 {
 	protected $id = 0;
 	protected $username = "";
@@ -80,11 +80,11 @@ class Model_Useradmin extends model
 							,created
 					FROM users
 					WHERE id = :id';
-			$results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();				
+			$q_results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();				
 							
-			if (count($results) > 0 )
+			if (count($q_results) > 0 )
 			{
-				$this->init($results[0]);				
+				$this->init($q_results[0]);				
 			}
 		}
 		return $this;
@@ -92,11 +92,11 @@ class Model_Useradmin extends model
 	
 	function save()
 	{	
-		$results['id'] = $this->id;	
-		$results['success'] = 0;
-		
+		$results = new pcpresult();
 		if ($this->id == 0)
 		{
+			try
+			{
 				$q = '	INSERT INTO users
 						(email,username,password,active,logins,last_ip_address,created)
 						VALUES
@@ -109,7 +109,7 @@ class Model_Useradmin extends model
 							,:last_ip_address
 							,NOW()
 						)';				
-				$results = DB::query(Database::INSERT,$q,TRUE)
+				$q_results = DB::query(Database::INSERT,$q,TRUE)
 								->param(':email',$this->email)
 								->param(':username',$this->username)
 								->param(':password',$this->password)
@@ -118,17 +118,23 @@ class Model_Useradmin extends model
 								->param(':last_ip_address',$this->last_ip_address)
 								->execute();	
 								
-				if ($results[1] > 0)
+				if ($q_results[1] > 0)
 				{
-					$this->id = $results[0];
-					$results['id'] = $this->id;
-					$results['success'] = $this->id;
+					$this->id = $q_results[0];
+					$results->success = 1;
 				}
 				else
 				{
-					echo('somethings wrong');
-					var_dump($results);
+					throw new Kohana_Exception('Error Inserting Record in file: :file',
+						array(':file' => Kohana::debug_path($file)));
 				}
+			}
+			catch( Database_Exception $e )
+			{
+				throw new Kohana_Exception('Error Inserting Record in file: :file',
+					array(':file' => Kohana::debug_path($file)));
+			}
+			
 		}
 		elseif ($this->id > 0)
 		{
@@ -140,7 +146,7 @@ class Model_Useradmin extends model
 							,username = :username
 							,active = :active
 						WHERE id = :id';
-				$results['success'] = DB::query(Database::UPDATE,$q,TRUE)
+				$results->success = DB::query(Database::UPDATE,$q,TRUE)
 								->param(':email',$this->email)
 								->param(':username',$this->username)
 								->param(':active',$this->active)
@@ -149,36 +155,32 @@ class Model_Useradmin extends model
 			}
 			catch( Database_Exception $e )
 			{
-				echo('somethings wrong');
-				echo $e->getMessage(); die();
+				throw new Kohana_Exception('Error Updating Record in file: :file',
+					array(':file' => Kohana::debug_path($file)));
 			}
 		}
+		$results->data = array('id'=>$this->id);
 		return $results;
 	}
 	
 	function delete()
 	{	
+		$results = new pcpresult();
 		if ($this->id > 0)
 		{
 			$q = '	DELETE FROM users
 						WHERE id = :id';
-			$results =	DB::query(Database::DELETE,$q,TRUE)
-								->param(':id',$this->id)
-								->execute();						
+			$results->success =	DB::query(Database::DELETE,$q,TRUE)
+									->param(':id',$this->id)
+									->execute();						
 		}
-		return 1;
+		$results->data = array('id'=>$this->id);
+		return $results;
 	}	
-	
-	function __get($prop)
-	{			
-		return $this->$prop;
-	}
-	
+
 	function __set($prop, $value)
 	{			
 		$this->$prop = $value;
-	}
-	
+	}	
 }
-
 ?>

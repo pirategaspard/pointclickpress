@@ -1,9 +1,4 @@
 <?php 
-
-	//echo($page->id);
-
-	echo($story_info);
-	echo($location_info);
 	echo($location_form);
 	if ($location->id > 0)
 	{

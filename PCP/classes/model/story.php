@@ -75,7 +75,7 @@ class Model_Story extends Model
 		if ($args['include_locations'])
 		{			
 			$args['story'] = $this;
-			$this->locations = locations::getlocations($args);
+			$this->locations = PCPAdmin::getlocations($args);
 		}
 		return $this;
 	}
@@ -110,43 +110,49 @@ class Model_Story extends Model
 	
 	function save()
 	{	
-		$results['id'] = $this->id;	
-		$results['success'] = 0;
-		
+		$results = new pcpresult();	
 		if ($this->id == 0)
 		{
 			//INSERT new record
-			$q = '	INSERT INTO stories
-						(title
-						,author
-						,description
-						,first_location_id
-						,image_id
-						,grid_x
-						,grid_y)
-					VALUES (
-						:title
-						,:author
-						,:description
-						,:first_location_id
-						,:image_id						
-						,:grid_x
-						,:grid_y
-						)';
-						
-			$results = DB::query(Database::INSERT,$q,TRUE)
-								->param(':title',$this->title)
-								->param(':author',$this->author)
-								->param(':description',$this->description)
-								->param(':first_location_id',$this->first_location_id)
-								->param(':image_id',$this->image_id)
-								->param(':grid_x',$this->grid_x)
-								->param(':grid_y',$this->grid_y)
-								->execute();			
-			if ($results[1] > 0)
+			try
 			{
-				$results['id'] = $results[0];
-				$results['success'] = 1;
+				$q = '	INSERT INTO stories
+							(title
+							,author
+							,description
+							,first_location_id
+							,image_id
+							,grid_x
+							,grid_y)
+						VALUES (
+							:title
+							,:author
+							,:description
+							,:first_location_id
+							,:image_id						
+							,:grid_x
+							,:grid_y
+							)';
+							
+				$q_results = DB::query(Database::INSERT,$q,TRUE)
+									->param(':title',$this->title)
+									->param(':author',$this->author)
+									->param(':description',$this->description)
+									->param(':first_location_id',$this->first_location_id)
+									->param(':image_id',$this->image_id)
+									->param(':grid_x',$this->grid_x)
+									->param(':grid_y',$this->grid_y)
+									->execute();			
+				if ($q_results[1] > 0)
+				{
+					$this->id = $q_results[0];
+					$results->success = 1;
+				}
+			}
+			catch( Database_Exception $e )
+			{
+				throw new Kohana_Exception('Error Inserting Record in file: :file',
+					array(':file' => Kohana::debug_path($file)));
 			}
 		}
 		elseif ($this->id > 0)
@@ -154,8 +160,6 @@ class Model_Story extends Model
 			//UPDATE record
 			try
 			{
-				
-				
 				$q = '	UPDATE stories
 						SET title = :title							
 							,author = :author
@@ -165,7 +169,7 @@ class Model_Story extends Model
 							,grid_x = :grid_x
 							,grid_y = :grid_y
 						WHERE id = :id';
-				$results['success'] = DB::query(Database::UPDATE,$q,TRUE)
+				$results->success = DB::query(Database::UPDATE,$q,TRUE)
 										->param(':title',$this->title)
 										->param(':author',$this->author)
 										->param(':description',$this->description)	
@@ -178,31 +182,44 @@ class Model_Story extends Model
 			}
 			catch( Database_Exception $e )
 			{
-				echo('somethings wrong in '.__FILE__.' on '.__LINE__);
-			  	echo $e->getMessage(); die();
+				throw new Kohana_Exception('Error Updating Record in file: :file',
+					array(':file' => Kohana::debug_path($file)));
 			}
 		}
+		$results->data = array('id'=>$this->id);
 		return $results;
 	}
 	
 	function delete()
 	{	
+		$results = new pcpresult();
+		$results->data = array('id'=>$this->id);
 		if ($this->id > 0)
 		{
-			//delete children 1st
-			$this->load();
+			//delete children first
+			$this->init(array('include_locations'=>true,'include_scenes'=>true,'include_events'=>true))->load();
 			foreach($this->locations as $location)
 			{
 				$location->delete();
 			}
+			foreach($this->events as $event)
+			{
+				$event->delete();
+			}
+			
+			$q = '	DELETE FROM images
+						WHERE id = :image_id';
+			$results->success =	DB::query(Database::DELETE,$q,TRUE)
+											->param(':image_id',$this->image_id)
+											->execute();
 			
 			$q = '	DELETE FROM stories
 						WHERE id = :id';
-			$results =	DB::query(Database::DELETE,$q,TRUE)
+			$results->success =	DB::query(Database::DELETE,$q,TRUE)
 								->param(':id',$this->id)
 								->execute();						
-		}
-		return 1;
+		}		
+		return $results;
 	}
 	
 	function getScenes()
@@ -227,11 +244,6 @@ class Model_Story extends Model
 	{
 		return $this->grid_x.'x'.$this->grid_y;
 	}	
-
-	function __get($prop)
-	{	
-		return $this->$prop;
-	}
 }
 
 ?>

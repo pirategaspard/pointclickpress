@@ -48,9 +48,7 @@ class Model_StoryEvent extends Model_Event
 	
 	function save()
 	{	
-		$results['id'] = $this->id;	
-		$results['success'] = 0;
-		
+		$results = new pcpresult();
 		if ($this->id == 0)
 		{
 			parent::save();
@@ -60,25 +58,26 @@ class Model_StoryEvent extends Model_Event
 						(story_id,event_id)
 					VALUES (:story_id,:id)';
 						
-			$results = DB::query(Database::INSERT,$q,TRUE)
+			$q_results = DB::query(Database::INSERT,$q,TRUE)
 								->param(':story_id',$this->story_id)
 								->param(':id',$this->id)
 								->execute();			
-			if ($results[1] > 0)
+			if ($q_results[1] > 0)
 			{
-				$results['id'] = $this->id ;
-				$results['success'] = 1;
+				$this->id = $q_results[0];
+				$results->success = 1;
 			}
 			else
 			{
-				echo('somethings wrong action.php 111');
-				var_dump($results);
+				throw new Kohana_Exception('Error Inserting Record in file: :file',
+					array(':file' => Kohana::debug_path($file)));
 			}
 		}
 		elseif ($this->id > 0)
 		{
-			parent::save();
+			$results = parent::save();
 		}
+		$results->data = array('id'=>$this->id);
 		return $results;
 	}
 	
@@ -86,16 +85,10 @@ class Model_StoryEvent extends Model_Event
 	{
 		if ($this->id > 0)
 		{					
-			parent::delete();
+			$results = parent::delete();
 		}
-		return 1;
+		return $results;
 	}
-
-	function __get($prop)
-	{			
-		return $this->$prop;
-	}
-
 }
 
 ?>
