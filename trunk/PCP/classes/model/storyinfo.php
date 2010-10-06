@@ -29,8 +29,8 @@ class Model_StoryInfo extends Model_Story
 		$this->scene_width = $width;
 		$this->scene_height = $height;
 		
-		$this->cell_width = floor($this->scene_width / $this->grid_x);
-		$this->cell_height = floor($this->scene_height / $this->grid_y);
+		$this->cell_width = intval($this->scene_width / $this->grid_x);
+		$this->cell_height = intval($this->scene_height / $this->grid_y);
 	}
 	
 	function grid_total()
