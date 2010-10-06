@@ -16,36 +16,38 @@ Class Controller_admin_location extends Controller_Template_Admin
 		$data['scenes'] = $data['location']->scenes;	
 		$data['events'] = $data['location']->events;	
 						
+		
+		// if there is only one scene in a location redirect to scene edit
 		/*
-		// if there is no scene in a location redirect to scene edit
 		if (($data['location']->id > 0)&&(count($data['location']->scenes) == 1))
 		{
 			$data['scene_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'save')));
 			$scenes = $data['location']->scenes;
-			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?story_id='.$_REQUEST['story_id'].'&location_id='.$_REQUEST['location_id'].'&scene_id='.reset($scenes)->id);
+			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?scene_id='.reset($scenes)->id);
 		}
+		*/
 		
-		if (($data['location']->id > 0)&&(count($data['location']->scenes) <= 1))
+		// if there is no scene in a location redirect to add a scene
+		if (($data['location']->id > 0)&&(count($data['location']->scenes) < 1))
 		{
-			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?story_id='.$_REQUEST['story_id'].'&location_id='.$_REQUEST['location_id'].'&scene_id=0');
+			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?scene_id=0');
 		}
 		else
-		{*/
+		{			
+			// show locations 
+			$data['event_add'] = View::factory('/admin/event/add',$data)->render();
+			$data['event_list'] = View::factory('/admin/event/list',$data)->render();	//get event information and load list of events
 			
-		//}				
-
-		$data['event_add'] = View::factory('/admin/event/add',$data)->render();
-		$data['event_list'] = View::factory('/admin/event/list',$data)->render();	//get event information and load list of events
-		
-		$data['scene_add'] = View::factory('/admin/scene/add',$data)->render();
-		$data['scene_list'] = View::factory('/admin/scene/list',$data)->render();					
-		
-		$data['location_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'location','action'=>'save')));					
-		$data['location_form'] =  View::factory('/admin/location/form',$data)->render();		
-
-		$this->template->breadcrumb .= View::factory('/admin/story/info',$data)->render();
-		$this->template->breadcrumb .= View::factory('/admin/location/info',$data)->render();				
-		$this->template->content = View::factory('/admin/location/template',$data)->render();
+			$data['scene_add'] = View::factory('/admin/scene/add',$data)->render();
+			$data['scene_list'] = View::factory('/admin/scene/list',$data)->render();					
+			
+			$data['location_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'location','action'=>'save')));					
+			$data['location_form'] =  View::factory('/admin/location/form',$data)->render();		
+	
+			$this->template->breadcrumb .= View::factory('/admin/story/info',$data)->render();
+			$this->template->breadcrumb .= View::factory('/admin/location/info',$data)->render();				
+			$this->template->content = View::factory('/admin/location/template',$data)->render();
+		}
 	}
 	
 	function action_save()

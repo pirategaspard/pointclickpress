@@ -2,7 +2,6 @@
 	if (isset($stories))
 	{	
 ?>
-<?php if (isset($story_add)) echo($story_add); ?>
 		<fieldset>
 			<legend>Your Interactive Stories</legend>
 			<table>

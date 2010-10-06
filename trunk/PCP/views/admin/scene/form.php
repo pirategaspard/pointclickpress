@@ -1,5 +1,5 @@
 <?php 
-	$scenes = $story->getScenes();
+	
 ?>
 <h3><?php print($scene->title); ?></h3>
 <fieldset>
@@ -16,12 +16,14 @@
 			Description
 			<textarea name="description"><?php print($scene->description); ?></textarea>
 		</label>
+		<?php if ($scene->id > 0) { ?>
 		<label>
 			Image filename:
 			<input type="hidden" name="image_id" value="<?php print($scene->image_id); ?>" >
 			<input type="text" name="image_filename" value="<?php print($scene->filename); ?>" >
 			<a href="<?php print($assign_image_link); ?>&KeepThis=true&TB_iframe=true" class="thickbox" >Assign Image</a>
-		</label>		
+		</label>
+		<?php } ?>
 		<label>
 			Scene Value:
 			<input type="text" name="value" value="<?php print($scene->value); ?>" >

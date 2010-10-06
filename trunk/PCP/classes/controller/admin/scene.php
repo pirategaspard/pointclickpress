@@ -23,9 +23,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		$data['scene']->setTitle((strlen($data['scene']->title)>0) ? $data['scene']->title : $data['location']->title); //if (strlen($data['scene']->title)==0) $data['scene']->setTitle($data['location']->title);
 		// set the story size 
 		$data['story']->setDimensions(800,600);
-		$data['assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?story_id='.$data['scene']->story_id.'&location_id='.$data['scene']->location_id.'&scene_id='.$session->get('scene_id');
-		
-		$data['scene_add'] =  View::factory('/admin/scene/add',$data)->render();
+		$data['assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?story_id='.$data['scene']->story_id.'&location_id='.$data['scene']->location_id.'&scene_id='.$session->get('scene_id');				
 		
 		/* scene events */			
 		$data['event_add'] = View::factory('/admin/event/add',$data)->render();
@@ -63,6 +61,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		$this->template->breadcrumb .= View::factory('/admin/story/info',$data)->render();
 		$this->template->breadcrumb .= View::factory('/admin/location/info',$data)->render();
 		$this->template->breadcrumb .= View::factory('/admin/scene/info',$data)->render();
+		$this->template->top_menu = View::factory('/admin/scene/top_menu',$data)->render();
 		$this->template->content = View::factory('/admin/scene/template',$data)->render();
 	}
 	

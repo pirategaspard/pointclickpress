@@ -11,7 +11,7 @@ Class Controller_Template_Base extends Controller_Template
 	*/
 	public function before()
 	{
-	// Run anything that need ot run before this.
+	// Run anything that need to run before this.
 		parent::before();
 
 		if($this->auto_render)
