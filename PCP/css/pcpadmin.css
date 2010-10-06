@@ -4,9 +4,10 @@ body { }
 #header .menu {float: right;}
 #topmenu {}
 #content {}
-#scene { text-align: center;}
-#grid {margin: 0 auto; width:80%; } /* overflow: hidden;} */
+#scene { text-align: center; margin: 0 auto;}
+#grid {margin: 10px auto; width:80%; } /* overflow: hidden;} */
 #grid a {display:block; float: left; } /* border: solid 1px black; margin: -1px; */
+#grid_events {padding: 10px; margin: 0 auto;}
 
 #bottommenu {}
 #footer {position: relative; text-align: center; margin: 20px auto; }
