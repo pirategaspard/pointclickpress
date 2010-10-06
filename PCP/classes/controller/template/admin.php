@@ -21,7 +21,8 @@ Class Controller_Template_Admin extends Controller_Template_Base
 				// Initialize values
 				$this->template->title = DEFAULT_PAGE_TITLE.' Admin';
 				$this->template->scripts[] = 'thickbox-compressed.js';
-				$this->template->scripts[] = 'admin.js';
+				$this->template->scripts[] = 'pcpadmin.js';
+				$this->template->styles[] = 'pcpadmin.css';
 				$this->template->styles[] = 'thickbox.css';
 				$this->template->header = View::factory('/admin/header')->render();	;
 				$this->template->breadcrumb = '';
@@ -64,6 +65,7 @@ Class Controller_Template_Admin extends Controller_Template_Base
 				//$this->template->messages = $result->message;				
 			}
 		}
+		$session->delete('result');	
 	}
 
 }

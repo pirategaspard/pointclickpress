@@ -1,0 +1,17 @@
+body { }
+#container {margin: 0 auto; width:80%;}
+#header {display: block; height: 30px;}
+#header .menu {float: right;}
+#topmenu {}
+#content {}
+#scene { text-align: center;}
+#grid {margin: 0 auto; width:80%; } /* overflow: hidden;} */
+#grid a {display:block; float: left; } /* border: solid 1px black; margin: -1px; */
+
+#bottommenu {}
+#footer {position: relative; text-align: center; margin: 20px auto; }
+
+
+.menu {}
+ul.menu {display: inline;}
+ul.menu li {display: inline;} 

@@ -1,5 +1,4 @@
-<?php 
-	echo($scene_add);
+<?php 	
 	echo($scene_form);
 	if ($scene->id > 0)
 	{

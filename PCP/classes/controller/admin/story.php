@@ -75,9 +75,9 @@ Class Controller_admin_story extends Controller_Template_Admin
 		{
 			$result = new pcpresult(0,'unable to save story data');
 		}
-		if ($results->success)
+		if ($result->success)
 		{
-			$results->message = "Story Saved";
+			$result->message = "Story Saved";
 		}
 		$session->set('result',$result);
 		//redirect to edit the story just saved
@@ -93,9 +93,9 @@ Class Controller_admin_story extends Controller_Template_Admin
 		{
 			$story = PCPAdmin::getStory();
 			$result = $story->init(array('image_id'=>$session->get('image_id')))->save();
-			if ($results->success)
+			if ($result->success)
 			{
-				$results->message = "Image Assigned";
+				$result->message = "Image Assigned";
 			}
 			$session->set('result',$result);			
 		}
