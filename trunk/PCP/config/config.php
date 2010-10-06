@@ -5,7 +5,7 @@
 	screen dimensions such as '640x480,800x600,'
 	must be lowest to highest 
 */
-$supported_screens = '480x320,640x480,800x600'; //,1024x768
+$supported_screens = '480x320,640x480,800x600,1024x768';
 
 /* 
 	JPG image quality
