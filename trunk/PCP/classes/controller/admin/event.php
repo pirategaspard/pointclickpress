@@ -62,13 +62,13 @@ Class Controller_admin_event extends Controller_Template_Admin
 			$result = new pcpresult(0,'Could not save event');			
 		}
 		// Create User Message
-		if ($results->success)
+		if ($result->success)
 		{
-			$results->message = "Event Saved";
+			$result->message = "Event Saved";
 		}
 		else
 		{
-			$results->message = "Event Not Saved";
+			$result->message = "Event Not Saved";
 		}
 		$session->set('result',$result);
 		//redirect to add a new story
