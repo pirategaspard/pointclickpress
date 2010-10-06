@@ -2,10 +2,10 @@
 
 class Model_StoryInfo extends Model_Story 
 {
-	protected $scene_width = 800;
-	protected $scene_height = 600;
+	protected $scene_width = DEFAULT_STORY_WIDTH;
+	protected $scene_height = DEFAULT_STORY_HEIGHT;
 	protected $cell_width = 0;	
-	protected $cell_height = "";
+	protected $cell_height = 0;
 	
 	public function __construct($args=array())
 	{
@@ -29,8 +29,8 @@ class Model_StoryInfo extends Model_Story
 		$this->scene_width = $width;
 		$this->scene_height = $height;
 		
-		$this->cell_width = round($this->scene_width / $this->grid_x);
-		$this->cell_height = round($this->scene_height / $this->grid_y);
+		$this->cell_width = floor($this->scene_width / $this->grid_x);
+		$this->cell_height = floor($this->scene_height / $this->grid_y);
 	}
 	
 	function grid_total()
