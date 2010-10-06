@@ -22,7 +22,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		// set the scene title equal to the parent location title if the scene title is empty, else set it to itself
 		$data['scene']->setTitle((strlen($data['scene']->title)>0) ? $data['scene']->title : $data['location']->title); //if (strlen($data['scene']->title)==0) $data['scene']->setTitle($data['location']->title);
 		// set the story size 
-		$data['story']->setDimensions(800,600);
+		$data['story']->setDimensions(DEFAULT_STORY_WIDTH,DEFAULT_STORY_HEIGHT);
 		$data['assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?story_id='.$data['scene']->story_id.'&location_id='.$data['scene']->location_id.'&scene_id='.$session->get('scene_id');				
 		
 		/* scene events */			
