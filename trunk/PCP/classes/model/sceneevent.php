@@ -77,13 +77,13 @@ class Model_SceneEvent extends Model_Event
 				else
 				{
 					throw new Kohana_Exception('Error Updating Record in file: :file',
-						array(':file' => Kohana::debug_path($file)));
+						array(':file' => Kohana::debug_path(__FILE__)));
 				}
 			}
 			catch( Database_Exception $e )
 			{
 				throw new Kohana_Exception('Error Updating Record in file: :file',
-					array(':file' => Kohana::debug_path($file)));
+					array(':file' => Kohana::debug_path(__FILE__)));
 			}
 		}
 		elseif ($this->id > 0)

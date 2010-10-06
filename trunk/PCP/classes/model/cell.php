@@ -72,7 +72,7 @@ class Model_Cell extends Model
 		else
 		{
 			throw new Kohana_Exception('Error Inserting Record in file: :file',
-					array(':file' => Kohana::debug_path($file)));
+					array(':file' => Kohana::debug_path(__FILE__)));
 		}
 		$results->data = array('id'=>$this->id);
 		return $results;

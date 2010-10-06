@@ -84,7 +84,7 @@ class Model_Event extends Model
 			else
 			{
 				throw new Kohana_Exception('Error Inserting Record in file: :file',
-					array(':file' => Kohana::debug_path($file)));
+					array(':file' => Kohana::debug_path(__FILE__)));
 			}
 		}
 		elseif ($this->id > 0)
@@ -107,7 +107,7 @@ class Model_Event extends Model
 			catch( Database_Exception $e )
 			{
 				throw new Kohana_Exception('Error Updating Record in file: :file',
-					array(':file' => Kohana::debug_path($file)));
+					array(':file' => Kohana::debug_path(__FILE__)));
 			}
 		}
 		$results->data = array('id'=>$this->id);
