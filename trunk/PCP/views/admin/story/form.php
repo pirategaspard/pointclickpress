@@ -5,7 +5,7 @@
 		<input type="hidden" name="id" value="<?php echo($story->id); ?>" >
 		<label>
 			Story Title
-			<input type="text" name="title" value="<?php echo($story->title); ?>" >
+			<input type="text" name="title" size="50" value="<?php echo($story->title); ?>" >
 		</label>
 		<label>
 			Story Author		
@@ -13,7 +13,7 @@
 		</label>
 		<label>
 			Story Description
-			<textarea name="description"><?php echo($story->description); ?></textarea>
+			<textarea name="description" cols="50"><?php echo($story->description); ?></textarea>
 		</label>
 		<label>
 			Story Grid Size

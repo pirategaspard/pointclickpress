@@ -10,11 +10,11 @@
 		<input type="hidden" name="id" value="<?php print($scene->id); ?>" >		
 		<label>
 			Title
-			<input type="text" name="title" value="<?php print($scene->title); ?>" />
+			<input type="text" name="title" size="50" value="<?php print($scene->title); ?>" />
 		</label>
 		<label>
 			Description
-			<textarea name="description"><?php print($scene->description); ?></textarea>
+			<textarea name="description" cols="50"><?php print($scene->description); ?></textarea>
 		</label>
 		<?php if ($scene->id > 0) { ?>
 		<label>

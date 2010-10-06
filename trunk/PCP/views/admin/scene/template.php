@@ -8,9 +8,10 @@
 	
 		if (strlen($scene->filename) > 0)
 		{ 
-			//echo($grid_event_add); 
+			echo('<div id="grid_events">'); 
 			echo($grid_event_form);
-			echo($grid_event_list);  	
+			echo($grid_event_list);
+			echo('</div>');  	
 		}
 	}	
 	
