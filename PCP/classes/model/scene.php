@@ -208,7 +208,7 @@ class Model_Scene extends Model
 	{
 		if((($w == NULL) || ($h == NULL)) && ($screen_size == NULL))
 		{
-			$screen_size = 'default';
+			$screen_size = DEFAULT_STORY_WIDTH.'x'.DEFAULT_STORY_HEIGHT;
 		}		
 		elseif (($w)&&($h))
 		{
