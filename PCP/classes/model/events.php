@@ -52,7 +52,9 @@ class Model_Events
 
 	static function Tokenize($value,$char = ';')
 	{
-		return explode($char,$value); // explode on semi-colon if there is more than one statement here 
+		// explode on semi-colon if there is more than one statement here 
+		// then filter out any null or empty strings
+		return array_values(array_filter(explode($char,$value))); 
 	}
 
 
@@ -124,7 +126,7 @@ class Model_Events
 		return preg_replace('[\$| ]','',$var);
 	}
 	
-	// given "$myvariable" returns "myvariable"
+	// given "$myvariable" returns "$session['data']['myvariable']"
 	static function replaceSessionVariables($expression)
 	{
 		/* 
@@ -134,11 +136,35 @@ class Model_Events
 		return preg_replace('/(\$(\w+\b))/',"\$session['data']['$2']",$expression);
 	}
 	
+	// given "$myvariable" returns "$story_data['myvariable']"
+	static function replaceStoryDataVariables($expression)
+	{
+		/* 
+			replace any variables with their $story_data equivalents 
+			in order to be able to reference variables in $story_data. 
+		*/	
+		return preg_replace('/(\$(\w+\b))/',"\$story_data['$2']",$expression);
+	}
+	
+	// if key exists in array return the value, otherwise just returns the key. 
+	// Useful for getting a value out of Story_data array if it exists as a variable. 
+	static function getValueFromArray($key,$thisArray)
+	{
+		if (isset($thisArray[$key]))
+		{
+			return $thisArray[$key];
+		}
+		else
+		{
+			return $key;
+		}
+	}
+	
 	// given 1 + 1 will return '+' or 1 < 2 returns '<'
 	static function getOperators($expression)
 	{
 		$operators = array();
-		if (preg_match('/[<=|>=|<>|!=|==|<|>|+|-|\/|*|%]/',$expression, $ops))
+		if (preg_match('/strcmp|[===|<=|>=|<>|!=|==|<|>|+|-|\/|*|%]/',$expression, $ops))
 		{
 			$operators = $ops;
 		}
@@ -156,7 +182,7 @@ class Model_Events
 		return $operator;
 	}
 	
-	static function doBasicMath($operator,$val1,$val2)
+	static function doBasicMath($val1,$operator,$val2)
 	{
 		$results = 0;
 		switch ($operator)
