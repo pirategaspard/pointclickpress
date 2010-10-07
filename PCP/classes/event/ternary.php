@@ -75,7 +75,7 @@ class event_Ternary extends event_refresh
 						$values[0] = Events::getValueFromArray(Events::getVariableName($values[0]),$this->story_data);
 						$values[1] = Events::getValueFromArray(Events::getVariableName($values[1]),$this->story_data);		
 						
-						if($this->evaluate($eval_values[0],$operator,$eval_values[1]))
+						if($this->evaluate(Events::removeQuotes($eval_values[0]),$operator,Events::removeQuotes($eval_values[1])))
 						{
 							$parsed[$name] = $values[0];									
 						}
