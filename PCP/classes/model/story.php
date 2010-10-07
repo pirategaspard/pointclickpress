@@ -207,12 +207,6 @@ class Model_Story extends Model
 				$event->delete();
 			}
 			
-			$q = '	DELETE FROM images
-						WHERE id = :image_id';
-			$results->success =	DB::query(Database::DELETE,$q,TRUE)
-											->param(':image_id',$this->image_id)
-											->execute();
-			
 			$q = '	DELETE FROM stories
 						WHERE id = :id';
 			$results->success =	DB::query(Database::DELETE,$q,TRUE)
