@@ -1,12 +1,14 @@
 <?php 
 /*
-	Basic if event class for PointClickPress
+	Simple Ternary 'if' event class for PointClickPress
 	 
 	$var = (eval_value1 [>|<|<=|>=|==|!=] eval_value1 ) ? true_value1 : false_value 2;
  */
 
 class event_if extends event_refresh
 {	
+	private $story_data = array();
+	
 	public function __construct()
 	{
 		// init this event
@@ -16,85 +18,26 @@ class event_if extends event_refresh
 	}
 	
 	public function execute($args=array(),&$story_data=array())
-	{
-		$results = NOP;
+	{		
+		$results = array();
 		$parsed = array(); // array of results
-		
-		// explode on semi-colon if there is more than one statement here
-		$name_val_pairs = explode(';',$args['event_value']); 
-		foreach($name_val_pairs as $expression)
-		{
-			
-			//echo $expression; 
-			//echo '=';
-			
+		$this->story_data = $story_data;				
+		$expressions = Events::Tokenize($args['event_value']); // explode on semi-colon if there is more than one statement here
+		foreach($expressions as $expression)
+		{						
 			// only evaluate if they are assigning a value;
 			$temp = preg_split('/=/',$expression,2);
 			if (count($temp) >= 2) 
 			{	
-				//echo (' isvar: '.Events::isVariable(trim($temp[0])));
-				// make sure the left side has a valid variable name;
-				if (Events::isVariable(trim($temp[0])))
-				{
-					//remove any whitespace and strip $ from variable name so we can put it in session['story_data'][$var]
-					$var = Events::getVariableName(trim($temp[0]));
-					
-					//echo '?'; 
-					// seperate if statement left & right 
-					$if_statement = explode('?',$temp[1]);
-					if (count($if_statement) == 2) 
-					{
-						//echo ':'; 
-						// get true false values 
-						$values = explode(':',$if_statement[1]);
-						if (count($values) == 2) 
-						{
-							//echo '()'; 
-							// get rid of the parenthesis around the if statement
-							$if_statement[0] = preg_replace('/[\(\)]/','',$if_statement[0]);
-							$operator = Events::getOperator($if_statement[0]);
-							
-							if($operator!=null)
-							{
-								$eval_values = explode($operator,$if_statement[0]);
-								if (count($eval_values) == 2) 
-								{
-									$eval_values[0] = Events::replaceSessionVariables($eval_values[0]);
-									$eval_values[1] = Events::replaceSessionVariables($eval_values[1]);
-									$values[0] = Events::replaceSessionVariables($values[0]);
-									$values[1] = Events::replaceSessionVariables($values[1]);
-									
-									switch ($operator)
-									{
-										case '<=':
-											$parsed[$var] = ($eval_values[0] <= $eval_values[1] ) ? $values[0] : $values[1]; 
-										break;
-										case '>=':
-											$parsed[$var] = ($eval_values[0] >= $eval_values[1] ) ? $values[0] : $values[1]; 
-										break;
-										case '<>':
-											$parsed[$var] = ($eval_values[0] <> $eval_values[1] ) ? $values[0] : $values[1]; 
-										break;
-										case '!=':
-											$parsed[$var] = ($eval_values[0] != $eval_values[1] ) ? $values[0] : $values[1]; 
-										break;
-										case '==':
-											$parsed[$var] = ($eval_values[0] == $eval_values[1] ) ? $values[0] : $values[1]; 
-										break;
-										case '<':
-											$parsed[$var] = ($eval_values[0] < $eval_values[1] ) ? $values[0] : $values[1]; 
-										break;
-										case '>':
-											$parsed[$var] = ($eval_values[0] > $eval_values[1] ) ? $values[0] : $values[1]; 
-										break;
-									}										
-								}
-							}
-						}
-					}
-					
-				}
+				$name = trim($temp[0]);
+				$value = trim($temp[1]);							
 				
+				// make sure the left side has a valid variable name;
+				if (Events::isVariable($name))
+				{																											
+					$name = Events::getVariableName($name);	//remove any whitespace and strip $ from variable name so we can put it in session['story_data'][$var]																	
+					$parsed = array_merge($parsed,$this->assign($name,$value));
+				}				
 			}			
 		}
 		if (count($parsed) > 0)
@@ -105,6 +48,80 @@ class event_if extends event_refresh
 			$results = parent::execute($args,$story_data);
 		}
 		return $results;
+	}
+	
+	// 
+	public function assign($name,$value)
+	{
+		$parsed = array(); // array of results	
+		// seperate if statement left & right 
+		$if_statement = Events::Tokenize($value,'?');		
+		if (count($if_statement) == 2) 
+		{					
+			// get true false values 
+			$values = Events::Tokenize($if_statement[1],':');
+			if (count($values) == 2) 
+			{ 
+				// get rid of the parenthesis around the if statement
+				$if_statement[0] = preg_replace('/[\(\)]/','',$if_statement[0]);
+				$operator = Events::getOperator($if_statement[0]);								
+				if($operator!=null)
+				{								
+					$eval_values = Events::Tokenize($if_statement[0],$operator);					
+					if (count($eval_values) == 2) 
+					{											
+						$eval_values[0] = Events::getValueFromArray(Events::getVariableName($eval_values[0]),$this->story_data);
+						$eval_values[1] = Events::getValueFromArray(Events::getVariableName($eval_values[1]),$this->story_data);
+						$values[0] = Events::getValueFromArray(Events::getVariableName($values[0]),$this->story_data);
+						$values[1] = Events::getValueFromArray(Events::getVariableName($values[1]),$this->story_data);		
+						
+						if($this->evaluate($eval_values[0],$operator,$eval_values[1]))
+						{
+							$parsed[$name] = $values[0];									
+						}
+						else
+						{
+							$parsed[$name] = $values[1];
+						}										
+					}
+				}
+			}
+		}
+		return $parsed;					
+	}
+			
+	public function evaluate($var1,$operator,$var2)
+	{			
+		switch ($operator)
+		{			
+			case 'strcmp':
+				return (strcmp($var1,$var2)); 
+			break;
+			case '===':
+				return ($var1 === $var2); 
+			break;
+			case '<=':
+				return ($var1 <= $var2); 
+			break;
+			case '>=':
+				return ($var1 >= $var2); 
+			break;
+			case '<>':
+				return ($var1 <> $var2); 
+			break;
+			case '!=':
+				return ($var1 != $var2);  
+			break;
+			case '==':
+				return ($var1 == $var2); 
+			break;
+			case '<':
+				return ($var1 < $var2); 
+			break;
+			case '>':
+				return ($var1 > $var2);  
+			break;
+		}
 	}
 }
 ?>
