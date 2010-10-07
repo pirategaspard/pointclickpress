@@ -5,7 +5,7 @@
 	$var = (eval_value1 [>|<|<=|>=|==|!=] eval_value1 ) ? true_value1 : false_value 2;
  */
 
-class event_Ternary extends pcpevent
+class event_Ternaryrefresh extends event_refresh
 {	
 	private $story_data = array();
 	
@@ -13,8 +13,8 @@ class event_Ternary extends pcpevent
 	{
 		// init this event
 		parent::__construct();
-		$this->label = "Ternary 'If' statement";
-		$this->description = "Assign a variable using a ternary 'If' statement \$var = (eval_value1 [>|<|<=|>=|==|!=] eval_value1 ) ? true_value1 : false_value 2;" ;	
+		$this->label = "Ternary 'if' and scene refresh";
+		$this->description = "Assign a variable using a ternary 'If' statement then refresh the scene \$var = (eval_value1 [>|<|<=|>=|==|!=] eval_value1 ) ? true_value1 : false_value 2;" ;	
 	}
 	
 	public function execute($args=array(),&$story_data=array())

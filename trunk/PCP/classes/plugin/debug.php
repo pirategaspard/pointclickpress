@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 /*
-	Basic session variable assignment class for PointClickPress
+	Basic debuggins plugin for PointClickPress
  */
 
 class plugin_debug implements ipcpplugin
@@ -31,7 +31,8 @@ class plugin_debug implements ipcpplugin
 		// did we pass 'debug' on the url?
 		if (isset($_GET['debug']))
 		{
-			$session = Session::instance();						
+			$session = Session::instance();	
+								
 			/* Add what ever you want to dump out of session here */			
 			$story_data = $session->get('story_data',array());
 			var_dump($story_data);

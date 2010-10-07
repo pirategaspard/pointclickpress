@@ -1,5 +1,5 @@
 <?php 
-class event_if extends event_ternary
+class event_if extends event_ternaryrefresh
 {	
 	private $story_data = array();
 	
@@ -7,6 +7,7 @@ class event_if extends event_ternary
 	{
 		// init this event
 		parent::__construct();
+		$this->label = "old if event";
 	}
 	
 	public function execute($args=array(),&$story_data=array())

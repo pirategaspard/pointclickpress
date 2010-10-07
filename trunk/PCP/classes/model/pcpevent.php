@@ -2,6 +2,8 @@
 /*
 	Base Class for PointClickPress Events
  */
+
+define('NOP', 'NOP'); // No Operation event name
 class Model_pcpevent extends Model implements iPCPevent
 {
 	protected $class_name = '';
@@ -30,7 +32,9 @@ class Model_pcpevent extends Model implements iPCPevent
 	
 	public function execute($args=array(),&$story_data=array())
 	{
-		;// Extend this
+		// return message response
+		$response = new pcpresponse(NOP,array()); 
+		return $response->asArray();
 	}
 }
 
