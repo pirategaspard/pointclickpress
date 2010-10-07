@@ -5,7 +5,7 @@
 	$var = (eval_value1 [>|<|<=|>=|==|!=] eval_value1 ) ? true_value1 : false_value 2;
  */
 
-class event_Ternary extends event_refresh
+class event_if extends event_refresh
 {	
 	private $story_data = array();
 	
@@ -94,7 +94,7 @@ class event_Ternary extends event_refresh
 	{			
 		switch ($operator)
 		{			
-			case 'strcmp':
+			case 'strcmp': // kinda cheating with this one ;)
 				return (strcmp($var1,$var2)); 
 			break;
 			case '===':
