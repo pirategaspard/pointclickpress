@@ -40,8 +40,15 @@ function parseData(events)
 		// loop over events 
 		for(i=0;i<events.length;i++)
 		{	
-			// attempt to do event function			
-			eval('$().'+ events[i].function_name + '(events[i].data)');					
+			if (events[i].function_name == 'NOP')
+			{
+				// cache the response
+			}
+			else
+			{
+				// attempt to do event function			
+				eval('$().'+ events[i].function_name + '(events[i].data)');
+			}					
 		}
 	}
 }

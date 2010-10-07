@@ -24,9 +24,8 @@ class PCP
 		$story_data = $session->get('story_data',array());
 		
 		/*
-			Switch for different scenes within location
-			 
-			if a there is a key set in the session story_data array then use that value
+			Switch for different scenes within location			 
+			If a there is a key set in the session story_data array then use that value
 			othewise use empty string
 		*/			
 		if (isset($story_data[$location->slug]))

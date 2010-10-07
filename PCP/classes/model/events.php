@@ -1,7 +1,5 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-/* EVENT CONSTANTS */
-define('NOP', ''); // No Operation event name
 class Model_Events
 {	
 	/*
@@ -46,6 +44,20 @@ class Model_Events
 		$events[] = $event;
 		return Model_Events::doEvents($events);	
 	}
+	
+	static function getJSEventTypes()
+	{	
+		//return EventsAdmin::loadJSEventTypes();
+		try
+		{
+			$file = APPPATH.'/cache/cached_js_events.php';	
+			return unserialize(file_get_contents($file));
+		}
+		catch(Exception $e)
+		{
+			return array();
+		} 
+	}
 
 
 	/* Library functions for use in event objects */
@@ -57,10 +69,7 @@ class Model_Events
 		return array_values(array_filter(explode($char,$value))); 
 	}
 
-
-
 	// Regex used for parsing expressions in the event classes
-
 	static function isVariable($var)
 	{
 		if (preg_match('/^((\$[a-zA-Z\'\[\]0-9_]+))$/',$var))
@@ -146,6 +155,12 @@ class Model_Events
 		return preg_replace('/(\$(\w+\b))/',"\$story_data['$2']",$expression);
 	}
 	
+	// given the string '"$myvariable"' returns 'myvariable'
+	static function removeQuotes($var)
+	{
+		return preg_replace('/[\'"]/','',$var);
+	}
+	
 	// if key exists in array return the value, otherwise just returns the key. 
 	// Useful for getting a value out of Story_data array if it exists as a variable. 
 	static function getValueFromArray($key,$thisArray)
@@ -206,19 +221,7 @@ class Model_Events
 		return $results;
 	}
 	
-	static function getJSEventTypes()
-	{	
-		//return EventsAdmin::loadJSEventTypes();
-		try
-		{
-			$file = APPPATH.'/cache/cached_js_events.php';	
-			return unserialize(file_get_contents($file));
-		}
-		catch(Exception $e)
-		{
-			return array();
-		} 
-	}	
+	
 }
 
 ?>

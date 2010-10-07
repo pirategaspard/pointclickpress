@@ -7,7 +7,7 @@
 	$mylocation = 'NORTH'; //Remember that location slugs are session variables that can be assigned a scene value!
  */
 
-class event_assign extends pcpevent
+class event_assignrefresh extends event_refresh
 {	
 	private $story_data = array();
 	
@@ -15,8 +15,8 @@ class event_assign extends pcpevent
 	{
 		// init this event
 		parent::__construct();
-		$this->label = 'Assign value';
-		$this->description = 'Assign a new value to a session variable. Example: $door_open = 1;';	
+		$this->label = 'Assign value and scene refresh';
+		$this->description = 'Assign a new value to a session variable then refresh the scene. Example: $door_open = 1;';	
 	}
 	
 	public function execute($args=array(),&$story_data=array())
