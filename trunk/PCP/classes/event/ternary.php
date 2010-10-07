@@ -94,8 +94,15 @@ class event_Ternary extends event_refresh
 	{			
 		switch ($operator)
 		{			
-			case 'strcmp':
-				return (strcmp($var1,$var2)); 
+			case 'strcmp': // kinda cheating on this one ;)
+				if (strcmp($var1,$var2) == 0)
+				{
+					return true;
+				}
+				else
+				{				
+					return false;
+				} 
 			break;
 			case '===':
 				return ($var1 === $var2); 
