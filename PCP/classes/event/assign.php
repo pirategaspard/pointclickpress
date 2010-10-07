@@ -1,6 +1,10 @@
 <?php 
 /*
-	Basic session variable assignment class for PointClickPress
+	Basic session variable assignment class for PointClickPress.	 
+	Examples:	
+	$door_open = 1;
+	$visits = $visits + 1;
+	$mylocation = 'NORTH'; //Remember that location slugs are session variables that can be assigned a scene value!
  */
 
 class event_assign extends event_refresh
@@ -10,67 +14,63 @@ class event_assign extends event_refresh
 		// init this event
 		parent::__construct();
 		$this->label = 'Assign value';
-		$this->description = 'Assign a new value to a session variable';	
+		$this->description = 'Assign a new value to a session variable. Example: $door_open = 1;';	
 	}
 	
 	public function execute($args=array(),&$story_data=array())
 	{
-		$results = NOP;
-		$parsed = array(); // array of results
-		
-		// explode on semi-colon if there is more than one statement here
-		$name_val_pairs = explode(';',$args['event_value']); 
-		foreach($name_val_pairs as $expression)
+		$results = array();
+		$parsed = array(); // array of results				
+		$expressions = Events::Tokenize($args['event_value']); // explode on semi-colon if there is more than one statement here
+		foreach($expressions as $expression)
 		{
 			// only evaluate if they are assigning a value;
-			$temp = preg_split('/=/',$expression,2);
+			$temp = preg_split('/=/',$expression,2);			
 			if (count($temp) == 2) 
 			{
+				$name = trim($temp[0]);
+				$value = trim($temp[1]);
+				
 				// make sure the left side has a valid variable name;
-				if (Events::isVariable(trim($temp[0])))
+				if (Events::isVariable($name))
 				{
 					//remove any whitespace and strip $ from variable name so we can put it in session['story_data'][$var]
-					$var = Events::getVariableName(trim($temp[0]));
-					$exp = trim($temp[1]);
-					
-					
-					if (Events::isVariableOrNumeric($exp))
+					$name = Events::getVariableName($name);					
+					if (Events::isVariableOrNumeric($value))
 					{
 						/* 
 							SIMPLE VALUE
 							detect simple value statement in the form of 
 							1; or $var;
 						*/
-						
-						//echo (' simple assignment: ');
-						$parsed[$var] = Events::replaceSessionVariables($exp);
+						//echo (' simple assignment: ');						
+						$parsed[$name] = Events::replaceSessionVariables($value);
 					}
-					else if (Events::isString($exp))
+					else if (Events::isString($value))
 					{
 						/* 
 							SIMPLE VALUE
 							detect simple value statement in the form of 
 							1; or $var;
 						*/
-						
 						//echo (' simple assignment: ');
-						$parsed[$var] = preg_replace('/[\'"]/','',$exp);	
+						$parsed[$name] = preg_replace('/[\'"]/','',$value);	
 					}
-					else if(preg_match('/((\$[a-zA-Z\'\[\]0-9]+)|([0-9]+))\s*([\+\-\*\/])\s*((\$[a-zA-Z\'\[\]0-9]+)|([0-9]+))/',$exp))
+					else if(preg_match('/((\$[a-zA-Z\'\[\]0-9]+)|([0-9]+))\s*([\+\-\*\/])\s*((\$[a-zA-Z\'\[\]0-9]+)|([0-9]+))/',$value))
 					{
 						/* 
 							MATH
 							detect math statement in the form of 
-							$var + 1; $var - 1; 1 * 1; $var + $var; $var['blah'] + $var['blah'];
+							$name + 1; $name - 1; 1 * 1; $name + $name; $name['blah'] + $name['blah'];
 						*/
 						//echo (' math: ');
-						$operator = Events::getOperator($exp);
-						$eval_values = explode($operator,$exp);
+						$operator = Events::getOperator($value);
+						$math_values = explode($operator,$value);
 						if (count($eval_values) == 2) 
 						{
-							$eval_values[0] = Events::replaceSessionVariables($eval_values[0]);
-							$eval_values[1] = Events::replaceSessionVariables($eval_values[1]);
-							$parsed[$var] = Events::doBasicMath($operator,$eval_values[0],$eval_values[1]);														
+							$math_values[0] = Events::replaceSessionVariables($math_values[0]);
+							$math_values[1] = Events::replaceSessionVariables($math_values[1]);
+							$parsed[$name] = Events::doBasicMath($operator,$math_values[0],$math_values[1]);														
 						}
 					}
 				}
