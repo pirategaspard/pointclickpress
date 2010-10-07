@@ -47,6 +47,16 @@ class Model_Events
 		return Model_Events::doEvents($events);	
 	}
 
+
+	/* Library functions for use in event objects */
+
+	static function Tokenize($value,$char = ';')
+	{
+		return explode($char,$value); // explode on semi-colon if there is more than one statement here 
+	}
+
+
+
 	// Regex used for parsing expressions in the event classes
 
 	static function isVariable($var)
@@ -86,7 +96,7 @@ class Model_Events
 	}
 	static function isString($var)
 	{
-		if (preg_match('/^((\'\w.*\'+)|("\w.*"+))$/',$var))
+		if (preg_match('/^((\'\w.*\'+)|("\w.*"+)|(\'\'+)|(""+))$/',$var))
 		{
 			return 1;
 		}
