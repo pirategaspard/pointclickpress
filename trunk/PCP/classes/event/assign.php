@@ -73,8 +73,8 @@ class event_assign extends event_refresh
 				detect simple value statement in the form of 
 				1; or $var;
 			*/
-			//echo (' simple assignment: ');
-			$parsed[$name] = preg_replace('/[\'"]/','',$value);	
+			//echo (' simple assignment: '.preg_replace('/[\'"]/','',$value));
+			$parsed[$name] = Events::removeQuotes($value);	
 		}
 		else if(preg_match('/((\$[a-zA-Z\'\[\]0-9]+)|([0-9]+))\s*([\+\-\*\/])\s*((\$[a-zA-Z\'\[\]0-9]+)|([0-9]+))/',$value))
 		{
