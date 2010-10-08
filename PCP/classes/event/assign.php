@@ -47,8 +47,7 @@ class event_assign extends pcpevent
 			$story_data = array_merge($story_data,$parsed);		
 			// pass to the parent event to refresh the scene
 			$results = parent::execute($args,$story_data);
-		}	
-		//var_dump($parsed); die();	
+		}				
 		return $results;
 	}
 	
@@ -63,7 +62,7 @@ class event_assign extends pcpevent
 				1; or $var;
 			*/
 			//echo (' simple assignment: ');					
-			echo(Events::getValueFromArray(Events::getVariableName($value),$this->story_data));
+			//echo(Events::getValueFromArray(Events::getVariableName($value),$this->story_data));
 			$parsed[$name] = Events::getValueFromArray(Events::getVariableName($value),$this->story_data);
 		}
 		else if (Events::isString($value))
