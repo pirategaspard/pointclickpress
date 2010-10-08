@@ -35,16 +35,17 @@ class event_refresh extends pcpevent implements iPCPevent
 		// set story data 
 		$session->set('story_data',$story_data);						
 		// get story
-		$story = $session->get('story',NULL);	
-		// get scene
-		$scene = PCP::getScene($story_data['location_id']);	
+		$story = $session->get('story',NULL);
 		//get location 
-		$location = PCP::getlocation($scene->location_id);
+		$location = PCP::getlocation($story_data['location_id']);
+		// put any location init events into session
+		$results = array_merge($results,PCP::doEvents($location->events));
+		// get scene
+		$scene = PCP::getScene($story_data['location_id']);
+	
 		// if we have valid data continue
 		if (($scene)&&($location)&&($story))
 		{
-			// put any location init events into session
-			$results = array_merge($results,PCP::doEvents($location->events));
 			// put any scene init events into session
 			$results = array_merge($results,PCP::doEvents($scene->events));							
 			// populate response data 					
