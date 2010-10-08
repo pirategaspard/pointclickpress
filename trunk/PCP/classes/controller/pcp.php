@@ -95,19 +95,15 @@ Class Controller_PCP extends Controller_Template_Base
 		// get session
 		$session = Session::instance();			
 		// get story
-		$data['story'] = $session->get('story',NULL);						
-		// get the scene
-		$data['scene'] = PCP::getScene(PCP::getCurrentlocationId());										
-		
+		$data['story'] = $session->get('story',NULL);																	
 		//get location from session (so that we can process any location events)
-		$location = $session->get('location',NULL);
-		if (!isset($location)||($location->id != $data['scene']->location_id))
-		{
-			$location = PCP::getlocation($data['scene']->location_id);
-		}								
-				
+		$story_data = $session->get('story_data');
+		$location = PCP::getlocation($story_data['location_id']);	
 		// put any location init events into session
 		$results = array_merge($results,PCP::doEvents($location->events));
+		
+		// get the scene
+		$data['scene'] = PCP::getScene(PCP::getCurrentlocationId());
 		// put any scene init events into session
 		$results = array_merge($results,PCP::doEvents($data['scene']->events));							
 		//put scene into session
