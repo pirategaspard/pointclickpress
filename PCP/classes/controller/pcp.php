@@ -129,6 +129,8 @@ Class Controller_PCP extends Controller_Template_Base
 		}		
         else
         {
+        	pluginadmin::executeHook('error');
+        
 			// redirect to the story list page
 			Request::instance()->redirect(Route::get('default')->uri(array('action'=>'list_stories')));
 			
