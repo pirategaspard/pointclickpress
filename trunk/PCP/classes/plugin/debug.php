@@ -23,7 +23,7 @@ class plugin_debug implements ipcpplugin
 	
 	public function getHooks()
 	{
-		return array('display_post_scene');
+		return array('display_post_scene','error');
 	}
 		
 	public function execute($hook_name='')
@@ -36,6 +36,12 @@ class plugin_debug implements ipcpplugin
 			/* Add what ever you want to dump out of session here */			
 			$story_data = $session->get('story_data',array());
 			var_dump($story_data);
+			
+			if($hook_name == 'error')
+			{
+				//die();
+			}
+			
 			/*
 			$story = $session->get('story',array());
 			$scene = $session->get('scene',array());														

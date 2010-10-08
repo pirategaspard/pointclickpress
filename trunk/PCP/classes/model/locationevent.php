@@ -47,7 +47,7 @@ class Model_locationEvent extends Model_Event
 	
 	function save()
 	{	
-		$results = new ();
+		$results = new pcpresult();
 		if ($this->id == 0)
 		{			
 			parent::save();
@@ -84,7 +84,8 @@ class Model_locationEvent extends Model_Event
 	
 	function delete()
 	{
-		$results = new ();
+		$results = new pcpresult();
+		$results->data = array('id'=>$this->id);
 		if ($this->id > 0)
 		{
 			$q = '	DELETE FROM locations_events
@@ -93,8 +94,7 @@ class Model_locationEvent extends Model_Event
 									->param(':id',$this->id)
 									->execute();									
 			parent::delete();
-		}
-		$results->data = array('id'=>$this->id);
+		}		
 		return $results;
 	}
 }
