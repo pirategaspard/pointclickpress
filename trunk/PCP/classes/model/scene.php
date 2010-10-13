@@ -51,7 +51,7 @@ class Model_Scene extends Model
 		}
 		if (isset($args['value']))
 		{
-			$this->value = $args['value'];
+			$this->value = Formatting::createSlug($args['value']);
 		} 
 		if (isset($args['init_vars']))
 		{
