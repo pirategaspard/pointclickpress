@@ -13,6 +13,7 @@ class PCP
 	/* get all stories available for the story list page */
 	static function getStories($args=array())
 	{	
+		$args['status'] = 'p'; // only get published stories 
 		return Model_Stories::getStories($args);		
 	}
 	

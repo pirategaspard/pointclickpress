@@ -1480,6 +1480,7 @@ $q = 'CREATE TABLE IF NOT EXISTS `stories` (
   `description` text NOT NULL,
   `first_location_id` bigint(20) unsigned default NULL,
   `image_id` bigint(20) default NULL,
+  `status` char(1) NOT NULL,
   `grid_x` smallint(5) unsigned NOT NULL,
   `grid_y` smallint(5) unsigned NOT NULL,
   `create_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
@@ -1489,8 +1490,8 @@ $results = DB::Query(NULL,$q,FALSE)->execute();
 
 /*data*/
 $q = "INSERT INTO `stories` (`id`, `title`, `author`, `description`, `first_location_id`, `image_id`, `grid_x`, `grid_y`, `create_date`) VALUES
-(2, 'A Walk Down The Cobble Stone Path', 'Dan', 'A Walk through the forest on the mysterious cobblestone path', 18, 0, 10, 10, '2010-07-02 08:36:56'),
-(3, 'River Path', 'Dan', 'Explore the old equipment by the river', 30, 19, 10, 10, '2010-10-07 18:04:34')";
+(2, 'A Walk Down The Cobble Stone Path', 'Dan', 'A Walk through the forest on the mysterious cobblestone path', 18, 0, 'p', 10, 10, '2010-07-02 08:36:56'),
+(3, 'River Path', 'Dan', 'Explore the old equipment by the river', 30, 19, 'p', 10, 10, '2010-10-07 18:04:34')";
 $results = DB::Query(NULL,$q,FALSE)->execute();
 
 $q = 'CREATE TABLE IF NOT EXISTS `stories_events` (
