@@ -26,12 +26,14 @@ class Model_Stories
 				WHERE 1 = 1 ';
 				
 		if (isset($args['story'])) $q .= 'AND s.id = :story'; //if we have a story id
+		if (isset($args['status'])) $q .= 'AND s.status = :status'; 
 		
 		$q .= ' ORDER BY s.id DESC';
 		
 		$q = DB::query(Database::SELECT,$q,TRUE);
 		
 		if (isset($args['story']))	 $q->param(':story',$args['story']->id);
+		if (isset($args['status']))	 $q->param(':status',$args['status']);
 								
 		$tempArray = $q->execute()->as_array();		
 		

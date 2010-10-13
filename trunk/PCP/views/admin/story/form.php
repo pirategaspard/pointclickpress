@@ -43,7 +43,16 @@
 			<input type="text" name="image_filename" value="<?php print($story->filename); ?>" >
 			<a href="<?php print($assign_image_link); ?>&KeepThis=true&TB_iframe=true" class="thickbox" >Assign Image</a>
 		</label>
-		<?php } ?>		
+		<?php } ?>	
+		<?php if ($story->id > 0) { ?>
+		<label>
+			Status:
+			<select name="status" >
+				<option value="p" <?php if(strcmp($story->status,'p')===0) echo('selected="selected"'); ?>>Published</option>
+				<option value="d" <?php if(strcmp($story->status,'d')===0) echo('selected="selected"'); ?>>Draft</option>
+			</select>
+		</label>
+		<?php } ?>	
 		<input type="submit" name="submit" value="Save" />
 	</form>
 </fieldset>

@@ -3,14 +3,15 @@
 class Model_Story extends Model 
 {
 	protected $id = 0;
-	protected $title = "";
-	protected $author = "";
-	protected $description = "";
-	protected $grid_x = "";
-	protected $grid_y = "";
+	protected $title = '';
+	protected $author = '';
+	protected $description = '';
+	protected $grid_x = '';
+	protected $grid_y = '';
 	protected $first_location_id = null;
 	protected $image_id = null;
-	protected $filename = "";
+	protected $filename = '';
+	protected $status = 'd';
 	protected $events = array();
 	protected $locations = array();
 	
@@ -53,6 +54,10 @@ class Model_Story extends Model
 		{			
 			$this->filename = $args['filename'];							
 		}
+		if (isset($args['status']))
+		{			
+			$this->status = $args['status'];							
+		}
 		if (isset($args['grid_x']))
 		{
 			$this->grid_x = $args['grid_x'];
@@ -91,6 +96,7 @@ class Model_Story extends Model
 							,s.description
 							,s.first_location_id
 							,s.image_id
+							,s.status
 							,i.filename
 							,s.grid_x
 							,s.grid_y
@@ -122,6 +128,7 @@ class Model_Story extends Model
 							,description
 							,first_location_id
 							,image_id
+							,status
 							,grid_x
 							,grid_y)
 						VALUES (
@@ -129,7 +136,8 @@ class Model_Story extends Model
 							,:author
 							,:description
 							,:first_location_id
-							,:image_id						
+							,:image_id
+							,:status						
 							,:grid_x
 							,:grid_y
 							)';
@@ -140,6 +148,7 @@ class Model_Story extends Model
 									->param(':description',$this->description)
 									->param(':first_location_id',$this->first_location_id)
 									->param(':image_id',$this->image_id)
+									->param(':status',$this->status)
 									->param(':grid_x',$this->grid_x)
 									->param(':grid_y',$this->grid_y)
 									->execute();			
@@ -166,6 +175,7 @@ class Model_Story extends Model
 							,description = :description
 							,first_location_id = :first_location_id
 							,image_id = :image_id
+							,status = :status
 							,grid_x = :grid_x
 							,grid_y = :grid_y
 						WHERE id = :id';
@@ -175,6 +185,7 @@ class Model_Story extends Model
 										->param(':description',$this->description)	
 										->param(':first_location_id',$this->first_location_id)
 										->param(':image_id',$this->image_id)
+										->param(':status',$this->status)
 										->param(':grid_x',$this->grid_x)
 										->param(':grid_y',$this->grid_y)
 										->param(':id',$this->id)
