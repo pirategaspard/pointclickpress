@@ -47,16 +47,7 @@ class Model_Events
 	
 	static function getJSEventTypes()
 	{	
-		//return EventsAdmin::loadJSEventTypes();
-		try
-		{
-			$file = APPPATH.'/cache/cached_js_events.php';	
-			return unserialize(file_get_contents($file));
-		}
-		catch(Exception $e)
-		{
-			return array();
-		} 
+		return Cache::instance()->get('js_events',EventsAdmin::cacheJSEventTypes());
 	}
 
 
