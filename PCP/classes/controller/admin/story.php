@@ -42,7 +42,8 @@ Class Controller_admin_story extends Controller_Template_Admin
 		$data['type'] = EventsAdmin::getEventType();
 		$data['story'] = PCPAdmin::getStory(array('include_events'=>true,'include_locations'=>TRUE));
 		$data['locations'] = $data['story']->locations;
-		$data['events'] = $data['story']->events;				
+		$data['events'] = $data['story']->events;	
+		$data['grid_sizes'] = explode(',',SUPPORTED_GRID_SIZES);
 		
 		$data['location_add'] = View::factory('/admin/location/add',$data)->render();
 		$data['location_list'] = View::factory('/admin/location/list',$data)->render();	//get location information and load list of locations

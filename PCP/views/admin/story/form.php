@@ -18,9 +18,10 @@
 		<label>
 			Story Grid Size
 			<select name="grid" >
-				<option value="10x10" <?php if(strcmp($story->grid(),'10x10')===0) echo('selected="selected"'); ?>>10x10</option>
-				<option value="25x25" <?php if(strcmp($story->grid(),'25x25')===0) echo('selected="selected"'); ?>>25x25</option>
-				<option value="50x50" <?php if(strcmp($story->grid(),'50x50')===0) echo('selected="selected"'); ?>>50x50</option>
+				<?php foreach($grid_sizes as $size)
+					{ ?>					
+					<option value="<?php echo $size; ?>" <?php if(strcmp($story->grid(),$size)===0) echo('selected="selected"'); ?>><?php echo $size; ?></option>
+				<?php } ?>
 			</select>
 		</label> 
 		<?php if (count($locations) > 0) { ?>       
