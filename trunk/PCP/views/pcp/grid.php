@@ -1,9 +1,13 @@
-<?php 
-	$cells = '';
-	$total = $story->grid_total();
-	for($i=0;$i<$total;$i++)
+<?php
+	$cells = Cache::instance()->get('cells'.$story->grid_total(),NULL);
+	if (!$cells)
 	{
-		$cells.= '<a n="'.$i.'" href="'.Kohana::$base_url.'cellClick?n='.$i.'" ></a>';
+		$total = $story->grid_total();
+		for($i=0;$i<$total;$i++)
+		{
+			$cells.= '<a n="'.$i.'" href="'.Kohana::$base_url.'cellClick?n='.$i.'" ></a>';
+		}
+		Cache::instance()->set('cells'.$story->grid_total(),$cells);
 	}
 ?>	
 	<div id="grid">
