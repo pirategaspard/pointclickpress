@@ -249,10 +249,10 @@ class EventsAdmin
 		}
 		return $EventTypes;		
 	}
+
 	
 	/*
-		Searches the Event directory for class files 
-		TODO: save this data into a file so that we do not scan js/event/ on each refresh
+		Searches the js/event directory for js files
 	*/
 	static function loadJSEventTypes()
 	{	
@@ -273,8 +273,7 @@ class EventsAdmin
 	}
 	
 	/* 
-		saves the js event files as a serialized array
-		so that we don't have to rescan js/event/ on each request
+		caches js files array so that we don't rescan js/event/ on the frontend for each request
 	*/ 
 	static function cacheJSEventTypes()
 	{		

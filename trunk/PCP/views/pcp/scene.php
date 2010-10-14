@@ -1,5 +1,5 @@
 <?php 
-	pluginadmin::executeHook('display_pre_scene');
+	plugins::executeHook('display_pre_scene');
 ?>
 
 <div id="scene">
@@ -10,5 +10,5 @@
 
 
 <?php 
-	pluginadmin::executeHook('display_post_scene');
+	plugins::executeHook('display_post_scene');
 ?>
