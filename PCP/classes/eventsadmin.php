@@ -279,8 +279,8 @@ class EventsAdmin
 	static function cacheJSEventTypes()
 	{		
 		$JSEventTypes = self::loadJSEventTypes();
-		$file = APPPATH.'/cache/cached_js_events.php';	
-		$r = file_put_contents ($file,serialize($JSEventTypes));
+		Cache::instance()->set('js_events',$JSEventTypes);
+		return $JSEventTypes; 
 	}
 	
 }

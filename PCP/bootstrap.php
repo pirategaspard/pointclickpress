@@ -64,27 +64,31 @@ if (!defined('__DIR__')) {
 $app_path = '/'.substr(strrchr(__DIR__,DIRECTORY_SEPARATOR),1).'/';
 Kohana::init(array('base_url' => $app_path,'index_file' => ''));
 
-/**
- * Attach the file write to logging. Multiple writers are supported.
+/*
+	Attach the file write to logging. Multiple writers are supported.
  */
 //Kohana::$log->attach(new Kohana_Log_File(APPPATH.'logs'));
 
-/**
- * Attach a file reader to config. Multiple readers are supported.
- */
+/*
+	Attach a file reader to config. Multiple readers are supported.
+*/
 Kohana::$config->attach(new Kohana_Config_File);
 
-/**
- * Enable modules. Modules are referenced by a relative or absolute path.
- */
+/*
+	Enable modules. Modules are referenced by a relative or absolute path.
+*/
 Kohana::modules(array(
 	// 'auth'       => MODPATH.'auth',       // Basic authentication
 	//'codebench'  => MODPATH.'codebench',  // Benchmarking tool
 	'database'   => MODPATH.'database',   // Database access
 	'image'      => MODPATH.'image',      // Image manipulation
+	'cache'      => MODPATH.'cache',      // Cache
 	// 'orm'        => MODPATH.'orm',        // Object Relationship Mapping
 	// 'pagination' => MODPATH.'pagination', // Paging of results
 	));
+
+// update cache driver
+Cache::$default = CACHE_DRIVER;
 
 // Route for Admin Area
 Route::set('admin', 'admin(/<controller>(/<action>(/<id>)))')
