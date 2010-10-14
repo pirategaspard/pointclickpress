@@ -13,7 +13,7 @@ class pluginadmin
 		if (self::$_instance === NULL)
 		{			
 			self::$_instance = new self; // Create a new instance
-			self::$_instance->loadPLugins(); // register all plugins in the plugin directory
+			self::$_instance->loadPlugins(); // register all plugins in the plugin directory
 		}
 		return self::$_instance;
 	}
@@ -108,6 +108,13 @@ class pluginadmin
 				unset($plugin);					
 			}		
 		}				
+	}
+	
+	private function cachePlugins()
+	{
+		$this->loadPlugins();
+		Cache::instance()->set('plugins',$this->plugins);
+		return $this->plugins; 
 	}
 }
 ?>

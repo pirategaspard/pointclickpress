@@ -47,7 +47,7 @@ Class Controller_PCP extends Controller_Template_Base
 		if (isset($_REQUEST['story_id']))
 		{			
 		
-			pluginadmin::executeHook('pre_start_story');									
+			plugins::executeHook('pre_start_story');									
 			// Get the current session
 			$session = Session::instance();	
 			// get user selected screen size
@@ -70,7 +70,7 @@ Class Controller_PCP extends Controller_Template_Base
 			$story_data['location_id'] = $story->getFirstlocationId();
 			// set new story data into session 
 			$session->set('story_data',$story_data); 
-			pluginadmin::executeHook('post_start_story');									
+			plugins::executeHook('post_start_story');									
 			// put any story init events into session
 			PCP::doEvents($story->events);			
 			// redirect to the first scene
@@ -91,7 +91,7 @@ Class Controller_PCP extends Controller_Template_Base
     {    
 		$results = array();
 		
-    	pluginadmin::executeHook('pre_scene');	    
+    	plugins::executeHook('pre_scene');	    
 		// get session
 		$session = Session::instance();			
 		// get story
@@ -108,7 +108,7 @@ Class Controller_PCP extends Controller_Template_Base
 		$results = array_merge($results,PCP::doEvents($data['scene']->events));							
 		//put scene into session
 		$session->set('scene',$data['scene']);
-		pluginadmin::executeHook('post_scene');	
+		plugins::executeHook('post_scene');	
 		
 		// if we have valid data show the scene
 		if (($data['story'] != NULL) && ($data['scene']->id > 0) && (strlen($data['scene']->filename) > 0))
@@ -125,7 +125,7 @@ Class Controller_PCP extends Controller_Template_Base
 		}		
         else
         {
-        	pluginadmin::executeHook('error');
+        	plugins::executeHook('error');
         
 			// redirect to the story list page
 			Request::instance()->redirect(Route::get('default')->uri(array('action'=>'list_stories')));
@@ -155,10 +155,10 @@ Class Controller_PCP extends Controller_Template_Base
     {
 		// disable auto render	
 	    $this->auto_render = FALSE;
-    	pluginadmin::executeHook('pre_cellClick');
+    	plugins::executeHook('pre_cellClick');
     	// do the action (if any)
     	$results = PCP::getGridEvent();
-    	pluginadmin::executeHook('post_cellClick');
+    	plugins::executeHook('post_cellClick');
     
     	if (Request::$is_ajax)
     	{    		
