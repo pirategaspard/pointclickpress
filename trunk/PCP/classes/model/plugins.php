@@ -10,6 +10,7 @@ class Model_Plugins extends pluginadmin
 			Cache::instance()->get('plugins',self::$_instance->cachePlugins()); // use the plugin cache if available
 		}
 		return self::$_instance;
-	}	
+	}
+		
 }
 ?>

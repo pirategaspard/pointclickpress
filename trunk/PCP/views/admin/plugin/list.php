@@ -14,10 +14,10 @@
 		<?php foreach ($plugins as $plugin) { ?>
 		<tr>
 			<td><?php echo ($plugin->getLabel()); ?></td>
-			<td><?php echo ($plugin->getDescription()); ?></td>
+			<td><?php echo (substr($plugin->getDescription(),0,25).'...'); ?></td>			
 			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'plugin','action'=>'edit'))).'?plugin='.$plugin->getClass()); ?>">Edit</a></td>
 			<td>&nbsp;&nbsp;</td>
-			<!-- <td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'plugin','action'=>'delete'))).'?plugin='.$plugin->getClass()); ?>">Delete</a></td> -->
+			<!-- <td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'plugin','action'=>'delete'))).'?plugin='.$plugin->getClass()); ?>">UnInstall</a></td> -->
 		</tr>
 		<?php } ?>
 	</table>
