@@ -18,6 +18,24 @@ class pluginadmin
 		return self::$_instance;
 	}
 	
+	function getPlugins()
+	{
+		return $this->searchForPlugins();
+	}
+	
+	function getPlugin($plugin_name)
+	{
+		$plugins = $this->searchForPlugins();
+		if (isset($plugins[$plugin_name]))
+		{
+			return $plugins[$plugin_name];
+		}
+		else
+		{
+			return NULL;
+		}
+	}
+	
 	/* 	
 		A hook is a place in PCP where a plugin can be called from such as "pre_scene"
 		Each hook has an array of plugin class names that it should call when the hook is reached  
@@ -44,7 +62,7 @@ class pluginadmin
 	}
 	
 	// add a plugin's class name to the hook name array
-	function registerPlugin($hook_name,$class_name)
+	function registerPluginHook($hook_name,$class_name)
 	{
 		$this->plugins[$hook_name][]= $class_name;
 	}
@@ -52,7 +70,7 @@ class pluginadmin
 	/*
 		get all plugins for a specific hook 
 	*/
-	function getPlugins($hook_name)
+	function getPluginsByHookName($hook_name='')
 	{
 		if ($this->HookRegistered($hook_name))
 		{
@@ -69,7 +87,7 @@ class pluginadmin
 	static function executeHook($hook_name)
 	{	
 		$instance = self::instance();		
-		$plugins = $instance->getPlugins($hook_name);
+		$plugins = $instance->getPluginsByHookName($hook_name);
 		foreach($plugins as $pluginclass)
 		{
 			$plugin = new $pluginclass();
@@ -80,12 +98,32 @@ class pluginadmin
 	
 	/*
 		Searches the Plugin directory for class files 
-		TO DO: cache so we don't have to scan the plugin directory per instance
 	*/
 	private function loadPlugins()
 	{		
+		$plugins = searchForPlugins();
+		foreach ($plugins as $plugin)
+		{		
+			//To Do: IF PLUGIN IS ACTIVE THEN: 
+			if (1 == 1)
+			{			
+				// get array of hooks that this plugin will be executed on
+				$hooks = $plugin->getHooks(); 
+				foreach($hooks as $hook)
+				{									
+					$this->registerPluginHook($hook,$plugin->getClass());
+				}
+			}
+			unset($plugin);	
+		}																		
+	}
+	
+	
+	private function searchForPlugins()
+	{		
 		$dir = 'classes/plugin/';
 		$files = scandir(APPPATH.$dir);// get all the files in the plugin directory
+		$plugins = array();
 		foreach($files as $file)
 		{
 			$pathinfo = pathinfo(APPPATH.$dir.$file);
@@ -98,16 +136,11 @@ class pluginadmin
 				$plugin = new $class_name;				 
 				if ($plugin instanceof iPCPplugin)
 				{	
-					// get array of hooks that this plugin will be executed on
-					$hooks = $plugin->getHooks(); 
-					foreach($hooks as $hook)
-					{									
-						$this->registerPlugin($hook,$plugin->getClass());
-					}
-				}
-				unset($plugin);					
+					$plugins[$plugin->getClass()] = $plugin;
+				}				
 			}		
-		}				
+		}
+		return $plugins;				
 	}
 	
 	private function cachePlugins()
