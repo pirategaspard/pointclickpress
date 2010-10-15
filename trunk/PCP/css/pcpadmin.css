@@ -15,4 +15,4 @@ body { }
 
 .menu {}
 ul.menu {display: inline;}
-ul.menu li {display: inline;} 
+ul.menu li {display: inline; padding: 0 10px;} 
