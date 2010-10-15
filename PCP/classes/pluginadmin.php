@@ -101,7 +101,7 @@ class pluginadmin
 	*/
 	private function loadPlugins()
 	{		
-		$plugins = searchForPlugins();
+		$plugins = $this->searchForPlugins();
 		foreach ($plugins as $plugin)
 		{		
 			//To Do: IF PLUGIN IS ACTIVE THEN: 
