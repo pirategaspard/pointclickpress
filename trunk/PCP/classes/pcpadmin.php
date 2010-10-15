@@ -94,6 +94,19 @@ class PCPAdmin
 		return ImagesAdmin::getImages($args); 
 	}
 	
+	static function getPlugins($args=array())
+	{	
+		$pluginAdmin = new pluginadmin();	
+		return $pluginAdmin->getPlugins();		
+	}
+	
+	static function getPlugin($args=array())
+	{	
+		if (!isset($args['plugin']) && $session->get('plugin')) { $args['plugin'] =  $session->get('plugin'); }
+		$pluginAdmin = new pluginadmin();	
+		return $pluginAdmin->getPlugin($args['plugin']);		
+	}
+	
 	/* get a scene by location ID and value */
 	static function getSceneBylocationId($location_id,$value='')
 	{
@@ -139,6 +152,10 @@ class PCPAdmin
 		if (isset($_REQUEST['user_id']))
 		{
 			$session->set('user_id',$_REQUEST['user_id']);
+		}
+		if (isset($_REQUEST['plugin']))
+		{
+			$session->set('plugin',$_REQUEST['plugin']);
 		}
 				
 		if (!isset($args['story_id']) && $session->get('story_id')) { $args['story_id'] =  $session->get('story_id'); }
