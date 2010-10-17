@@ -28,7 +28,14 @@ class plugin_helloworld implements ipcpplugin
 	
 	public function install()
 	{
-		// we have nothing to install
+		// if we wanted to create a table here or insert info:
+		/*
+		$q = '	CREATE TABLE `pointclickpress`.`hello_world` (
+					`id` INT NOT NULL
+					) ENGINE = InnoDB;';
+		$q_results = DB::query(NULL,$q,TRUE)->execute();
+		*/		
+		// but we have nothing to install
 		return true;
 	}
 		
