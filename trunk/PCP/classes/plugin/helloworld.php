@@ -1,41 +1,48 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 /*
-	Basic session variable assignment class for PointClickPress
+	This is the example plugin for PointClickPress
  */
 
 class plugin_helloworld implements ipcpplugin
 {
 	public function getClass()
 	{
+		// This is the class name of this plugin
 		return get_class($this);
 	}
 		
 	public function getLabel()
 	{
+		// This is the label for this plugin
 		return 'helloworld';
 	}
 		
 	public function getDescription()
 	{
+		// This is the description of this plugin
 		return 'This is the helloworld demonstration plugin';
 	}
 	
 	public function getHooks()
 	{
-		// You can list multiple hooks to be called from
+		// This is a comma seperated list of hooks to call this plugin from
 		return 'post_start_story,display_pre_scene,display_post_scene';
 	}
 	
 	public function install()
 	{
-		// if we wanted to create a table here or insert info:
+		// This function is called from the Plugin Admin when searching for plugins
+		// If the plugin is not already installed it will call this function
+	
+		// If we wanted to create a table to support this plugin we could do it here:
 		/*
 		$q = '	CREATE TABLE `pointclickpress`.`hello_world` (
 					`id` INT NOT NULL
 					) ENGINE = InnoDB;';
 		$q_results = DB::query(NULL,$q,TRUE)->execute();
 		*/		
-		// but we have nothing to install
+		
+		// but we have nothing to install so just return true
 		return true;
 	}
 		
@@ -49,11 +56,12 @@ class plugin_helloworld implements ipcpplugin
 		{
 			case 'display_pre_scene':
 			{
-				echo('PointClickPress Alpha 2');
+				echo('This is the Hello World Demo Plugin!');
 				break;
 			}
 			case 'display_post_scene':
 			{
+				// Don't forget that you can include other files from here!
 				include('helloworld/index.htm');
 				break;
 			}			
@@ -65,7 +73,7 @@ class plugin_helloworld implements ipcpplugin
 		*/
 		$session = Session::instance();
 		
-		// uncomment the code block below for secret cheat to go immediately to last scene!
+		// uncomment the code block below for secret cheat to go immediately to last scene in the first story!
 		/*
 		if ($hook_name == 'post_start_story')
 		{
