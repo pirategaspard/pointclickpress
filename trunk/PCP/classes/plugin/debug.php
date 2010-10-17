@@ -21,9 +21,15 @@ class plugin_debug implements ipcpplugin
 		return 'Debug Plugin for PCP';
 	}
 	
+	public function install()
+	{
+		// we have nothing to install
+		return true;
+	}
+	
 	public function getHooks()
 	{
-		return array('display_post_scene','error');
+		return 'display_post_scene,error';
 	}
 		
 	public function execute($hook_name='')

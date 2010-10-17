@@ -1,125 +1,118 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-
-// Holds all our plugin and hook information 
-
-class pluginadmin
+// for plugin Admin area
+class pluginadmin extends Model
 {
-	// Singleton static instance
-	protected static $_instance;	
-	protected $plugins = array(); // array to hold any plugin classes
 	
-	public static function instance()
+	static function getPlugins()
 	{
-		if (self::$_instance === NULL)
-		{			
-			self::$_instance = new self; // Create a new instance
-			self::$_instance->loadPlugins(); // register all plugins in the plugin directory
-		}
-		return self::$_instance;
-	}
-	
-	function getPlugins()
-	{
-		return $this->searchForPlugins();
-	}
-	
-	function getPlugin($plugin_name)
-	{
-		$plugins = $this->searchForPlugins();
-		if (isset($plugins[$plugin_name]))
+		// step 1: search plugin directory and get plugins
+		$plugin_files = self::searchForPlugins();
+		//for each plugin that is found get installed status
+		foreach ($plugin_files as $plugin)
 		{
-			return $plugins[$plugin_name];
+			if (!self::isInstalled($plugin->getClass()))
+			{
+				$plugin->install();
+				self::insertPlugin($plugin);
+			}
 		}
-		else
+		// step 2: for all plugins that are in the db, delete any that do not exist
+		$plugins_installed = self::loadPlugins();		
+		foreach ($plugins_installed as $plugin)
 		{
-			return NULL;
+			if (!array_key_exists($plugin['class'],$plugin_files))
+			{
+				self::deletePlugin($plugin['class']);
+			}
 		}
+		// step 3: delete hooks cache since plugin data may have changed. 	
+		Cache::instance()->delete('hooks');
+		//step 4: re-query db for all currently installed plugins
+		$plugins = self::loadPlugins();	
+		return $plugins;
 	}
-	
-	/* 	
-		A hook is a place in PCP where a plugin can be called from such as "pre_scene"
-		Each hook has an array of plugin class names that it should call when the hook is reached  
-	*/
-	function registerHook($hook_name)
+		
+	static function isInstalled($class_name) 
 	{
-		if (!$this->HookRegistered($hook_name))
-		{
-			$this->plugins[$hook_name]= array();
-		}
-	}
-	
-	// is the hook already registered?
-	function HookRegistered($hook_name)
-	{
-		if (isset($this->plugins[$hook_name]))
-		{
-			return true;
+		$q_results = self::selectPlugin($class_name);
+		if (count($q_results) > 0 )
+		{				
+			return true;	
 		}
 		else
 		{
 			return false;
 		}
-	}
+	}		
 	
-	// add a plugin's class name to the hook name array
-	function registerPluginHook($hook_name,$class_name)
+	static function selectPlugin($class_name) 
 	{
-		$this->plugins[$hook_name][]= $class_name;
+		$q = '	SELECT *
+				FROM plugins
+				WHERE class = :class';
+		return DB::query(Database::SELECT,$q,TRUE)->param(':class',$class_name)->execute()->as_array();
 	}
-	
-	/*
-		get all plugins for a specific hook 
-	*/
-	function getPluginsByHookName($hook_name='')
+		
+	static function insertPlugin($plugin) 
 	{
-		if ($this->HookRegistered($hook_name))
-		{
-			$plugins = $this->plugins[$hook_name];
-		}
-		else
-		{
-			$plugins = array();
-		}
-		return $plugins;
+		$q = '	INSERT INTO plugins
+				(label,description,class,hooks,status)
+				VALUES
+				(
+					:label,
+					:description,
+					:class,
+					:hooks,
+					:status
+				)';
+		$q_results = DB::query(Database::INSERT,$q,TRUE)
+											->param(':label',$plugin->getLabel())
+											->param(':description',$plugin->getDescription())
+											->param(':class',$plugin->getClass())
+											->param(':hooks',$plugin->getHooks())
+											->param(':status',0)
+											->execute();
+		return true;
 	}
 	
-	// execute all plugins in a hook
-	static function executeHook($hook_name)
-	{	
-		$instance = self::instance();		
-		$plugins = $instance->getPluginsByHookName($hook_name);
-		foreach($plugins as $pluginclass)
-		{
-			$plugin = new $pluginclass();
-			$plugin->execute($hook_name);
-			unset($plugin);	
-		}		
+	static function deletePlugin($class_name) 
+	{
+		$q = '	DELETE FROM plugins
+				WHERE class = :class';
+		$q_results = DB::query(Database::DELETE,$q,TRUE)->param(':class',$class_name)->execute();		
+		return true;	
 	}
 	
-	/*
-		Searches the Plugin directory for class files 
-	*/
-	private function loadPlugins()
-	{		
-		$plugins = $this->searchForPlugins();
-		foreach ($plugins as $plugin)
-		{		
-			//To Do: IF PLUGIN IS ACTIVE THEN: 
-			if (1 == 1)
-			{			
-				// get array of hooks that this plugin will be executed on
-				$hooks = $plugin->getHooks(); 
-				foreach($hooks as $hook)
-				{									
-					$this->registerPluginHook($hook,$plugin->getClass());
-				}
-			}
-			unset($plugin);	
-		}																		
+	static function updatePlugin($id,$status)
+	{
+		$q = '	UPDATE plugins
+				SET	status = :status
+				WHERE id = :id';
+		$q_results = DB::query(Database::UPDATE,$q,TRUE)
+										->param(':id',$id)
+										->param(':status',$status)
+										->execute();
 	}
 	
+	static function loadPlugins() 
+	{
+		$q = '	SELECT *
+				FROM plugins';
+		return DB::query(Database::SELECT,$q,TRUE)->execute()->as_array();		
+	}		
 	
-	private function searchForPlugins()
+	static function getPlugin($class_name)
+	{
+		$q = '	SELECT *
+				FROM plugins
+				WHERE class = :class';
+		return DB::query(Database::SELECT,$q,TRUE)
+										->param(':class',$class_name)										
+										->execute()
+										->as_array();	
+	}
+	
+	static function searchForPlugins()
 	{		
 		$dir = 'classes/plugin/';
 		$files = scandir(APPPATH.$dir);// get all the files in the plugin directory
@@ -141,13 +134,6 @@ class pluginadmin
 			}		
 		}
 		return $plugins;				
-	}
-	
-	private function cachePlugins()
-	{
-		$this->loadPlugins();
-		Cache::instance()->set('plugins',$this->plugins);
-		return $this->plugins; 
-	}
+	}	
 }
 ?>
