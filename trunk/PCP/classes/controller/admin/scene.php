@@ -35,6 +35,12 @@ Class Controller_admin_scene extends Controller_Template_Admin
 						
 		if (strlen($data['scene']->filename) > 0)
 		{
+			$data['back_url'] = Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?scene_id='.$data['scene']->id;
+		
+			/* scene items */
+			$data['item_form_action'] = '';
+			$data['item_form'] = View::factory('/admin/item/form',$data)->render(); //inline form
+		
 			/* grid events */
 			$data['story_id'] = $session->get('story_id');
 			$data['location_id'] = $session->get('location_id');
@@ -44,8 +50,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 			$data['locations'] = $data['story']->locations;
 			$data['event'] = PCPAdmin::getEvent(array('scene_id'=>$data['scene']->id,'type'=>'Grid'));				
 			//$data['grid_event_add'] = View::factory('/admin/event/add',$data)->render(); //inline form
-			$data['grid_event_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'save')));
-			$data['back_url'] = Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?scene_id='.$data['scene']->id;						
+			$data['grid_event_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'save')));									
 			$data['type'] = 'Grid';
 			$data['grid_event_form'] = View::factory('/admin/event/form_grid',$data)->render(); //inline form
 			$data['grid_event_list'] = EventsAdmin::getEventsList(array('events'=>$data['scene']->grid_events,'type'=>$data['type']));		
