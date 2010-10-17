@@ -3,6 +3,8 @@
 	if (isset($event) && (isset($event_types)))
 	{ 
 ?>
+<fieldset>
+	<legend>Grid Event</legend>
 	<form method="post" action="<?php echo($grid_event_form_action); ?>">
 		<?php if (isset($story_id)){ ?><input type="hidden" name="story_id" value="<?php echo($story_id); ?>" /> <?php } ?>
 		<?php if (isset($location_id)){ ?><input type="hidden" name="location_id" value="<?php echo($location_id); ?>" /> <?php } ?>
@@ -44,4 +46,5 @@
 		<input id="button_cancel" type="button" name="cancel" value="cancel" scene_id="<?php echo($scene_id); ?>" />
 		<?php } ?>
 	</form>
+</fieldset>
 <?php } ?>
