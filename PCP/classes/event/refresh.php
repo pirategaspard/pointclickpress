@@ -29,7 +29,7 @@ class event_refresh extends pcpevent implements iPCPevent
 		$data['title'] = '';
 		$data['description'] = '';
 		// do hook
-		pluginadmin::executeHook('pre_scene');		
+		plugins::executeHook('pre_scene');		
 		// get session
 		$session = Session::instance();
 		// set story data 
@@ -58,7 +58,7 @@ class event_refresh extends pcpevent implements iPCPevent
 		$session->set('scene',$scene);
 		$session->set('location',$location);
 		// do hook
-		pluginadmin::executeHook('post_scene');					
+		plugins::executeHook('post_scene');					
 		// return REFRESH response
 		$response = new pcpresponse(REFRESH,$data);
 		$results = array_merge($results,$response->asArray());
