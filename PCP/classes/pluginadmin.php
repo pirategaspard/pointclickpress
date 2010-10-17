@@ -92,6 +92,7 @@ class pluginadmin extends Model
 										->param(':id',$id)
 										->param(':status',$status)
 										->execute();
+		return true;
 	}
 	
 	static function loadPlugins() 
