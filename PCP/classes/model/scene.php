@@ -12,6 +12,7 @@ class Model_Scene extends Model
 	protected $value = NULL;	
 	protected $events = array();
 	protected $grid_events = array();
+	protected $items = array();
 	
 	public function __construct($args=array())
 	{
@@ -62,6 +63,11 @@ class Model_Scene extends Model
 			$args['scene'] = $this;
 			$this->events = EventsAdmin::getSceneEvents($args);
 			$this->grid_events = EventsAdmin::getGridEvents($args);	
+		}
+		if (isset($args['include_items']))
+		{			
+			$args['scene'] = $this;
+			//$this->items = ItemsAdmin::getSceneItems($args);	
 		}
 		return $this;
 	}
