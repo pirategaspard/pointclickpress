@@ -7,9 +7,9 @@
 		echo($grid);
 	
 		if (strlen($scene->filename) > 0)
-		{ 
-			echo($item_form);
-			echo('<div id="grid_events">'); 
+		{ 			
+			echo('<div id="scene_data">');
+			echo($item_form); 
 			echo($grid_event_form);
 			echo($grid_event_list);
 			echo('</div>');  	

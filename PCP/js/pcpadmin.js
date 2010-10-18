@@ -45,8 +45,9 @@ $(document).ready(function() {
 		var list = '';
 		var newcss = '';
 		var cell_id = $(this).attr('n');
-		var cell_id_list = $('input[name=cell_ids]');
-		var current_cells = cell_id_list.val();
+		var grid_cell_id_list = $('input[name=cell_ids]'); 
+		$('input[name=cell_id]').val(cell_id);
+		var current_cells = grid_cell_id_list.val();		
 		if (current_cells.indexOf(cell_id) < 0)
 		{	
 			//if cell isn't in list add to list. 						
@@ -61,6 +62,8 @@ $(document).ready(function() {
 		}
 		else
 		{	
+			// remove cell from item cell 
+			$('input[name=cell_id]').val('');
 			// if the cell is already selected, remove it from list
 			current_cells = current_cells.split(',');
 			if (current_cells.length > 1)
@@ -69,13 +72,14 @@ $(document).ready(function() {
 				list = current_cells.toString();
 			}			
 		}									
-		cell_id_list.val(list); //set the new values for the cell and cell_id list					
-		cell_id_list.focusout(); // focus on cell_ids input field so that the grid will update
+		grid_cell_id_list.val(list); //set the new values for the cell and cell_id list					
+		grid_cell_id_list.focusout(); // focus on cell_ids input field so that the grid will update
 	});
 	
 	//when the page loads fire these events to set up the form
 	$('#event_type').change();
 	$('input[name=cell_ids]').focusout();
+	$('input[name=cell_id]').focusout();
 	// set cancel button link
 	$('#button_cancel').click(function()
 		{

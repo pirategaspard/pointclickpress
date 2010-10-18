@@ -39,6 +39,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		
 			/* scene items */
 			$data['item_form_action'] = '';
+			$data['item_assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?story_id='.$data['scene']->story_id.'&location_id='.$data['scene']->location_id.'&scene_id='.$session->get('scene_id').'&cell_id='.$session->get('cell_id');
 			$data['item_form'] = View::factory('/admin/item/form',$data)->render(); //inline form
 		
 			/* grid events */
@@ -142,7 +143,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'location','action'=>'edit')));
 	}
 	
-	function action_assignSceneImage()
+	function action_assignImage()
 	{		
 		$session = Session::instance();	
 		$session->delete('result');
