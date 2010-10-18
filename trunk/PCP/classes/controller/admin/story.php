@@ -85,7 +85,7 @@ Class Controller_admin_story extends Controller_Template_Admin
 		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'edit')));
 	}
 	
-	function action_assignStoryImage()
+	function action_assignImage()
 	{		
 		$session = Session::instance();	
 		$session->delete('result');

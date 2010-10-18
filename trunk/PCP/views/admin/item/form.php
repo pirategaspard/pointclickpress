@@ -17,8 +17,8 @@
 			<input type="text" name="image_filename" value="<?php //print($item->filename); ?>" >
 			<a href="<?php print($assign_image_link); ?>&KeepThis=true&TB_iframe=true" class="thickbox" >Assign Image</a>
 		</label>
-		<label id="cell_ids" for="cell_ids">Cell Id List:
-			<input type="text" name="cell_ids" value="<?php //echo($event->getCellIds()); ?>" />
+		<label id="cell_ids" for="cell_ids">Cell Id:
+			<input type="text" name="cell_id" value="<?php //echo($item->getCellIds()); ?>" />
 		</label>
 		<input id="button_submit" type="submit" name="submit" value="submit" />
 		<?php /*if($item->id > 0 ) { ?>

@@ -15,7 +15,7 @@ Class Controller_admin_image extends Controller_Template_Admin
 		if (strlen($data['image']->filename) > 0)
 		{
 			$data['image_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'delete')));			
-		}
+		}		
 		else
 		{
 			$data['image_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'save')));
@@ -44,13 +44,17 @@ Class Controller_admin_image extends Controller_Template_Admin
 			$data['back_url'] = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
 		}
 		$data['images'] = PCPAdmin::getImages(array('story_id'=>$session->get('story_id')));
-		if ($session->get('scene_id'))
+		if ($session->get('item_id'))
 		{
-			$data['assign_image_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'assignSceneImage')));
+			$data['assign_image_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'item','action'=>'assignImage')));
+		}
+		elseif ($session->get('scene_id'))
+		{
+			$data['assign_image_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'assignImage')));
 		}	
 		elseif ($session->get('story_id'))
 		{
-			$data['assign_image_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'story','action'=>'assignStoryImage')));
+			$data['assign_image_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'story','action'=>'assignImage')));
 		}
 		$data['add_image_link'] =  View::factory('/admin/image/add',$data)->render();
 		
