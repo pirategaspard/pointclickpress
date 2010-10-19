@@ -46,10 +46,10 @@ Class Controller_admin_scene extends Controller_Template_Admin
 			}
 			$data['item'] = PCPAdmin::getItem();
 			$data['item_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'item','action'=>'save')));;
-			$data['item_assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?story_id='.$data['scene']->story_id.'&location_id='.$data['scene']->location_id.'&scene_id='.$session->get('scene_id').'&item_id='.$data['item']->id;
-			$data['item_form'] = View::factory('/admin/item/form',$data)->render(); //inline form
+			$data['assign_item_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'item','action'=>'list'))).'?scene_id='.$session->get('scene_id');
+			$data['item_form'] = View::factory('/admin/item/form_grid',$data)->render(); //inline form
 			$data['items'] = $data['scene']->items;
-			$data['items_list'] = View::factory('/admin/item/list',$data)->render();
+			$data['items_list'] = View::factory('/admin/item/list_grid',$data)->render();
 		
 			/* grid events */
 			$data['story_id'] = $session->get('story_id');
