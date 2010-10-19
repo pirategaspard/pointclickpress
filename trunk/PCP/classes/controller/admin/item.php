@@ -30,7 +30,6 @@ Class Controller_admin_item extends Controller_Template_Admin
 	{	
 		$session = Session::instance();	
 		$session->delete('result');
-		var_dump('HEY'); die();	
 		$result = PCPAdmin::getItem()->init(array('id'=>$_REQUEST['item_id']))->delete();
 		// Create User Message
 		if ($result->success)
