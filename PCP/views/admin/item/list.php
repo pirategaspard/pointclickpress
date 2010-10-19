@@ -1,8 +1,8 @@
 <?php 
 	if (isset($items))
 	{
+	echo($add_item_link);
 ?>
-<!-- <a href="<?php //echo(Url::site(Route::get('admin')->uri(array('controller'=>'item','action'=>'edit'))).'?item_id=0'.$url_params); ?>">Add item</a> -->
 <fieldset>
 	<legend>items</legend>
 	<table>
