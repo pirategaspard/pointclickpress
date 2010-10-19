@@ -12,10 +12,10 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		{
 			$session->set('image_id',0);			
 		}
-						
+					
 		$data['type'] = EventsAdmin::getEventType();
 		$data['scene'] = PCPAdmin::getScene(array('include_events'=>true));		
-		$data['story'] = PCPAdmin::getStoryInfo(array('id'=>$data['scene']->story_id,'include_locations'=>true,'include_scenes'=>false));
+		$data['story'] = PCPAdmin::getStoryInfo(array('id'=>$data['scene']->story_id,'include_locations'=>true,'include_scenes'=>false));			
 		$data['location'] = $data['story']->locations[$data['scene']->location_id];
 		$data['events'] = $data['scene']->events;						
 				
@@ -38,9 +38,13 @@ Class Controller_admin_scene extends Controller_Template_Admin
 			$data['back_url'] = Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?scene_id='.$data['scene']->id;
 		
 			/* scene items */
-			$data['item_form_action'] = '';
-			$data['item_assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?story_id='.$data['scene']->story_id.'&location_id='.$data['scene']->location_id.'&scene_id='.$session->get('scene_id').'&cell_id='.$session->get('cell_id');
+			$data['item'] = PCPAdmin::getItem();
+			if (($data['item']->image_id <= 0) && isset($_REQUEST['image_id'])) { $data['item']->init(array('image_id'=>$_REQUEST['image_id'])); } // if there is an image_id on the URL assign it to this item. KINDA A HACK
+			$data['item_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'item','action'=>'save')));;
+			$data['item_assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?story_id='.$data['scene']->story_id.'&location_id='.$data['scene']->location_id.'&scene_id='.$session->get('scene_id').'&item_id='.$data['item']->id;
 			$data['item_form'] = View::factory('/admin/item/form',$data)->render(); //inline form
+			$data['items'] = $data['scene']->items;
+			$data['items_list'] = View::factory('/admin/item/list',$data)->render();
 		
 			/* grid events */
 			$data['story_id'] = $session->get('story_id');

@@ -1,37 +1,27 @@
 <?php 
-	if (isset($events))
+	if (isset($items))
 	{
 ?>
-<!-- <a href="<?php //echo(Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'edit'))).'?event_id=0'.$url_params); ?>">Add Event</a> -->
+<!-- <a href="<?php //echo(Url::site(Route::get('admin')->uri(array('controller'=>'item','action'=>'edit'))).'?item_id=0'.$url_params); ?>">Add item</a> -->
 <fieldset>
-	<legend>Events</legend>
+	<legend>items</legend>
 	<table>
 		<tr>
 			<th>Id</th>
-			<th>Event</th>
-			<th>Value</th>
+			<th>Filename</th>
+			<th>Cell Id</th>
 			<th></th>
 			<th></th>
 			<th></th>
 		</tr>
-		<?php foreach ($events as $event) { ?>
+		<?php foreach ($items as $item) { ?>
 		<tr>
-			<td><?php echo ($event->id); ?></td>
-			<td><?php echo ($event->event_label); ?></td>
-			<td><?php 
-					if (strlen($event->event_value) > 15 )
-					{
-						echo (substr($event->event_value,0,15).'...');
-					}
-					else
-					{
-						echo ($event->event_value);
-					} 
-				?>
-			</td>
-			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit'))).'?event_id='.$event->id); ?>">Edit</a></td>
+			<td><?php echo ($item->id); ?></td>
+			<td><?php echo ($item->filename); ?></td>
+			<td><?php echo ($item->cell_id); ?></td>
+			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit'))).'?item_id='.$item->id); ?>">Edit</a></td>
 			<td>&nbsp;&nbsp;</td>
-			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'delete'))).'?event_id='.$event->id); ?>">Delete</a></td>
+			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'item','action'=>'delete'))).'?item_id='.$item->id); ?>">Delete</a></td>
 		</tr>
 		<?php } ?>
 	</table>

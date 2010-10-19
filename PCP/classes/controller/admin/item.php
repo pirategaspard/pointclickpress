@@ -1,29 +1,37 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 Class Controller_admin_item extends Controller_Template_Admin
 {	
-	function action_assignImage()
-	{		
-		$session = Session::instance();	
-		$session->delete('result');
-		PCPAdmin::getArgs();			
-		if ($session->get('scene_id') && $session->get('cell_id') && $session->get('image_id'))
+	/*
+		save the info from the Item form 
+	*/
+	function action_save()
+	{
+		$session = Session::instance();
+		$session->delete('result');		
+		if(count($_POST) > 0)
 		{
-			$item = PCPAdmin::getItem();
-			$result = $item->init(array('image_id'=>$session->get('image_id')))->save();
-			if ($result->success)
-			{
-				$result->message = "Image Assigned";
-			}
-			$session->set('result',$result);			
+			$result = PCPAdmin::getItem()->init($_POST)->save();
+			$session->set('Item_id',$result->data['id']);			
 		}
+		else
+		{
+			$result = new pcpresult(0,'unable to save Item data');
+		}
+		if ($result->success)
+		{
+			$result->message = "Item Saved";
+		}
+		$session->set('result',$result);
+		//redirect to edit the Item just saved
 		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')));
 	}
 	
 	function action_delete()
 	{	
 		$session = Session::instance();	
-		$session->delete('result');	
-		$result = PCPAdmin::getStory()->init(array('id'=>$_REQUEST['item_id']))->delete();
+		$session->delete('result');
+		var_dump('HEY'); die();	
+		$result = PCPAdmin::getItem()->init(array('id'=>$_REQUEST['item_id']))->delete();
 		// Create User Message
 		if ($result->success)
 		{
@@ -35,7 +43,7 @@ Class Controller_admin_item extends Controller_Template_Admin
 		}
 		$session->set('result',$result);	
 		//Go back to the parent
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'list')));
+		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')));
 	}
 
 }

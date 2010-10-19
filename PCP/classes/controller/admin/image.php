@@ -35,6 +35,8 @@ Class Controller_admin_image extends Controller_Template_Admin
 		$session = Session::instance();	
 		$data['story_id'] = $session->get('story_id');
 		$data['scene_id'] = $session->get('scene_id');
+		$data['item_id'] = $session->get('item_id');
+		var_dump($data);
 		if ($session->get('scene_id'))	
 		{			
 			$data['back_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')));
@@ -44,9 +46,9 @@ Class Controller_admin_image extends Controller_Template_Admin
 			$data['back_url'] = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
 		}
 		$data['images'] = PCPAdmin::getImages(array('story_id'=>$session->get('story_id')));
-		if ($session->get('item_id'))
+		if ($session->get('item_id') > -1)
 		{
-			$data['assign_image_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'item','action'=>'assignImage')));
+			$data['assign_image_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit'))); // just got back to scene edit
 		}
 		elseif ($session->get('scene_id'))
 		{

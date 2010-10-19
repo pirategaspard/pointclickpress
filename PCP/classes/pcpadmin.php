@@ -94,6 +94,20 @@ class PCPAdmin
 		return ImagesAdmin::getImages($args); 
 	}
 	
+	static function getItems($args=array())
+	{			
+		$args = PCPAdmin::getArgs($args);
+		return ItemAdmin::getItems($args);	
+	}
+	
+	static function getItem($args=array())
+	{	
+		$session = Session::instance();
+		$args = PCPAdmin::getArgs($args);
+		if (!isset($args['id']) && $session->get('item_id')) { $args['id'] =  $session->get('item_id'); }	
+		return ItemAdmin::getItem($args); 		
+	}
+	
 	static function getPlugins($args=array())
 	{	
 		$pluginAdmin = new pluginadmin();	
@@ -116,13 +130,12 @@ class PCPAdmin
 
 	static public function getArgs($args=array())
 	{
-
 		$session = Session::instance();		
 		if (isset($_REQUEST['story_id']))
 		{
 			$session->set('story_id',$_REQUEST['story_id']);
 			$session->delete('location_id');
-			$session->delete('scene_id');
+			$session->delete('scene_id');			
 		}
 		if (isset($_REQUEST['location_id']))
 		{
@@ -132,6 +145,7 @@ class PCPAdmin
 		{
 			$session->set('scene_id',$_REQUEST['scene_id']);
 			$session->delete('event_id');
+			$session->delete('item_id');
 		}
 		if (isset($_REQUEST['cell_id']))
 		{
@@ -144,6 +158,10 @@ class PCPAdmin
 		if (isset($_REQUEST['image_id']))
 		{
 			$session->set('image_id',$_REQUEST['image_id']);
+		}
+		if (isset($_REQUEST['item_id']))
+		{
+			$session->set('item_id',$_REQUEST['item_id']);
 		}
 		if (isset($_REQUEST['id']))
 		{
@@ -164,12 +182,14 @@ class PCPAdmin
 		if (!isset($args['cell_id']) &&  $session->get('cell_id')) { $args['cell_id'] =   $session->get('cell_id'); }
 		if (!isset($args['event_id']) &&  $session->get('event_id')) { $args['event_id'] =   $session->get('event_id'); }
 		if (!isset($args['image_id']) &&  $session->get('image_id')) { $args['image_id'] =   $session->get('image_id'); }
+		if (!isset($args['item_id']) &&  $session->get('item_id')) { $args['item_id'] =   $session->get('item_id'); }
 		if (!isset($args['user_id']) &&  $session->get('user_id')) { $args['user_id'] =   $session->get('user_id'); }
 		
 		// defaults
 		if (!isset($args['include_scenes'])) { $args['include_scenes'] = TRUE; }
 		if (!isset($args['include_locations'])) { $args['include_locations'] = TRUE; }
 		if (!isset($args['include_events'])) { $args['include_events'] = TRUE; }
+		if (!isset($args['include_items'])) { $args['include_items'] = TRUE; }
 		
 		return $args;
 	}
