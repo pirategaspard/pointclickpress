@@ -1,7 +1,6 @@
 <?php 
 	if (isset($items))
 	{
-	echo($add_item_link);
 ?>
 <fieldset>
 	<legend>items</legend>
@@ -21,7 +20,7 @@
 			<td><?php echo ($item->cell_id); ?></td>
 			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit'))).'?item_id='.$item->id); ?>">Edit</a></td>
 			<td>&nbsp;&nbsp;</td>
-			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'assignItem'))).'?item_id='.$item->id); ?>">Assign Item</a></td>
+			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'item','action'=>'delete'))).'?item_id='.$item->id); ?>">Delete</a></td>
 		</tr>
 		<?php } ?>
 	</table>
