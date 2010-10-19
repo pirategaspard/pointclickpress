@@ -40,6 +40,10 @@ Class Controller_admin_scene extends Controller_Template_Admin
 			// TODO refactor these pieces out of here
 		
 			/* scene items */
+			if (1 == 1)
+			{
+				$session->delete('image_id');			
+			}
 			$data['item'] = PCPAdmin::getItem();
 			$data['item_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'item','action'=>'save')));;
 			$data['item_assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?story_id='.$data['scene']->story_id.'&location_id='.$data['scene']->location_id.'&scene_id='.$session->get('scene_id').'&item_id='.$data['item']->id;
