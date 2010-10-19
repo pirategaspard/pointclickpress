@@ -9,8 +9,10 @@
 		if (strlen($scene->filename) > 0)
 		{ 			
 			echo('<div id="scene_data">');
+			//tab 1
 			echo($item_form);
-			echo($items_list);  
+			echo($items_list);
+			// tab 2  
 			echo($grid_event_form);
 			echo($grid_event_list);
 			echo('</div>');  	
