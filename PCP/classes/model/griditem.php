@@ -1,11 +1,9 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-class Model_Item extends Model 
+class Model_GridItem extends Model_item 
 {
-	protected $id = 0;
-	protected $label = '';
-	protected $story_id = '';
-	protected $image_id = '';
-	protected $filename = '';	
+	protected $grid_item_id = 0;
+	protected $scene_id = 0;
+	protected $cell_id = '';	
 	
 	public function __construct($args=array())
 	{
@@ -14,42 +12,35 @@ class Model_Item extends Model
 	}
 	
 	function init($args=array())
-	{
-		if ((isset($args['id']))&&(is_numeric($args['id'])))
+	{	
+		parent::init($args);	
+		if (isset($args['scene_id']))
 		{
-			$this->id = $args['id'];
+			$this->scene_id = $args['scene_id'];
 		}
-		if (isset($args['label']))
+		if (isset($args['cell_id']))
 		{
-			$this->label = $args['label'];
-		}
-		if (isset($args['story_id']))
-		{
-			$this->story_id = $args['story_id'];
-		}		
-		if (isset($args['image_id']))
-		{
-			$this->image_id = $args['image_id'];
-		}
-		if (isset($args['filename']))
-		{
-			$this->filename = $args['filename'];
+			$this->cell_id = $args['cell_id'];
 		}
 		return $this;
 	}
 	
 	function load($args=array())
 	{		
-		if ($this->id > 0)
+		if (($this->id > 0)&&($this->scene_id > 0))
 		{
-			$q = '	SELECT 	it.id
-							,it.label
-							,it.story_id
+			$q = '	SELECT 	it.id	
+							,it.label						
 							,it.image_id
 							,i.filename
+							,git.grid_item_id
+							,git.cell_id
+							,git.scene_id							
 					FROM items it
 					INNER JOIN images i
 					ON it.image_id = i.id
+					LEFT OUTER JOIN grids_items git
+					ON it.id = git.item_id
 					WHERE it.id = :id';
 			$q_results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();											
 							
@@ -65,21 +56,23 @@ class Model_Item extends Model
 	function save()
 	{			
 		$results = new pcpresult();
-		if ($this->id == 0)
+		if (($this->grid_item_id == 0))
 		{
+			parent::save();
 			//INSERT new record
-			$q = '	INSERT INTO items
-						(label
-						,story_id
-						,image_id)
+			$q = '	INSERT INTO grids_items
+						(item_id
+						,scene_id
+						,cell_id)
 					VALUES (
-						:label
-						,:story_id
-						,:image_id)';						
+						:item_id
+						,:scene_id
+						,:cell_id
+						)';						
 			$q_results = DB::query(Database::INSERT,$q,TRUE)
-								->param(':label',$this->label)
-								->param(':story_id',$this->story_id)
-								->param(':image_id',$this->image_id)
+								->param(':item_id',$this->id)
+								->param(':scene_id',$this->scene_id)
+								->param(':cell_id',$this->cell_id)
 								->execute();									
 			if ($q_results[1] > 0)
 			{
@@ -92,25 +85,25 @@ class Model_Item extends Model
 					array(':file' => Kohana::debug_path(__FILE__)));
 			}
 		}
-		elseif ($this->id > 0)
+		elseif ($this->grid_item_id > 0)
 		{
 			//UPDATE record
 			try
 			{
-				$q = '	UPDATE items
-						SET label = :label,
-							image_id = :image_id
-						WHERE id = :id';
+				parent::save();
+				$q = '	UPDATE grids_items
+						SET scene_id = :scene_id,
+							cell_id = :cell_id
+						WHERE grid_item_id = :grid_item_id';
 				$results->success = DB::query(Database::UPDATE,$q,TRUE)
-								->param(':label',$this->label)
-								->param(':image_id',$this->image_id)
-								->param(':id',$this->id)
+								->param(':scene_id',$this->scene_id)
+								->param(':cell_id',$this->cell_id)
+								->param(':grid_item_id',$this->grid_item_id)
 								->execute();																	
 			}
 			catch( Database_Exception $e )
-			{
-				var_dump($e); die();
-				throw new Kohana_Exception('Error Updating Record in file: :file - ',
+			{				
+				throw new Kohana_Exception('Error Updating Record in file: :file '.$e->getMessage(),
 					array(':file' => Kohana::debug_path(__FILE__)));
 			}
 		}
@@ -124,10 +117,10 @@ class Model_Item extends Model
 		if ($this->id > 0)
 		{
 				
-			$q = '	DELETE FROM items
-						WHERE id = :id';
+			$q = '	DELETE FROM grids_items
+						WHERE grid_item_id = :grid_item_id';
 			$results->success =	DB::query(Database::DELETE,$q,TRUE)
-								->param(':id',$this->id)
+								->param(':grid_item_id',$this->grid_item_id)
 								->execute();						
 		}
 		$results->data = array('id'=>$this->id);

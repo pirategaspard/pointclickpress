@@ -25,7 +25,7 @@ Class Controller_admin_item extends Controller_Template_Admin
 		$session = Session::instance();	
 		$data['scene_id'] = $session->get('scene_id');	
 		$data['back_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')));
-		$data['items'] = PCPAdmin::getItems(array('scene_id'=>$session->get('scene_id')));
+		$data['items'] = PCPAdmin::getItems(array('story_id'=>$session->get('story_id')));
 		$data['assign_item_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'assignItem')));
 		$data['add_item_link'] =  View::factory('/admin/item/add',$data)->render();
 		

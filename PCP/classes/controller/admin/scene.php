@@ -44,8 +44,8 @@ Class Controller_admin_scene extends Controller_Template_Admin
 			{
 				$session->delete('image_id');			
 			}
-			$data['item'] = PCPAdmin::getItem();
-			$data['item_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'item','action'=>'save')));;
+			$data['item'] = PCPAdmin::getItem(array('scene_id'=>$data['scene']->id,'type'=>'Grid'));
+			$data['item_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'assignItem')));;
 			$data['assign_item_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'item','action'=>'list'))).'?scene_id='.$session->get('scene_id');
 			$data['item_form'] = View::factory('/admin/item/form_grid',$data)->render(); //inline form
 			$data['items'] = $data['scene']->items;
@@ -165,6 +165,29 @@ Class Controller_admin_scene extends Controller_Template_Admin
 			if ($result->success)
 			{
 				$result->message = "Image Assigned";
+			}
+			$session->set('result',$result);			
+		}
+		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')));
+	}
+	
+	function action_assignItem()
+	{		
+		$session = Session::instance();	
+		$session->delete('result');
+		PCPAdmin::getArgs();					
+		if ($session->get('scene_id') && $session->get('item_id'))
+		{
+			$item = PCPAdmin::getItem(array('type'=>'Grid'));			
+			$result = $item->init($_POST)->save();
+			// Create User Message
+			if ($result->success)
+			{
+				$result->message = "Item Assigned";
+			}
+			else
+			{
+				$result->message = "Item NOT Assigned";
 			}
 			$session->set('result',$result);			
 		}
