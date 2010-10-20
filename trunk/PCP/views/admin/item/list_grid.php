@@ -7,7 +7,7 @@
 	<table>
 		<tr>
 			<th>Id</th>
-			<th>Filename</th>
+			<th>Label</th>
 			<th>Cell Id</th>
 			<th></th>
 			<th></th>
@@ -16,7 +16,7 @@
 		<?php foreach ($items as $item) { ?>
 		<tr>
 			<td><?php echo ($item->id); ?></td>
-			<td><?php echo ($item->filename); ?></td>
+			<td><?php echo ($item->label); ?></td>
 			<td><?php echo ($item->cell_id); ?></td>
 			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit'))).'?item_id='.$item->id); ?>">Edit</a></td>
 			<td>&nbsp;&nbsp;</td>
