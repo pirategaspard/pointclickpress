@@ -86,7 +86,7 @@ class itemadmin
 		$items = array();
 		foreach($tempArray as $a)
 		{		
-			$items[$a['id']] = ItemAdmin::getGridItem()->init($a);
+			$items[$a['cell_id']] = ItemAdmin::getGridItem()->init($a);
 		}
 		return $items;		
 	}

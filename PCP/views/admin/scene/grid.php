@@ -3,9 +3,15 @@
 	{
 		$cells = '';
 		$total = $story->grid_total();
+		$items = $scene->items; 
 		for($i=0;$i<$total;$i++)
 		{
-			$cells.= '<b n="'.$i.'"></b>';
+			$cells.= '<b n="'.$i.'">';
+			if (isset($items[$i]))
+			{
+				$cells.= '<img src="'.Kohana::$base_url.MEDIA_PATH.'/'.trim($scene->story_id).'/'.$items[$i]->image_id.'/100x100/'.$items[$i]->filename.'" />';	
+			}
+			$cells.= '</b>';
 		}
 ?>	
 	<style>

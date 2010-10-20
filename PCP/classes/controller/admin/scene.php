@@ -14,7 +14,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		}
 					
 		$data['type'] = EventsAdmin::getEventType();
-		$data['scene'] = PCPAdmin::getScene(array('include_events'=>true));		
+		$data['scene'] = PCPAdmin::getScene(array('include_events'=>true,'include_items'=>true));		
 		$data['story'] = PCPAdmin::getStoryInfo(array('id'=>$data['scene']->story_id,'include_locations'=>true,'include_scenes'=>false));			
 		$data['location'] = $data['story']->locations[$data['scene']->location_id];
 		$data['events'] = $data['scene']->events;						
