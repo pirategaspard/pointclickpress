@@ -9,7 +9,6 @@
 		<tr>
 			<th>Id</th>
 			<th>Filename</th>
-			<th>Cell Id</th>
 			<th></th>
 			<th></th>
 			<th></th>
@@ -18,10 +17,9 @@
 		<tr>
 			<td><?php echo ($item->id); ?></td>
 			<td><?php echo ($item->filename); ?></td>
-			<td><?php echo ($item->cell_id); ?></td>
-			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit'))).'?item_id='.$item->id); ?>">Edit</a></td>
+			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'item','action'=>'edit'))).'?item_id='.$item->id); ?>">Edit</a></td>
 			<td>&nbsp;&nbsp;</td>
-			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'assignItem'))).'?item_id='.$item->id); ?>">Assign Item</a></td>
+			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit'))).'?item_id='.$item->id); ?>" target="_parent">Assign Item</a></td>
 		</tr>
 		<?php } ?>
 	</table>
