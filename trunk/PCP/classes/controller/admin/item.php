@@ -6,14 +6,15 @@ Class Controller_admin_item extends Controller_Template_Admin
 	{		
 		$session = Session::instance();	
 		$data['item'] = PCPAdmin::getItem();
-		$data['scene_id'] = $session->get('scene_id');
 		$data['item_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'item','action'=>'save')));		
 		$data['item_assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?scene_id='.$session->get('scene_id').'&item_id='.$data['item']->id;			
 		$data['back_url'] = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
 		$data['item_form'] =  View::factory('/admin/item/form',$data)->render();		
 		$data['add_item_link'] =  View::factory('/admin/item/add',$data)->render();
-		
-		$this->template->header = '' ;
+		$data['story'] = PCPAdmin::getStory(array('story_id'=>$data['item']->story_id));
+				
+		$this->template->breadcrumb .= View::factory('/admin/story/info',$data)->render();
+		$this->template->breadcrumb .= View::factory('/admin/item/info',$data)->render();		
 		$this->template->top_menu = View::factory('/admin/item/top_menu',$data)->render();						
 		$this->template->content = View::factory('/admin/item/template',$data)->render();
 	}
@@ -29,8 +30,7 @@ Class Controller_admin_item extends Controller_Template_Admin
 		$data['assign_item_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'assignItem')));
 		$data['add_item_link'] =  View::factory('/admin/item/add',$data)->render();
 		
-		$this->template->header = '' ;
-		$this->template->footer = '' ;
+		$this->template->header = '';
 		$this->template->top_menu = View::factory('/admin/item/top_menu',$data)->render();
 		$this->template->content = View::factory('/admin/item/list',$data)->render();
 	}
@@ -73,13 +73,10 @@ Class Controller_admin_item extends Controller_Template_Admin
 		{
 			$result->message = "Item Deleted";
 		}
-		elseif($result->success == 0)
-		{
-			$result->message = "Unable to Delete Item";
-		}
-		$session->set('result',$result);	
+		$session->set('result',$result);
+		$back_url = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';	
 		//Go back to the parent
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')));
+		Request::instance()->redirect($back_url);
 	}
 	
 	function action_assignImage()

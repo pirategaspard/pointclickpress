@@ -40,7 +40,7 @@ class itemadmin
 						,it.image_id
 						,i.filename
 				FROM items it
-				INNER JOIN images i
+				LEFT OUTER JOIN images i
 				ON it.image_id = i.id
 				INNER JOIN stories s
 				ON it.story_id = s.id

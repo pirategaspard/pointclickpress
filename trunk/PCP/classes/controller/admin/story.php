@@ -42,15 +42,19 @@ Class Controller_admin_story extends Controller_Template_Admin
 		$data['type'] = EventsAdmin::getEventType();
 		$data['story'] = PCPAdmin::getStory(array('include_events'=>true,'include_locations'=>TRUE));
 		$data['locations'] = $data['story']->locations;
-		$data['events'] = $data['story']->events;	
+		$data['events'] = $data['story']->events;
+		$data['items'] = PCPAdmin::getItems(array('story_id'=>$data['story']->id));	
 		$data['grid_sizes'] = explode(',',SUPPORTED_GRID_SIZES);
-		
-		$data['location_add'] = View::factory('/admin/location/add',$data)->render();
-		$data['location_list'] = View::factory('/admin/location/list',$data)->render();	//get location information and load list of locations
 		
 		$data['event_add'] = View::factory('/admin/event/add',$data)->render();
 		$data['event_list'] = View::factory('/admin/event/list',$data)->render();	//get event information and load list of events
 		
+		$data['location_add'] = View::factory('/admin/location/add',$data)->render();
+		$data['location_list'] = View::factory('/admin/location/list',$data)->render();	//get location information and load list of locations
+		
+		$data['item_add'] = View::factory('/admin/item/add',$data)->render();
+		$data['item_list'] = View::factory('/admin/item/list',$data)->render();
+						
 		$data['story_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'story','action'=>'save')));
 		$data['assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?story_id='.$data['story']->id;
 		$data['story_form'] = View::factory('/admin/story/form',$data)->render();

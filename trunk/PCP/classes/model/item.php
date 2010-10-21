@@ -3,8 +3,8 @@ class Model_Item extends Model
 {
 	protected $id = 0;
 	protected $label = '';
-	protected $story_id = '';
-	protected $image_id = '';
+	protected $story_id = 0;
+	protected $image_id = 0;
 	protected $filename = '';	
 	
 	public function __construct($args=array())
@@ -48,7 +48,7 @@ class Model_Item extends Model
 							,it.image_id
 							,i.filename
 					FROM items it
-					INNER JOIN images i
+					LEFT OUTER JOIN images i
 					ON it.image_id = i.id
 					WHERE it.id = :id';
 			$q_results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();											
