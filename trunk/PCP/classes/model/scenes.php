@@ -49,35 +49,40 @@ class Model_Scenes
 		return $Scenes;		
 	}
 	
-	/* get a scene by location ID and value */
-	static function getSceneBylocationId($location_id,$value='')
+	/* get a scene by location ID and value. Called from PCP frontend  */
+	static function getSceneBylocationId($args=array())//location_id,$value='')
 	{	
 		$scene = Model_Scenes::getScene(); // get empty scene object
-		$q = '	SELECT 	s.id
-						,s.story_id
-						,s.location_id
-						,s.title
-						,s.description
-						,s.image_id
-						,i.filename
-						,s.value
-					FROM scenes s
-					LEFT OUTER JOIN images i
-					ON s.image_id = i.id
-					INNER JOIN locations c
-						ON s.location_id = c.id 
-						AND c.id = :location_id
-					WHERE s.value = :value';
-		$q_results = DB::query(Database::SELECT,$q,TRUE)
-								->param(':location_id',$location_id)
-								->param(':value',$value)
-								->execute()
-								->as_array();
-		if (count($q_results) > 0)			
-		{
-			$args = $q_results[0];
-			$args['include_events'] = true;
-			$scene->init($args); // populate scene object
+		if (isset($args['location_id']) && isset($args['scene_value']))
+		{		
+			$q = '	SELECT 	s.id
+							,s.story_id
+							,s.location_id
+							,s.title
+							,s.description
+							,s.image_id
+							,i.filename
+							,s.value
+						FROM scenes s
+						LEFT OUTER JOIN images i
+						ON s.image_id = i.id
+						INNER JOIN locations c
+							ON s.location_id = c.id 
+							AND c.id = :location_id
+						WHERE s.value = :value';
+			$q_results = DB::query(Database::SELECT,$q,TRUE)
+									->param(':location_id',$args['location_id'])
+									->param(':value',$args['scene_value'])
+									->execute()
+									->as_array();
+			if (count($q_results) > 0)			
+			{
+				$a = $q_results[0];
+				$a['include_events'] = true;
+				$a['include_items'] = true;
+				$a['simple_items'] = (isset($args['simple_items']) && $args['simple_items'] == true)?true:false;
+				$scene->init($a); // populate scene object
+			}
 		}
 		return $scene;
 	}
