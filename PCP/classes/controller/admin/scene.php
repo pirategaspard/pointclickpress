@@ -193,6 +193,28 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		}
 		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')));
 	}
+	function action_DeleteItem()
+	{		
+		$session = Session::instance();	
+		$session->delete('result');
+		PCPAdmin::getArgs();					
+		if ($session->get('scene_id') && $session->get('item_id'))
+		{
+			$item = PCPAdmin::getItem(array('type'=>'Grid'));			
+			$result = $item->init($_POST)->delete();
+			// Create User Message
+			if ($result->success)
+			{
+				$result->message = "Item Deleted";
+			}
+			else
+			{
+				$result->message = "Item NOT Deleted";
+			}
+			$session->set('result',$result);			
+		}
+		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')));
+	}
 }
 
 ?>

@@ -6,5 +6,7 @@
 		echo($event_list);
 		echo($location_add);
 		echo($location_list);
+		echo($item_add);
+		echo($item_list);
 	}	
 ?>
