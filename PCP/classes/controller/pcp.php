@@ -103,7 +103,7 @@ Class Controller_PCP extends Controller_Template_Base
 		$results = array_merge($results,PCP::doEvents($location->events));
 		
 		// get the scene
-		$data['scene'] = PCP::getScene(PCP::getCurrentlocationId());
+		$data['scene'] = PCP::getScene(array('location_id'=>PCP::getCurrentlocationId()));
 		// put any scene init events into session
 		$results = array_merge($results,PCP::doEvents($data['scene']->events));							
 		//put scene into session

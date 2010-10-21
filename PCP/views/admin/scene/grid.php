@@ -9,7 +9,7 @@
 			$cells.= '<b n="'.$i.'">';
 			if (isset($items[$i]))
 			{
-				$cells.= '<img src="'.Kohana::$base_url.MEDIA_PATH.'/'.trim($scene->story_id).'/'.$items[$i]->image_id.'/100x100/'.$items[$i]->filename.'" />';	
+				$cells.= '<img src="'.$story->getMediaPath().$items[$i]->image_id.'/'.$story->screen_size.'/'.$items[$i]->filename.'" />';	
 			}
 			$cells.= '</b>';
 		}

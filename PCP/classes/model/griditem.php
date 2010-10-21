@@ -13,7 +13,11 @@ class Model_GridItem extends Model_item
 	
 	function init($args=array())
 	{	
-		parent::init($args);	
+		parent::init($args);
+		if (isset($args['grid_item_id']))
+		{
+			$this->grid_item_id = $args['grid_item_id'];
+		}	
 		if (isset($args['scene_id']))
 		{
 			$this->scene_id = $args['scene_id'];
@@ -37,7 +41,7 @@ class Model_GridItem extends Model_item
 							,git.cell_id
 							,git.scene_id							
 					FROM items it
-					INNER JOIN images i
+					LEFT OUTER JOIN images i
 					ON it.image_id = i.id
 					LEFT OUTER JOIN grids_items git
 					ON it.id = git.item_id

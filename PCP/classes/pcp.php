@@ -18,26 +18,30 @@ class PCP
 	}
 	
 	/* get all the information we need to render a scene */
-	static function getScene($location_id)
-	{			
-		$location = Model_locations::getlocation(array('id'=>$location_id));	
-		$session = Session::instance();
-		$story_data = $session->get('story_data',array());
-		
-		/*
-			Switch for different scenes within location			 
-			If a there is a key set in the session story_data array then use that value
-			othewise use empty string
-		*/			
-		if (isset($story_data[$location->slug]))
+	static function getScene($args=array())
+	{	
+		$args['scene_value'] = '';		
+		if (isset($args['location_id']))
 		{
-			$scene_value = $story_data[$location->slug];
+			$location = Model_locations::getlocation(array('id'=>$args['location_id']));	
+			$session = Session::instance();
+			$story_data = $session->get('story_data',array());
+			
+			/*
+				Switch for different scenes within location			 
+				If a there is a key set in the session story_data array then use that value
+				othewise use empty string
+			*/			
+			if (isset($story_data[$location->slug]))
+			{
+				$args['scene_value'] = $story_data[$location->slug];
+			}
+			else
+			{
+				$args['scene_value'] = '';
+			}
 		}
-		else
-		{
-			$scene_value = '';
-		}
-		return Model_Scenes::getSceneBylocationId($location_id,$scene_value); 
+		return Model_Scenes::getSceneBylocationId($args); 
 	}
 	
 	/* 
@@ -146,7 +150,8 @@ class PCP
 		
 		if (!isset($args['include_scenes'])) { $args['include_scenes'] = FALSE; }
 		if (!isset($args['include_locations'])) { $args['include_locations'] = FALSE; }
-		if (!isset($args['include_events'])) { $args['include_events'] = TRUE; } // always get actions 
+		if (!isset($args['include_events'])) { $args['include_events'] = TRUE; }
+		if (!isset($args['include_items'])) { $args['include_items'] = TRUE; } 
 		
 		return $args;
 	}

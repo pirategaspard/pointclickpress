@@ -1,13 +1,15 @@
 <?php
-	$cells = Cache::instance()->get('cells'.$story->grid_total(),NULL);
-	if (!$cells)
+	$total = $story->grid_total();
+	$items = $scene->items; 
+	$cells = '';
+	for($i=0;$i<$total;$i++)
 	{
-		$total = $story->grid_total();
-		for($i=0;$i<$total;$i++)
+		$cells.= '<a n="'.$i.'" href="'.Kohana::$base_url.'cellClick?n='.$i.'" >';
+		if (isset($items[$i]))
 		{
-			$cells.= '<a n="'.$i.'" href="'.Kohana::$base_url.'cellClick?n='.$i.'" ></a>';
+			$cells.= '<img src="'.$story->getMediaPath().$items[$i]->image_id.'/'.$story->screen_size.'/'.$items[$i]->filename.'" />';	
 		}
-		Cache::instance()->set('cells'.$story->grid_total(),$cells);
+		$cells.= '</a>';
 	}
 ?>	
 	<div id="grid">

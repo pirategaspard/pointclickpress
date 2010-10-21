@@ -59,34 +59,60 @@ class itemadmin
 	
 	static function getGridItems($args=array())
 	{						
-		// get all the Items in the db
-		$q = '	SELECT 	it.id	
-						,it.label						
-						,it.image_id
-						,it.story_id
-						,i.filename
-						,git.cell_id
-						,git.scene_id							
-				FROM items it
-				INNER JOIN images i
-				ON it.image_id = i.id
-				INNER JOIN grids_items git
-				ON it.id = git.item_id
-				INNER JOIN stories s
-				ON it.story_id = s.id
-				INNER JOIN scenes sc
-				ON git.scene_id = sc.id
-				WHERE sc.id = :scene_id
-				ORDER BY it.id DESC';
-		$tempArray = DB::query(Database::SELECT,$q,TRUE)
-						->param(':scene_id',$args['scene']->id)
-						->execute()
-						->as_array();
-		
-		$items = array();
-		foreach($tempArray as $a)
-		{		
-			$items[$a['cell_id']] = ItemAdmin::getGridItem()->init($a);
+		if (isset($args['simple_items']) && $args['simple_items'] == true) 
+		{
+			// Just get the filenames and put them in an array based on cell id
+			$q = '	SELECT 	i.filename
+							,i.id as image_id
+							,git.cell_id							
+					FROM items it
+					INNER JOIN images i
+					ON it.image_id = i.id
+					INNER JOIN grids_items git
+					ON it.id = git.item_id
+					INNER JOIN scenes sc
+					ON git.scene_id = sc.id
+					WHERE sc.id = :scene_id
+					ORDER BY it.id DESC';
+			$tempArray = DB::query(Database::SELECT,$q,TRUE)
+							->param(':scene_id',$args['scene']->id)
+							->execute()
+							->as_array();
+			
+			$items = $tempArray; // we'll parse this ourselves later on
+		}
+		else
+		{					
+			// get all the Items in the db
+			$q = '	SELECT 	it.id	
+							,it.label						
+							,it.image_id
+							,it.story_id
+							,i.filename
+							,git.grid_item_id
+							,git.cell_id
+							,git.scene_id							
+					FROM items it
+					INNER JOIN images i
+					ON it.image_id = i.id
+					INNER JOIN grids_items git
+					ON it.id = git.item_id
+					INNER JOIN stories s
+					ON it.story_id = s.id
+					INNER JOIN scenes sc
+					ON git.scene_id = sc.id
+					WHERE sc.id = :scene_id
+					ORDER BY it.id DESC';
+			$tempArray = DB::query(Database::SELECT,$q,TRUE)
+							->param(':scene_id',$args['scene']->id)
+							->execute()
+							->as_array();
+			
+			$items = array();
+			foreach($tempArray as $a)
+			{		
+				$items[$a['cell_id']] = ItemAdmin::getGridItem()->init($a);
+			}
 		}
 		return $items;		
 	}
