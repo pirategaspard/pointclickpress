@@ -35,7 +35,7 @@ class itemadmin
 	static function getItems($args)
 	{
 		$q = '	SELECT 	it.id
-						,it.label
+						,it.title
 						,it.story_id
 						,it.image_id
 						,i.filename
@@ -85,7 +85,7 @@ class itemadmin
 		{					
 			// get all the Items in the db
 			$q = '	SELECT 	it.id	
-							,it.label						
+							,it.title						
 							,it.image_id
 							,it.story_id
 							,i.filename

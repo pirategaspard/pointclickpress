@@ -1,12 +1,11 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-class Model_Item extends Model 
+class Model_ItemImage extends Model 
 {
 	protected $id = 0;
-	protected $title = '';
-	protected $story_id = 0;
+	protected $value = '';
+	protected $item_id = 0;
 	protected $image_id = 0;
-	protected $filename = '';
-	protected $images = array();			
+	protected $filename = '';			
 	
 	public function __construct($args=array())
 	{
@@ -20,13 +19,13 @@ class Model_Item extends Model
 		{
 			$this->id = $args['id'];
 		}
-		if (isset($args['title']))
+		if (isset($args['value']))
 		{
-			$this->title = $args['title'];
+			$this->value = $args['value'];
 		}
-		if (isset($args['story_id']))
+		if (isset($args['item_id']))
 		{
-			$this->story_id = $args['story_id'];
+			$this->item_id = $args['item_id'];
 		}		
 		if (isset($args['image_id']))
 		{
@@ -35,12 +34,7 @@ class Model_Item extends Model
 		if (isset($args['filename']))
 		{
 			$this->filename = $args['filename'];
-		}
-		if (isset($args['include_itemimages']))
-		{
-			$args['item'] = $this;
-			$this->images = ImagesAdmin::getItemImages($args);
-		}
+		}		
 		return $this;
 	}
 	
@@ -48,11 +42,15 @@ class Model_Item extends Model
 	{		
 		if ($this->id > 0)
 		{
-			$q = '	SELECT 	it.id
-							,it.title
-							,it.story_id
-					FROM items it
-					WHERE it.id = :id';
+			$q = '	SELECT 	ii.id
+							,ii.value
+							,ii.item_id
+							,ii.image_id
+							,i.filename							
+					FROM items_images ii
+					LEFT OUTER JOIN images i
+					ON ii.image_id = i.id
+					WHERE ii.id = :id';
 			$q_results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();											
 							
 			if (count($q_results) > 0 )
@@ -70,17 +68,18 @@ class Model_Item extends Model
 		if ($this->id == 0)
 		{
 			//INSERT new record
-			$q = '	INSERT INTO items
-						(title
-						,story_id
-						)
+			$q = '	INSERT INTO items_images
+						(value
+						,item_id
+						,image_id)
 					VALUES (
-						:title
-						,:story_id
-						)';						
-			$q_results = DB::query(Database::INSERT,$q,TRUE)
-								->param(':title',$this->title)
-								->param(':story_id',$this->story_id)
+						:value
+						,:item_id
+						,:image_id)';						
+			$q_results = DB::query(Database::INSERT,$q,TRUE)								
+								->param(':value',$this->value)
+								->param(':item_id',$this->item_id)
+								->param(':image_id',$this->image_id)
 								->execute();									
 			if ($q_results[1] > 0)
 			{
@@ -98,11 +97,15 @@ class Model_Item extends Model
 			//UPDATE record
 			try
 			{
-				$q = '	UPDATE items
-						SET title = :title,
+				$q = '	UPDATE items_images
+						SET value = :value
+							,item_id = :item_id
+							,image_id = :image_id
 						WHERE id = :id';
 				$results->success = DB::query(Database::UPDATE,$q,TRUE)
-								->param(':title',$this->title)
+								->param(':value',$this->value)
+								->param(':item_id',$this->item_id)
+								->param(':image_id',$this->image_id)
 								->param(':id',$this->id)
 								->execute();																	
 			}
@@ -123,7 +126,7 @@ class Model_Item extends Model
 		if ($this->id > 0)
 		{
 				
-			$q = '	DELETE FROM items
+			$q = '	DELETE FROM items_images
 						WHERE id = :id';
 			$results->success =	DB::query(Database::DELETE,$q,TRUE)
 								->param(':id',$this->id)
