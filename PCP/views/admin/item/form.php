@@ -13,6 +13,7 @@
 			title:
 			<input type="text" name="title" value="<?php echo($item->title); ?>" >
 		</label>
+		slug:<?php echo($item->slug); ?>
 		<input id="button_submit" type="submit" name="submit" value="submit" />
 	</form>
 </fieldset>
