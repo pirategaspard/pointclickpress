@@ -47,7 +47,7 @@ class PCP
 	/* get all the information we need to render a scene */
 	static function getItemImage($args=array())
 	{	
-		$args['itemimage_value'] = 'blah';		
+		$args['itemimage_value'] = '';		
 		if (isset($args['item_id']))
 		{
 			$item = itemadmin::getItem(array('id'=>$args['item_id']));	
