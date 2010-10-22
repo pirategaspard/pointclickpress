@@ -1,7 +1,6 @@
 <?php
 	$total = $story->grid_total();
 	$items = $scene->items; 
-	var_dump($items);
 	$cells = '';
 	for($i=0;$i<$total;$i++)
 	{
