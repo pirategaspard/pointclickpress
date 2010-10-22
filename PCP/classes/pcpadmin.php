@@ -108,6 +108,20 @@ class PCPAdmin
 		return ItemAdmin::getItem($args); 		
 	}
 	
+	static function getItemImages($args=array())
+	{			
+		$args = PCPAdmin::getArgs($args);
+		return ImagesAdmin::getItemimages($args);	
+	}
+	
+	static function getItemImage($args=array())
+	{	
+		$session = Session::instance();
+		$args = PCPAdmin::getArgs($args);
+		if (!isset($args['id']) && $session->get('itemimage_id')) { $args['id'] =  $session->get('itemimage_id'); }	
+		return ImagesAdmin::getItemImage($args); 		
+	}
+	
 	static function getPlugins($args=array())
 	{	
 		$pluginAdmin = new pluginadmin();	
@@ -145,8 +159,7 @@ class PCPAdmin
 		{
 			$session->set('scene_id',$_REQUEST['scene_id']);
 			$session->delete('event_id');
-			$session->delete('item_id');
-			$session->delete('image_id');
+			$session->delete('item_id');			
 		}
 		if (isset($_REQUEST['cell_id']))
 		{
@@ -163,6 +176,11 @@ class PCPAdmin
 		if (isset($_REQUEST['item_id']))
 		{
 			$session->set('item_id',$_REQUEST['item_id']);
+			$session->delete('image_id');
+		}
+		if (isset($_REQUEST['itemimage_id']))
+		{
+			$session->set('itemimage_id',$_REQUEST['itemimage_id']);
 		}
 		if (isset($_REQUEST['id']))
 		{
@@ -184,6 +202,7 @@ class PCPAdmin
 		if (!isset($args['event_id']) &&  $session->get('event_id')) { $args['event_id'] =   $session->get('event_id'); }
 		if (!isset($args['image_id']) &&  $session->get('image_id')) { $args['image_id'] =   $session->get('image_id'); }
 		if (!isset($args['item_id']) &&  $session->get('item_id')) { $args['item_id'] =   $session->get('item_id'); }
+		if (!isset($args['itemimage_id']) &&  $session->get('itemimage_id')) { $args['itemimage_id'] =   $session->get('itemimage_id'); }
 		if (!isset($args['user_id']) &&  $session->get('user_id')) { $args['user_id'] =   $session->get('user_id'); }
 		
 		// defaults
@@ -191,6 +210,7 @@ class PCPAdmin
 		if (!isset($args['include_locations'])) { $args['include_locations'] = TRUE; }
 		if (!isset($args['include_events'])) { $args['include_events'] = TRUE; }
 		if (!isset($args['include_items'])) { $args['include_items'] = TRUE; }
+		if (!isset($args['include_itemimages'])) { $args['include_itemimages'] = TRUE; }
 		
 		return $args;
 	}

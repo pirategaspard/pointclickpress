@@ -5,13 +5,17 @@ Class Controller_admin_item extends Controller_Template_Admin
 	function action_edit()
 	{		
 		$session = Session::instance();	
-		$data['item'] = PCPAdmin::getItem();
+		$data['item'] = PCPAdmin::getItem(array('include_itemimages'=>true));
+		$data['itemimages'] = $data['item']->images; 
 		$data['item_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'item','action'=>'save')));		
 		$data['item_assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?scene_id='.$session->get('scene_id').'&item_id='.$data['item']->id;			
 		$data['back_url'] = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
 		$data['item_form'] =  View::factory('/admin/item/form',$data)->render();		
 		$data['add_item_link'] =  View::factory('/admin/item/add',$data)->render();
 		$data['story'] = PCPAdmin::getStory(array('story_id'=>$data['item']->story_id));
+				
+		$data['itemimage_add'] = View::factory('/admin/itemimage/add',$data)->render();
+		$data['itemimage_list'] = View::factory('/admin/itemimage/list',$data)->render();				
 				
 		$this->template->breadcrumb .= View::factory('/admin/story/info',$data)->render();
 		$this->template->breadcrumb .= View::factory('/admin/item/info',$data)->render();		
@@ -46,7 +50,7 @@ Class Controller_admin_item extends Controller_Template_Admin
 		if(count($_POST) > 0)
 		{
 			$result = PCPAdmin::getItem()->init($_POST)->save();
-			$session->set('Item_id',$result->data['id']);			
+			$session->set('item_id',$result->data['id']);			
 		}
 		else
 		{

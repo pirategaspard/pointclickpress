@@ -45,9 +45,9 @@ Class Controller_admin_image extends Controller_Template_Admin
 			$data['back_url'] = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
 		}
 		$data['images'] = PCPAdmin::getImages(array('story_id'=>$session->get('story_id')));
-		if ($session->get('item_id') > -1)
+		if ($session->get('itemimage_id'))
 		{
-			$data['assign_image_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'item','action'=>'assignImage')));
+			$data['assign_image_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'itemimage','action'=>'assignImage')));
 		}
 		elseif ($session->get('scene_id'))
 		{

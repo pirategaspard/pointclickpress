@@ -1,11 +1,18 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-
 class ImagesAdmin
 {	
 	static function getImage($args=array())
 	{
 		// get a single story object and populate it based on the arguments
 		$story = new Model_Image($args);
+		$story->load($args);
+		return $story;		
+	}
+	
+	static function getItemImage($args=array())
+	{
+		// get a single story object and populate it based on the arguments
+		$story = new Model_ItemImage($args);
 		$story->load($args);
 		return $story;		
 	}
@@ -35,6 +42,40 @@ class ImagesAdmin
 		foreach($tempArray as $a)
 		{
 			$Images[$a['id']] = ImagesAdmin::getImage()->init($a);
+		}
+		return $Images;		
+	}
+	
+	static function getItemImages($args=array())
+	{				
+		// get all the Images in the db
+		$q = '	SELECT 	i.id AS image_id
+						,i.filename
+						,ii.id
+						,ii.value
+				FROM images i
+				INNER JOIN stories s
+				ON i.story_id = s.id
+				INNER JOIN items_images ii
+				ON i.id = ii.image_id
+				WHERE 1 = 1 ';
+				
+		if (isset($args['image'])) $q .= 'AND i.id = :image_id'; 
+		if (isset($args['item'])) $q .= 'AND ii.item_id = :item_id'; 
+		
+		$q .= ' ORDER BY i.id DESC';
+		
+		$q = DB::query(Database::SELECT,$q,TRUE);						
+		
+		if (isset($args['image']))	 $q->param(':image_id',$args['image']->id);
+		if (isset($args['item']))	 $q->param(':item_id',$args['item']->id);
+						
+		$tempArray = $q->execute()->as_array();		
+		
+		$Images = array();
+		foreach($tempArray as $a)
+		{
+			$Images[$a['id']] = ImagesAdmin::getItemImage()->init($a);
 		}
 		return $Images;		
 	}
@@ -95,6 +136,19 @@ class ImagesAdmin
 					// did we resize & save the file to the upload dir ok?
 					if ($success)
 					{
+						$reduction_percentage = 0;
+						/*
+						if (isset($args['image_type']) && ($args['image_type'] == 'item'))
+						{ 
+							// if this image is for an item then we scale it so that it will be correct for each screen size
+							$reduction_percentage = (DEFAULT_STORY_WIDTH * $image_height) / (DEFAULT_STORY_HEIGHT * $image_width);
+						}
+						else
+						{
+							// default image reduction percentage
+							$reduction_percentage = IMAGE_REDUCTION_PERCENT * 0.01;
+						}
+						*/																		
 						$orig_image = $dest.$filename;
 																					
 						//get array of Supported screens and add in the thumbnail size 
@@ -105,7 +159,10 @@ class ImagesAdmin
 						// for each supported screen create image and save 	
 						foreach($SCREENS as $screen)
 						{
-							$dest = $media_path.DIRECTORY_SEPARATOR.$screen['w'].'x'.$screen['h'].DIRECTORY_SEPARATOR;
+							// reduce size by a small percentage to assure that image will fit on screen properly							
+							$width = $screen['w'] - ($screen['w'] * $reduction_percentage);
+							$height = $screen['h'] - ($screen['h'] * $reduction_percentage);
+							$dest = $media_path.DIRECTORY_SEPARATOR.$width.'x'.$height.DIRECTORY_SEPARATOR;
 							//create directory to put image
 							dir::prep_directory($dest);
 							
