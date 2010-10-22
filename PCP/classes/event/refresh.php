@@ -41,22 +41,16 @@ class event_refresh extends pcpevent implements iPCPevent
 		// put any location init events into session
 		$results = array_merge($results,PCP::doEvents($location->events));
 		// get scene
-		$scene = PCP::getScene(array('location_id'=>$story_data['location_id'],'simple_items'=>true));
+		$scene = PCP::getScene(array('location_id'=>$story_data['location_id'],'story'=>$story));
 		// if we have valid data continue
 		if (($scene)&&($location)&&($story))
 		{
 			// put any scene init events into session
-			$results = array_merge($results,PCP::doEvents($scene->events));	
-			// parse items and build full file path
-			$items = array();
-			foreach($scene->items as $item)
-			{
-				$items[$item['cell_id']] =  $story->getMediaPath().$item['image_id'].'/'.$story->screen_size.'/'.$item['filename'];
-			}									
+			$results = array_merge($results,PCP::doEvents($scene->events));													
 			// populate response data 					
 			$data['filename'] = $scene->getPath($story->scene_width,$story->scene_height);
 			$data['preload_filename'] = $scene->getPath(NULL,NULL,THUMBNAIL_IMAGE_SIZE);
-			$data['items'] = $items;
+			$data['items'] = $scene->items;
 			$data['title'] = DEFAULT_PAGE_TITLE.$story->title.' : '.$scene->title;
 			$data['description'] = $scene->description;
 		}

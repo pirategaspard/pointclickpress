@@ -44,6 +44,33 @@ class PCP
 		return Model_Scenes::getSceneBylocationId($args); 
 	}
 	
+	/* get all the information we need to render a scene */
+	static function getItemImage($args=array())
+	{	
+		$args['itemimage_value'] = 'blah';		
+		if (isset($args['item_id']))
+		{
+			$item = itemadmin::getItem(array('id'=>$args['item_id']));	
+			$session = Session::instance();
+			$story_data = $session->get('story_data',array());
+			
+			/*
+				Switch for different scenes within location			 
+				If a there is a key set in the session story_data array then use that value
+				othewise use empty string
+			*/			
+			if (isset($story_data[$args['item_slug']]))
+			{
+				$args['itemimage_value'] = $story_data[$args['item_slug']];
+			}
+			else
+			{
+				$args['itemimage_value'] = '';
+			}
+		}
+		return Model_items::getItemImageByItemId($args); 
+	}
+	
 	/* 
 	  	a cell in a scene has been clicked, 
 	  	get the action attached to the cell(s) (if any) 

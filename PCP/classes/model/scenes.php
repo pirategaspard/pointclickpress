@@ -79,8 +79,12 @@ class Model_Scenes
 			{
 				$a = $q_results[0];
 				$a['include_events'] = true;
-				$a['include_items'] = true;
+				$a['include_items'] = true;				
 				$a['simple_items'] = (isset($args['simple_items']) && $args['simple_items'] == true)?true:false;
+				if (isset($args['story']))
+				{
+					$a['story'] = $args['story'];
+				}
 				$scene->init($a); // populate scene object
 			}
 		}
