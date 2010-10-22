@@ -48,9 +48,8 @@ class PCP
 	static function getItemImage($args=array())
 	{	
 		$args['itemimage_value'] = '';		
-		if (isset($args['item_id']))
-		{
-			$item = itemadmin::getItem(array('id'=>$args['item_id']));	
+		if (isset($args['item_slug']))
+		{	
 			$session = Session::instance();
 			$story_data = $session->get('story_data',array());
 			
