@@ -21,7 +21,7 @@ class Model_ItemImage extends Model
 		}
 		if (isset($args['value']))
 		{
-			$this->value = $args['value'];
+			$this->value = Formatting::createSlug($args['value']);
 		}
 		if (isset($args['item_id']))
 		{

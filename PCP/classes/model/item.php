@@ -3,6 +3,7 @@ class Model_Item extends Model
 {
 	protected $id = 0;
 	protected $title = '';
+	protected $slug = '';
 	protected $story_id = 0;
 	protected $image_id = 0;
 	protected $filename = '';
@@ -23,6 +24,7 @@ class Model_Item extends Model
 		if (isset($args['title']))
 		{
 			$this->title = $args['title'];
+			$this->slug = Formatting::createSlug($args['title']);
 		}
 		if (isset($args['story_id']))
 		{
