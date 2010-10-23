@@ -2,7 +2,7 @@
 class Model_ItemImage extends Model 
 {
 	protected $id = 0;
-	protected $value = '';
+	protected $value = DEFAULT_VALUE;
 	protected $item_id = 0;
 	protected $image_id = 0;
 	protected $filename = '';			
