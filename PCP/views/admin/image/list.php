@@ -1,9 +1,10 @@
 <?php
 	if (isset($images))
 	{		
+		echo($add_image_link);
 ?>
 
-<a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'edit'))).'?image_id=0&story_id='.$story_id.'&scene_id='.$scene_id); ?>" >Add Image</a>
+<!-- <a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'edit'))).'?image_id=0&story_id='.$story_id.'&scene_id='.$scene_id); ?>" >Add Image</a> -->	
 
 		<fieldset>
 			<legend>Scene images</legend>

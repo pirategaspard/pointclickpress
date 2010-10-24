@@ -12,6 +12,7 @@ Class Controller_admin_image extends Controller_Template_Admin
 		$data['image'] = PCPAdmin::getImage();
 		$data['story_id'] = $session->get('story_id');
 		$data['scene_id'] = $session->get('scene_id');
+		$data['itemimage_id'] = $session->get('itemimage_id');
 		if (strlen($data['image']->filename) > 0)
 		{
 			$data['image_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'delete')));			
@@ -35,6 +36,7 @@ Class Controller_admin_image extends Controller_Template_Admin
 		$session = Session::instance();	
 		$data['story_id'] = $session->get('story_id');
 		$data['scene_id'] = $session->get('scene_id');
+		$data['itemimage_id'] = $session->get('itemimage_id');
 		$data['item_id'] = $session->get('item_id');
 		if ($session->get('scene_id'))	
 		{			
@@ -68,7 +70,9 @@ Class Controller_admin_image extends Controller_Template_Admin
 	function action_save()
 	{		
 		$session = Session::instance();
-		$result = ImagesAdmin::upload();
+		$args = array();
+		if (strlen($session->get('itemimage_id')) > 0) {$args['itemimage'] = true;}
+		$result = ImagesAdmin::upload($args);
 		$session->set('result',$result);
 		if ($result->success)
 		{			
