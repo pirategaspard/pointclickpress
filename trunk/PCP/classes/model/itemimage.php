@@ -46,7 +46,7 @@ class Model_ItemImage extends Model
 			$q = '	SELECT 	ii.id
 							,ii.value
 							,ii.item_id
-							,ii.image_id
+							,i.id as image_id
 							,i.filename
 							,i.story_id							
 					FROM items_images ii

@@ -9,7 +9,8 @@
 			$cells.= '<b n="'.$i.'">';
 			if (isset($items[$i]))
 			{
-				$cells.= '<img src="'.$story->getMediaPath().$items[$i]->image_id.'/'.$story->screen_size.'/'.$items[$i]->filename.'" />';	
+				$images = $items[$i]->images;
+				$cells.= '<img src="'.$story->getMediaPath().current($images)->image_id.'/'.$story->screen_size.'/'.current($images)->filename.'" />';	
 			}
 			$cells.= '</b>';
 		}

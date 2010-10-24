@@ -9,7 +9,6 @@
 	<form action="<?php print($item_form_action); ?>" method="post" enctype="multipart/form-data" class="thickbox" >
 		<input type="hidden" name="story_id" value="<?php echo($item->story_id); ?>" />
 		<input type="hidden" name="scene_id" value="<?php echo($item->scene_id); ?>" />
-		<input type="hidden" name="image_id" value="<?php echo($item->image_id); ?>" />
 		<input type="hidden" name="item_id" value="<?php echo($item->id); ?>" />
 		<input type="hidden" name="id" value="<?php echo($item->id); ?>" />
 		<label>
