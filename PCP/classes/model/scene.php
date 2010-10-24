@@ -65,7 +65,7 @@ class Model_Scene extends Model
 			$this->grid_events = EventsAdmin::getGridEvents($args);	
 		}
 		if (isset($args['include_items']))
-		{			
+		{						
 			$args['scene'] = $this;
 			if (isset($args['simple_items']))
 			{

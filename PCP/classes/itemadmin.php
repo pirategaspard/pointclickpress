@@ -78,8 +78,7 @@ class itemadmin
 		$tempArray = DB::query(Database::SELECT,$q,TRUE)
 						->param(':scene_id',$args['scene']->id)
 						->execute()
-						->as_array();
-		
+						->as_array();				
 		$items = array();
 		foreach($tempArray as $a)
 		{		

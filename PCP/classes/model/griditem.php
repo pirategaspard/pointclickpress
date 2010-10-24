@@ -31,7 +31,7 @@ class Model_GridItem extends Model_item
 	
 	function load($args=array())
 	{		
-		if (($this->id > 0)&&($this->scene_id > 0))
+		if (($this->grid_item_id > 0)&&($this->scene_id > 0))
 		{
 			$q = '	SELECT 	it.id	
 							,it.title						
@@ -45,8 +45,8 @@ class Model_GridItem extends Model_item
 					ON it.image_id = i.id
 					LEFT OUTER JOIN grids_items git
 					ON it.id = git.item_id
-					WHERE it.id = :id';
-			$q_results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();											
+					WHERE git.grid_item_id = :grid_item_id';
+			$q_results = DB::query(Database::SELECT,$q,TRUE)->param(':grid_item_id',$this->grid_item_id)->execute()->as_array();											
 							
 			if (count($q_results) > 0 )
 			{				
@@ -79,7 +79,7 @@ class Model_GridItem extends Model_item
 								->execute();									
 			if ($q_results[1] > 0)
 			{
-				$this->id = $q_results[0];
+				$this->grid_item_id = $q_results[0];
 				$results->success = 1;
 			}
 			else
@@ -93,7 +93,6 @@ class Model_GridItem extends Model_item
 			//UPDATE record
 			try
 			{
-				parent::save();
 				$q = '	UPDATE grids_items
 						SET scene_id = :scene_id,
 							cell_id = :cell_id

@@ -5,8 +5,6 @@ class Model_Item extends Model
 	protected $title = '';
 	protected $slug = '';
 	protected $story_id = 0;
-	protected $image_id = 0;
-	protected $filename = '';
 	protected $images = array();			
 	
 	public function __construct($args=array())
@@ -30,14 +28,6 @@ class Model_Item extends Model
 		{
 			$this->story_id = $args['story_id'];
 		}		
-		if (isset($args['image_id']))
-		{
-			$this->image_id = $args['image_id'];
-		}
-		if (isset($args['filename']))
-		{
-			$this->filename = $args['filename'];
-		}
 		if (isset($args['include_itemimages']))
 		{
 			$args['item'] = $this;

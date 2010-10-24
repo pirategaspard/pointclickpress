@@ -19,12 +19,12 @@ class Model_Items extends Model
 		$tempArray = DB::query(Database::SELECT,$q,TRUE)
 						->param(':scene_id',$args['scene']->id)
 						->execute()
-						->as_array();
+						->as_array();		
 		foreach($tempArray as $item)
 		{
 			// parse items and build full file paths
 			$a['item_slug'] = Formatting::createSlug($item['title']);
-			$image = PCP::getItemImage($a);
+			$image = PCP::getItemImage($a);			
 			if (isset($image[0]))
 			{				
 				$items[$item['cell_id']] = $args['story']->getMediaPath().$image[0]['image_id'].'/'.$args['story']->screen_size.'/'.$image[0]['filename'];
