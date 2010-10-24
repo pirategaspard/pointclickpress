@@ -34,7 +34,7 @@ class Model_GridItem extends Model_item
 		if (($this->id > 0)&&($this->scene_id > 0))
 		{
 			$q = '	SELECT 	it.id	
-							,it.label						
+							,it.title						
 							,it.image_id
 							,i.filename
 							,git.grid_item_id
@@ -62,7 +62,6 @@ class Model_GridItem extends Model_item
 		$results = new pcpresult();
 		if (($this->grid_item_id == 0))
 		{
-			parent::save();
 			//INSERT new record
 			$q = '	INSERT INTO grids_items
 						(item_id
@@ -118,7 +117,7 @@ class Model_GridItem extends Model_item
 	function delete()
 	{
 		$results = new pcpresult();
-		if ($this->id > 0)
+		if ($this->grid_item_id > 0)
 		{
 				
 			$q = '	DELETE FROM grids_items

@@ -177,10 +177,15 @@ class PCPAdmin
 		{
 			$session->set('item_id',$_REQUEST['item_id']);
 			$session->delete('image_id');
+			$session->delete('grid_item_id');
 		}
 		if (isset($_REQUEST['itemimage_id']))
 		{
 			$session->set('itemimage_id',$_REQUEST['itemimage_id']);
+		}
+		if (isset($_REQUEST['grid_item_id']))
+		{
+			$session->set('grid_item_id',$_REQUEST['grid_item_id']);
 		}
 		if (isset($_REQUEST['id']))
 		{
@@ -203,6 +208,7 @@ class PCPAdmin
 		if (!isset($args['image_id']) &&  $session->get('image_id')) { $args['image_id'] =   $session->get('image_id'); }
 		if (!isset($args['item_id']) &&  $session->get('item_id')) { $args['item_id'] =   $session->get('item_id'); }
 		if (!isset($args['itemimage_id']) &&  $session->get('itemimage_id')) { $args['itemimage_id'] =   $session->get('itemimage_id'); }
+		if (!isset($args['grid_item_id']) &&  $session->get('grid_item_id')) { $args['grid_item_id'] =   $session->get('grid_item_id'); }
 		if (!isset($args['user_id']) &&  $session->get('user_id')) { $args['user_id'] =   $session->get('user_id'); }
 		
 		// defaults
