@@ -2,6 +2,7 @@
 class Model_ItemImage extends Model 
 {
 	protected $id = 0;
+	protected $story_id = 0;
 	protected $value = DEFAULT_VALUE;
 	protected $item_id = 0;
 	protected $image_id = 0;
@@ -46,7 +47,8 @@ class Model_ItemImage extends Model
 							,ii.value
 							,ii.item_id
 							,ii.image_id
-							,i.filename							
+							,i.filename
+							,i.story_id							
 					FROM items_images ii
 					LEFT OUTER JOIN images i
 					ON ii.image_id = i.id

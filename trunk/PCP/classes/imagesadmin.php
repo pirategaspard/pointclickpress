@@ -128,24 +128,25 @@ class ImagesAdmin
 					// save default image 
 					$dest = $media_path.DIRECTORY_SEPARATOR.'default'.DIRECTORY_SEPARATOR;
 					$success = self::saveImage($temp_file,DEFAULT_STORY_WIDTH,DEFAULT_STORY_HEIGHT,$media_path,$filename,1,1,$dest); 
-					
-					// determine reduction percentate
-					if (1 == 2 )
-					{
-						// if this is a item image
-						$ThisImage = Image::factory($temp_file);
-						$width_reduction_percentage = ($ThisImage->width / DEFAULT_STORY_WIDTH);
-						$height_reduction_percentage = ($ThisImage->height / DEFAULT_STORY_HEIGHT);
-					}
-					else
-					{
-						$width_reduction_percentage = SCENE_IMAGE_REDUCTION_PERCENT * 0.01;
-						$height_reduction_percentage = SCENE_IMAGE_REDUCTION_PERCENT * 0.01;
-					}		
-															
+																										
 					// did we resize & save the file to the upload dir ok?
 					if ($success)
-					{													
+					{
+						// determine reduction percentage
+						if (isset($args['itemimage']) && ($args['itemimage'] == true))
+						{
+							// if this is a item image
+							$ThisImage = Image::factory($temp_file);
+							$width_reduction_percentage = ($ThisImage->width / DEFAULT_STORY_WIDTH);
+							$height_reduction_percentage = ($ThisImage->height / DEFAULT_STORY_HEIGHT);
+						}
+						else
+						{
+							// this is a scene background
+							$width_reduction_percentage = (SCENE_IMAGE_REDUCTION_PERCENT * 0.01);
+							$height_reduction_percentage = (SCENE_IMAGE_REDUCTION_PERCENT * 0.01);
+						}
+																							
 						//get array of Supported screens and add in the thumbnail size 
 						$SCREENS = Model_Screens::getScreens();
 						$temp = explode('x',THUMBNAIL_IMAGE_SIZE);
