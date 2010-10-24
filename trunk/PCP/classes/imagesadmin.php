@@ -125,32 +125,27 @@ class ImagesAdmin
 					// upload original file from form 
 					$temp_file = upload::save($_FILES['filename'],$_FILES['filename']['name'],APPPATH.UPLOAD_PATH.DIRECTORY_SEPARATOR);																				
 					
-					//create directory for default image
+					// save default image 
 					$dest = $media_path.DIRECTORY_SEPARATOR.'default'.DIRECTORY_SEPARATOR;
-					dir::prep_directory($dest);
-					//create default image and save it			
-					$success = Image::factory($temp_file)
-												->resize(DEFAULT_STORY_WIDTH, DEFAULT_STORY_HEIGHT, Image::WIDTH)
-												->save($dest.$filename);		
+					$success = self::saveImage($temp_file,DEFAULT_STORY_WIDTH,DEFAULT_STORY_HEIGHT,$media_path,$filename,1,1,$dest); 
+					
+					// determine reduction percentate
+					if (1 == 2 )
+					{
+						// if this is a item image
+						$ThisImage = Image::factory($temp_file);
+						$width_reduction_percentage = ($ThisImage->width / DEFAULT_STORY_WIDTH);
+						$height_reduction_percentage = ($ThisImage->height / DEFAULT_STORY_HEIGHT);
+					}
+					else
+					{
+						$width_reduction_percentage = SCENE_IMAGE_REDUCTION_PERCENT * 0.01;
+						$height_reduction_percentage = SCENE_IMAGE_REDUCTION_PERCENT * 0.01;
+					}		
 															
 					// did we resize & save the file to the upload dir ok?
 					if ($success)
-					{
-						$reduction_percentage = 0;
-						/*
-						if (isset($args['image_type']) && ($args['image_type'] == 'item'))
-						{ 
-							// if this image is for an item then we scale it so that it will be correct for each screen size
-							$reduction_percentage = (DEFAULT_STORY_WIDTH * $image_height) / (DEFAULT_STORY_HEIGHT * $image_width);
-						}
-						else
-						{
-							// default image reduction percentage
-							$reduction_percentage = IMAGE_REDUCTION_PERCENT * 0.01;
-						}
-						*/																		
-						$orig_image = $dest.$filename;
-																					
+					{													
 						//get array of Supported screens and add in the thumbnail size 
 						$SCREENS = Model_Screens::getScreens();
 						$temp = explode('x',THUMBNAIL_IMAGE_SIZE);
@@ -159,18 +154,7 @@ class ImagesAdmin
 						// for each supported screen create image and save 	
 						foreach($SCREENS as $screen)
 						{
-							// reduce size by a small percentage to assure that image will fit on screen properly							
-							$width = $screen['w'] - ($screen['w'] * $reduction_percentage);
-							$height = $screen['h'] - ($screen['h'] * $reduction_percentage);
-							$dest = $media_path.DIRECTORY_SEPARATOR.$width.'x'.$height.DIRECTORY_SEPARATOR;
-							//create directory to put image
-							dir::prep_directory($dest);
-							
-							$success = Image::factory($temp_file)
-							->resize($screen['w'], $screen['h'],Image::NONE)
-							->save($dest.$filename,IMAGE_QUALITY);
-							
-							//Images::resize_png($orig_image,$dest.$filename,$screen['w'],$screen['h']);
+							$success = self::saveImage($temp_file,$screen['w'],$screen['h'],$media_path,$filename,$width_reduction_percentage,$height_reduction_percentage);
 						}
 					}
 					
@@ -192,6 +176,49 @@ class ImagesAdmin
 		}
 		return $results;
 	}			
+	
+	// For scene backgrounds
+	static function saveImage($temp_file,$screen_width,$screen_height,$media_path,$filename,$width_reduction_percentage=1,$height_reduction_percentage=1,$dest=NULL)
+	{	
+		if (!$dest)
+		{	
+			// create directory name from screen w and h
+			$dest = $media_path.DIRECTORY_SEPARATOR.$screen_width.'x'.$screen_height.DIRECTORY_SEPARATOR;
+		}
+		//create directory to put image		
+		dir::prep_directory($dest);
+		// get image obj
+		$ThisImage = Image::factory($temp_file);							
+		// reduce size by a small percentage to assure that image will fit on screen properly														
+		$width = $screen_width - ($screen_width * $width_reduction_percentage);
+		$height = $screen_height - ($screen_height * $height_reduction_percentage);								
+		//save file
+		$success = $ThisImage->resize($width, $height,Image::NONE)->save($dest.$filename,IMAGE_QUALITY);
+		return $success;
+	}
+	
+	
+	// For scene backgrounds
+	static function saveItemImage($temp_file,$screen_width,$screen_height,$media_path,$filename,$dest=NULL)
+	{	
+		if (!$dest)
+		{	
+			// create directory name from screen w and h
+			$dest = $media_path.DIRECTORY_SEPARATOR.$screen_width.'x'.$screen_height.DIRECTORY_SEPARATOR;
+		}
+		//create directory to put image		
+		dir::prep_directory($dest);
+		// get image obj
+		$ThisImage = Image::factory($temp_file);							
+		// reduce size by a small percentage to assure that image will fit on screen properly						
+		$reduction_percentage = SCENE_IMAGE_REDUCTION_PERCENT * 0.01;						
+		$width = $screen_width - ($screen_width * $reduction_percentage);
+		$height = $screen_height - ($screen_height * $reduction_percentage);								
+		//save file
+		$success = $ThisImage->resize($width, $height,Image::NONE)->save($dest.$filename,IMAGE_QUALITY);
+		return $success;
+	}
+	
 	
 	/*
 	static function resize_png($src,$dst,$dstw,$dsth)

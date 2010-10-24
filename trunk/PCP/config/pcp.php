@@ -56,8 +56,9 @@ define('DEFAULT_PAGE_TITLE', $default_page_title);
 
 define('DEFAULT_STORY_WIDTH', 800);
 define('DEFAULT_STORY_HEIGHT', 600);
-define('SCENE_IMAGE_REDUCTION_PERCENT',10);
+define('SCENE_IMAGE_REDUCTION_PERCENT',1);
 define('CACHE_DRIVER', $cache_driver);
+
 
 define('DEFAULT_VALUE', '');
 
