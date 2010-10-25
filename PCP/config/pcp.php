@@ -22,6 +22,11 @@ $image_quality = 90;
 */
 $thumbnail_size = '100x100';
 
+/* 
+	default story size
+*/
+$story_size = '800x600';
+
 /*
 	supported grid sizes:
 */
@@ -46,20 +51,22 @@ $cache_driver = 'file';
 /* 
 	Define constants
  */
+define('DEFAULT_PAGE_TITLE', $default_page_title); 
 define('UPLOAD_PATH', $upload_dir);
 define('MEDIA_PATH', $media_dir);
 define('IMAGE_QUALITY', $image_quality);
 define('SUPPORTED_SCREENS', $supported_screens);
-define('THUMBNAIL_IMAGE_SIZE', $thumbnail_size);
 define('SUPPORTED_GRID_SIZES', $supported_grid_sizes);
-define('DEFAULT_PAGE_TITLE', $default_page_title);
-
-define('DEFAULT_STORY_WIDTH', 800);
-define('DEFAULT_STORY_HEIGHT', 600);
 define('SCENE_IMAGE_REDUCTION_PERCENT',1);
-define('CACHE_DRIVER', $cache_driver);
-
-
 define('DEFAULT_VALUE', '');
+$defaults = explode('x',$story_size);
+define('DEFAULT_STORY_SIZE', $story_size);
+define('DEFAULT_STORY_WIDTH', $defaults[0]);
+define('DEFAULT_STORY_HEIGHT', $defaults[1]);
+$defaults = explode('x',$thumbnail_size);
+define('THUMBNAIL_IMAGE_SIZE', $thumbnail_size);
+define('THUMBNAIL_IMAGE_WIDTH', $defaults[0]);
+define('THUMBNAIL_IMAGE_HEIGHT', $defaults[1]);
 
+define('CACHE_DRIVER', $cache_driver);
 ?>
