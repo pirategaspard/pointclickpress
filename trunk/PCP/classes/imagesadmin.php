@@ -127,7 +127,10 @@ class ImagesAdmin
 					
 					// save default image 
 					$dest = $media_path.DIRECTORY_SEPARATOR.'default'.DIRECTORY_SEPARATOR;
-					$success = self::saveImage($temp_file,DEFAULT_STORY_WIDTH,DEFAULT_STORY_HEIGHT,$media_path,$filename,1,1,$dest); 
+					$success = self::saveImage($temp_file,DEFAULT_STORY_WIDTH,DEFAULT_STORY_HEIGHT,$media_path,$filename,0,$dest);
+					// save thumbnail
+					$success = self::saveImage($temp_file,THUMBNAIL_IMAGE_WIDTH,THUMBNAIL_IMAGE_HEIGHT,$media_path,$filename);
+					  
 																										
 					// did we resize & save the file to the upload dir ok?
 					if ($success)
@@ -136,26 +139,30 @@ class ImagesAdmin
 						if (isset($args['itemimage']) && ($args['itemimage'] == true))
 						{
 							// if this is a item image
+							// reduce image by a percentage determined by the default image size
+							// so that it maintains the same relative size
 							$ThisImage = Image::factory($temp_file);
 							$width_reduction_percentage = ($ThisImage->width / DEFAULT_STORY_WIDTH);
-							$height_reduction_percentage = ($ThisImage->height / DEFAULT_STORY_HEIGHT);
+							$height_reduction_percentage = ($ThisImage->height / DEFAULT_STORY_HEIGHT);							
 						}
 						else
 						{
-							// this is a scene background
-							$width_reduction_percentage = (SCENE_IMAGE_REDUCTION_PERCENT * 0.01);
-							$height_reduction_percentage = (SCENE_IMAGE_REDUCTION_PERCENT * 0.01);
+							$reduction_percentage = SCENE_IMAGE_REDUCTION_PERCENT * 0.01; 
 						}
 																							
 						//get array of Supported screens and add in the thumbnail size 
-						$SCREENS = Model_Screens::getScreens();
-						$temp = explode('x',THUMBNAIL_IMAGE_SIZE);
-						$SCREENS[] = array('w'=>$temp[0],'h'=>$temp[1]); 						
-								
+						$SCREENS = Model_Screens::getScreens();													
 						// for each supported screen create image and save 	
 						foreach($SCREENS as $screen)
 						{
-							$success = self::saveImage($temp_file,$screen['w'],$screen['h'],$media_path,$filename,$width_reduction_percentage,$height_reduction_percentage);
+							if (isset($args['itemimage']) && ($args['itemimage'] == true))
+							{
+								$success = self::saveItemImage($temp_file,$screen['w'],$screen['h'],$media_path,$filename,$width_reduction_percentage,$height_reduction_percentage);
+							}
+							else
+							{
+								$success = self::saveImage($temp_file,$screen['w'],$screen['h'],$media_path,$filename,$reduction_percentage);
+							}
 						}
 					}
 					
@@ -179,7 +186,7 @@ class ImagesAdmin
 	}			
 	
 	// For scene backgrounds
-	static function saveImage($temp_file,$screen_width,$screen_height,$media_path,$filename,$width_reduction_percentage=1,$height_reduction_percentage=1,$dest=NULL)
+	static function saveImage($temp_file,$screen_width,$screen_height,$media_path,$filename,$reduction_percentage=0,$dest=NULL)
 	{	
 		if (!$dest)
 		{	
@@ -190,18 +197,17 @@ class ImagesAdmin
 		dir::prep_directory($dest);
 		// get image obj
 		$ThisImage = Image::factory($temp_file);							
-		// reduce size by a small percentage to assure that image will fit on screen properly														
-		$width = $screen_width - ($screen_width * $width_reduction_percentage);
-		$height = $screen_height - ($screen_height * $height_reduction_percentage);								
+		// reduce size by a small percentage to assure that image will fit on screen properly;														
+		$width = $screen_width - ($screen_width * $reduction_percentage);
+		$height = $screen_height - ($screen_height * $reduction_percentage);						
 		//save file
 		$success = $ThisImage->resize($width, $height,Image::NONE)->save($dest.$filename,IMAGE_QUALITY);
 		return $success;
 	}
-	
-	
+		
 	// For scene backgrounds
-	static function saveItemImage($temp_file,$screen_width,$screen_height,$media_path,$filename,$dest=NULL)
-	{	
+	static function saveItemImage($temp_file,$screen_width,$screen_height,$media_path,$filename,$width_reduction_percentage=1,$height_reduction_percentage=1,$dest=NULL)
+	{		
 		if (!$dest)
 		{	
 			// create directory name from screen w and h
@@ -211,10 +217,10 @@ class ImagesAdmin
 		dir::prep_directory($dest);
 		// get image obj
 		$ThisImage = Image::factory($temp_file);							
-		// reduce size by a small percentage to assure that image will fit on screen properly						
-		$reduction_percentage = SCENE_IMAGE_REDUCTION_PERCENT * 0.01;						
-		$width = $screen_width - ($screen_width * $reduction_percentage);
-		$height = $screen_height - ($screen_height * $reduction_percentage);								
+		// reduce image by a percentage determined by the default image size
+		// so that it maintains the same relative size 										
+		$width = ($screen_width * $width_reduction_percentage);
+		$height = ($screen_height * $height_reduction_percentage);								
 		//save file
 		$success = $ThisImage->resize($width, $height,Image::NONE)->save($dest.$filename,IMAGE_QUALITY);
 		return $success;
