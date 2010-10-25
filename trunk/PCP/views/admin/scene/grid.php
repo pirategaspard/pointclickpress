@@ -10,7 +10,10 @@
 			if (isset($items[$i]))
 			{
 				$images = $items[$i]->images;
-				$cells.= '<img src="'.$story->getMediaPath().current($images)->image_id.'/'.$story->screen_size.'/'.current($images)->filename.'" />';	
+				if (count($images))
+				{
+					$cells.= '<img src="'.$story->getMediaPath().current($images)->image_id.'/'.$story->screen_size.'/'.current($images)->filename.'" />';
+				}	
 			}
 			$cells.= '</b>';
 		}
