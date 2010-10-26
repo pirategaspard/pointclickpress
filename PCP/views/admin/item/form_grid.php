@@ -20,6 +20,9 @@
 			<input type="text" name="cell_id" value="<?php echo($item->cell_id); ?>" />
 		</label>
 		<input id="button_submit" type="submit" name="submit" value="submit" />
+		<?php if($item->id > 0 ) { ?>
+		<input class="button_cancel" type="button" name="cancel" value="cancel" scene_id="<?php echo($scene_id); ?>" />
+		<?php } ?>
 	</form>
 </fieldset>
 <?php } ?>

@@ -17,7 +17,8 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		$data['scene'] = PCPAdmin::getScene(array('include_events'=>true,'include_items'=>true));		
 		$data['story'] = PCPAdmin::getStoryInfo(array('id'=>$data['scene']->story_id,'include_locations'=>true,'include_scenes'=>false));			
 		$data['location'] = $data['story']->locations[$data['scene']->location_id];
-		$data['events'] = $data['scene']->events;						
+		$data['events'] = $data['scene']->events;			
+		$data['scene_id'] = $data['scene']->id;			
 				
 		// set the scene title equal to the parent location title if the scene title is empty, else set it to itself
 		$data['scene']->setTitle((strlen($data['scene']->title)>0) ? $data['scene']->title : $data['location']->title); //if (strlen($data['scene']->title)==0) $data['scene']->setTitle($data['location']->title);
