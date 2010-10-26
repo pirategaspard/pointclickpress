@@ -9,10 +9,10 @@ class ImagesAdmin
 		return $story;		
 	}
 	
-	static function getItemImage($args=array())
+	static function getitemstate($args=array())
 	{
 		// get a single story object and populate it based on the arguments
-		$story = new Model_ItemImage($args);
+		$story = new Model_itemstate($args);
 		$story->load($args);
 		return $story;		
 	}
@@ -48,7 +48,7 @@ class ImagesAdmin
 		return $Images;		
 	}
 	
-	static function getItemImages($args=array())
+	static function getitemstates($args=array())
 	{				
 		// get all the Images in the db
 		$q = '	SELECT 	i.id AS image_id
@@ -77,7 +77,7 @@ class ImagesAdmin
 		$Images = array();
 		foreach($tempArray as $a)
 		{
-			$Images[$a['id']] = ImagesAdmin::getItemImage()->init($a);
+			$Images[$a['id']] = ImagesAdmin::getitemstate()->init($a);
 		}
 		return $Images;		
 	}
@@ -159,7 +159,7 @@ class ImagesAdmin
 						{
 							if ($args['type_id'] == 2)
 							{
-								$success = self::saveItemImage($temp_file,$screen['w'],$screen['h'],$media_path,$filename,$width_reduction_percentage,$height_reduction_percentage);
+								$success = self::saveitemstate($temp_file,$screen['w'],$screen['h'],$media_path,$filename,$width_reduction_percentage,$height_reduction_percentage);
 							}
 							else
 							{
@@ -208,7 +208,7 @@ class ImagesAdmin
 	}
 		
 	// For scene backgrounds
-	static function saveItemImage($temp_file,$screen_width,$screen_height,$media_path,$filename,$width_reduction_percentage=1,$height_reduction_percentage=1,$dest=NULL)
+	static function saveitemstate($temp_file,$screen_width,$screen_height,$media_path,$filename,$width_reduction_percentage=1,$height_reduction_percentage=1,$dest=NULL)
 	{		
 		if (!$dest)
 		{	

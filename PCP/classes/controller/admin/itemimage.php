@@ -1,24 +1,24 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-Class Controller_admin_itemimage extends Controller_Template_Admin
+Class Controller_admin_itemstate extends Controller_Template_Admin
 {	
 
 	function action_edit()
 	{		
 		$session = Session::instance();	
 		$data['item'] = PCPAdmin::getItemDef();		
-		$data['itemimage'] = PCPAdmin::getItemImage();
-		$data['itemimage_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'itemimage','action'=>'save')));		
-		$data['itemimage_assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?itemimage_id='.$data['itemimage']->id;			
+		$data['itemstate'] = PCPAdmin::getitemstate();
+		$data['itemstate_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'itemstate','action'=>'save')));		
+		$data['itemstate_assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?itemstate_id='.$data['itemstate']->id;			
 		$data['back_url'] = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
-		$data['itemimage_form'] =  View::factory('/admin/itemimage/form',$data)->render();		
-		$data['add_itemimage_link'] =  View::factory('/admin/itemimage/add',$data)->render();
+		$data['itemstate_form'] =  View::factory('/admin/itemstate/form',$data)->render();		
+		$data['add_itemstate_link'] =  View::factory('/admin/itemstate/add',$data)->render();
 		$data['story'] = PCPAdmin::getStory(array('story_id'=>$data['item']->story_id));
 		
 		$this->template->breadcrumb .= View::factory('/admin/story/info',$data)->render();
 		$this->template->breadcrumb .= View::factory('/admin/item/info',$data)->render();
-		$this->template->breadcrumb .= View::factory('/admin/itemimage/info',$data)->render();		
-		$this->template->top_menu = View::factory('/admin/itemimage/top_menu',$data)->render();						
-		$this->template->content = View::factory('/admin/itemimage/template',$data)->render();
+		$this->template->breadcrumb .= View::factory('/admin/itemstate/info',$data)->render();		
+		$this->template->top_menu = View::factory('/admin/itemstate/top_menu',$data)->render();						
+		$this->template->content = View::factory('/admin/itemstate/template',$data)->render();
 	}
 
 
@@ -28,13 +28,13 @@ Class Controller_admin_itemimage extends Controller_Template_Admin
 		$session = Session::instance();	
 		$data['scene_id'] = $session->get('scene_id');	
 		$data['back_url'] = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
-		$data['itemimages'] = PCPAdmin::getItemImages(array('item_id'=>$session->get('item_id')));
-		$data['assign_itemimage_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'itemimage','action'=>'assignImage')));
-		$data['add_itemimage_link'] =  View::factory('/admin/itemimage/add',$data)->render();
+		$data['itemstates'] = PCPAdmin::getitemstates(array('item_id'=>$session->get('item_id')));
+		$data['assign_itemstate_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'itemstate','action'=>'assignImage')));
+		$data['add_itemstate_link'] =  View::factory('/admin/itemstate/add',$data)->render();
 		
 		$this->template->header = '';
-		$this->template->top_menu = View::factory('/admin/itemimage/top_menu',$data)->render();
-		$this->template->content = View::factory('/admin/itemimage/list',$data)->render();
+		$this->template->top_menu = View::factory('/admin/itemstate/top_menu',$data)->render();
+		$this->template->content = View::factory('/admin/itemstate/list',$data)->render();
 	}
 
 
@@ -47,8 +47,8 @@ Class Controller_admin_itemimage extends Controller_Template_Admin
 		$session->delete('result');		
 		if(count($_POST) > 0)
 		{
-			$result = PCPAdmin::getItemImage()->init($_POST)->save();
-			$session->set('itemimage_id',$result->data['id']);			
+			$result = PCPAdmin::getitemstate()->init($_POST)->save();
+			$session->set('itemstate_id',$result->data['id']);			
 		}
 		else
 		{
@@ -57,19 +57,19 @@ Class Controller_admin_itemimage extends Controller_Template_Admin
 		if ($result->success)
 		{
 			// update scene id in session
-			$session->set('itemimage_id',$result->data['id']);
+			$session->set('itemstate_id',$result->data['id']);
 			$result->message = "Item Image Saved";
 		}
 		$session->set('result',$result);
 		//redirect to edit the Item just saved
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'itemimage','action'=>'edit')).'?itemimage_id='.$result->data['id']);
+		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'itemstate','action'=>'edit')).'?itemstate_id='.$result->data['id']);
 	}
 	
 	function action_delete()
 	{	
 		$session = Session::instance();	
 		$session->delete('result');
-		$result = PCPAdmin::getItemImage()->init(array('id'=>$_REQUEST['itemimage_id']))->delete();
+		$result = PCPAdmin::getitemstate()->init(array('id'=>$_REQUEST['itemstate_id']))->delete();
 		// Create User Message
 		if ($result->success)
 		{
@@ -86,17 +86,17 @@ Class Controller_admin_itemimage extends Controller_Template_Admin
 		$session = Session::instance();	
 		$session->delete('result');
 		PCPAdmin::getArgs();			
-		if ($session->get('itemimage_id') && $session->get('image_id'))
+		if ($session->get('itemstate_id') && $session->get('image_id'))
 		{
-			$itemimage = PCPAdmin::getItemImage();
-			$result = $itemimage->init(array('image_id'=>$session->get('image_id')))->save();
+			$itemstate = PCPAdmin::getitemstate();
+			$result = $itemstate->init(array('image_id'=>$session->get('image_id')))->save();
 			if ($result->success)
 			{
 				$result->message = "Image Assigned";
 			}
 			$session->set('result',$result);			
 		}
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'itemimage','action'=>'edit')));
+		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'itemstate','action'=>'edit')));
 	}
 
 }

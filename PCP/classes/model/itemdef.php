@@ -32,7 +32,7 @@ class Model_ItemDef extends Model
 		if (isset($args['include_images']))
 		{
 			$args['ItemDef'] = $this;
-			$this->images = ImagesAdmin::getItemImages($args);
+			$this->images = ImagesAdmin::getitemstates($args);
 		}
 		return $this;
 	}

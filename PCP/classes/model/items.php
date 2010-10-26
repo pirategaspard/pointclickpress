@@ -21,7 +21,7 @@ class Model_Items extends Model
 		foreach($tempArray as $item)
 		{
 			// parse items and build full file paths
-			$image = PCP::getItemImage($item);			
+			$image = PCP::getitemstate($item);			
 			if (isset($image[0]))
 			{				
 				$items[$item['cell_id']] = $args['story']->getMediaPath().$image[0]['image_id'].'/'.$args['story']->screen_size.'/'.$image[0]['filename'];
@@ -30,7 +30,7 @@ class Model_Items extends Model
 		return $items;		
 	}
 	
-	static function getItemImageByItemId($args=array())
+	static function getitemstateByItemId($args=array())
 	{						
 		// Just get the filenames and put them in an array based on cell id
 		$q = '	SELECT 	i.id as image_id
@@ -41,7 +41,7 @@ class Model_Items extends Model
 				WHERE its.value = :value
 				ORDER BY its.id DESC';
 		$tempArray = DB::query(Database::SELECT,$q,TRUE)
-						->param(':value',$args['itemimage_value'])
+						->param(':value',$args['itemstate_value'])
 						->execute()
 						->as_array();
 		$items = $tempArray; // we'll parse this ourselves later on
