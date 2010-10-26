@@ -17,8 +17,10 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		$data['scene'] = PCPAdmin::getScene(array('include_events'=>true,'include_items'=>true));		
 		$data['story'] = PCPAdmin::getStoryInfo(array('id'=>$data['scene']->story_id,'include_locations'=>true,'include_scenes'=>false));			
 		$data['location'] = $data['story']->locations[$data['scene']->location_id];
-		$data['events'] = $data['scene']->events;			
-		$data['scene_id'] = $data['scene']->id;			
+		$data['events'] = $data['scene']->events;					
+		$data['story_id'] = $data['story']->id;
+		$data['location_id'] = $data['scene']->location_id;		
+		$data['scene_id'] = $data['scene']->id;	
 				
 		// set the scene title equal to the parent location title if the scene title is empty, else set it to itself
 		$data['scene']->setTitle((strlen($data['scene']->title)>0) ? $data['scene']->title : $data['location']->title); //if (strlen($data['scene']->title)==0) $data['scene']->setTitle($data['location']->title);
@@ -52,15 +54,10 @@ Class Controller_admin_scene extends Controller_Template_Admin
 			$data['items'] = $data['scene']->items;
 			$data['items_list'] = View::factory('/admin/item/list_grid',$data)->render();
 		
-			/* grid events */
-			$data['story_id'] = $session->get('story_id');
-			$data['location_id'] = $session->get('location_id');
-			$data['scene_id'] = $session->get('scene_id');
-			
+			/* grid events */						
 			$data['event_types'] = PCPAdmin::loadEventTypes();						
 			$data['locations'] = $data['story']->locations;
 			$data['event'] = PCPAdmin::getEvent(array('scene_id'=>$data['scene']->id,'type'=>'Grid'));				
-			//$data['grid_event_add'] = View::factory('/admin/event/add',$data)->render(); //inline form
 			$data['grid_event_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'save')));									
 			$data['type'] = 'Grid';
 			$data['grid_event_form'] = View::factory('/admin/event/form_grid',$data)->render(); //inline form

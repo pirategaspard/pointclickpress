@@ -160,6 +160,7 @@ class PCPAdmin
 			$session->set('scene_id',$_REQUEST['scene_id']);
 			$session->delete('event_id');
 			$session->delete('item_id');
+			$session->delete('grid_item_id');
 			$session->delete('itemimage_id');			
 		}
 		if (isset($_REQUEST['cell_id']))
