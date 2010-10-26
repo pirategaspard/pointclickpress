@@ -24,6 +24,7 @@
 	<legend>image <?php echo($image->id); ?></legend>
 	<form action="<?php echo($image_form_action); ?>?keepThis=true&TB_iframe=true" method="post" enctype="multipart/form-data" class="thickbox" >
 		<input type="hidden" name="story_id" value="<?php echo($image->story_id); ?>" >
+		<input type="hidden" name="type_id" value="<?php echo($image->type_id); ?>" >
 		<?php if(isset($scene_id) && strlen($scene_id) > 0) { ?><input type="hidden" name="scene_id" value="<?php echo($scene_id); ?>"> <?php } ?>
 		<?php if(isset($itemimage_id) && strlen($itemimage_id) > 0) { ?><input type="hidden" name="itemimage_id" value="<?php echo($itemimage_id); ?>"><?php } ?>
 		<input type="hidden" name="id" value="<?php echo($image->id); ?>" >
