@@ -45,9 +45,9 @@ class PCP
 	}
 	
 	/* get all the information we need to render a scene */
-	static function getItemImage($args=array())
+	static function getitemstate($args=array())
 	{	
-		$args['itemimage_value'] = DEFAULT_ITEMSTATE_VALUE;		
+		$args['itemstate_value'] = DEFAULT_ITEMSTATE_VALUE;		
 		if (isset($args['slug']))
 		{	
 			$session = Session::instance();
@@ -60,14 +60,14 @@ class PCP
 			*/			
 			if (isset($story_data[$args['slug']]))
 			{
-				$args['itemimage_value'] = $story_data[$args['slug']];
+				$args['itemstate_value'] = $story_data[$args['slug']];
 			}
 			else
 			{
-				$args['itemimage_value'] = DEFAULT_ITEMSTATE_VALUE;
+				$args['itemstate_value'] = DEFAULT_ITEMSTATE_VALUE;
 			}
 		}
-		return Model_items::getItemImageByItemId($args); 
+		return Model_items::getitemstateByItemId($args); 
 	}
 	
 	/* 

@@ -113,7 +113,7 @@ Class Controller_PCP extends Controller_Template_Base
 		// if we have valid data show the scene
 		if (($data['story'] != NULL) && ($data['scene']->id > 0) && (strlen($data['scene']->filename) > 0))
 		{			
-			//$data['items'] = Model_items::buildItemImagePaths(array('story'=>$data['story'],'items'=>$data['scene']->items));
+			//$data['items'] = Model_items::builditemstatePaths(array('story'=>$data['story'],'items'=>$data['scene']->items));
 			
 			// Compose the scene 
 			$this->template->scripts = array_merge($this->template->scripts,PCP::getJSEventTypes());			

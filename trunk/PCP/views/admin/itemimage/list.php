@@ -1,9 +1,9 @@
 <?php 
-	if (isset($itemimages))
+	if (isset($itemstates))
 	{
 ?>
 <fieldset>
-	<legend>ItemImages</legend>
+	<legend>itemstates</legend>
 	<table>
 		<tr>
 			<th>Id</th>
@@ -13,14 +13,14 @@
 			<th></th>
 			<th></th>
 		</tr>
-		<?php foreach ($itemimages as $itemimage) { ?>
+		<?php foreach ($itemstates as $itemstate) { ?>
 		<tr>
-			<td><?php echo ($itemimage->id); ?></td>
-			<td><img src="<?php print(Kohana::$base_url.MEDIA_PATH.'/'.$item->story_id.'/'.$itemimage->image_id.'/'.THUMBNAIL_IMAGE_SIZE.'/'.$itemimage->filename); ?>" ></td>
-			<td><?php echo ($itemimage->value); ?></td>			
-			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'itemimage','action'=>'edit'))).'?itemimage_id='.$itemimage->id); ?>">Edit</a></td>
+			<td><?php echo ($itemstate->id); ?></td>
+			<td><img src="<?php print(Kohana::$base_url.MEDIA_PATH.'/'.$item->story_id.'/'.$itemstate->image_id.'/'.THUMBNAIL_IMAGE_SIZE.'/'.$itemstate->filename); ?>" ></td>
+			<td><?php echo ($itemstate->value); ?></td>			
+			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'itemstate','action'=>'edit'))).'?itemstate_id='.$itemstate->id); ?>">Edit</a></td>
 			<td>&nbsp;&nbsp;</td>
-			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'itemimage','action'=>'delete'))).'?itemimage_id='.$itemimage->id); ?>" >Delete</a></td>
+			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'itemstate','action'=>'delete'))).'?itemstate_id='.$itemstate->id); ?>" >Delete</a></td>
 		</tr>
 		<?php } ?>
 	</table>

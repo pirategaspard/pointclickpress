@@ -12,8 +12,8 @@ Class Controller_admin_image extends Controller_Template_Admin
 		$data['image'] = PCPAdmin::getImage();
 		$data['story_id'] = $session->get('story_id');
 		$data['scene_id'] = $session->get('scene_id');
-		$data['itemimage_id'] = $session->get('itemimage_id');
-		if ($session->get('itemimage_id'))
+		$data['itemstate_id'] = $session->get('itemstate_id');
+		if ($session->get('itemstate_id'))
 		{
 			$data['type_id'] = 2; 
 		}
@@ -44,7 +44,7 @@ Class Controller_admin_image extends Controller_Template_Admin
 		$session = Session::instance();	
 		$data['story_id'] = $session->get('story_id');
 		$data['scene_id'] = $session->get('scene_id');
-		$data['itemimage_id'] = $session->get('itemimage_id');
+		$data['itemstate_id'] = $session->get('itemstate_id');
 		$data['item_id'] = $session->get('item_id');
 		if ($session->get('scene_id'))	
 		{			
@@ -54,10 +54,10 @@ Class Controller_admin_image extends Controller_Template_Admin
 		{					
 			$data['back_url'] = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
 		}		
-		if ($session->get('itemimage_id'))
+		if ($session->get('itemstate_id'))
 		{
 			$data['type_id'] = 2; 
-			$data['assign_image_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'itemimage','action'=>'assignImage')));
+			$data['assign_image_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'itemstate','action'=>'assignImage')));
 		}
 		elseif ($session->get('scene_id'))
 		{
@@ -81,7 +81,7 @@ Class Controller_admin_image extends Controller_Template_Admin
 	{		
 		$session = Session::instance();
 		$args = array();
-		if (strlen($session->get('itemimage_id')) > 0)
+		if (strlen($session->get('itemstate_id')) > 0)
 		{
 			$args['type_id'] = 2;
 		}

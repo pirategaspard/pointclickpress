@@ -26,7 +26,7 @@
 		<input type="hidden" name="story_id" value="<?php echo($image->story_id); ?>" >
 		<input type="hidden" name="type_id" value="<?php echo($image->type_id); ?>" >
 		<?php if(isset($scene_id) && strlen($scene_id) > 0) { ?><input type="hidden" name="scene_id" value="<?php echo($scene_id); ?>"> <?php } ?>
-		<?php if(isset($itemimage_id) && strlen($itemimage_id) > 0) { ?><input type="hidden" name="itemimage_id" value="<?php echo($itemimage_id); ?>"><?php } ?>
+		<?php if(isset($itemstate_id) && strlen($itemstate_id) > 0) { ?><input type="hidden" name="itemstate_id" value="<?php echo($itemstate_id); ?>"><?php } ?>
 		<input type="hidden" name="id" value="<?php echo($image->id); ?>" >
 		<?php if (strlen($image->filename) > 0) { ?>
 			filename:  <input type="text" name="filename" value="<?php echo($image->filename); ?>" readonly="readonly" >
