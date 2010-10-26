@@ -5,7 +5,7 @@ Class Controller_admin_itemimage extends Controller_Template_Admin
 	function action_edit()
 	{		
 		$session = Session::instance();	
-		$data['item'] = PCPAdmin::getItem();		
+		$data['item'] = PCPAdmin::getItemDef();		
 		$data['itemimage'] = PCPAdmin::getItemImage();
 		$data['itemimage_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'itemimage','action'=>'save')));		
 		$data['itemimage_assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?itemimage_id='.$data['itemimage']->id;			
@@ -28,7 +28,7 @@ Class Controller_admin_itemimage extends Controller_Template_Admin
 		$session = Session::instance();	
 		$data['scene_id'] = $session->get('scene_id');	
 		$data['back_url'] = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
-		$data['itemimages'] = PCPAdmin::getItems(array('item_id'=>$session->get('item_id')));
+		$data['itemimages'] = PCPAdmin::getItemImages(array('item_id'=>$session->get('item_id')));
 		$data['assign_itemimage_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'itemimage','action'=>'assignImage')));
 		$data['add_itemimage_link'] =  View::factory('/admin/itemimage/add',$data)->render();
 		

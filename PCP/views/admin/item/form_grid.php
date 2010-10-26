@@ -1,5 +1,5 @@
 <?php 
-
+	//var_dump($item);
 	if (isset($item))
 	{ 
 ?>
@@ -13,7 +13,7 @@
 		<input type="hidden" name="id" value="<?php echo($item->id); ?>" />
 		<label>
 			Item Type:
-			<input type="text" name="title" value="<?php echo($item->title); ?>" readonly="readonly" />
+			<input type="text" name="type" value="<?php echo($item->type); ?>" readonly="readonly" />
 			<a href="<?php echo($assign_item_link); ?>&KeepThis=true&TB_iframe=true" class="thickbox" >Assign Item</a>
 		</label>
 		<label id="cell_id" for="cell_id">Cell Id:

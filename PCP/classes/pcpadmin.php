@@ -94,18 +94,32 @@ class PCPAdmin
 		return ImagesAdmin::getImages($args); 
 	}
 	
-	static function getItems($args=array())
+	static function getItemDefs($args=array())
 	{			
 		$args = PCPAdmin::getArgs($args);
-		return ItemAdmin::getItems($args);	
+		return ItemAdmin::getItemDefs($args);	
 	}
 	
-	static function getItem($args=array())
+	static function getItemDef($args=array())
 	{	
 		$session = Session::instance();
 		$args = PCPAdmin::getArgs($args);
 		if (!isset($args['id']) && $session->get('item_id')) { $args['id'] =  $session->get('item_id'); }	
-		return ItemAdmin::getItem($args); 		
+		return ItemAdmin::getItemDef($args); 		
+	}
+	
+	static function getGridItems($args=array())
+	{			
+		$args = PCPAdmin::getArgs($args);
+		return ItemAdmin::getGridItems($args);	
+	}
+	
+	static function getGridItem($args=array())
+	{	
+		$session = Session::instance();
+		$args = PCPAdmin::getArgs($args);
+		if (!isset($args['id']) && $session->get('item_id')) { $args['id'] =  $session->get('item_id'); }	
+		return ItemAdmin::getGridItem($args); 		
 	}
 	
 	static function getItemImages($args=array())

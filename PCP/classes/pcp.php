@@ -48,7 +48,7 @@ class PCP
 	static function getItemImage($args=array())
 	{	
 		$args['itemimage_value'] = DEFAULT_VALUE;		
-		if (isset($args['item_slug']))
+		if (isset($args['slug']))
 		{	
 			$session = Session::instance();
 			$story_data = $session->get('story_data',array());
@@ -58,9 +58,9 @@ class PCP
 				If a there is a key set in the session story_data array then use that value
 				othewise use empty string
 			*/			
-			if (isset($story_data[$args['item_slug']]))
+			if (isset($story_data[$args['slug']]))
 			{
-				$args['itemimage_value'] = $story_data[$args['item_slug']];
+				$args['itemimage_value'] = $story_data[$args['slug']];
 			}
 			else
 			{

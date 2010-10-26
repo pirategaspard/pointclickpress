@@ -1,5 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-class Model_Item extends Model 
+// Item definition
+class Model_ItemDef extends Model 
 {
 	protected $id = 0;
 	protected $title = '';
@@ -28,9 +29,9 @@ class Model_Item extends Model
 		{
 			$this->story_id = $args['story_id'];
 		}		
-		if (isset($args['include_itemimages']))
+		if (isset($args['include_images']))
 		{
-			$args['item'] = $this;
+			$args['ItemDef'] = $this;
 			$this->images = ImagesAdmin::getItemImages($args);
 		}
 		return $this;
@@ -40,11 +41,11 @@ class Model_Item extends Model
 	{		
 		if ($this->id > 0)
 		{
-			$q = '	SELECT 	it.id
-							,it.title
-							,it.story_id
-					FROM items it
-					WHERE it.id = :id';
+			$q = '	SELECT 	id.id
+							,id.title
+							,id.story_id
+					FROM itemDefs id
+					WHERE id.id = :id';
 			$q_results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();											
 							
 			if (count($q_results) > 0 )
@@ -62,7 +63,7 @@ class Model_Item extends Model
 		if ($this->id == 0)
 		{
 			//INSERT new record
-			$q = '	INSERT INTO items
+			$q = '	INSERT INTO itemDefs
 						(title
 						,story_id
 						)
@@ -90,7 +91,7 @@ class Model_Item extends Model
 			//UPDATE record
 			try
 			{
-				$q = '	UPDATE items
+				$q = '	UPDATE itemDefs
 						SET title = :title,
 						WHERE id = :id';
 				$results->success = DB::query(Database::UPDATE,$q,TRUE)
@@ -114,8 +115,11 @@ class Model_Item extends Model
 		$results = new pcpresult();
 		if ($this->id > 0)
 		{
-				
-			$q = '	DELETE FROM items
+		
+			// delete any item images and grid items associated with this item def
+			
+			// delete item definition
+			$q = '	DELETE FROM itemDefs
 						WHERE id = :id';
 			$results->success =	DB::query(Database::DELETE,$q,TRUE)
 								->param(':id',$this->id)
