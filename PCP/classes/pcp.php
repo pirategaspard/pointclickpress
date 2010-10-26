@@ -20,7 +20,7 @@ class PCP
 	/* get all the information we need to render a scene */
 	static function getScene($args=array())
 	{	
-		$args['scene_value'] = DEFAULT_VALUE;		
+		$args['scene_value'] = DEFAULT_SCENE_VALUE;		
 		if (isset($args['location_id']))
 		{
 			$location = Model_locations::getlocation(array('id'=>$args['location_id']));	
@@ -38,7 +38,7 @@ class PCP
 			}
 			else
 			{
-				$args['scene_value'] = DEFAULT_VALUE;
+				$args['scene_value'] = DEFAULT_SCENE_VALUE;
 			}
 		}
 		return Model_Scenes::getSceneBylocationId($args); 
@@ -47,7 +47,7 @@ class PCP
 	/* get all the information we need to render a scene */
 	static function getItemImage($args=array())
 	{	
-		$args['itemimage_value'] = DEFAULT_VALUE;		
+		$args['itemimage_value'] = DEFAULT_ITEMSTATE_VALUE;		
 		if (isset($args['slug']))
 		{	
 			$session = Session::instance();
@@ -64,7 +64,7 @@ class PCP
 			}
 			else
 			{
-				$args['itemimage_value'] = DEFAULT_VALUE;
+				$args['itemimage_value'] = DEFAULT_ITEMSTATE_VALUE;
 			}
 		}
 		return Model_items::getItemImageByItemId($args); 

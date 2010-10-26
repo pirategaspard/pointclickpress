@@ -58,7 +58,6 @@ define('IMAGE_QUALITY', $image_quality);
 define('SUPPORTED_SCREENS', $supported_screens);
 define('SUPPORTED_GRID_SIZES', $supported_grid_sizes);
 define('SCENE_IMAGE_REDUCTION_PERCENT',1);
-define('DEFAULT_VALUE', '');
 $defaults = explode('x',$story_size);
 define('DEFAULT_STORY_SIZE', $story_size);
 define('DEFAULT_STORY_WIDTH', $defaults[0]);
@@ -67,6 +66,10 @@ $defaults = explode('x',$thumbnail_size);
 define('THUMBNAIL_IMAGE_SIZE', $thumbnail_size);
 define('THUMBNAIL_IMAGE_WIDTH', $defaults[0]);
 define('THUMBNAIL_IMAGE_HEIGHT', $defaults[1]);
+
+define('DEFAULT_VALUE', '');
+define('DEFAULT_ITEMSTATE_VALUE', DEFAULT_VALUE);
+define('DEFAULT_SCENE_VALUE', DEFAULT_VALUE);
 
 define('CACHE_DRIVER', $cache_driver);
 ?>

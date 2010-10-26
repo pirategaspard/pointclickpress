@@ -9,7 +9,7 @@ class Model_Scene extends Model
 	protected $description = "";
 	protected $image_id = 0;
 	protected $filename = "";
-	protected $value = DEFAULT_VALUE;	
+	protected $value = DEFAULT_SCENE_VALUE;	
 	protected $events = array();
 	protected $grid_events = array();
 	protected $items = array();

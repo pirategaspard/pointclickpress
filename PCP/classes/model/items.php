@@ -35,11 +35,11 @@ class Model_Items extends Model
 		// Just get the filenames and put them in an array based on cell id
 		$q = '	SELECT 	i.id as image_id
 						,i.filename						
-				FROM items_images ii
+				FROM items_states its
 				INNER JOIN images i
-				ON ii.image_id = i.id
-				WHERE ii.value = :value
-				ORDER BY ii.id DESC';
+				ON its.image_id = i.id
+				WHERE its.value = :value
+				ORDER BY its.id DESC';
 		$tempArray = DB::query(Database::SELECT,$q,TRUE)
 						->param(':value',$args['itemimage_value'])
 						->execute()
