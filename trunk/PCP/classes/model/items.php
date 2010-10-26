@@ -5,7 +5,7 @@ class Model_Items extends Model
 	{	
 		$items = array();
 						
-		// Just get the filenames and put them in an array based on cell id
+		// Just get the ids and put them in an array based on cell id
 		$q = '	SELECT 	it.id
 						,it.title
 						,git.cell_id							
@@ -51,22 +51,6 @@ class Model_Items extends Model
 		return $items;		
 	}
 	
-	/*
-	static function buildItemImagePaths($args=array())
-	{					
-		// parse items and build full file path
-		$items = array();
-		foreach($args['items'] as $item)
-		{
-			$a['item_slug'] = Formatting::createSlug($item['title']);
-			$image = PCP::getItemImage($a);
-			if (isset($image[0]))
-			{				
-				$items[$item['cell_id']] = $args['story'] ->getMediaPath().$image[0]['image_id'].'/'.$args['story']->screen_size.'/'.$image[0]['filename'];
-			}
-		}
-		return $items;
-	}
-	*/
+
 }
 ?>
