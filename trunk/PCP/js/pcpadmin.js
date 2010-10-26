@@ -81,7 +81,7 @@ $(document).ready(function() {
 	$('input[name=cell_ids]').focusout();
 	$('input[name=cell_id]').focusout();
 	// set cancel button link
-	$('#button_cancel').click(function()
+	$('.button_cancel').click(function()
 		{
 			scene_id = $(this).attr('scene_id');
 			document.location.href='edit?scene_id='+scene_id;

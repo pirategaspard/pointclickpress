@@ -43,7 +43,7 @@
 		</label>
 		<input id="button_submit" type="submit" name="submit" value="submit" />
 		<?php if($event->id > 0 ) { ?>
-		<input id="button_cancel" type="button" name="cancel" value="cancel" scene_id="<?php echo($scene_id); ?>" />
+		<input class="button_cancel" type="button" name="cancel" value="cancel" scene_id="<?php echo($scene_id); ?>" />
 		<?php } ?>
 	</form>
 </fieldset>
