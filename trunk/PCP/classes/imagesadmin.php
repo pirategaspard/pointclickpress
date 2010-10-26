@@ -27,7 +27,8 @@ class ImagesAdmin
 				WHERE 1 = 1 ';
 				
 		if (isset($args['image'])) $q .= 'AND i.id = :image_id'; 
-		if (isset($args['story_id'])) $q .= 'AND s.id = :story_id'; 
+		if (isset($args['story_id'])) $q .= 'AND s.id = :story_id';
+		if (isset($args['type_id'])) $q .= 'AND i.type_id = :type_id'; 
 		
 		$q .= ' ORDER BY i.id DESC';
 		
@@ -35,6 +36,7 @@ class ImagesAdmin
 		
 		if (isset($args['image']))	 $q->param(':image_id',$args['image']->id);
 		if (isset($args['story_id']))	 $q->param(':story_id',$args['story_id']);
+		if (isset($args['type_id']))	 $q->param(':type_id',$args['type_id']);
 								
 		$tempArray = $q->execute()->as_array();		
 		
@@ -136,7 +138,7 @@ class ImagesAdmin
 					if ($success)
 					{
 						// determine reduction percentage
-						if (isset($args['itemimage']) && ($args['itemimage'] == true))
+						if ($args['type_id'] == 2)
 						{
 							// if this is a item image
 							// reduce image by a percentage determined by the default image size
@@ -155,7 +157,7 @@ class ImagesAdmin
 						// for each supported screen create image and save 	
 						foreach($SCREENS as $screen)
 						{
-							if (isset($args['itemimage']) && ($args['itemimage'] == true))
+							if ($args['type_id'] == 2)
 							{
 								$success = self::saveItemImage($temp_file,$screen['w'],$screen['h'],$media_path,$filename,$width_reduction_percentage,$height_reduction_percentage);
 							}

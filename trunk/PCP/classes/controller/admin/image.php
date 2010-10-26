@@ -13,6 +13,14 @@ Class Controller_admin_image extends Controller_Template_Admin
 		$data['story_id'] = $session->get('story_id');
 		$data['scene_id'] = $session->get('scene_id');
 		$data['itemimage_id'] = $session->get('itemimage_id');
+		if ($session->get('itemimage_id'))
+		{
+			$data['type_id'] = 2; 
+		}
+		else
+		{
+			$data['type_id'] = 1; 	
+		}
 		if (strlen($data['image']->filename) > 0)
 		{
 			$data['image_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'delete')));			
@@ -45,22 +53,24 @@ Class Controller_admin_image extends Controller_Template_Admin
 		else
 		{					
 			$data['back_url'] = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
-		}
-		$data['images'] = PCPAdmin::getImages(array('story_id'=>$session->get('story_id')));
+		}		
 		if ($session->get('itemimage_id'))
 		{
+			$data['type_id'] = 2; 
 			$data['assign_image_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'itemimage','action'=>'assignImage')));
 		}
 		elseif ($session->get('scene_id'))
 		{
+			$data['type_id'] = 1;
 			$data['assign_image_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'assignImage')));
 		}	
 		elseif ($session->get('story_id'))
 		{
+			$data['type_id'] = 1;
 			$data['assign_image_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'story','action'=>'assignImage')));
 		}
 		$data['add_image_link'] =  View::factory('/admin/image/add',$data)->render();
-		
+		$data['images'] = PCPAdmin::getImages(array('story_id'=>$session->get('story_id'),'type_id'=>$data['type_id']));
 		$this->template->header = '' ;
 		$this->template->footer = '' ;
 		$this->template->top_menu = View::factory('/admin/image/top_menu',$data)->render();
@@ -71,7 +81,14 @@ Class Controller_admin_image extends Controller_Template_Admin
 	{		
 		$session = Session::instance();
 		$args = array();
-		if (strlen($session->get('itemimage_id')) > 0) {$args['itemimage'] = true;}
+		if (strlen($session->get('itemimage_id')) > 0)
+		{
+			$args['type_id'] = 2;
+		}
+		else
+		{
+			$args['type_id'] = 1;
+		}
 		$result = ImagesAdmin::upload($args);
 		$session->set('result',$result);
 		if ($result->success)

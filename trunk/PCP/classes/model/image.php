@@ -3,7 +3,8 @@
 class Model_Image extends Model 
 {
 	protected $id = 0;
-	protected $story_id = 0;		
+	protected $story_id = 0;
+	protected $type_id = 1;		
 	protected $filename = '';
 
 	public function __construct($args=array())
@@ -34,7 +35,8 @@ class Model_Image extends Model
 		if ($this->id > 0)
 		{
 			$q = '	SELECT 	i.id
-							,story_id													
+							,story_id
+							,type_id													
 							,i.filename							
 					FROM images i
 					WHERE i.id = :id';
@@ -57,11 +59,12 @@ class Model_Image extends Model
 			{
 				//INSERT new record
 				$q = '	INSERT INTO images
-							(story_id,filename)
-						VALUES (:story_id,:filename)';
+							(story_id,type_id,filename)
+						VALUES (:story_id,:type_id,:filename)';
 							
 				$q_results = DB::query(Database::INSERT,$q,TRUE)							
 									->param(':story_id',$this->story_id)
+									->param(':type_id',$this->type_id)
 									->param(':filename',$this->filename)
 									->execute();			
 				if ($q_results[1] > 0)

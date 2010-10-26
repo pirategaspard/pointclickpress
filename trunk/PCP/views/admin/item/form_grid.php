@@ -12,7 +12,7 @@
 		<input type="hidden" name="item_id" value="<?php echo($item->id); ?>" />
 		<input type="hidden" name="id" value="<?php echo($item->id); ?>" />
 		<label>
-			Item:
+			Item Type:
 			<input type="text" name="title" value="<?php echo($item->title); ?>" readonly="readonly" />
 			<a href="<?php echo($assign_item_link); ?>&KeepThis=true&TB_iframe=true" class="thickbox" >Assign Item</a>
 		</label>
