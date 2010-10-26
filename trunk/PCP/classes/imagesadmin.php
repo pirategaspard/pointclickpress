@@ -53,17 +53,17 @@ class ImagesAdmin
 		// get all the Images in the db
 		$q = '	SELECT 	i.id AS image_id
 						,i.filename
-						,ii.id
-						,ii.value
+						,its.id
+						,its.value
 				FROM images i
 				INNER JOIN stories s
 				ON i.story_id = s.id
-				INNER JOIN items_images ii
-				ON i.id = ii.image_id
+				INNER JOIN items_states its
+				ON i.id = its.image_id
 				WHERE 1 = 1 ';
 				
 		if (isset($args['image'])) $q .= 'AND i.id = :image_id'; 
-		if (isset($args['item'])) $q .= 'AND ii.item_id = :item_id'; 
+		if (isset($args['item'])) $q .= 'AND its.item_id = :item_id'; 
 		
 		$q .= ' ORDER BY i.id DESC';
 		
