@@ -11,17 +11,24 @@ class itemadmin
 			switch ($args['type'])
 			{	
 				case 'Grid':					
-					$item = ItemAdmin::getGridItem($args);					
+					$item = self::getGridItem($args);					
 				break;
 				default:
-					$item = new Model_Item($args);
+					$item = self::getItemDef($args);
 				break;
 			}
 		}
 		else
 		{
-			$item = new Model_Item($args);
+			$item = self::getItemDef($args);
 		}				
+		return $item->load($args);
+	}
+	
+	// item definitions define an item by holding images and values for an item type 
+	static function getItemDef($args=array())
+	{		
+		$item = new Model_ItemDef($args);
 		return $item->load($args);
 	}
 	
@@ -32,18 +39,14 @@ class itemadmin
 		return $item->load($args);
 	}
 	
-	static function getItems($args)
+	static function getItemDefs($args)
 	{
-		$q = '	SELECT 	it.id
-						,it.title
-						,it.story_id
-						,it.image_id
-						,i.filename
-				FROM items it
-				LEFT OUTER JOIN images i
-				ON it.image_id = i.id
+		$q = '	SELECT 	id.id
+						,id.title
+						,id.story_id
+				FROM itemdefs id
 				INNER JOIN stories s
-				ON it.story_id = s.id
+				ON id.story_id = s.id
 				WHERE s.id = :story_id';
 		$tempArray = DB::query(Database::SELECT,$q,TRUE)
 										->param(':story_id',$args['story_id'])
@@ -52,7 +55,7 @@ class itemadmin
 		$items = array();
 		foreach($tempArray as $a)
 		{		
-			$items[$a['id']] = ItemAdmin::getItem()->init($a);
+			$items[$a['id']] = ItemAdmin::getItemDef()->init($a);
 		}
 		return $items;
 	}
@@ -60,21 +63,21 @@ class itemadmin
 	static function getGridItems($args=array())
 	{						 		
 		// get all the Items in the db
-		$q = '	SELECT 	it.id	
-						,it.title						
-						,it.story_id
-						,git.grid_item_id
+		$q = '	SELECT 	id.id as itemdef_id	
+						,id.title as type						
+						,git.id
 						,git.cell_id
-						,git.scene_id							
-				FROM items it
+						,git.scene_id
+						,git.title							
+				FROM itemdefs id
 				INNER JOIN grids_items git
-				ON it.id = git.item_id
+				ON id.id = git.itemdef_id
 				INNER JOIN stories s
-				ON it.story_id = s.id
+				ON id.story_id = s.id
 				INNER JOIN scenes sc
 				ON git.scene_id = sc.id
 				WHERE sc.id = :scene_id
-				ORDER BY it.id DESC';
+				ORDER BY git.id DESC';
 		$tempArray = DB::query(Database::SELECT,$q,TRUE)
 						->param(':scene_id',$args['scene']->id)
 						->execute()
@@ -82,7 +85,7 @@ class itemadmin
 		$items = array();
 		foreach($tempArray as $a)
 		{		
-			$a['include_itemimages'] = true;
+			$a['include_images'] = true;
 			$items[$a['cell_id']] = ItemAdmin::getGridItem()->init($a);
 		}
 		return $items;		

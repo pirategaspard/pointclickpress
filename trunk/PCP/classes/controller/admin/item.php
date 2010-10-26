@@ -5,7 +5,7 @@ Class Controller_admin_item extends Controller_Template_Admin
 	function action_edit()
 	{		
 		$session = Session::instance();	
-		$data['item'] = PCPAdmin::getItem(array('include_itemimages'=>true));
+		$data['item'] = PCPAdmin::getItemDef(array('include_images'=>true));
 		$data['itemimages'] = $data['item']->images; 
 		$data['item_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'item','action'=>'save')));		
 		$data['item_assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?scene_id='.$session->get('scene_id').'&item_id='.$data['item']->id;			
@@ -23,14 +23,12 @@ Class Controller_admin_item extends Controller_Template_Admin
 		$this->template->content = View::factory('/admin/item/template',$data)->render();
 	}
 
-
-
 	function action_list()
 	{	
 		$session = Session::instance();	
 		$data['scene_id'] = $session->get('scene_id');	
 		$data['back_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')));
-		$data['items'] = PCPAdmin::getItems(array('story_id'=>$session->get('story_id')));
+		$data['items'] = PCPAdmin::getItemDefs(array('story_id'=>$session->get('story_id')));
 		$data['assign_item_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'assignItem')));
 		$data['add_item_link'] =  View::factory('/admin/item/add',$data)->render();
 		
@@ -38,7 +36,6 @@ Class Controller_admin_item extends Controller_Template_Admin
 		$this->template->top_menu = View::factory('/admin/item/top_menu',$data)->render();
 		$this->template->content = View::factory('/admin/item/list',$data)->render();
 	}
-
 
 	/*
 		save the info from the Item form 
@@ -49,7 +46,7 @@ Class Controller_admin_item extends Controller_Template_Admin
 		$session->delete('result');		
 		if(count($_POST) > 0)
 		{
-			$result = PCPAdmin::getItem()->init($_POST)->save();
+			$result = PCPAdmin::getItemDef()->init($_POST)->save();
 			$session->set('item_id',$result->data['id']);			
 		}
 		else
@@ -71,7 +68,7 @@ Class Controller_admin_item extends Controller_Template_Admin
 	{	
 		$session = Session::instance();	
 		$session->delete('result');
-		$result = PCPAdmin::getItem()->init(array('id'=>$_REQUEST['item_id']))->delete();
+		$result = PCPAdmin::getItemDef()->init(array('id'=>$_REQUEST['item_id']))->delete();
 		// Create User Message
 		if ($result->success)
 		{

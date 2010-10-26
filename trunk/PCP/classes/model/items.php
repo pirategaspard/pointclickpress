@@ -6,16 +6,14 @@ class Model_Items extends Model
 		$items = array();
 						
 		// Just get the ids and put them in an array based on cell id
-		$q = '	SELECT 	it.id
-						,it.title
+		$q = '	SELECT 	git.id
+						,git.slug
 						,git.cell_id							
-				FROM items it
-				INNER JOIN grids_items git
-				ON it.id = git.item_id
+				FROM grids_items git
 				INNER JOIN scenes sc
 				ON git.scene_id = sc.id
 				WHERE sc.id = :scene_id
-				ORDER BY it.id DESC';
+				ORDER BY git.id DESC';
 		$tempArray = DB::query(Database::SELECT,$q,TRUE)
 						->param(':scene_id',$args['scene']->id)
 						->execute()
@@ -23,8 +21,7 @@ class Model_Items extends Model
 		foreach($tempArray as $item)
 		{
 			// parse items and build full file paths
-			$a['item_slug'] = Formatting::createSlug($item['title']);
-			$image = PCP::getItemImage($a);			
+			$image = PCP::getItemImage($item);			
 			if (isset($image[0]))
 			{				
 				$items[$item['cell_id']] = $args['story']->getMediaPath().$image[0]['image_id'].'/'.$args['story']->screen_size.'/'.$image[0]['filename'];

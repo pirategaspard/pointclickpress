@@ -43,7 +43,7 @@ Class Controller_admin_story extends Controller_Template_Admin
 		$data['story'] = PCPAdmin::getStory(array('include_events'=>true,'include_locations'=>TRUE));
 		$data['locations'] = $data['story']->locations;
 		$data['events'] = $data['story']->events;
-		$data['items'] = PCPAdmin::getItems(array('story_id'=>$data['story']->id));	
+		$data['items'] = PCPAdmin::getItemDefs(array('story_id'=>$data['story']->id));	
 		$data['grid_sizes'] = explode(',',SUPPORTED_GRID_SIZES);
 		
 		$data['event_add'] = View::factory('/admin/event/add',$data)->render();
