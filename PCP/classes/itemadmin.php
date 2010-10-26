@@ -10,10 +10,12 @@ class itemadmin
 			// what kind of event are we getting? 
 			switch ($args['type'])
 			{	
-				case 'Grid':					
+				case 'Grid':
+					unset($args['type']);					
 					$item = self::getGridItem($args);					
 				break;
 				default:
+					unset($args['type']);
 					$item = self::getItemDef($args);
 				break;
 			}
