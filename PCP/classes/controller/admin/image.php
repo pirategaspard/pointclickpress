@@ -98,10 +98,6 @@ Class Controller_admin_image extends Controller_Template_Admin
 				$session->set('image_id',$result->data['image_id']);
 			}	
 		}
-		else
-		{
-			$params = $this->getURLParams();				
-		}
 		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'image','action'=>'list')));	
 	}
 	

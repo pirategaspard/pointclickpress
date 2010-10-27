@@ -23,6 +23,10 @@ class Model_Image extends Model
 		{
 			$this->story_id = $args['story_id'];
 		}
+		if ((isset($args['type_id']))&&(is_numeric($args['type_id'])))
+		{
+			$this->type_id = $args['type_id'];
+		}
 		if (isset($args['filename']))
 		{
 			$this->filename = $args['filename'];
