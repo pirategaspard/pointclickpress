@@ -3,7 +3,7 @@
 	{
 ?>
 <fieldset>
-	<legend>itemstates</legend>
+	<legend>Item States</legend>
 	<table>
 		<tr>
 			<th>Id</th>

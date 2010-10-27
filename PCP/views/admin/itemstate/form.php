@@ -4,7 +4,7 @@
 	{ 
 ?>
 <fieldset>
-	<legend>itemstate</legend>
+	<legend>Item State</legend>
 	<form action="<?php print($itemstate_form_action); ?>?keepThis=true&TB_iframe=true" method="post" enctype="multipart/form-data" class="thickbox" >		
 		<input type="hidden" name="back_url" value="<?php echo($back_url); ?>" />
 		<input type="hidden" name="item_id" value="<?php echo($itemstate->item_id); ?>" />
