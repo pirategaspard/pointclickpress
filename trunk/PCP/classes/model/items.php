@@ -8,7 +8,8 @@ class Model_Items extends Model
 		// Just get the ids and put them in an array based on cell id
 		$q = '	SELECT 	git.id
 						,git.slug
-						,git.cell_id							
+						,git.cell_id
+						,itemdef_id							
 				FROM grids_items git
 				INNER JOIN scenes sc
 				ON git.scene_id = sc.id
@@ -21,17 +22,19 @@ class Model_Items extends Model
 		foreach($tempArray as $item)
 		{
 			// parse items and build full file paths
-			$image = PCP::getitemstate($item);			
-			if (isset($image[0]))
-			{				
-				$items[$item['cell_id']] = $args['story']->getMediaPath().$image[0]['image_id'].'/'.$args['story']->screen_size.'/'.$image[0]['filename'];
+			$state = PCP::getitemstate(array('item_id'=>$item['itemdef_id'],'slug'=>$item['slug'],'simple_items'=>true));
+			//var_dump($state); die();						
+			if (count($state) > 0)
+			{	
+				$state = current($state);	
+				$items[$item['cell_id']] = $args['story']->getMediaPath().$state['image_id'].'/'.$args['story']->screen_size.'/'.$state['filename'];
 			}
 		}
 		return $items;		
 	}
 	
 	static function getItemStateByItemId($args=array())
-	{
+	{		
 		$items = array();
 		// Just get the filenames and put them in an array based on cell id
 		$q = '	SELECT 	i.id as image_id

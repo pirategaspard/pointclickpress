@@ -47,7 +47,7 @@ class PCP
 	/* get all the information we need to render a scene */
 	static function getItemState($args=array())
 	{	
-		$args['itemstate_value'] = DEFAULT_ITEMSTATE_VALUE;		
+		$args['itemstate_value'] = DEFAULT_ITEMSTATE_VALUE;			
 		if (isset($args['slug']))
 		{	
 			$session = Session::instance();

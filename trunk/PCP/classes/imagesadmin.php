@@ -109,8 +109,7 @@ class ImagesAdmin
 				//$filename = substr($filename,0,strpos($filename,'.')).'.png'; 
 					
 				//save filename to db & get image_id
-				$results = ImagesAdmin::getImage(array('story_id'=>$_POST['story_id'],'filename'=>$filename))->save();
-				
+				$results = ImagesAdmin::getImage(array('story_id'=>$_POST['story_id'],'filename'=>$filename,'type_id'=>$args['type_id']))->save();
 				//did we save to the db ok?
 				if ($results->success)
 				{
