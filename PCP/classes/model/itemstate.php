@@ -1,12 +1,12 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-// Item definition
-class Model_ItemDef extends Model 
+class Model_ItemState extends Model 
 {
 	protected $id = 0;
-	protected $title = '';
-	protected $slug = '';
 	protected $story_id = 0;
-	protected $images = array();			
+	protected $value = DEFAULT_ITEMSTATE_VALUE;
+	protected $item_id = 0;
+	protected $image_id = 0;
+	protected $filename = '';			
 	
 	public function __construct($args=array())
 	{
@@ -20,20 +20,22 @@ class Model_ItemDef extends Model
 		{
 			$this->id = $args['id'];
 		}
-		if (isset($args['title']))
+		if (isset($args['value']))
 		{
-			$this->title = $args['title'];
-			$this->slug = Formatting::createSlug($args['title']);
+			$this->value = Formatting::createSlug($args['value']);
 		}
-		if (isset($args['story_id']))
+		if (isset($args['item_id']))
 		{
-			$this->story_id = $args['story_id'];
+			$this->item_id = $args['item_id'];
 		}		
-		if (isset($args['include_images']))
+		if (isset($args['image_id']))
 		{
-			$args['ItemDef'] = $this;
-			$this->images = ImagesAdmin::getitemstates($args);
+			$this->image_id = $args['image_id'];
 		}
+		if (isset($args['filename']))
+		{
+			$this->filename = $args['filename'];
+		}		
 		return $this;
 	}
 	
@@ -41,11 +43,16 @@ class Model_ItemDef extends Model
 	{		
 		if ($this->id > 0)
 		{
-			$q = '	SELECT 	id.id
-							,id.title
-							,id.story_id
-					FROM itemDefs id
-					WHERE id.id = :id';
+			$q = '	SELECT 	its.id
+							,its.value
+							,its.item_id
+							,i.id as image_id
+							,i.filename
+							,i.story_id							
+					FROM items_states its
+					LEFT OUTER JOIN images i
+					ON its.image_id = i.id
+					WHERE its.id = :id';
 			$q_results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();											
 							
 			if (count($q_results) > 0 )
@@ -63,17 +70,18 @@ class Model_ItemDef extends Model
 		if ($this->id == 0)
 		{
 			//INSERT new record
-			$q = '	INSERT INTO itemDefs
-						(title
-						,story_id
-						)
+			$q = '	INSERT INTO items_states
+						(value
+						,item_id
+						,image_id)
 					VALUES (
-						:title
-						,:story_id
-						)';						
-			$q_results = DB::query(Database::INSERT,$q,TRUE)
-								->param(':title',$this->title)
-								->param(':story_id',$this->story_id)
+						:value
+						,:item_id
+						,:image_id)';						
+			$q_results = DB::query(Database::INSERT,$q,TRUE)								
+								->param(':value',$this->value)
+								->param(':item_id',$this->item_id)
+								->param(':image_id',$this->image_id)
 								->execute();									
 			if ($q_results[1] > 0)
 			{
@@ -91,18 +99,21 @@ class Model_ItemDef extends Model
 			//UPDATE record
 			try
 			{
-				$q = '	UPDATE itemDefs
-						SET title = :title
+				$q = '	UPDATE items_states
+						SET value = :value
+							,item_id = :item_id
+							,image_id = :image_id
 						WHERE id = :id';
 				$results->success = DB::query(Database::UPDATE,$q,TRUE)
-								->param(':title',$this->title)
+								->param(':value',$this->value)
+								->param(':item_id',$this->item_id)
+								->param(':image_id',$this->image_id)
 								->param(':id',$this->id)
 								->execute();																	
 			}
 			catch( Database_Exception $e )
 			{
-				var_dump($q); //die();
-				var_dump($this);
+				var_dump($e); die();
 				throw new Kohana_Exception('Error Updating Record in file: :file - ',
 					array(':file' => Kohana::debug_path(__FILE__)));
 			}
@@ -116,11 +127,8 @@ class Model_ItemDef extends Model
 		$results = new pcpresult();
 		if ($this->id > 0)
 		{
-		
-			// delete any item images and grid items associated with this item def
-			
-			// delete item definition
-			$q = '	DELETE FROM itemDefs
+				
+			$q = '	DELETE FROM items_states
 						WHERE id = :id';
 			$results->success =	DB::query(Database::DELETE,$q,TRUE)
 								->param(':id',$this->id)
