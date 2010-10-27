@@ -47,9 +47,10 @@ Class Controller_admin_scene extends Controller_Template_Admin
 			{
 				$session->delete('image_id');			
 			}
-			$data['item'] = PCPAdmin::getGridItem(array('scene_id'=>$data['scene']->id));
+			$data['item'] = PCPAdmin::getItemDef(array('scene_id'=>$data['scene']->id));
+			$data['griditem'] = PCPAdmin::getGridItem(array('scene_id'=>$data['scene']->id));			
 			$data['item_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'assignItem')));;
-			$data['assign_item_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'item','action'=>'list'))).'?scene_id='.$session->get('scene_id');
+			$data['assign_item_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'item','action'=>'list'))).'?scene_id='.$session->get('scene_id');//.'&grid_item_id='.$data['griditem']->id;
 			$data['item_form'] = View::factory('/admin/item/form_grid',$data)->render(); //inline form
 			$data['items'] = $data['scene']->items;
 			$data['items_list'] = View::factory('/admin/item/list_grid',$data)->render();
@@ -174,9 +175,9 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		$session = Session::instance();	
 		$session->delete('result');
 		PCPAdmin::getArgs();					
-		if ($session->get('scene_id') && $session->get('item_id'))
+		if ($_POST['scene_id'] && $_POST['itemdef_id'])
 		{
-			$item = PCPAdmin::getGridItem();		
+			$item = PCPAdmin::getGridItem();					
 			$result = $item->init($_POST)->save();
 			// Create User Message
 			if ($result->success)
@@ -189,7 +190,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 			}
 			$session->set('result',$result);			
 		}
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')));
+		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?scene_id='.$_POST['scene_id']);
 	}
 	function action_DeleteItem()
 	{		

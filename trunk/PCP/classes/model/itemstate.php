@@ -2,7 +2,6 @@
 class Model_ItemState extends Model 
 {
 	protected $id = 0;
-	protected $story_id = 0;
 	protected $value = DEFAULT_ITEMSTATE_VALUE;
 	protected $item_id = 0;
 	protected $image_id = 0;
@@ -47,8 +46,7 @@ class Model_ItemState extends Model
 							,its.value
 							,its.item_id
 							,i.id as image_id
-							,i.filename
-							,i.story_id							
+							,i.filename						
 					FROM items_states its
 					LEFT OUTER JOIN images i
 					ON its.image_id = i.id

@@ -21,8 +21,6 @@ Class Controller_admin_itemstate extends Controller_Template_Admin
 		$this->template->content = View::factory('/admin/itemstate/template',$data)->render();
 	}
 
-
-
 	function action_list()
 	{	
 		$session = Session::instance();	
@@ -37,7 +35,6 @@ Class Controller_admin_itemstate extends Controller_Template_Admin
 		$this->template->content = View::factory('/admin/itemstate/list',$data)->render();
 	}
 
-
 	/*
 		save the info from the Item form 
 	*/
@@ -47,8 +44,16 @@ Class Controller_admin_itemstate extends Controller_Template_Admin
 		$session->delete('result');		
 		if(count($_POST) > 0)
 		{
-			$result = PCPAdmin::getitemstate()->init($_POST)->save();
-			$session->set('itemstate_id',$result->data['id']);			
+			$itemstate = PCPAdmin::getItemStateByItemId($_POST['item_id'],$_POST['value']);													
+			if ((count($itemstate) == 0) || (isset($itemstate[$_POST['id']])))
+			{
+				$result = PCPAdmin::getitemstate()->init($_POST)->save();
+				$session->set('itemstate_id',$result->data['id']);
+			}
+			else
+			{
+				$result = new pcpresult(0,'Item State Already Exists');
+			}	
 		}
 		else
 		{
@@ -58,7 +63,7 @@ Class Controller_admin_itemstate extends Controller_Template_Admin
 		{
 			// update scene id in session
 			$session->set('itemstate_id',$result->data['id']);
-			$result->message = "Item Image Saved";
+			$result->message = "Item State Saved";
 		}
 		$session->set('result',$result);
 		//redirect to edit the Item just saved
@@ -73,7 +78,7 @@ Class Controller_admin_itemstate extends Controller_Template_Admin
 		// Create User Message
 		if ($result->success)
 		{
-			$result->message = "Item Image Deleted";
+			$result->message = "Item State Deleted";
 		}
 		$session->set('result',$result);
 		$back_url = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';	

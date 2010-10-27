@@ -36,8 +36,15 @@ class itemadmin
 	
 	// Grid items go on the grid to compose a scene 
 	static function getGridItem($args=array())
-	{		
+	{				
 		$item = new Model_GridItem($args);
+		return $item->load($args);
+	}
+	
+	// Grid items go on the grid to compose a scene 
+	static function getItemState($args=array())
+	{		
+		$item = new Model_ItemState($args);
 		return $item->load($args);
 	}
 	

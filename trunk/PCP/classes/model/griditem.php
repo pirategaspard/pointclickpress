@@ -59,27 +59,27 @@ class Model_GridItem extends Model_ItemDef
 	}	
 	
 	function save()
-	{			
+	{				
 		$results = new pcpresult();
 		if (($this->id == 0))
 		{
 			//INSERT new record
 			$q = '	INSERT INTO grids_items
-						(item_id
+						(itemdef_id
 						,scene_id
 						,cell_id
 						,title
 						,slug
 						)
 					VALUES (
-						:item_id
+						:itemdef_id
 						,:scene_id
 						,:cell_id
 						,:title
 						,:slug
 						)';						
 			$q_results = DB::query(Database::INSERT,$q,TRUE)
-								->param(':item_id',$this->id)
+								->param(':itemdef_id',$this->itemdef_id)
 								->param(':scene_id',$this->scene_id)
 								->param(':cell_id',$this->cell_id)
 								->param(':title',$this->title)
@@ -102,12 +102,14 @@ class Model_GridItem extends Model_ItemDef
 			try
 			{
 				$q = '	UPDATE grids_items
-						SET scene_id = :scene_id
+						SET itemdef_id = :itemdef_id
+							,scene_id = :scene_id
 							,cell_id = :cell_id
 							,title = :title
 							,slug = :slug
 						WHERE id = :id';
 				$results->success = DB::query(Database::UPDATE,$q,TRUE)
+								->param(':itemdef_id',$this->itemdef_id)
 								->param(':scene_id',$this->scene_id)
 								->param(':cell_id',$this->cell_id)
 								->param(':title',$this->title)

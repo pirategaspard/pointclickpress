@@ -67,7 +67,7 @@ class Model_Scene extends Model
 		if (isset($args['include_items']))
 		{						
 			$args['scene'] = $this;
-			if (isset($args['simple_items']))
+			if (isset($args['simple_items']) && ($args['simple_items'] == true) )
 			{
 				$this->items = Model_Items::getGridItems($args);
 			}

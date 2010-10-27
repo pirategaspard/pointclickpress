@@ -118,7 +118,8 @@ class PCPAdmin
 	{	
 		$session = Session::instance();
 		$args = PCPAdmin::getArgs($args);
-		if (!isset($args['id']) && $session->get('item_id')) { $args['id'] =  $session->get('item_id'); }	
+		if (!isset($args['id']) && $session->get('grid_item_id')) { $args['id'] =  $session->get('grid_item_id'); }
+		//elseif (!isset($args['id']) && $session->get('item_id')) { $args['id'] =  $session->get('item_id'); }
 		return ItemAdmin::getGridItem($args); 		
 	}
 	
@@ -154,6 +155,12 @@ class PCPAdmin
 	{
 		return Model_Scenes::getSceneBylocationId($location_id,$value);
 	}
+	
+	/* get a itemstate by item ID and value */
+	static function getItemStateByItemId($item_id,$itemstate_value='')
+	{	
+		return Model_Items::getItemStateByItemId(array('item_id'=>$item_id,'itemstate_value'=>$itemstate_value));
+	}
 
 
 	static public function getArgs($args=array())
@@ -173,7 +180,9 @@ class PCPAdmin
 		{
 			$session->set('scene_id',$_REQUEST['scene_id']);
 			$session->delete('event_id');
-			$session->delete('item_id');
+			$session->delete('item_id');			
+			$session->delete('grid_item_id');
+			$session->delete('cell_id');
 			$session->delete('itemstate_id');			
 		}
 		if (isset($_REQUEST['cell_id']))
