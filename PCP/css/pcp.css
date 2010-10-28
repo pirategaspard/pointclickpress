@@ -6,7 +6,8 @@ body { }
 #content {}
 #scene { text-align: center;}
 #grid {margin: 0 auto; width:80%; overflow: hidden;} /* overflow: hidden;} */
-#grid a {display:block; float: left; } /* border: solid 1px black; margin: -1px; */
+#grid a {display:block; float: left; position: relative; text-align: left;}
+#grid a img {position: absolute;}
 
 #bottommenu {}
 #footer {position: relative; text-align: center; margin: 20px auto; }
