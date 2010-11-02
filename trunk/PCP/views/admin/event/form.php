@@ -20,9 +20,27 @@
 				echo ('<option value="'.$event_type->getClass().'"'.$selected.' >'.$event_type->getLabel().'</option>');
 			} ?>
 		</select><br />
+		<div id="event_description"></div>
 		<label id="event_value" for="event_value">Event Value:
 			<textarea rows="10" cols="50" name="event_value"><?php echo($event->event_value); ?></textarea>
 		</label>
 		<input type="submit" name="submit" value="submit" />
 	</form>
 <?php } ?>
+
+
+
+<script >
+	var event_descriptions = Array();
+<?php 
+	foreach($event_types as $event_type)
+	{
+		echo ("event_descriptions['".$event_type->getClass()."'] = '".htmlentities($event_type->getdescription(),ENT_QUOTES)."';\n "); 
+	}
+?>
+	$('#event_type').change(function() 
+		{
+			$('#event_description').html(event_descriptions[$(this).val()]);		
+		});
+	$('#event_type').change();
+</script>

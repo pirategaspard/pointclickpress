@@ -12,6 +12,7 @@ body { }
 #bottommenu {}
 #footer {position: relative; text-align: center; margin: 20px auto; }
 
+#event_description {border: solid 1px black; min-height: 10px; min-width: 150px; padding: 5px; margin: 10px 0px;}
 
 .menu {}
 ul.menu {display: inline;}
