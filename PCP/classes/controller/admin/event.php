@@ -36,6 +36,7 @@ Class Controller_admin_event extends Controller_Template_Admin
 		$data['event_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'save')));
 		
 		$this->template->header = '' ;
+		$this->template->scripts = array() ;
 		$this->template->top_menu = View::factory('/admin/event/top_menu',$data)->render();
 		$this->template->content = View::factory('/admin/event/form',$data)->render();
 	}
