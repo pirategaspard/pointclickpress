@@ -41,6 +41,7 @@
 		<label id="cell_ids" for="cell_ids">Cell Id List:
 			<input type="text" name="cell_ids" value="<?php echo($event->getCellIds()); ?>" />
 		</label>
+		<div id="event_description" class="event_description"></div>
 		<input id="button_submit" type="submit" name="submit" value="submit" />
 		<?php if($event->id > 0 ) { ?>
 		<input class="button_cancel" type="button" name="cancel" value="cancel" scene_id="<?php echo($scene_id); ?>" />
@@ -48,3 +49,13 @@
 	</form>
 </fieldset>
 <?php } ?>
+
+<script >
+	var event_descriptions = Array();
+<?php 
+	foreach($event_types as $event_type)
+	{
+		echo ("event_descriptions['".$event_type->getClass()."'] = '".htmlentities($event_type->getdescription(),ENT_QUOTES)."';\n "); 
+	}
+?>
+</script>
