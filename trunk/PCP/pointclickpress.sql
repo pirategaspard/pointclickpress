@@ -1,17 +1,34 @@
+-- phpMyAdmin SQL Dump
+-- version 3.2.5
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Nov 01, 2010 at 09:54 PM
+-- Server version: 5.0.27
+-- PHP Version: 5.3.2
+
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+--
+-- Database: `pointclickpress`
+--
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cells`
+--
 
 CREATE TABLE IF NOT EXISTS `cells` (
-  `id` bigint(20) unsigned NOT NULL,
+  `id` int(20) unsigned NOT NULL,
   `scene_id` bigint(20) unsigned NOT NULL,
   `grid_event_id` bigint(20) unsigned NOT NULL,
   KEY `id_storyid` (`id`,`scene_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `cells`
+--
 
 INSERT INTO `cells` (`id`, `scene_id`, `grid_event_id`) VALUES
 (90, 23, 16),
@@ -1087,7 +1104,22 @@ INSERT INTO `cells` (`id`, `scene_id`, `grid_event_id`) VALUES
 (61, 65, 111),
 (40, 65, 111),
 (51, 65, 111),
-(72, 65, 111);
+(72, 65, 111),
+(41, 68, 112),
+(51, 68, 112),
+(61, 68, 112),
+(62, 68, 112),
+(52, 68, 112),
+(42, 68, 112),
+(43, 68, 112),
+(53, 68, 112),
+(63, 68, 112);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `events`
+--
 
 CREATE TABLE IF NOT EXISTS `events` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
@@ -1095,7 +1127,11 @@ CREATE TABLE IF NOT EXISTS `events` (
   `event_label` varchar(255) character set latin1 NOT NULL,
   `event_value` varchar(255) character set latin1 default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=120 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=123 ;
+
+--
+-- Dumping data for table `events`
+--
 
 INSERT INTO `events` (`id`, `event`, `event_label`, `event_value`) VALUES
 (17, 'event_link', 'link', '20'),
@@ -1190,14 +1226,26 @@ INSERT INTO `events` (`id`, `event`, `event_label`, `event_value`) VALUES
 (116, 'event_link', 'link', '37'),
 (117, 'event_assignrefresh', 'Assign value and scene refresh', '$well = '''';'),
 (118, 'event_assignrefresh', 'Assign value and scene refresh', '$well = ''DETAIL'';'),
-(119, 'event_link', 'link', '41');
+(119, 'event_link', 'link', '41'),
+(121, 'event_assign', 'Assign value', '$hampster54 = ''card'';'),
+(122, 'event_assignrefreshitems', 'Assign value and item refresh', '$hampster41 = ''card'';');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `grids_events`
+--
 
 CREATE TABLE IF NOT EXISTS `grids_events` (
   `grid_event_id` bigint(20) unsigned NOT NULL auto_increment,
   `scene_id` bigint(20) unsigned NOT NULL,
   `event_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY  (`grid_event_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=112 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=113 ;
+
+--
+-- Dumping data for table `grids_events`
+--
 
 INSERT INTO `grids_events` (`grid_event_id`, `scene_id`, `event_id`) VALUES
 (1, 22, 1),
@@ -1303,52 +1351,163 @@ INSERT INTO `grids_events` (`grid_event_id`, `scene_id`, `event_id`) VALUES
 (108, 67, 116),
 (109, 66, 117),
 (110, 65, 118),
-(111, 65, 119);
+(111, 65, 119),
+(112, 68, 122);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `grids_items`
+--
+
+CREATE TABLE IF NOT EXISTS `grids_items` (
+  `id` bigint(20) unsigned NOT NULL auto_increment,
+  `itemdef_id` bigint(20) unsigned NOT NULL,
+  `scene_id` bigint(20) unsigned NOT NULL,
+  `cell_id` bigint(20) unsigned NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `item_id` (`itemdef_id`),
+  KEY `scene_id` (`scene_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+
+--
+-- Dumping data for table `grids_items`
+--
+
+INSERT INTO `grids_items` (`id`, `itemdef_id`, `scene_id`, `cell_id`, `title`, `slug`) VALUES
+(4, 1, 68, 54, 'hampster54', 'hampster54'),
+(5, 1, 68, 18, 'Hampster18', 'hampster18'),
+(6, 1, 68, 18, 'Hampster18', 'hampster18'),
+(7, 1, 68, 41, 'Hampster41', 'hampster41');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `images`
+--
 
 CREATE TABLE IF NOT EXISTS `images` (
   `id` bigint(20) NOT NULL auto_increment,
   `story_id` bigint(20) NOT NULL,
-  `filename` varchar(255) NOT NULL,
+  `type_id` int(11) unsigned NOT NULL,
+  `filename` varchar(255) character set latin1 NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=39 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=50 ;
 
-INSERT INTO `images` (`id`, `story_id`, `filename`) VALUES
-(1, 2, 'forest.JPG'),
-(2, 2, 'forest2.JPG'),
-(3, 2, 'Image000.jpg'),
-(5, 2, 'Image002.jpg'),
-(6, 2, 'Image003.jpg'),
-(7, 2, 'Image004.jpg'),
-(8, 2, 'pipe1.jpg'),
-(9, 2, 'pipe2.jpg'),
-(10, 2, 'tunnel.jpg'),
-(11, 2, 'tunnel2.jpg'),
-(12, 2, 'ocean.JPG'),
-(13, 2, 'Image001.jpg'),
-(14, 3, 'DSC_0528.JPG'),
-(16, 3, 'DSC_0557.JPG'),
-(17, 3, 'DSC_0527.JPG'),
-(18, 3, 'DSC_0551.JPG'),
-(19, 3, 'DSC_0541.JPG'),
-(20, 3, 'DSC_0552.JPG'),
-(21, 3, 'DSC_0553.JPG'),
-(22, 3, 'DSC_0554.JPG'),
-(23, 3, 'DSC_0559.JPG'),
-(24, 3, 'DSC_0560.JPG'),
-(25, 3, 'DSC_0561.JPG'),
-(26, 3, 'DSC_0565.JPG'),
-(27, 3, 'DSC_0574.JPG'),
-(28, 3, 'DSC_0578.JPG'),
-(29, 3, 'DSC_0586.JPG'),
-(30, 3, 'DSC_0583.JPG'),
-(31, 3, 'DSC_0604.JPG'),
-(32, 3, 'DSC_0605.JPG'),
-(33, 3, 'DSC_0608.JPG'),
-(34, 3, 'DSC_0612.JPG'),
-(35, 3, 'DSC_0614.JPG'),
-(36, 3, 'DSC_0615.JPG'),
-(37, 3, 'DSC_0616.JPG'),
-(38, 3, 'DSC_0621.JPG');
+--
+-- Dumping data for table `images`
+--
+
+INSERT INTO `images` (`id`, `story_id`, `type_id`, `filename`) VALUES
+(1, 2, 1, 'forest.JPG'),
+(2, 2, 1, 'forest2.JPG'),
+(3, 2, 1, 'Image000.jpg'),
+(5, 2, 1, 'Image002.jpg'),
+(6, 2, 1, 'Image003.jpg'),
+(7, 2, 1, 'Image004.jpg'),
+(8, 2, 1, 'pipe1.jpg'),
+(9, 2, 1, 'pipe2.jpg'),
+(10, 2, 1, 'tunnel.jpg'),
+(11, 2, 1, 'tunnel2.jpg'),
+(12, 2, 1, 'ocean.JPG'),
+(13, 2, 1, 'Image001.jpg'),
+(14, 3, 1, 'DSC_0528.JPG'),
+(16, 3, 1, 'DSC_0557.JPG'),
+(17, 3, 1, 'DSC_0527.JPG'),
+(18, 3, 1, 'DSC_0551.JPG'),
+(19, 3, 1, 'DSC_0541.JPG'),
+(20, 3, 1, 'DSC_0552.JPG'),
+(21, 3, 1, 'DSC_0553.JPG'),
+(22, 3, 1, 'DSC_0554.JPG'),
+(23, 3, 1, 'DSC_0559.JPG'),
+(24, 3, 1, 'DSC_0560.JPG'),
+(25, 3, 1, 'DSC_0561.JPG'),
+(26, 3, 1, 'DSC_0565.JPG'),
+(27, 3, 1, 'DSC_0574.JPG'),
+(28, 3, 1, 'DSC_0578.JPG'),
+(29, 3, 1, 'DSC_0586.JPG'),
+(30, 3, 1, 'DSC_0583.JPG'),
+(31, 3, 1, 'DSC_0604.JPG'),
+(32, 3, 1, 'DSC_0605.JPG'),
+(33, 3, 1, 'DSC_0608.JPG'),
+(34, 3, 1, 'DSC_0612.JPG'),
+(35, 3, 1, 'DSC_0614.JPG'),
+(36, 3, 1, 'DSC_0615.JPG'),
+(37, 3, 1, 'DSC_0616.JPG'),
+(38, 3, 1, 'DSC_0621.JPG'),
+(40, 3, 2, 'HamsterAtTheMic.jpg'),
+(49, 3, 2, 'businesscard.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `image_types`
+--
+
+CREATE TABLE IF NOT EXISTS `image_types` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `title` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `image_types`
+--
+
+INSERT INTO `image_types` (`id`, `title`) VALUES
+(1, 'scene'),
+(2, 'item');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `itemdefs`
+--
+
+CREATE TABLE IF NOT EXISTS `itemdefs` (
+  `id` bigint(20) unsigned NOT NULL auto_increment,
+  `title` varchar(255) NOT NULL,
+  `story_id` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `itemdefs`
+--
+
+INSERT INTO `itemdefs` (`id`, `title`, `story_id`) VALUES
+(1, 'Hampster', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `items_states`
+--
+
+CREATE TABLE IF NOT EXISTS `items_states` (
+  `id` bigint(20) unsigned NOT NULL auto_increment,
+  `item_id` bigint(20) unsigned NOT NULL,
+  `image_id` bigint(20) unsigned NOT NULL,
+  `value` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `items_states`
+--
+
+INSERT INTO `items_states` (`id`, `item_id`, `image_id`, `value`) VALUES
+(1, 1, 40, ''),
+(3, 1, 0, 'dsgdfgsdfg'),
+(4, 1, 49, 'card');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `locations`
+--
 
 CREATE TABLE IF NOT EXISTS `locations` (
   `story_id` bigint(20) unsigned NOT NULL,
@@ -1356,6 +1515,10 @@ CREATE TABLE IF NOT EXISTS `locations` (
   `title` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=42 ;
+
+--
+-- Dumping data for table `locations`
+--
 
 INSERT INTO `locations` (`story_id`, `id`, `title`) VALUES
 (2, 18, 'Start'),
@@ -1377,11 +1540,21 @@ INSERT INTO `locations` (`story_id`, `id`, `title`) VALUES
 (3, 41, 'Poison Ivy Field2'),
 (3, 40, 'Well');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `locations_events`
+--
+
 CREATE TABLE IF NOT EXISTS `locations_events` (
   `location_id` bigint(20) unsigned NOT NULL,
   `event_id` bigint(20) unsigned NOT NULL,
   KEY `locationid` (`location_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `locations_events`
+--
 
 INSERT INTO `locations_events` (`location_id`, `event_id`) VALUES
 (25, 39),
@@ -1389,7 +1562,38 @@ INSERT INTO `locations_events` (`location_id`, `event_id`) VALUES
 (33, 68),
 (34, 72),
 (36, 94),
-(31, 101);
+(31, 101),
+(41, 121);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `plugins`
+--
+
+CREATE TABLE IF NOT EXISTS `plugins` (
+  `id` bigint(20) unsigned NOT NULL auto_increment,
+  `label` varchar(255) character set latin1 NOT NULL,
+  `description` text character set latin1 NOT NULL,
+  `class` varchar(255) character set latin1 NOT NULL,
+  `hooks` text character set latin1 NOT NULL,
+  `status` char(1) character set latin1 NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+
+--
+-- Dumping data for table `plugins`
+--
+
+INSERT INTO `plugins` (`id`, `label`, `description`, `class`, `hooks`, `status`) VALUES
+(9, 'Debug', 'Debug Plugin for PCP', 'plugin_debug', 'display_post_scene,error', '1'),
+(10, 'helloworld', 'This is the helloworld demonstration plugin', 'plugin_helloworld', 'post_start_story,display_pre_scene,display_post_scene', '0');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `scenes`
+--
 
 CREATE TABLE IF NOT EXISTS `scenes` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
@@ -1397,50 +1601,60 @@ CREATE TABLE IF NOT EXISTS `scenes` (
   `location_id` bigint(20) unsigned NOT NULL,
   `title` varchar(255) default NULL,
   `description` text,
-  `filename` varchar(255) default NULL,
   `image_id` bigint(20) default NULL,
   `value` varchar(255) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `scene_value` (`value`,`location_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=69 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=70 ;
 
-INSERT INTO `scenes` (`id`, `story_id`, `location_id`, `title`, `description`, `filename`, `image_id`, `value`) VALUES
-(22, 2, 18, 'Start', 'You are at the start of the trail', 'Image000.jpg', 3, ''),
-(23, 2, 20, 'Scene 2', 'I wonder where the path goes?', 'Image001.jpg', 13, ''),
-(24, 2, 21, 'Scene 3', 'There is a turn ahead', 'Image002.jpg', 5, ''),
-(25, 2, 22, 'Scene 4', 'the path continues', 'Image004.jpg', 7, ''),
-(28, 2, 25, 'Grate', 'The Path ends abruptly at a grate. Maybe you can break it open!', 'pipe1.jpg', 8, 'hammer'),
-(29, 2, 25, 'Grate', 'A piece of the grate is broken, do you dare climb through?', 'pipe2.jpg', 9, 'open'),
-(36, 2, 26, 'tunnel', '', 'tunnel.jpg', 10, ''),
-(37, 2, 27, 'tunnel2', '', 'tunnel2.jpg', 11, ''),
-(38, 2, 28, 'Ocean - The End!', 'You are at the ocean! \nTHE END', 'ocean.JPG', 12, ''),
-(39, 2, 29, 'Forest', 'You are in the forest. There is a path in front of you.', 'forest.JPG', 1, 'no_hammer'),
-(40, 2, 29, 'Forest', 'You are in the Forest. There is a path in front of you. Someone has left a poorly-drawn sledge hammer here!', 'forest2.JPG', 2, 'hammer'),
-(41, 2, 25, 'Grate', 'The Path ends abruptly at a grate. If only you had something to smash it with...', 'pipe1.jpg', 8, 'no_hammer'),
-(42, 3, 30, 'Stairs', '', NULL, 14, ''),
-(45, 3, 31, 'Bottom of Stairs', '', NULL, 16, 'EAST'),
-(44, 3, 31, 'Bottom of Stairs', '', NULL, 17, 'WEST'),
-(46, 3, 31, 'Bottom of Stairs', '', NULL, 18, 'SOUTH'),
-(47, 3, 31, 'Bottom of Stairs', '', NULL, 19, 'SOUTH_EAST'),
-(48, 3, 33, 'Building1', '', NULL, 20, 'SOUTH'),
-(49, 3, 33, 'Building1', '', NULL, 21, 'DETAIL'),
-(50, 3, 33, 'Building1', '', NULL, 22, 'NORTH'),
-(51, 3, 34, 'Path2', '', NULL, 23, 'EAST'),
-(52, 3, 35, 'Building2', '', NULL, 24, ''),
-(53, 3, 35, 'Building2', '', NULL, 25, 'DETAIL_DOWN'),
-(54, 3, 35, 'Building2', '', NULL, 26, 'DETAIL_MID'),
-(55, 3, 35, 'Building2', '', NULL, 27, 'DETAIL_BOX1_CLOSED'),
-(56, 3, 35, 'Building2', '', NULL, 28, 'DETAIL_BOX1_OPEN'),
-(57, 3, 35, 'Building2', '', NULL, 29, 'DETAIL_BOX2_OPEN'),
-(58, 3, 35, 'Building2', '', NULL, 30, 'DETAIL_BOX2_CLOSED'),
-(59, 3, 36, 'Path3', '', NULL, 31, 'EAST'),
-(60, 3, 36, 'Path3', '', NULL, 32, 'WEST'),
-(61, 3, 34, 'Path2', '', NULL, 33, 'WEST'),
-(62, 3, 37, 'Poison Ivy Field', '', NULL, 35, ''),
-(68, 3, 41, 'Poison Ivy Field2', '', NULL, 36, ''),
-(65, 3, 40, 'Well', '', NULL, 37, ''),
-(66, 3, 40, 'Well', '', NULL, 38, 'DETAIL'),
-(67, 3, 31, 'Bottom of Stairs', '', NULL, 34, 'NORTH');
+--
+-- Dumping data for table `scenes`
+--
+
+INSERT INTO `scenes` (`id`, `story_id`, `location_id`, `title`, `description`, `image_id`, `value`) VALUES
+(22, 2, 18, 'Start', 'You are at the start of the trail', 3, ''),
+(23, 2, 20, 'Scene 2', 'I wonder where the path goes?', 13, ''),
+(24, 2, 21, 'Scene 3', 'There is a turn ahead', 5, ''),
+(25, 2, 22, 'Scene 4', 'the path continues', 7, ''),
+(28, 2, 25, 'Grate', 'The Path ends abruptly at a grate. Maybe you can break it open!', 8, 'hammer'),
+(29, 2, 25, 'Grate', 'A piece of the grate is broken, do you dare climb through?', 9, 'open'),
+(36, 2, 26, 'tunnel', '', 10, ''),
+(37, 2, 27, 'tunnel2', '', 11, ''),
+(38, 2, 28, 'Ocean - The End!', 'You are at the ocean! \nTHE END', 12, ''),
+(39, 2, 29, 'Forest', 'You are in the forest. There is a path in front of you.', 1, 'no_hammer'),
+(40, 2, 29, 'Forest', 'You are in the Forest. There is a path in front of you. Someone has left a poorly-drawn sledge hammer here!', 2, 'hammer'),
+(41, 2, 25, 'Grate', 'The Path ends abruptly at a grate. If only you had something to smash it with...', 8, 'no_hammer'),
+(42, 3, 30, 'Stairs', '', 14, ''),
+(45, 3, 31, 'Bottom of Stairs', '', 16, 'EAST'),
+(44, 3, 31, 'Bottom of Stairs', '', 17, 'WEST'),
+(46, 3, 31, 'Bottom of Stairs', '', 18, 'SOUTH'),
+(47, 3, 31, 'Bottom of Stairs', '', 19, 'SOUTH_EAST'),
+(48, 3, 33, 'Building1', '', 20, 'SOUTH'),
+(49, 3, 33, 'Building1', '', 21, 'DETAIL'),
+(50, 3, 33, 'Building1', '', 22, 'NORTH'),
+(51, 3, 34, 'Path2', '', 23, 'EAST'),
+(52, 3, 35, 'Building2', '', 24, ''),
+(53, 3, 35, 'Building2', '', 25, 'DETAIL_DOWN'),
+(54, 3, 35, 'Building2', '', 26, 'DETAIL_MID'),
+(55, 3, 35, 'Building2', '', 27, 'DETAIL_BOX1_CLOSED'),
+(56, 3, 35, 'Building2', '', 28, 'DETAIL_BOX1_OPEN'),
+(57, 3, 35, 'Building2', '', 29, 'DETAIL_BOX2_OPEN'),
+(58, 3, 35, 'Building2', '', 30, 'DETAIL_BOX2_CLOSED'),
+(59, 3, 36, 'Path3', '', 31, 'EAST'),
+(60, 3, 36, 'Path3', '', 32, 'WEST'),
+(61, 3, 34, 'Path2', '', 33, 'WEST'),
+(62, 3, 37, 'Poison Ivy Field', '', 35, ''),
+(68, 3, 41, 'Poison Ivy Field2', '', 36, ''),
+(65, 3, 40, 'Well', '', 37, ''),
+(66, 3, 40, 'Well', '', 38, 'DETAIL'),
+(67, 3, 31, 'Bottom of Stairs', '', 34, 'NORTH'),
+(69, 3, 41, 'Poison Ivy Field2', '', 0, 'west');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `scenes_events`
+--
 
 CREATE TABLE IF NOT EXISTS `scenes_events` (
   `scene_id` bigint(20) unsigned NOT NULL,
@@ -1448,8 +1662,19 @@ CREATE TABLE IF NOT EXISTS `scenes_events` (
   KEY `sceneid` (`scene_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `scenes_events`
+--
+
 INSERT INTO `scenes_events` (`scene_id`, `event_id`) VALUES
-(45, 52);
+(45, 52),
+(68, 120);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `stories`
+--
 
 CREATE TABLE IF NOT EXISTS `stories` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
@@ -1465,9 +1690,19 @@ CREATE TABLE IF NOT EXISTS `stories` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
-INSERT INTO `stories` (`id`, `title`, `author`, `description`, `first_location_id`, `image_id`, `grid_x`, `grid_y`, `create_date`) VALUES
-(2, 'A Walk Down The Cobble Stone Path', 'Dan', 'A Walk through the forest on the mysterious cobblestone path', 18, 0,'p', 10, 10, '2010-07-02 08:36:56'),
-(3, 'River Path', 'Dan', 'Explore the old equipment by the river', 30, 19, 'p', 10, 10, '2010-10-07 18:04:34');
+--
+-- Dumping data for table `stories`
+--
+
+INSERT INTO `stories` (`id`, `title`, `author`, `description`, `first_location_id`, `image_id`, `status`, `grid_x`, `grid_y`, `create_date`) VALUES
+(2, 'A Walk Down The Cobble Stone Path', 'Dan', 'A Walk through the forest on the mysterious cobblestone path', 18, 0, 'p', 10, 10, '2010-07-02 08:36:56'),
+(3, 'River Path', 'Dan', 'Explore the old equipment by the river', 30, 24, 'p', 10, 10, '2010-10-07 18:04:34');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `stories_events`
+--
 
 CREATE TABLE IF NOT EXISTS `stories_events` (
   `story_id` bigint(20) unsigned NOT NULL,
@@ -1475,9 +1710,19 @@ CREATE TABLE IF NOT EXISTS `stories_events` (
   KEY `storyid` (`story_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `stories_events`
+--
+
 INSERT INTO `stories_events` (`story_id`, `event_id`) VALUES
 (2, 36),
 (3, 51);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) unsigned NOT NULL auto_increment,
@@ -1492,5 +1737,9 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=37 ;
 
+--
+-- Dumping data for table `users`
+--
+
 INSERT INTO `users` (`id`, `email`, `username`, `password`, `active`, `logins`, `last_ip_address`, `last_login`, `created`) VALUES
-(36, 'admin@localhost', 'admin', '2e80e939646125be46ab1da1b93e2c8745332648', 1, 0, '127.0.0.1', NULL, '2010-10-07 17:59:56');
+(36, 'admin@localhost', 'admin', '2e80e939646125be46ab1da1b93e2c8745332648', 1, 0, '127.0.0.1', NULL, '2010-10-09 00:12:25');
