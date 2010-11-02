@@ -18,6 +18,8 @@ $(document).ready(function() {
 			$('#location_select').hide();
 			$('#event_value').show();
 		}
+		
+		$('#event_description').html(event_descriptions[$(this).val()]);		
 	});
 	
 	// when location select is changed update the 'event_value' field
