@@ -1,5 +1,5 @@
 <?php if (isset($story)) { ?>
-<fieldset>
+<fieldset class="ui-helper-reset ui-widget-content ui-corner-all">
 	<legend>Interactive Story Information</legend>
 	<form action="<?php echo($story_form_action); ?>" method="post" >
 		<input type="hidden" name="id" value="<?php echo($story->id); ?>" >

@@ -3,7 +3,7 @@
 	{
 ?>
 <?php //if (isset($location_add)) echo($location_add); ?>
-		<fieldset>
+		<fieldset class="ui-helper-reset ui-widget-content ui-corner-all" >
 			<legend>Locations</legend>
 			<table>
 				<tr>
