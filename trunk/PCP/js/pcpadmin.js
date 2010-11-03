@@ -88,4 +88,8 @@ $(document).ready(function() {
 			scene_id = $(this).attr('scene_id');
 			document.location.href='edit?scene_id='+scene_id;
 		});
+		
+	// jQuery UI init
+    $("#accordion").accordion({ collapsible: true, active: false, animated: false }); //autoHeight: true
+    $("#tabs").tabs();
 });		
