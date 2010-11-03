@@ -13,6 +13,8 @@ body { }
 #footer {position: relative; text-align: center; margin: 20px auto; }
 
 .event_description {border: solid 1px black; min-height: 10px; width: 400px; padding: 5px; margin: 10px 0px;}
+.form_block {padding: 5px; float: left; min-width: 30%;}
+.form_block p {padding: 2px;}
 
 .menu {}
 ul.menu {display: inline;}
