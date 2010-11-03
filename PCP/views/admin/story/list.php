@@ -2,7 +2,7 @@
 	if (isset($stories))
 	{	
 ?>
-		<fieldset>
+		<fieldset class="ui-helper-reset ui-widget-content ui-corner-all">
 			<legend>Your Interactive Stories</legend>
 			<table>
 				<tr>

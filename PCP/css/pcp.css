@@ -1,6 +1,6 @@
 body { }
 #container {margin: 0 auto; width:80%;}
-#header {display: block; height: 30px;}
+#header {display: block;} /*height: 30px; */
 #header .menu {float: right;}
 #topmenu {}
 #content {}

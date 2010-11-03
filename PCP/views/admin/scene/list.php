@@ -2,7 +2,7 @@
 	if (isset($scenes)) 
 	{
 ?>
-		<fieldset>
+		<fieldset class="ui-helper-reset ui-widget-content ui-corner-all">
 			<!-- <legend>location <?php //print($location->id); ?> Scenes</legend> -->
 			<table>
 				<tr>

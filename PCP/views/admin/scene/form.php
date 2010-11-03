@@ -2,7 +2,7 @@
 	
 ?>
 <h3><?php print($scene->title.' '.$scene->value); ?></h3>
-<fieldset>
+<fieldset class="ui-helper-reset ui-widget-content ui-corner-all">
 	<legend>scene <?php print($scene->id);?></legend>
 	<form action="<?php print($scene_form_action); ?>" method="post" enctype="multipart/form-data" >
 		<input type="hidden" name="story_id" value="<?php print($scene->story_id); ?>" >
