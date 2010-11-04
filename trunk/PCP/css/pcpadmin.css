@@ -19,6 +19,8 @@ fieldset {display: block; padding: 10px 2px;}
 .form_block {padding: 5px; float: left; min-width: 30%;}
 .form_block p {padding: 2px;}
 
+.add {float: right;}
+
 .menu {}
 ul.menu {display: inline;}
 ul.menu li {display: inline; padding: 0 10px;} 

@@ -3,7 +3,7 @@
 	{		
 ?>
 	<fieldset class="ui-helper-reset ui-widget-content ui-corner-all" >
-		<?php if (isset($add_image_link)) echo('<span style="float:right">'.$add_image_link."</span>"); ?>
+		<?php if (isset($add_image_link)) echo('<span class="add">'.$add_image_link."</span>"); ?>
 		<legend>Scene images</legend>
 		<table>
 			<tr>

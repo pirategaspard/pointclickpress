@@ -2,6 +2,7 @@
 	if ($plugin)
 	{ 
 ?>	
+<fieldset class="ui-helper-reset ui-widget-content ui-corner-all" >
 	<form method="post" action="<?php echo($form_action); ?>">
 		<input type="text" value="<?php echo $plugin->getLabel(); ?>" readonly="readonly" />
 		<br />
@@ -10,4 +11,5 @@
 		N <input type="radio" name="active" value="no" />		
 		<input type="submit" name="submit" value="submit" class="ui-widget ui-state-default ui-corner-all button save" />
 	</form>
+</fieldset>
 <?php } ?>

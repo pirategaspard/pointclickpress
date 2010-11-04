@@ -199,7 +199,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		PCPAdmin::getArgs();					
 		if ($session->get('scene_id') && $session->get('grid_item_id'))
 		{
-			$item = PCPAdmin::getItem(array('type'=>'Grid'));						
+			$item = PCPAdmin::getGridItem();						
 			$result = $item->init($_POST)->delete();
 			// Create User Message
 			if ($result->success)

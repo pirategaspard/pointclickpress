@@ -3,7 +3,7 @@
 	{
 ?>
 		<fieldset class="ui-helper-reset ui-widget-content ui-corner-all">
-			<?php if (isset($scene_add)) echo('<span style="float:right">'.$scene_add."</span>"); ?>
+			<?php if (isset($scene_add)) echo('<span class="add">'.$scene_add."</span>"); ?>
 			<table>
 				<tr>
 					<th>Title</th>
