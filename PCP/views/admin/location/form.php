@@ -10,12 +10,12 @@
 		<input type="hidden" name="id" value="<?php print($location->id); ?>" >
 		<div class="form_block" >
 			<p>	
-				<label>Title:</label><input type="text" name="title" value="<?php print($location->title); ?>" >
-				<label>Slug:</label><?php print($location->slug); ?>
+				<label>Title: </label><input type="text" name="title" value="<?php print($location->title); ?>" >
+				<label>Slug: </label><?php print($location->slug); ?>
 			</p>
 		</div>
 		<div class="form_block" >
-			<input type="submit" name="submit" value="Save" >
+			<input type="submit" name="submit" value="Save" class="ui-widget ui-state-default ui-corner-all button save" >
 		</div>
 	</form>
 </fieldset>

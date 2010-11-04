@@ -19,8 +19,7 @@
 			?>
 		</div>
 	</div><!-- #accordion -->
-<?php		
-			echo($location_add);
-			echo($location_list);
+<?php					
+		echo($location_list);
 	}	
 ?>

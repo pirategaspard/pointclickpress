@@ -1,17 +1,31 @@
+* { margin:0; padding:0; }
+
 body { }
 #container {margin: 0 auto; width:80%;}
-#header {display: block;} /*height: 30px; */
+#header {display: block; } /*height: 30px; */
 #header .menu {float: right;}
 #topmenu {}
 #content {}
+#content td {padding: 20px; margin: 20px;}
 #scene { text-align: center;}
 #grid {margin: 0 auto; width:80%; overflow: hidden;} /* overflow: hidden;} */
 #grid a {display:block; float: left; position: relative; text-align: left;}
 #grid a img {position: absolute;}
 
-#bottommenu {}
+#bottommenu {margin: 10px; text-align: center;}
 #footer {position: relative; text-align: center; margin: 20px auto; }
+
+#story_info {margin: 0 auto; text-align: center;}
 
 .menu {}
 ul.menu {display: inline;}
 ul.menu li {display: inline;} 
+
+a.button {padding: 2px 10px; margin: 5px 10px; text-decoration: none; }
+a.button:hover  {background: none; background-color: green; color: white !important; border: black 1px solid;}
+a.delete, a.cancel  {color: red !important;}
+a.delete:hover, a.cancel:hover {background: none; background-color: red; color: white !important; }
+
+.save, .play{background: none !important; background-color: ForestGreen !important; color: white !important; padding: 10px; margin: 10px;}
+.save:hover, .play{background-color: DarkGreen !important; border: black 1px solid;}
+a.play {padding: 20px; margin: 20px;}

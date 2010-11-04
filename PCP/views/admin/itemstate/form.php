@@ -3,7 +3,7 @@
 	if (isset($itemstate))
 	{ 
 ?>
-<fieldset>
+<fieldset class="ui-helper-reset ui-widget-content ui-corner-all">
 	<legend>Item State</legend>
 	<form action="<?php print($itemstate_form_action); ?>?keepThis=true&TB_iframe=true" method="post" enctype="multipart/form-data" class="thickbox" >		
 		<input type="hidden" name="back_url" value="<?php echo($back_url); ?>" />
@@ -18,10 +18,10 @@
 			Image filename:
 			<input type="hidden" name="image_id" value="<?php echo($itemstate->image_id); ?>" >
 			<input type="text" name="filename" value="<?php echo($itemstate->filename); ?>" >
-			<a href="<?php echo($itemstate_assign_image_link); ?>&KeepThis=true&TB_iframe=true" class="thickbox" >Assign Image</a>
+			<a href="<?php echo($itemstate_assign_image_link); ?>&KeepThis=true&TB_iframe=true" class="thickbox ui-widget ui-state-default ui-corner-all button" >Assign Image</a>
 		</label>
 		<?php } ?>
-		<input id="button_submit" type="submit" name="submit" value="submit" />
+		<input id="button_submit" type="submit" name="submit" value="submit" class="ui-widget ui-state-default ui-corner-all button save" />
 	</form>
 </fieldset>
 <?php } ?>

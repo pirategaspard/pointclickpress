@@ -3,7 +3,7 @@
 ?>
 <h3><?php print($scene->title.' '.$scene->value); ?></h3>
 <fieldset class="ui-helper-reset ui-widget-content ui-corner-all">
-	<legend>scene <?php print($scene->id);?></legend>
+	<legend>Scene <?php print($scene->id);?></legend>
 	<form action="<?php print($scene_form_action); ?>" method="post" enctype="multipart/form-data" >
 		<input type="hidden" name="story_id" value="<?php print($scene->story_id); ?>" >
 		<input type="hidden" name="location_id" value="<?php print($scene->location_id); ?>" >
@@ -27,12 +27,12 @@
 			<label>Image filename:</label>			
 			<input type="hidden" name="image_id" value="<?php print($scene->image_id); ?>" >
 			<input type="text" name="image_filename" value="<?php print($scene->filename); ?>" >
-			<a href="<?php print($assign_image_link); ?>&KeepThis=true&TB_iframe=true" class="thickbox" >Assign Image</a>		
+			<a href="<?php print($assign_image_link); ?>&KeepThis=true&TB_iframe=true" class="thickbox ui-widget ui-state-default ui-corner-all button" >Assign Image</a>		
 		<?php } ?>			
 		</div>
 		<div class="form_block" >
 			<p>		
-			<input type="submit" name="submit" value="Save" />
+			<input type="submit" name="submit" value="Save" class="ui-widget ui-state-default ui-corner-all button save" />
 			</p>
 		</div>
 	</form>

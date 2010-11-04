@@ -1,5 +1,8 @@
 <?php if (isset($story)) { ?>
 <fieldset class="ui-helper-reset ui-widget-content ui-corner-all">
+	<?php if (isset($story)&& ($story->id > 0)) { ?>
+		<a href="<?php echo(Url::site(Route::get('default')->uri(array('action'=>'story'))).'?story_id='.$story->id); ?>" target="_blank" class="ui-widget ui-state-default ui-corner-all button play">Play <?php echo($story->title); ?></a><br />
+	<?php } ?>
 	<legend>Interactive Story Information</legend>
 	<form action="<?php echo($story_form_action); ?>" method="post" >
 		<input type="hidden" name="id" value="<?php echo($story->id); ?>" >
@@ -43,7 +46,7 @@
 			<label>Cover Image filename:</label>
 				<input type="hidden" name="image_id" value="<?php print($story->image_id); ?>" >
 				<input type="text" name="image_filename" value="<?php print($story->filename); ?>" >
-				<a href="<?php print($assign_image_link); ?>&KeepThis=true&TB_iframe=true" class="thickbox" >Assign Image</a>			
+				<a href="<?php print($assign_image_link); ?>&KeepThis=true&TB_iframe=true" class="thickbox ui-widget ui-state-default ui-corner-all button" >Assign Image</a>			
 			<?php } ?>	
 			<?php if ($story->id > 0) { ?>
 		</div>
@@ -55,11 +58,7 @@
 			</select>			
 			<?php } ?>	
 		</div>
-		<div class="form_block" >		
-			<p>
-			<input type="submit" name="submit" value="Save" />
-			</p>		
-		</div>
+		<input type="submit" name="submit" value="Save" class="ui-widget ui-state-default ui-corner-all button save" />				
 	</form>
 </fieldset>
 <?php } ?>

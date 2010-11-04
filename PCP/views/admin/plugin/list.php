@@ -1,13 +1,13 @@
 <?php 
 	//var_dump($plugins);
 ?>
-<fieldset>
+<fieldset class="ui-helper-reset ui-widget-content ui-corner-all">
 	<legend>Installed Plugins</legend>
 	<table>
 		<tr>
-			<td>status</td>
-			<td>name</td>
-			<td>description</td>
+			<td>Status</td>
+			<td>Name</td>
+			<td>Description</td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -18,7 +18,7 @@
 			<td><?php echo ($plugin['label']); ?></td>
 			<!-- <td><?php echo (substr($plugin['description'],0,25).'...'); ?></td> -->
 			<td><?php echo ($plugin['description']); ?></td>				
-			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'plugin','action'=>'edit'))).'?plugin='.$plugin['class']); ?>"><?php echo ($plugin['status'])?'De-activate':'Activate'; ?></a></td>
+			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'plugin','action'=>'edit'))).'?plugin='.$plugin['class']); ?>" class="ui-widget ui-state-default ui-corner-all button" ><?php echo ($plugin['status'])?'De-activate':'Activate'; ?></a></td>
 			<td>&nbsp;&nbsp;</td>
 			<!-- <td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'plugin','action'=>'delete'))).'?plugin='.$plugin['class']); ?>">UnInstall</a></td> -->
 		</tr>

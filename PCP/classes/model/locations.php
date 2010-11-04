@@ -24,7 +24,7 @@ class Model_locations
 		if (isset($args['location'])) $q .= 'AND c.id = :location'; //if we have a location id
 		if (isset($args['story'])) $q .= 'AND s.id = :story'; //if we have a story id
 		
-		$q .= ' ORDER BY c.id DESC';
+		$q .= ' ORDER BY c.id ASC';
 		
 		$q = DB::query(Database::SELECT,$q,TRUE);
 		

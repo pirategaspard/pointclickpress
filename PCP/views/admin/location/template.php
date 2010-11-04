@@ -13,8 +13,6 @@
 		</div>
 	</div><!-- #accordion -->
 <?php
-		 	 
-		echo($scene_add); 
 		echo($scene_list); 	
 	}
 ?>
