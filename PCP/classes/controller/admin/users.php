@@ -11,6 +11,7 @@ class Controller_admin_users extends Controller_Template_Admin
 	function action_list()
 	{
 		$data['users'] = PCPAdmin::getUsers();
+		$data['user_add'] = View::factory('/admin/user/add',$data)->render();
 		$this->template->content = View::factory('/admin/user/list',$data)->render();
 		$this->template->top_menu = View::factory('/admin/user/top_menu',$data)->render();
 	}

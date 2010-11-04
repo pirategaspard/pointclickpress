@@ -15,7 +15,7 @@
 		<?php foreach ($plugins as $plugin) { ?>
 		<tr>
 			<td><?php echo ($plugin['status'])?'Active':'Inactive'; ?></td>
-			<td><?php echo ($plugin['label']); ?></td>
+			<td><h4><?php echo ($plugin['label']); ?></h4></td>
 			<!-- <td><?php echo (substr($plugin['description'],0,25).'...'); ?></td> -->
 			<td><?php echo ($plugin['description']); ?></td>				
 			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'plugin','action'=>'edit'))).'?plugin='.$plugin['class']); ?>" class="ui-widget ui-state-default ui-corner-all button" ><?php echo ($plugin['status'])?'De-activate':'Activate'; ?></a></td>

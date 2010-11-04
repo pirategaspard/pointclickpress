@@ -3,7 +3,7 @@
 	{	
 ?>
 		<fieldset class="ui-helper-reset ui-widget-content ui-corner-all">
-			<?php if (isset($story_add)) echo('<span style="float:right">'.$story_add."</span>"); ?>
+			<?php if (isset($story_add)) echo('<span class="add">'.$story_add."</span>"); ?>
 			<legend>Your Interactive Stories</legend>
 			<table>
 				<tr>
