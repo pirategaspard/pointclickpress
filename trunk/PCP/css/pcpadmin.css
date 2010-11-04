@@ -1,6 +1,7 @@
 * { margin:0; padding:0; }
 body { }
 fieldset {display: block; padding: 10px 2px;}
+legend {font-size:1.2em;}
 #container {margin: 0 auto; width:80%;}
 #header {display: block; padding: 5px;} /*height: 30px; */
 #header .menu {float: right;}
