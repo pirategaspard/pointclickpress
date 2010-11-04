@@ -2,7 +2,7 @@
 	if (isset($itemstates))
 	{
 ?>
-<fieldset>
+<fieldset class="ui-helper-reset ui-widget-content ui-corner-all" >
 	<legend>Item States</legend>
 	<table>
 		<tr>
@@ -18,9 +18,9 @@
 			<td><?php echo ($itemstate->id); ?></td>
 			<td><img src="<?php print(Kohana::$base_url.MEDIA_PATH.'/'.$item->story_id.'/'.$itemstate->image_id.'/'.THUMBNAIL_IMAGE_SIZE.'/'.$itemstate->filename); ?>" ></td>
 			<td><?php echo ($itemstate->value); ?></td>			
-			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'itemstate','action'=>'edit'))).'?itemstate_id='.$itemstate->id); ?>">Edit</a></td>
+			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'itemstate','action'=>'edit'))).'?itemstate_id='.$itemstate->id); ?>" class="ui-widget ui-state-default ui-corner-all button" >Edit</a></td>
 			<td>&nbsp;&nbsp;</td>
-			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'itemstate','action'=>'delete'))).'?itemstate_id='.$itemstate->id); ?>" >Delete</a></td>
+			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'itemstate','action'=>'delete'))).'?itemstate_id='.$itemstate->id); ?>" class="ui-widget ui-state-default ui-corner-all button delete" >Delete</a></td>
 		</tr>
 		<?php } ?>
 	</table>

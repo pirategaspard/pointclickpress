@@ -4,11 +4,10 @@
 	{
 ?>
 <!-- <a href="<?php //echo(Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'edit'))).'?event_id=0'.$url_params); ?>">Add Event</a> -->
-<fieldset>
+<fieldset class="ui-helper-reset ui-widget-content ui-corner-all" >
 	<legend>Events</legend>
 	<table>
 		<tr>
-			<th>Id</th>
 			<th>Event</th>
 			<th>Value</th>
 			<th></th>
@@ -17,12 +16,11 @@
 		</tr>
 		<?php foreach ($events as $event) { ?>
 		<tr>
-			<td><?php echo ($event->id); ?></td>
 			<td><?php echo ($event->event_label); ?></td>
 			<td><?php 
-					if (strlen($event->event_value) > 15 )
+					if (strlen($event->event_value) > 25 )
 					{
-						echo (substr($event->event_value,0,15).'...');
+						echo (substr($event->event_value,0,25).'...');
 					}
 					else
 					{
@@ -30,9 +28,9 @@
 					} 
 				?>
 			</td>
-			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'edit'))).'?event_id='.$event->id); ?>" class="thickbox">Edit</a></td>
+			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'edit'))).'?event_id='.$event->id); ?>" class="thickbox ui-widget ui-state-default ui-corner-all button" >Edit</a></td>
 			<td>&nbsp;&nbsp;</td>
-			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'delete'))).'?event_id='.$event->id); ?>">Delete</a></td>
+			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'delete'))).'?event_id='.$event->id); ?>" class="ui-widget ui-state-default ui-corner-all button delete" >Delete</a></td>
 		</tr>
 		<?php } ?>
 	</table>

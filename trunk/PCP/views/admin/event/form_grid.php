@@ -3,7 +3,7 @@
 	if (isset($event) && (isset($event_types)))
 	{ 
 ?>
-<fieldset>
+<fieldset class="ui-helper-reset ui-widget-content ui-corner-all">
 	<legend>Grid Event</legend>
 	<form method="post" action="<?php echo($grid_event_form_action); ?>">
 		<?php if (isset($story_id)){ ?><input type="hidden" name="story_id" value="<?php echo($story_id); ?>" /> <?php } ?>
@@ -42,9 +42,9 @@
 			<input type="text" name="cell_ids" value="<?php echo($event->getCellIds()); ?>" />
 		</label>
 		<div id="event_description" class="event_description"></div>
-		<input id="button_submit" type="submit" name="submit" value="submit" />
+		<input id="button_submit" type="submit" name="submit" value="submit" class="ui-widget ui-state-default ui-corner-all button save" />
 		<?php if($event->id > 0 ) { ?>
-		<input class="button_cancel" type="button" name="cancel" value="cancel" scene_id="<?php echo($scene_id); ?>" />
+		<input type="button" name="cancel" value="cancel" scene_id="<?php echo($scene_id); ?>" class="ui-widget ui-state-default ui-corner-all button cancel" />
 		<?php } ?>
 	</form>
 </fieldset>

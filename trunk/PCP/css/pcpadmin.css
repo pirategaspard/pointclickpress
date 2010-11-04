@@ -1,9 +1,12 @@
+* { margin:0; padding:0; }
 body { }
+fieldset {display: block; padding: 10px 2px;}
 #container {margin: 0 auto; width:80%;}
-#header {display: block; } /*height: 30px; */
+#header {display: block; padding: 5px;} /*height: 30px; */
 #header .menu {float: right;}
 #topmenu {}
 #content {}
+#content td {padding: 4px 2px;}
 #scene { text-align: center; margin: 0 auto;}
 #grid {margin: 10px auto; width:80%; } /* overflow: hidden;} */
 #grid a {display:block; float: left; } /* border: solid 1px black; margin: -1px; */
@@ -19,3 +22,11 @@ body { }
 .menu {}
 ul.menu {display: inline;}
 ul.menu li {display: inline; padding: 0 10px;} 
+
+a.button {padding: 2px 10px; margin: 5px 10px; text-decoration: none; }
+a.button:hover  {background: none; background-color: green; color: white !important; border: black 1px solid;}
+a.delete, a.cancel  {color: red !important;}
+a.delete:hover, a.cancel:hover {background: none; background-color: red; color: white !important; }
+
+input.save, .play {background: none !important; background-color: ForestGreen !important; color: white !important; float: right; margin: 10px;}
+input.save:hover, .play {background-color: DarkGreen !important; border: black 1px solid;}
