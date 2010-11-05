@@ -3,7 +3,7 @@
 	if (isset($users))
 	{
 ?>
-	<fieldset class="ui-helper-reset ui-widget-content ui-corner-all" >		
+	<fieldset class="ui-helper-reset ui-widget-content ui-corner-all input" >		
 		<legend>Users</legend>
 		<?php if (isset($user_add)) echo('<span class="add">'.$user_add.'</span>'); ?>
 		<table>

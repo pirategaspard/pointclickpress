@@ -5,6 +5,7 @@ body { }
 #header {display: block; } /*height: 30px; */
 #header .menu {float: right;}
 #topmenu, #bottommenu {margin: 10px; text-align: center;}
+#bottommenu {position: absolute; top: 0px; left: 0px;}
 #content {}
 #content td {padding: 20px; margin: 20px;}
 #scene { text-align: center;}
