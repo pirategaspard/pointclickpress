@@ -160,7 +160,7 @@ class Model_Story extends Model
 			}
 			catch( Database_Exception $e )
 			{
-				throw new Kohana_Exception('Error Inserting Record in file: :file',
+				throw new Kohana_Exception('Error Inserting Record in file: :file '.$e->getMessage(),
 					array(':file' => Kohana::debug_path(__FILE__)));
 			}
 		}
@@ -193,7 +193,7 @@ class Model_Story extends Model
 			}
 			catch( Database_Exception $e )
 			{
-				throw new Kohana_Exception('Error Updating Record in file: :file',
+				throw new Kohana_Exception('Error Updating Record in file: :file '.$e->getMessage(),
 					array(':file' => Kohana::debug_path(__FILE__)));
 			}
 		}
