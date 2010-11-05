@@ -44,7 +44,7 @@ class Model_ItemDef extends Model
 			$q = '	SELECT 	id.id
 							,id.title
 							,id.story_id
-					FROM itemDefs id
+					FROM itemdefs id
 					WHERE id.id = :id';
 			$q_results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();											
 							
@@ -63,7 +63,7 @@ class Model_ItemDef extends Model
 		if ($this->id == 0)
 		{
 			//INSERT new record
-			$q = '	INSERT INTO itemDefs
+			$q = '	INSERT INTO itemdefs
 						(title
 						,story_id
 						)
@@ -91,7 +91,7 @@ class Model_ItemDef extends Model
 			//UPDATE record
 			try
 			{
-				$q = '	UPDATE itemDefs
+				$q = '	UPDATE itemdefs
 						SET title = :title
 						WHERE id = :id';
 				$results->success = DB::query(Database::UPDATE,$q,TRUE)
@@ -120,7 +120,7 @@ class Model_ItemDef extends Model
 			// delete any item images and grid items associated with this item def
 			
 			// delete item definition
-			$q = '	DELETE FROM itemDefs
+			$q = '	DELETE FROM itemdefs
 						WHERE id = :id';
 			$results->success =	DB::query(Database::DELETE,$q,TRUE)
 								->param(':id',$this->id)
