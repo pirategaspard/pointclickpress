@@ -3,7 +3,7 @@ body { }
 fieldset {display: block; padding: 10px 2px;}
 legend {font-size:1.2em;}
 #container {margin: 0 auto; width:80%;}
-#header {display: block; padding: 5px;} /*height: 30px; */
+#header {display: block; padding: 5px; height: 15px;} /*height: 30px; */
 #header .menu {float: right;}
 #topmenu {}
 #content {}
@@ -31,5 +31,6 @@ a.button:hover  {background: none; background-color: green; color: white !import
 a.delete, a.cancel, .delete, .cancel  {color: red !important;}
 a.delete:hover, a.cancel:hover {background: none; background-color: red; color: white !important; }
 
-input.save, .play {background: none !important; background-color: ForestGreen !important; color: white !important; float: right; margin: 10px;}
-input.save:hover, .play {background-color: DarkGreen !important; border: black 1px solid;}
+input.save, .play, input.login {background: none !important; background-color: ForestGreen !important; color: white !important; float: right; margin: 10px;}
+input.save:hover, .play:hover, input.login:hover {background-color: DarkGreen !important; border: black 1px solid;}
+fieldset.login {margin: 0 auto;  width-max: 600px; }
