@@ -120,7 +120,7 @@ Class Controller_PCP extends Controller_Template_Base
 			$this->template->scripts[] = 'grid.js'; //get grid js 
 			$this->template->head[] = View::factory('pcp/style',$data)->render();//get grid style
 			$this->template->title .= $data['story']->title.' : '.$data['scene']->title;
-			$this->template->bottom_menu = View::factory('pcp/scene_menu',$data)->render();  			
+			$this->template->top_menu = View::factory('pcp/scene_menu',$data)->render();  			
 			$data['grid'] = View::factory('pcp/grid',$data)->render(); //get grid
 			// render the scene
 			$this->template->content = View::factory('pcp/scene',$data)->render();				
