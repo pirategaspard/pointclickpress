@@ -9,7 +9,7 @@ class Model_Story extends Model
 	protected $grid_x = '';
 	protected $grid_y = '';
 	protected $first_location_id = null;
-	protected $image_id = null;
+	protected $image_id = 0;
 	protected $filename = '';
 	protected $status = 'd';
 	protected $events = array();
