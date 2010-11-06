@@ -26,9 +26,9 @@ class ImagesAdmin
 				ON i.story_id = s.id
 				WHERE 1 = 1 ';
 				
-		if (isset($args['image'])) $q .= 'AND i.id = :image_id'; 
-		if (isset($args['story_id'])) $q .= 'AND s.id = :story_id';
-		if (isset($args['type_id'])) $q .= 'AND i.type_id = :type_id'; 
+		if (isset($args['image'])) $q .= ' AND i.id = :image_id'; 
+		if (isset($args['story_id'])) $q .= ' AND s.id = :story_id';
+		if (isset($args['type_id'])) $q .= ' AND i.type_id = :type_id'; 
 		
 		$q .= ' ORDER BY i.id DESC';
 		
