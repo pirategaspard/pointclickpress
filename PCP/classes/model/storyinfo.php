@@ -4,6 +4,8 @@ class Model_StoryInfo extends Model_Story
 {
 	protected $scene_width = DEFAULT_STORY_WIDTH;
 	protected $scene_height = DEFAULT_STORY_HEIGHT;
+	protected $real_scene_width = DEFAULT_STORY_WIDTH;
+	protected $real_scene_height = DEFAULT_STORY_HEIGHT;
 	protected $screen_size = '0x0';
 	protected $cell_width = 0;	
 	protected $cell_height = 0;
@@ -27,9 +29,11 @@ class Model_StoryInfo extends Model_Story
 				$width = $screen['w'];
 				$height = $screen['h'];
 			}
-		}	
+		}
 		$this->scene_width = $width;
-		$this->scene_height = $height;
+		$this->scene_height = $height;	
+		$this->real_scene_width = $width - ($width * (SCENE_IMAGE_REDUCTION_PERCENT * 0.01));
+		$this->real_scene_height = $height - ($height * (SCENE_IMAGE_REDUCTION_PERCENT * 0.01));
 		$this->screen_size = $width.'x'.$height;
 		
 		$this->cell_width = intval($this->scene_width / $this->grid_x);
