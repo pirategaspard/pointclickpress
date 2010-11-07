@@ -63,7 +63,8 @@ class ImagesAdmin
 				WHERE 1 = 1 ';
 				
 		if (isset($args['image'])) $q .= 'AND i.id = :image_id'; 
-		if (isset($args['item'])) $q .= 'AND its.item_id = :item_id'; 
+		if (isset($args['item'])) $q .= 'AND its.item_id = :item_id';
+		if (isset($args['ItemDef'])) $q .= 'AND its.item_id = :item_id';  
 		
 		$q .= ' ORDER BY i.id DESC';
 		
@@ -71,6 +72,7 @@ class ImagesAdmin
 		
 		if (isset($args['image']))	 $q->param(':image_id',$args['image']->id);
 		if (isset($args['item']))	 $q->param(':item_id',$args['item']->id);
+		if (isset($args['ItemDef'])) $q->param(':item_id',$args['ItemDef']->id);
 						
 		$tempArray = $q->execute()->as_array();		
 		
