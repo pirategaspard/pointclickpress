@@ -36,8 +36,8 @@ class Model_StoryInfo extends Model_Story
 		$this->real_scene_height = $height - ($height * (SCENE_IMAGE_REDUCTION_PERCENT * 0.01));
 		$this->screen_size = $width.'x'.$height;
 		
-		$this->cell_width = intval($this->scene_width / $this->grid_x);
-		$this->cell_height = intval($this->scene_height / $this->grid_y);
+		$this->cell_width = intval($this->real_scene_width / $this->grid_x);
+		$this->cell_height = intval($this->real_scene_height / $this->grid_y);
 	}
 	
 	function grid_total()
