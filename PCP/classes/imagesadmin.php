@@ -55,10 +55,12 @@ class ImagesAdmin
 						,i.filename
 						,its.id
 						,its.value
-				FROM images i
+				FROM items_states its
+				INNER JOIN itemDefs id 
+				ON its.item_id = id.id
 				INNER JOIN stories s
-				ON i.story_id = s.id
-				INNER JOIN items_states its
+				ON id.story_id = s.id
+				LEFT OUTER JOIN images i
 				ON i.id = its.image_id
 				WHERE 1 = 1 ';
 				
