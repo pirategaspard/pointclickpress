@@ -85,7 +85,7 @@ class ImagesAdmin
 	static function upload($args=array())
 	{
 		// increase timeout so we can resize images
-		set_time_limit(120);
+		set_time_limit(240);
 		// Create the Upload and Media directories if they do not exist
 		dir::prep_directory(UPLOAD_PATH);
 		dir::prep_directory(MEDIA_PATH);
