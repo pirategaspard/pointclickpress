@@ -12,7 +12,7 @@ $default_page_title = 'PointClickPress - ';
 */
 //$supported_screens = '480x320,640x480,800x480,800x600,1024x768'; // Basic standard VGA and some mobile
 //$supported_screens = '320x200,480x320,640x320,768x480,800x480,960x540,1024x576,1366x768'; // widescreen mobile (iphone,android,netbook) and HD TV
-$supported_screens = '480x320,768x480'; // Demo sizes
+$supported_screens = '480x320,800x480'; // Demo sizes
 
 
 /* 
@@ -23,15 +23,15 @@ $image_quality = 90;
 /* 
 	Size of generated thumbnails
 */
-//$thumbnail_size = '150x150'; // square
-$thumbnail_size = '240x160'; // wide
+$thumbnail_size = '100x100'; // square
+//$thumbnail_size = '240x160'; // wide
 
 /* 
 	Default screen size for admin
 	(must be a size in the suppored_screens list)
 */
 //$story_size = '640x480'; // standard
-$story_size = '768x480'; // wide
+$story_size = '800x480'; // wide
 
 /*
 	supported grid sizes:
