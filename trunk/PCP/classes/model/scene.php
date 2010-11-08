@@ -211,7 +211,7 @@ class Model_Scene extends Model
 		return $results;
 	}
 	
-	function getPath($w=NULL,$h=NULL,$screen_size=NULL)
+	function getPath($screen_size=NULL,$w=NULL,$h=NULL)
 	{
 		if((($w == NULL) || ($h == NULL)) && ($screen_size == NULL))
 		{

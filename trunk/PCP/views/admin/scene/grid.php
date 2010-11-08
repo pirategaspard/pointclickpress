@@ -19,7 +19,7 @@
 		}
 ?>	
 	<style>
-		#grid {background-image:url(<?php echo($scene->getPath())?>); width: <?php print($story->scene_width) ?>px;height: <?php print($story->scene_height) ?>px; overflow: hidden;}
+		#grid {background-image:url(<?php echo($scene->getPath())?>); width: <?php print($story->real_scene_width) ?>px;height: <?php print($story->real_scene_height) ?>px; overflow: hidden;}
 		#grid b {display:block; width:<?php print($story->cell_width) ?>px; height: <?php print($story->cell_height) ?>px; float: left; border: solid 1px black; margin: -1px;} /* border: solid 1px black; */
 		#grid b.not_selected {border: 1px solid black; }
 		#grid b.selected {border: 1px solid red; }
