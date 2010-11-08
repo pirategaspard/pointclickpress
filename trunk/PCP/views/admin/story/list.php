@@ -11,11 +11,15 @@
 					<th></th>
 					<th></th>
 					<th></th>
+					<th></th>
+					<th></th>
 				</tr>
 				<?php foreach($stories as $story) { ?>
 				<tr>
 					<td><h4><?php echo($story->title); ?></h4></td>
 					<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'story','action'=>'edit'))).'?story_id='.$story->id); ?>" class="ui-widget ui-state-default ui-corner-all button" >Edit</a></td>
+					<td><a href="<?php echo(Url::site(Route::get('default')->uri(array('action'=>'story'))).'?story_id='.$story->id); ?>" target="_blank" class="ui-widget ui-state-default ui-corner-all button play">Play</a></td>
+					<td>&nbsp;&nbsp;</td>
 					<td>&nbsp;&nbsp;</td>
 					<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'story','action'=>'delete'))).'?story_id='.$story->id); ?>" class="ui-widget ui-state-default ui-corner-all button delete" >Delete</a></td>
 				</tr>
