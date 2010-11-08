@@ -4,7 +4,8 @@ Class Controller_PCP extends Controller_Template_Base
 { 
     function action_index()
     {
-        $this->template->content = View::factory('/index')->render();
+        //$this->template->content = View::factory('/index')->render();
+        $this->action_list_Stories();
     }
     
     /*
