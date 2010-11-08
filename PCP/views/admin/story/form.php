@@ -1,7 +1,7 @@
 <?php if (isset($story)) { ?>
 <fieldset class="ui-helper-reset ui-widget-content ui-corner-all">
 	<?php if (isset($story)&& ($story->id > 0)) { ?>
-		<a href="<?php echo(Url::site(Route::get('default')->uri(array('action'=>'story'))).'?story_id='.$story->id); ?>" target="_blank" class="ui-widget ui-state-default ui-corner-all button play">Play <?php echo($story->title); ?></a><br />
+		<a href="<?php echo(Url::site(Route::get('default')->uri(array('action'=>'story'))).'?story_id='.$story->id); ?>" target="_blank" class="ui-widget ui-state-default ui-corner-all button play">Play</a><br />
 	<?php } ?>
 	<legend>Interactive Story Information</legend>
 	<form action="<?php echo($story_form_action); ?>" method="post" >
