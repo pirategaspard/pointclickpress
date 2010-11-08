@@ -5,13 +5,14 @@ body { }
 #header {display: block; } /*height: 30px; */
 #header .menu {float: right;}
 #topmenu, #bottommenu {margin: 10px; text-align: center; position: absolute; top: 0px; left: 0px;}
+#leftcolumn, #rightcolumn {}
 #content {}
 #content td {padding: 20px; margin: 20px;}
-#scene { text-align: center;}
-#grid {margin: 0 auto; width:80%; overflow: hidden;} /* overflow: hidden;} */
+#scene { text-align: center; width: auto; height: auto; }
+#grid {margin: 0 auto; width:80%; overflow: hidden; } /* overflow: hidden;} */
 #grid a {display:block; float: left; position: relative; text-align: left;}
 #grid a img {position: absolute;}
-#footer {position: relative; text-align: center; margin: 20px auto; }
+#footer {clear: both; position: relative; text-align: center; margin: 20px auto; }
 
 #story_info {margin: 0 auto; text-align: center;}
 
