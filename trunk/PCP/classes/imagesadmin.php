@@ -187,6 +187,12 @@ class ImagesAdmin
 		{			
 			$results = new pcpresult(0,'No files and/or no story ID');
 		}
+		/*
+		if (!$results->success)
+		{
+			var_dump($results); die();
+		} 
+		*/
 		return $results;
 	}			
 	
