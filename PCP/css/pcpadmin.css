@@ -29,8 +29,9 @@ ul.menu li {display: inline; padding: 0 10px;}
 a.button {padding: 2px 10px; margin: 5px 10px; text-decoration: none; }
 a.button:hover  {background: none; background-color: green; color: white !important; border: black 1px solid;}
 a.delete, a.cancel, .delete, .cancel  {color: red !important;}
-a.delete:hover, a.cancel:hover {background: none; background-color: red; color: white !important; }
-
-input.save, .play, input.login {background: none !important; background-color: ForestGreen !important; color: white !important; float: right; margin: 10px;}
+.delete:hover, .cancel:hover {background: none; background-color:red !important; color: white !important;  border: black 1px solid;}
+.cancel, .play, .save {float: right; margin: 10px;} 
+input.save, .play, input.login {background: none !important; background-color: ForestGreen !important; color: white !important; }
 input.save:hover, .play:hover, input.login:hover {background-color: DarkGreen !important; border: black 1px solid;}
+/*.cancel:hover, .delete:hover {background: none; background-color:red !important; color: white !important;  border: black 1px solid;} */
 fieldset.login {margin: 0 auto;  width-max: 600px; }
