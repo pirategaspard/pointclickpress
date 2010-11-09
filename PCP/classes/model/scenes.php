@@ -76,7 +76,7 @@ class Model_Scenes
 									->execute()
 									->as_array();												
 			if (count($q_results) > 0)			
-			{
+			{							
 				$a = $q_results[0];
 				$a['include_events'] = true;
 				$a['include_items'] = true;				

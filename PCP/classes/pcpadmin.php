@@ -151,9 +151,10 @@ class PCPAdmin
 	}
 	
 	/* get a scene by location ID and value */
-	static function getSceneBylocationId($location_id,$value='')
+	static function getSceneBylocationId($location_id,$scene_value='')
 	{
-		return Model_Scenes::getSceneBylocationId($location_id,$value);
+		$args = array('location_id'=>$location_id,'scene_value'=>$scene_value);
+		return Model_Scenes::getSceneBylocationId($args);
 	}
 	
 	/* get a itemstate by item ID and value */

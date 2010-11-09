@@ -146,13 +146,13 @@ class Model_Scene extends Model
 				}
 				else
 				{
-					throw new Kohana_Exception('Error Updating Record in file: :file',
+					throw new Kohana_Exception('Error Updating Record in file: :file '.$e->getMessage(),
 					array(':file' => Kohana::debug_path(__FILE__)));
 				}
 			}
 			catch( Database_Exception $e )
 			{
-				throw new Kohana_Exception('Error Updating Record in file: :file',
+				throw new Kohana_Exception('Error Updating Record in file: :file '.$e->getMessage(),
 					array(':file' => Kohana::debug_path(__FILE__)));
 			}
 		}

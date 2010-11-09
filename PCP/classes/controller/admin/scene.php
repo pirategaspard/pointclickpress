@@ -102,9 +102,9 @@ Class Controller_admin_scene extends Controller_Template_Admin
 				if ($session->get('scene_id') == 0)
 				{
 					// check that there is not already a scene in this location with this value
-					$scene = PCPAdmin::getSceneBylocationId($_POST['location_id'],$_POST['value']);													
+					$scene = PCPAdmin::getSceneBylocationId($_POST['location_id'],$_POST['value']);																	
 					if (($scene->id > 0) && ($scene->id != $_POST['id']))
-					{			
+					{									
 						$result = new pcpresult(0,'locations cannot have two scenes with the same value');	
 						$session->set('result',$result);
 						//redirect to edit screen
