@@ -33,5 +33,5 @@ a.delete, a.cancel, .delete, .cancel  {color: red !important;}
 .cancel, .play, .save {float: right; margin: 10px;} 
 input.save, .play, input.login {background: none !important; background-color: ForestGreen !important; color: white !important; }
 input.save:hover, .play:hover, input.login:hover {background-color: DarkGreen !important; border: black 1px solid;}
-/*.cancel:hover, .delete:hover {background: none; background-color:red !important; color: white !important;  border: black 1px solid;} */
+
 fieldset.login {margin: 0 auto;  width-max: 600px; }
