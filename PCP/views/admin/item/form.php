@@ -9,11 +9,9 @@
 		<input type="hidden" name="back_url" value="<?php echo($back_url); ?>" />
 		<input type="hidden" name="story_id" value="<?php echo($item->story_id); ?>" />
 		<input type="hidden" name="id" value="<?php echo($item->id); ?>" />
-		<label>
-			Title:
-			<input type="text" name="title" value="<?php echo($item->title); ?>" >
-		</label>
-		slug:<?php echo($item->slug); ?>
+		<label>Title:</label>
+		<input type="text" name="title" value="<?php echo($item->title); ?>" >		
+		slug: <?php echo($item->slug); ?>
 		<input id="button_submit" type="submit" name="submit" value="submit" class="ui-widget ui-state-default ui-corner-all button save" />
 	</form>
 </fieldset>

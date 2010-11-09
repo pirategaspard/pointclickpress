@@ -74,7 +74,7 @@ class Model_Scenes
 									->param(':location_id',$args['location_id'])
 									->param(':value',$args['scene_value'])
 									->execute()
-									->as_array();												
+									->as_array();										
 			if (count($q_results) > 0)			
 			{							
 				$a = $q_results[0];
