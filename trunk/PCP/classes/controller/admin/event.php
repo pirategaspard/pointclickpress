@@ -56,7 +56,7 @@ Class Controller_admin_event extends Controller_Template_Admin
 			$myevent = new $_POST['event'];
 			$_POST['event_label'] = $myevent->getLabel();
 			//save event
-			$result = EventsAdmin::getEvent($data)->init($_POST)->save();		
+			$result = EventsAdmin::getEvent($_POST)->load()->init($_POST)->save();		
 		}
 		else
 		{

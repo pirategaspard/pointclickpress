@@ -49,13 +49,12 @@ class Model_GridEvent extends Model_Event
 								->param(':id',$this->id)
 								->param(':scene_id',$this->scene_id)
 								->execute()
-								->as_array();											
-			
+								->as_array();													
 			if (count($q_results) > 0 )
 			{				
 				$this->init($q_results[0]);
 				$this->cells = Model_Cells::getCells(array('event'=>$this));
-			}
+			}			
 		}
 		return $this;
 	}
@@ -94,7 +93,7 @@ class Model_GridEvent extends Model_Event
 			}
 		}
 		elseif ($this->id > 0)
-		{			
+		{		
 			//UPDATE record
 			try
 			{
