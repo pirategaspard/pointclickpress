@@ -50,12 +50,12 @@ Class Controller_Template_Admin extends Controller_Template_Base
 			if ($result->success)
 			{				
 				//$this->template->messages = "Success";
-				$this->template->messages = $result->message;				
+				$this->template->messages = '<p class="'.$result->getClass().'">'.$result->message.'</p>';				
 			}
 			elseif ($result->success == 0)
 			{
 				//$this->template->messages = "Failed";
-				$this->template->messages = $result->message;				
+				$this->template->messages = '<p class="'.$result->getClass().'">'.$result->message.'</p>';					
 			}
 			elseif ($result->success < 0)
 			{
