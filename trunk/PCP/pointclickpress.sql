@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 10, 2010 at 10:28 AM
+-- Generation Time: Nov 10, 2010 at 10:48 AM
 -- Server version: 5.0.27
 -- PHP Version: 5.3.2
 
@@ -110,14 +110,6 @@ INSERT INTO `cells` (`id`, `scene_id`, `grid_event_id`) VALUES
 (48, 47, 55),
 (58, 47, 55),
 (68, 47, 55),
-(93, 46, 56),
-(94, 46, 56),
-(95, 46, 56),
-(96, 46, 56),
-(98, 46, 56),
-(97, 46, 56),
-(99, 46, 56),
-(92, 46, 56),
 (30, 46, 57),
 (40, 46, 57),
 (50, 46, 57),
@@ -228,29 +220,6 @@ INSERT INTO `cells` (`id`, `scene_id`, `grid_event_id`) VALUES
 (38, 51, 66),
 (48, 51, 66),
 (58, 51, 66),
-(91, 61, 67),
-(92, 61, 67),
-(93, 61, 67),
-(94, 61, 67),
-(95, 61, 67),
-(96, 61, 67),
-(97, 61, 67),
-(90, 61, 67),
-(80, 61, 67),
-(70, 61, 67),
-(60, 61, 67),
-(35, 61, 68),
-(45, 61, 68),
-(55, 61, 68),
-(65, 61, 68),
-(66, 61, 68),
-(67, 61, 68),
-(57, 61, 68),
-(47, 61, 68),
-(37, 61, 68),
-(36, 61, 68),
-(46, 61, 68),
-(56, 61, 68),
 (65, 52, 69),
 (75, 52, 69),
 (76, 52, 69),
@@ -1100,7 +1069,169 @@ INSERT INTO `cells` (`id`, `scene_id`, `grid_event_id`) VALUES
 (25, 42, 49),
 (24, 42, 49),
 (23, 42, 49),
-(22, 42, 49);
+(22, 42, 49),
+(23, 66, 129),
+(24, 66, 129),
+(25, 66, 129),
+(26, 66, 129),
+(27, 66, 129),
+(32, 66, 129),
+(33, 66, 129),
+(34, 66, 129),
+(35, 66, 129),
+(36, 66, 129),
+(37, 66, 129),
+(42, 66, 129),
+(43, 66, 129),
+(44, 66, 129),
+(45, 66, 129),
+(46, 66, 129),
+(47, 66, 129),
+(57, 66, 129),
+(56, 66, 129),
+(55, 66, 129),
+(54, 66, 129),
+(53, 66, 129),
+(52, 66, 129),
+(62, 66, 129),
+(63, 66, 129),
+(64, 66, 129),
+(65, 66, 129),
+(66, 66, 129),
+(67, 66, 129),
+(77, 66, 129),
+(76, 66, 129),
+(75, 66, 129),
+(74, 66, 129),
+(73, 66, 129),
+(72, 66, 129),
+(84, 66, 129),
+(85, 66, 129),
+(86, 66, 129),
+(83, 66, 129),
+(97, 61, 67),
+(96, 61, 67),
+(95, 61, 67),
+(94, 61, 67),
+(93, 61, 67),
+(92, 61, 67),
+(91, 61, 67),
+(90, 61, 67),
+(80, 61, 67),
+(70, 61, 67),
+(60, 61, 67),
+(81, 61, 67),
+(67, 61, 68),
+(66, 61, 68),
+(65, 61, 68),
+(57, 61, 68),
+(56, 61, 68),
+(55, 61, 68),
+(47, 61, 68),
+(46, 61, 68),
+(45, 61, 68),
+(37, 61, 68),
+(36, 61, 68),
+(35, 61, 68),
+(48, 61, 68),
+(38, 61, 68),
+(28, 61, 68),
+(27, 61, 68),
+(26, 61, 68),
+(25, 61, 68),
+(16, 61, 68),
+(17, 61, 68),
+(18, 61, 68),
+(15, 61, 68),
+(58, 61, 131),
+(68, 61, 131),
+(78, 61, 131),
+(69, 61, 131),
+(59, 61, 131),
+(79, 61, 131),
+(89, 61, 131),
+(88, 61, 131),
+(99, 61, 131),
+(98, 61, 131),
+(97, 61, 131),
+(87, 61, 131),
+(77, 61, 131),
+(58, 61, 132),
+(68, 61, 132),
+(78, 61, 132),
+(69, 61, 132),
+(59, 61, 132),
+(79, 61, 132),
+(89, 61, 132),
+(88, 61, 132),
+(99, 61, 132),
+(98, 61, 132),
+(97, 61, 132),
+(87, 61, 132),
+(77, 61, 132),
+(98, 46, 56),
+(97, 46, 56),
+(96, 46, 56),
+(95, 46, 56),
+(94, 46, 56),
+(93, 46, 56),
+(92, 46, 56),
+(99, 46, 133),
+(89, 46, 133),
+(79, 46, 133),
+(69, 46, 133),
+(59, 46, 133),
+(49, 46, 133),
+(39, 46, 133),
+(29, 46, 133),
+(19, 46, 133),
+(98, 47, 134),
+(97, 47, 134),
+(96, 47, 134),
+(95, 47, 134),
+(94, 47, 134),
+(93, 47, 134),
+(92, 47, 134),
+(91, 47, 134),
+(86, 66, 130),
+(85, 66, 130),
+(84, 66, 130),
+(83, 66, 130),
+(77, 66, 130),
+(76, 66, 130),
+(75, 66, 130),
+(74, 66, 130),
+(73, 66, 130),
+(72, 66, 130),
+(67, 66, 130),
+(66, 66, 130),
+(65, 66, 130),
+(64, 66, 130),
+(63, 66, 130),
+(62, 66, 130),
+(57, 66, 130),
+(56, 66, 130),
+(55, 66, 130),
+(54, 66, 130),
+(53, 66, 130),
+(52, 66, 130),
+(47, 66, 130),
+(46, 66, 130),
+(45, 66, 130),
+(44, 66, 130),
+(43, 66, 130),
+(42, 66, 130),
+(37, 66, 130),
+(36, 66, 130),
+(35, 66, 130),
+(34, 66, 130),
+(33, 66, 130),
+(32, 66, 130),
+(27, 66, 130),
+(26, 66, 130),
+(25, 66, 130),
+(24, 66, 130),
+(23, 66, 130);
 
 -- --------------------------------------------------------
 
@@ -1114,7 +1245,7 @@ CREATE TABLE IF NOT EXISTS `events` (
   `event_label` varchar(255) character set latin1 NOT NULL,
   `event_value` varchar(255) character set latin1 default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=136 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=142 ;
 
 --
 -- Dumping data for table `events`
@@ -1188,7 +1319,6 @@ INSERT INTO `events` (`id`, `event`, `event_label`, `event_value`) VALUES
 (117, 'event_assignrefresh', 'Assign value and scene refresh', '$well = '''';'),
 (118, 'event_assignrefresh', 'Assign value and scene refresh', '$well = ''DETAIL'';'),
 (119, 'event_link', 'link', '41'),
-(120, 'event_message', 'User Message', 'I don''t think so Mario. '),
 (121, 'event_assign', 'Assign value', '$direction = ''north'';'),
 (122, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''east'';'),
 (124, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''north'';'),
@@ -1198,9 +1328,14 @@ INSERT INTO `events` (`id`, `event`, `event_label`, `event_value`) VALUES
 (128, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''south'';'),
 (129, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''north'';'),
 (130, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''south'';'),
-(133, 'event_message', 'User Message', 'You picked up the bucket!'),
 (134, 'event_assignrefreshitems', 'Assign value and item refresh', '$bucket = ''picked_up'';'),
-(135, 'event_link', 'link', '31');
+(135, 'event_link', 'link', '31'),
+(136, 'event_link', 'link', '42'),
+(137, 'event_message', 'User Message', 'You fall into the well and break you neck!'),
+(138, 'event_link', 'link', '31'),
+(139, 'event_assign', 'Assign value', '$direction = ''north'';'),
+(140, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''west'''),
+(141, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''west'';');
 
 -- --------------------------------------------------------
 
@@ -1213,7 +1348,7 @@ CREATE TABLE IF NOT EXISTS `grids_events` (
   `scene_id` bigint(20) unsigned NOT NULL,
   `event_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY  (`grid_event_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=129 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=135 ;
 
 --
 -- Dumping data for table `grids_events`
@@ -1316,7 +1451,13 @@ INSERT INTO `grids_events` (`grid_event_id`, `scene_id`, `event_id`) VALUES
 (125, 62, 132),
 (126, 62, 133),
 (127, 62, 134),
-(128, 62, 135);
+(128, 62, 135),
+(129, 66, 136),
+(130, 66, 137),
+(131, 61, 138),
+(132, 61, 139),
+(133, 46, 140),
+(134, 47, 141);
 
 -- --------------------------------------------------------
 
@@ -1356,7 +1497,7 @@ CREATE TABLE IF NOT EXISTS `images` (
   `type_id` int(11) unsigned NOT NULL,
   `filename` varchar(255) character set latin1 NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=43 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=44 ;
 
 --
 -- Dumping data for table `images`
@@ -1389,7 +1530,8 @@ INSERT INTO `images` (`id`, `story_id`, `type_id`, `filename`) VALUES
 (38, 3, 1, 'DSC_0621.JPG'),
 (39, 3, 1, 'DSC_0249.JPG'),
 (40, 3, 1, 'DSC_0244b.jpg'),
-(42, 3, 2, 'bucket.png');
+(42, 3, 2, 'bucket.png'),
+(43, 3, 1, 'blacksquare.jpg');
 
 -- --------------------------------------------------------
 
@@ -1466,7 +1608,7 @@ CREATE TABLE IF NOT EXISTS `locations` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
   `title` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=42 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=43 ;
 
 --
 -- Dumping data for table `locations`
@@ -1481,7 +1623,8 @@ INSERT INTO `locations` (`story_id`, `id`, `title`) VALUES
 (3, 36, 'Path3'),
 (3, 37, 'Poison Ivy Field'),
 (3, 40, 'Well'),
-(3, 41, 'Poison Ivy Field2');
+(3, 41, 'Poison Ivy Field2'),
+(3, 42, 'Death');
 
 -- --------------------------------------------------------
 
@@ -1550,7 +1693,7 @@ CREATE TABLE IF NOT EXISTS `scenes` (
   `value` varchar(255) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `scene_value` (`value`,`location_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=77 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=78 ;
 
 --
 -- Dumping data for table `scenes`
@@ -1582,7 +1725,8 @@ INSERT INTO `scenes` (`id`, `story_id`, `location_id`, `title`, `description`, `
 (67, 3, 31, 'Bottom of Stairs', 'You are on a wooded pathway covered in a thick layer of pine needles. In front of you the woods are overgrown with poison ivy.', 34, 'north'),
 (68, 3, 41, 'Poison Ivy Field2', 'You are in a field full of poison ivy! There is a cement pipe protruding from the ground. ', 36, ''),
 (73, 3, 36, 'Path3', '', 39, 'north'),
-(74, 3, 36, 'Path3', 'The river flows lazily beyond the trees', 40, 'south');
+(74, 3, 36, 'Path3', 'The river flows lazily beyond the trees', 40, 'south'),
+(77, 3, 42, 'Death', 'You are dead! <br />THE END', 43, '');
 
 -- --------------------------------------------------------
 
