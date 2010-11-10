@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 08, 2010 at 09:03 AM
+-- Generation Time: Nov 10, 2010 at 10:28 AM
 -- Server version: 5.0.27
 -- PHP Version: 5.3.2
 
@@ -63,40 +63,6 @@ INSERT INTO `cells` (`id`, `scene_id`, `grid_event_id`) VALUES
 (90, 25, 43),
 (0, 25, 43),
 (0, 25, 43),
-(72, 42, 49),
-(73, 42, 49),
-(74, 42, 49),
-(75, 42, 49),
-(76, 42, 49),
-(66, 42, 49),
-(65, 42, 49),
-(64, 42, 49),
-(63, 42, 49),
-(62, 42, 49),
-(52, 42, 49),
-(53, 42, 49),
-(54, 42, 49),
-(55, 42, 49),
-(56, 42, 49),
-(46, 42, 49),
-(45, 42, 49),
-(44, 42, 49),
-(43, 42, 49),
-(42, 42, 49),
-(33, 42, 49),
-(34, 42, 49),
-(35, 42, 49),
-(23, 42, 49),
-(24, 42, 49),
-(25, 42, 49),
-(36, 42, 49),
-(26, 42, 49),
-(16, 42, 49),
-(13, 42, 49),
-(14, 42, 49),
-(15, 42, 49),
-(22, 42, 49),
-(12, 42, 49),
 (92, 45, 50),
 (93, 45, 50),
 (94, 45, 50),
@@ -914,7 +880,227 @@ INSERT INTO `cells` (`id`, `scene_id`, `grid_event_id`) VALUES
 (43, 68, 112),
 (53, 68, 112),
 (63, 68, 112),
-(74, 71, 0);
+(34, 66, 113),
+(44, 66, 113),
+(54, 66, 113),
+(64, 66, 113),
+(74, 66, 113),
+(75, 66, 113),
+(65, 66, 113),
+(55, 66, 113),
+(45, 66, 113),
+(35, 66, 113),
+(36, 66, 113),
+(46, 66, 113),
+(56, 66, 113),
+(66, 66, 113),
+(76, 66, 113),
+(73, 66, 113),
+(63, 66, 113),
+(53, 66, 113),
+(43, 66, 113),
+(33, 66, 113),
+(0, 59, 114),
+(10, 59, 114),
+(20, 59, 114),
+(30, 59, 114),
+(40, 59, 114),
+(50, 59, 114),
+(60, 59, 114),
+(70, 59, 114),
+(9, 73, 115),
+(19, 73, 115),
+(29, 73, 115),
+(39, 73, 115),
+(49, 73, 115),
+(59, 73, 115),
+(69, 73, 115),
+(79, 73, 115),
+(89, 73, 115),
+(99, 73, 115),
+(0, 73, 116),
+(10, 73, 116),
+(20, 73, 116),
+(30, 73, 116),
+(40, 73, 116),
+(50, 73, 116),
+(60, 73, 116),
+(70, 73, 116),
+(80, 73, 116),
+(90, 73, 116),
+(93, 74, 117),
+(94, 74, 117),
+(95, 74, 117),
+(92, 74, 117),
+(91, 74, 117),
+(90, 74, 117),
+(96, 74, 117),
+(97, 74, 117),
+(98, 74, 117),
+(99, 74, 117),
+(42, 74, 118),
+(32, 74, 118),
+(33, 74, 118),
+(34, 74, 118),
+(44, 74, 118),
+(43, 74, 118),
+(52, 74, 118),
+(53, 74, 118),
+(54, 74, 118),
+(64, 74, 118),
+(63, 74, 118),
+(62, 74, 118),
+(72, 74, 118),
+(73, 74, 118),
+(74, 74, 118),
+(84, 74, 118),
+(83, 74, 118),
+(82, 74, 118),
+(9, 74, 119),
+(19, 74, 119),
+(29, 74, 119),
+(39, 74, 119),
+(49, 74, 119),
+(59, 74, 119),
+(69, 74, 119),
+(79, 74, 119),
+(89, 74, 119),
+(91, 73, 120),
+(92, 73, 120),
+(93, 73, 120),
+(94, 73, 120),
+(95, 73, 120),
+(96, 73, 120),
+(97, 73, 120),
+(98, 73, 120),
+(0, 60, 121),
+(90, 60, 121),
+(80, 60, 121),
+(70, 60, 121),
+(60, 60, 121),
+(50, 60, 121),
+(40, 60, 121),
+(30, 60, 121),
+(20, 60, 121),
+(10, 60, 121),
+(9, 60, 122),
+(19, 60, 122),
+(29, 60, 122),
+(39, 60, 122),
+(49, 60, 122),
+(59, 60, 122),
+(69, 60, 122),
+(79, 60, 122),
+(89, 60, 122),
+(99, 60, 122),
+(9, 59, 123),
+(19, 59, 123),
+(29, 59, 123),
+(39, 59, 123),
+(49, 59, 123),
+(59, 59, 123),
+(69, 59, 123),
+(79, 59, 123),
+(89, 59, 123),
+(99, 59, 123),
+(73, 62, 124),
+(0, 62, 125),
+(73, 62, 126),
+(74, 62, 126),
+(75, 62, 126),
+(83, 62, 126),
+(84, 62, 126),
+(85, 62, 126),
+(93, 62, 126),
+(94, 62, 126),
+(95, 62, 126),
+(73, 62, 127),
+(74, 62, 127),
+(75, 62, 127),
+(83, 62, 127),
+(84, 62, 127),
+(85, 62, 127),
+(93, 62, 127),
+(94, 62, 127),
+(95, 62, 127),
+(20, 62, 128),
+(30, 62, 128),
+(40, 62, 128),
+(50, 62, 128),
+(60, 62, 128),
+(70, 62, 128),
+(80, 62, 128),
+(90, 62, 128),
+(41, 62, 128),
+(51, 62, 128),
+(61, 62, 128),
+(71, 62, 128),
+(81, 62, 128),
+(91, 62, 128),
+(62, 62, 128),
+(72, 62, 128),
+(82, 62, 128),
+(92, 62, 128),
+(23, 42, 0),
+(22, 42, 0),
+(24, 42, 0),
+(25, 42, 0),
+(26, 42, 0),
+(32, 42, 0),
+(33, 42, 0),
+(34, 42, 0),
+(35, 42, 0),
+(36, 42, 0),
+(42, 42, 0),
+(43, 42, 0),
+(44, 42, 0),
+(45, 42, 0),
+(46, 42, 0),
+(52, 42, 0),
+(53, 42, 0),
+(54, 42, 0),
+(55, 42, 0),
+(56, 42, 0),
+(62, 42, 0),
+(63, 42, 0),
+(64, 42, 0),
+(65, 42, 0),
+(66, 42, 0),
+(72, 42, 0),
+(73, 42, 0),
+(74, 42, 0),
+(75, 42, 0),
+(76, 42, 0),
+(76, 42, 49),
+(75, 42, 49),
+(74, 42, 49),
+(73, 42, 49),
+(72, 42, 49),
+(66, 42, 49),
+(65, 42, 49),
+(64, 42, 49),
+(63, 42, 49),
+(62, 42, 49),
+(56, 42, 49),
+(55, 42, 49),
+(54, 42, 49),
+(53, 42, 49),
+(52, 42, 49),
+(46, 42, 49),
+(45, 42, 49),
+(44, 42, 49),
+(43, 42, 49),
+(42, 42, 49),
+(36, 42, 49),
+(35, 42, 49),
+(34, 42, 49),
+(33, 42, 49),
+(32, 42, 49),
+(26, 42, 49),
+(25, 42, 49),
+(24, 42, 49),
+(23, 42, 49),
+(22, 42, 49);
 
 -- --------------------------------------------------------
 
@@ -928,7 +1114,7 @@ CREATE TABLE IF NOT EXISTS `events` (
   `event_label` varchar(255) character set latin1 NOT NULL,
   `event_value` varchar(255) character set latin1 default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=124 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=136 ;
 
 --
 -- Dumping data for table `events`
@@ -938,7 +1124,7 @@ INSERT INTO `events` (`id`, `event`, `event_label`, `event_value`) VALUES
 (22, 'event_link', 'link', '21'),
 (24, 'event_link', 'link', '22'),
 (50, 'event_link', 'link', '31'),
-(51, 'event_assign', 'Assign value', '$direction = ''EAST'''),
+(51, 'event_assign', 'Assign value', '$direction = ''east'';\n$bucket = ''on_ground'';'),
 (53, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''WEST'';'),
 (54, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''SOUTH_EAST'';'),
 (55, 'event_link', 'link', '34'),
@@ -979,8 +1165,8 @@ INSERT INTO `events` (`id`, `event`, `event_label`, `event_value`) VALUES
 (92, 'event_assignrefresh', 'Assign value and scene refresh', '$building2 = ''DETAIL_BOX2_OPEN'';'),
 (93, 'event_assignrefresh', 'Assign value and scene refresh', '$building2 = ''DETAIL_MID'';'),
 (94, 'event_assign', 'Assign value', '$path3 = $direction;'),
-(95, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''WEST'';'),
-(96, 'event_assign', 'Assign value', '$direction = ''EAST'';'),
+(95, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''west'';'),
+(96, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''east'';'),
 (97, 'event_link', 'link', '34'),
 (98, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''SOUTH'';'),
 (99, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''EAST'';'),
@@ -996,13 +1182,25 @@ INSERT INTO `events` (`id`, `event`, `event_label`, `event_value`) VALUES
 (110, 'event_assign', 'Assign value', '$direction = ''EAST'';'),
 (111, 'event_link', 'link', '40'),
 (112, 'event_link', 'link', '37'),
-(113, 'event_link', 'link', '31'),
 (114, 'event_assign', 'Assign value', '$direction = ''NORTH'';'),
 (115, 'event_link', 'link', '41'),
 (116, 'event_link', 'link', '37'),
 (117, 'event_assignrefresh', 'Assign value and scene refresh', '$well = '''';'),
 (118, 'event_assignrefresh', 'Assign value and scene refresh', '$well = ''DETAIL'';'),
-(119, 'event_link', 'link', '41');
+(119, 'event_link', 'link', '41'),
+(120, 'event_message', 'User Message', 'I don''t think so Mario. '),
+(121, 'event_assign', 'Assign value', '$direction = ''north'';'),
+(122, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''east'';'),
+(124, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''north'';'),
+(125, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''east'';'),
+(126, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''west'';'),
+(127, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''south'';'),
+(128, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''south'';'),
+(129, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''north'';'),
+(130, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''south'';'),
+(133, 'event_message', 'User Message', 'You picked up the bucket!'),
+(134, 'event_assignrefreshitems', 'Assign value and item refresh', '$bucket = ''picked_up'';'),
+(135, 'event_link', 'link', '31');
 
 -- --------------------------------------------------------
 
@@ -1015,7 +1213,7 @@ CREATE TABLE IF NOT EXISTS `grids_events` (
   `scene_id` bigint(20) unsigned NOT NULL,
   `event_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY  (`grid_event_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=114 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=129 ;
 
 --
 -- Dumping data for table `grids_events`
@@ -1102,7 +1300,23 @@ INSERT INTO `grids_events` (`grid_event_id`, `scene_id`, `event_id`) VALUES
 (109, 66, 117),
 (110, 65, 118),
 (111, 65, 119),
-(112, 68, 122);
+(112, 68, 122),
+(113, 66, 120),
+(114, 59, 121),
+(115, 73, 122),
+(116, 73, 123),
+(117, 74, 124),
+(118, 74, 125),
+(119, 74, 126),
+(120, 73, 127),
+(121, 60, 128),
+(122, 60, 129),
+(123, 59, 130),
+(124, 62, 131),
+(125, 62, 132),
+(126, 62, 133),
+(127, 62, 134),
+(128, 62, 135);
 
 -- --------------------------------------------------------
 
@@ -1115,19 +1329,20 @@ CREATE TABLE IF NOT EXISTS `grids_items` (
   `itemdef_id` bigint(20) unsigned NOT NULL,
   `scene_id` bigint(20) unsigned NOT NULL,
   `cell_id` bigint(20) unsigned NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `slug` varchar(255) NOT NULL,
+  `title` varchar(255) character set latin1 NOT NULL,
+  `slug` varchar(255) character set latin1 NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `item_id` (`itemdef_id`),
   KEY `scene_id` (`scene_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `grids_items`
 --
 
 INSERT INTO `grids_items` (`id`, `itemdef_id`, `scene_id`, `cell_id`, `title`, `slug`) VALUES
-(1, 2, 71, 74, 'item 2', 'item_2');
+(1, 2, 71, 74, 'item 2', 'item_2'),
+(3, 2, 62, 73, 'bucket', 'bucket');
 
 -- --------------------------------------------------------
 
@@ -1141,7 +1356,7 @@ CREATE TABLE IF NOT EXISTS `images` (
   `type_id` int(11) unsigned NOT NULL,
   `filename` varchar(255) character set latin1 NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=66 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=43 ;
 
 --
 -- Dumping data for table `images`
@@ -1171,7 +1386,10 @@ INSERT INTO `images` (`id`, `story_id`, `type_id`, `filename`) VALUES
 (35, 3, 1, 'DSC_0614.JPG'),
 (36, 3, 1, 'DSC_0615.JPG'),
 (37, 3, 1, 'DSC_0616.JPG'),
-(38, 3, 1, 'DSC_0621.JPG');
+(38, 3, 1, 'DSC_0621.JPG'),
+(39, 3, 1, 'DSC_0249.JPG'),
+(40, 3, 1, 'DSC_0244b.jpg'),
+(42, 3, 2, 'bucket.png');
 
 -- --------------------------------------------------------
 
@@ -1181,9 +1399,9 @@ INSERT INTO `images` (`id`, `story_id`, `type_id`, `filename`) VALUES
 
 CREATE TABLE IF NOT EXISTS `image_types` (
   `id` int(10) unsigned NOT NULL auto_increment,
-  `title` varchar(255) NOT NULL,
+  `title` varchar(255) character set latin1 NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `image_types`
@@ -1210,6 +1428,8 @@ CREATE TABLE IF NOT EXISTS `itemdefs` (
 -- Dumping data for table `itemdefs`
 --
 
+INSERT INTO `itemdefs` (`id`, `title`, `story_id`) VALUES
+(2, 'bucket', 3);
 
 -- --------------------------------------------------------
 
@@ -1221,14 +1441,19 @@ CREATE TABLE IF NOT EXISTS `items_states` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
   `item_id` bigint(20) unsigned NOT NULL,
   `image_id` bigint(20) unsigned NOT NULL,
-  `value` varchar(255) NOT NULL,
+  `value` varchar(255) character set latin1 NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `items_states`
 --
 
+INSERT INTO `items_states` (`id`, `item_id`, `image_id`, `value`) VALUES
+(1, 1, 41, 'on_ground'),
+(2, 1, 0, 'taken'),
+(3, 2, 42, 'on_ground'),
+(4, 2, 0, 'picked_up');
 
 -- --------------------------------------------------------
 
@@ -1241,7 +1466,7 @@ CREATE TABLE IF NOT EXISTS `locations` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
   `title` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=45 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=42 ;
 
 --
 -- Dumping data for table `locations`
@@ -1255,8 +1480,8 @@ INSERT INTO `locations` (`story_id`, `id`, `title`) VALUES
 (3, 35, 'Building2'),
 (3, 36, 'Path3'),
 (3, 37, 'Poison Ivy Field'),
-(3, 41, 'Poison Ivy Field2'),
-(3, 40, 'Well');
+(3, 40, 'Well'),
+(3, 41, 'Poison Ivy Field2');
 
 -- --------------------------------------------------------
 
@@ -1325,7 +1550,7 @@ CREATE TABLE IF NOT EXISTS `scenes` (
   `value` varchar(255) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `scene_value` (`value`,`location_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=73 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=77 ;
 
 --
 -- Dumping data for table `scenes`
@@ -1333,29 +1558,31 @@ CREATE TABLE IF NOT EXISTS `scenes` (
 
 INSERT INTO `scenes` (`id`, `story_id`, `location_id`, `title`, `description`, `image_id`, `value`) VALUES
 (42, 3, 30, 'Stairs', 'You see some old stairs. Dare you go down them?', 14, ''),
-(45, 3, 31, 'Bottom of Stairs', '', 16, 'EAST'),
-(44, 3, 31, 'Bottom of Stairs', '', 17, 'WEST'),
-(46, 3, 31, 'Bottom of Stairs', '', 18, 'SOUTH'),
-(47, 3, 31, 'Bottom of Stairs', '', 19, 'SOUTH_EAST'),
-(48, 3, 33, 'Building1', '', 20, 'SOUTH'),
-(49, 3, 33, 'Building1', '', 21, 'DETAIL'),
-(50, 3, 33, 'Building1', '', 22, 'NORTH'),
-(51, 3, 34, 'Path2', '', 23, 'EAST'),
-(52, 3, 35, 'Building2', '', 24, ''),
-(53, 3, 35, 'Building2', '', 25, 'DETAIL_DOWN'),
-(54, 3, 35, 'Building2', '', 26, 'DETAIL_MID'),
-(55, 3, 35, 'Building2', '', 27, 'DETAIL_BOX1_CLOSED'),
-(56, 3, 35, 'Building2', '', 28, 'DETAIL_BOX1_OPEN'),
-(57, 3, 35, 'Building2', '', 29, 'DETAIL_BOX2_OPEN'),
-(58, 3, 35, 'Building2', '', 30, 'DETAIL_BOX2_CLOSED'),
-(59, 3, 36, 'Path3', '', 31, 'EAST'),
-(60, 3, 36, 'Path3', '', 32, 'WEST'),
-(61, 3, 34, 'Path2', '', 33, 'WEST'),
-(62, 3, 37, 'Poison Ivy Field', '', 35, ''),
-(68, 3, 41, 'Poison Ivy Field2', '', 36, ''),
-(65, 3, 40, 'Well', '', 37, ''),
-(66, 3, 40, 'Well', '', 38, 'DETAIL'),
-(67, 3, 31, 'Bottom of Stairs', '', 34, 'NORTH');
+(44, 3, 31, 'Bottom of Stairs', 'You are on a wooded pathway covered in a thick layer of pine needles. These are the stairs you came down. ', 17, 'west'),
+(45, 3, 31, 'Bottom of Stairs', 'You are on a wooded pathway covered in a thick layer of pine needles. There is a river here with old equipment. ', 16, 'east'),
+(46, 3, 31, 'Bottom of Stairs', 'You are on a wooded pathway covered in a thick layer of pine needles. There is ruined equipment by the river. ', 18, 'south'),
+(47, 3, 31, 'Bottom of Stairs', 'You are on a wooded pathway covered in a thick layer of pine needles. You can see the river through the trees. ', 19, 'south_east'),
+(48, 3, 33, 'Building1', 'This appears to the the ruins of an old pumping station.', 20, 'south'),
+(49, 3, 33, 'Building1', 'Nothing interesting inside.', 21, 'detail'),
+(50, 3, 33, 'Building1', 'This path leads back to the bottom of the stairs. ', 22, 'north'),
+(51, 3, 34, 'Path2', 'You are on a wooded pathway covered in thick pine needles. There is a large piece of old metal equipment rusting beside the river.', 23, 'east'),
+(52, 3, 35, 'Building2', 'There is a large piece of old metal equipment rusting beside the river.', 24, ''),
+(53, 3, 35, 'Building2', 'Thick stagnant water lies below the rusting equipment. It is covered in an oily film. ', 25, 'detail_down'),
+(54, 3, 35, 'Building2', 'The river flows lazily behind the rusting equipment. ', 26, 'detail_mid'),
+(55, 3, 35, 'Building2', 'There is a rusting box here. ', 27, 'detail_box1_closed'),
+(56, 3, 35, 'Building2', 'The rusting box is full of pine needles.', 28, 'detail_box1_open'),
+(57, 3, 35, 'Building2', 'The river runs lazily behind the rusting equipment. The rusting electrical box is open.', 29, 'detail_box2_open'),
+(58, 3, 35, 'Building2', 'The river runs lazily behind the rusting equipment. There is a partially open rusting electrical box here. ', 30, 'detail_box2_closed'),
+(59, 3, 36, 'Path3', 'The path east is blocked by a fallen tree. ', 31, 'east'),
+(60, 3, 36, 'Path3', 'You are on a wooden path that follows the river. Ahead is rusting equipment and some stairs. ', 32, 'west'),
+(61, 3, 34, 'Path2', 'You are on a wooded pathway covered in thick pine needles. Behind you is a large piece of old metal equipment rusting beside the river.', 33, 'west'),
+(62, 3, 37, 'Poison Ivy Field', 'You are in a field full of poison ivy!', 35, ''),
+(65, 3, 40, 'Well', 'You are standing above an unmarked well that is protruding from the forest floor. How dangerous! Someone could fall in!', 37, ''),
+(66, 3, 40, 'Well', 'You peer into the well and see the bottom is filled with mud and sticks. ', 38, 'detail'),
+(67, 3, 31, 'Bottom of Stairs', 'You are on a wooded pathway covered in a thick layer of pine needles. In front of you the woods are overgrown with poison ivy.', 34, 'north'),
+(68, 3, 41, 'Poison Ivy Field2', 'You are in a field full of poison ivy! There is a cement pipe protruding from the ground. ', 36, ''),
+(73, 3, 36, 'Path3', '', 39, 'north'),
+(74, 3, 36, 'Path3', 'The river flows lazily beyond the trees', 40, 'south');
 
 -- --------------------------------------------------------
 
@@ -1367,7 +1594,7 @@ CREATE TABLE IF NOT EXISTS `scenes_events` (
   `scene_id` bigint(20) unsigned NOT NULL,
   `event_id` bigint(20) unsigned NOT NULL,
   KEY `sceneid` (`scene_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `scenes_events`
@@ -1396,7 +1623,7 @@ CREATE TABLE IF NOT EXISTS `stories` (
   `grid_y` smallint(5) unsigned NOT NULL,
   `create_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `stories`

@@ -89,7 +89,7 @@ $(document).ready(function() {
 		var delete_link = $(this).attr('href');
 		$("#dialog_delete").dialog(
 					{
-						title: 'Are you Sure?'
+						title: 'Confirm Delete'
 						,modal: true
 						,buttons: [
 						    {
