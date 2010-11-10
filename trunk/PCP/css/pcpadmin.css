@@ -6,11 +6,15 @@ legend {font-size:1.2em;}
 #header {display: block; padding: 5px; height: 15px;} /*height: 30px; */
 #header .menu {float: right;}
 #topmenu {}
+#messages {display: none;}
+#messages p {padding: 25px 0px; font-weight: bold; text-align: center; }
+#messages p.success { color: green;   }
+#messages p.error { color: red; }
 #content {}
 #content td {padding: 4px 2px;}
 #scene { text-align: center; margin: 0 auto;}
-#grid {margin: 10px auto; width:80%; } /* overflow: hidden;} */
-#grid a {display:block; float: left; } /* border: solid 1px black; margin: -1px; */
+#grid {margin: 10px auto; width:80%; }
+#grid a {display:block; float: left; }
 #scene_data {padding: 10px; margin: 0 auto;}
 
 #bottommenu {}
@@ -34,4 +38,4 @@ a.delete, a.cancel, .delete, .cancel  {color: red !important;}
 input.save, .play, input.login {background: none !important; background-color: ForestGreen !important; color: white !important; }
 input.save:hover, .play:hover, input.login:hover {background-color: DarkGreen !important; border: black 1px solid;}
 
-fieldset.login {margin: 0 auto;  width-max: 600px; }
+fieldset.login {margin: 0 auto;  max-width: 600px; }

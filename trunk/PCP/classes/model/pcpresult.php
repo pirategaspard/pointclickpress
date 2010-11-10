@@ -13,6 +13,19 @@ class Model_PCPResult
 		$this->data = $d;		
 	}
 	
+	public function getClass()
+	{
+		if ($this->success)
+		{
+			$class = 'success';
+		}
+		else
+		{
+			$class = 'error';
+		}
+		return $class;
+	}
+	
 	public function __get($prop)
 	{			
 		return $this->$prop;

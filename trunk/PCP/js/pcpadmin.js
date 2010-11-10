@@ -7,7 +7,8 @@
 $(document).ready(function() {
 		
 	// when action type = 'event_link' hide the event_value field
-	$('#event_type').change(function() {		
+	$('#event_type').change(function() 
+	{		
 		if ($(this).val() == 'event_link')
 		{	
 			$('#location_select').show();		
@@ -23,12 +24,14 @@ $(document).ready(function() {
 	});
 	
 	// when location select is changed update the 'event_value' field
-	$('select[name="location_select"]').mouseout(function() {														
+	$('select[name="location_select"]').mouseout(function() 
+	{														
 		$('textarea[name=event_value]').val($('select[name="location_select"]').val());			
 	});
 	
 	// change grid color based on cell_id list
-	$('input[name=cell_ids]').focusout(function() {
+	$('input[name=cell_ids]').focusout(function() 
+	{
 		//reset grid to have no selected cells
 		var cells = $('#grid').children('b'); //get the cells that are selected
 		cells.removeClass('selected'); 
@@ -43,7 +46,8 @@ $(document).ready(function() {
 	});
 
 	// catch grid clicks and update the cell_id list
-	$('#grid').children('b').click(function() {
+	$('#grid').children('b').click(function() 
+	{
 		var list = '';
 		var newcss = '';
 		var cell_id = $(this).attr('n');
@@ -78,17 +82,28 @@ $(document).ready(function() {
 		grid_cell_id_list.focusout(); // focus on cell_ids input field so that the grid will update
 	});
 	
+	// set cancel button link
+	$('.button_cancel').click(function()
+	{
+		scene_id = $(this).attr('scene_id');
+		document.location.href='edit?scene_id='+scene_id;
+	});
+	
+	// if messages div has content show in pop-up
+	if (messages = $('#messages'))
+	{		
+		if (messages.html().length > 0)
+		{
+			//messages.css('display','block');
+			$("#messages").dialog();		
+		}
+	}
+	
 	//when the page loads fire these events to set up the form
 	$('#event_type').change();
 	$('input[name=cell_ids]').focusout();
 	$('input[name=cell_id]').focusout();
-	// set cancel button link
-	$('.button_cancel').click(function()
-		{
-			scene_id = $(this).attr('scene_id');
-			document.location.href='edit?scene_id='+scene_id;
-		});
-		
+				
 	// jQuery UI init
     $("#accordion").accordion({ collapsible: true, active: false, animated: false }); //autoHeight: true
     $("#tabs").tabs();
