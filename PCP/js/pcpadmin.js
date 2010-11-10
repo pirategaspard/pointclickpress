@@ -120,7 +120,6 @@ $(document).ready(function() {
 			$("#dialog_message").dialog(
 					{ 
 						title: 'Message'
-						,modal: true
 						,buttons: [
 					    {
 					        text: 'Close',
