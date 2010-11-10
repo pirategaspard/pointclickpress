@@ -82,6 +82,28 @@ $(document).ready(function() {
 		grid_cell_id_list.focusout(); // focus on cell_ids input field so that the grid will update
 	});
 	
+	// catch delete clicks and confirm delete	
+	$('.delete').click(function(d)
+	{
+		d.preventDefault();
+		var delete_link = $(this).attr('href');
+		$("#dialog_delete").dialog(
+					{
+						title: 'Are you Sure?'
+						,modal: true
+						,buttons: [
+						    {
+						        text: 'Delete',
+						        click: function() { window.location.href = delete_link; }
+						    }
+						    ,{
+								text: 'cancel',
+								click: function() { $(this).dialog("close"); }
+							}
+						]
+					});
+	});
+	
 	// set cancel button link
 	$('.button_cancel').click(function()
 	{
@@ -90,12 +112,21 @@ $(document).ready(function() {
 	});
 	
 	// if messages div has content show in pop-up
-	if (messages = $('#messages'))
+	if (messages = $('#dialog_message'))
 	{		
 		if (messages.html().length > 0)
 		{
 			//messages.css('display','block');
-			$("#messages").dialog();		
+			$("#dialog_message").dialog(
+					{ 
+						title: 'Message'
+						,modal: true
+						,buttons: [
+					    {
+					        text: 'Close',
+					        click: function() { $(this).dialog("close"); }
+					    }]
+					});		
 		}
 	}
 	

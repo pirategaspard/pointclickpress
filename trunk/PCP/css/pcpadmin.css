@@ -6,16 +6,17 @@ legend {font-size:1.2em;}
 #header {display: block; padding: 5px; height: 15px;} /*height: 30px; */
 #header .menu {float: right;}
 #topmenu {}
-#messages {display: none;}
-#messages p {padding: 25px 0px; font-weight: bold; text-align: center; }
-#messages p.success { color: green;   }
-#messages p.error { color: red; }
 #content {}
 #content td {padding: 4px 2px;}
 #scene { text-align: center; margin: 0 auto;}
 #grid {margin: 10px auto; width:80%; }
 #grid a {display:block; float: left; }
 #scene_data {padding: 10px; margin: 0 auto;}
+
+#dialog_message, #dialog_delete {display: none;}
+#dialog_message p {padding: 25px 0px; font-weight: bold; text-align: center; }
+#dialog_message p.success { color: green;   }
+#dialog_message p.error { color: red; }
 
 #bottommenu {}
 #footer {position: relative; text-align: center; margin: 20px auto; }

@@ -13,11 +13,12 @@
 			</div>
 			<div id="topmenu"><?php echo $top_menu; ?></div>
 			<div id="breadcrumb"><?php echo $breadcrumb; ?></div>
-			<div id="messages"><?php echo $messages; ?></div>
 			<div id="content"><?php echo $content; ?></div>
 			<div id="bottommenu"><?php echo $bottom_menu; ?></div>
 			<div id="footer"><?php echo $footer; ?></div>
 		</div>
-		<?php foreach ($scripts as $script)	{ ?><script src="<?php echo(Kohana::$base_url.'js/'.$script); ?>" ></script><?php print("\n"); } ?>
+		<div id="dialog_message"><?php echo $messages; ?></div>
+		<div id="dialog_delete"> Are You Sure?</div>
+		<?php foreach ($scripts as $script)	{ ?><script src="<?php echo(Kohana::$base_url.'js/'.$script); ?>" ></script><?php print("\n"); } ?>		
 	</body>
 </html>
