@@ -65,7 +65,7 @@ class PCPAdmin
 		$args = PCPAdmin::getArgs($args);
 		return EventsAdmin::getEvents($args); // get a story object and all its locations
 	}
-	
+
 	static function getUser($args=array())
 	{
 		$session = Session::instance();
@@ -123,13 +123,13 @@ class PCPAdmin
 		return ItemAdmin::getGridItem($args); 		
 	}
 	
-	static function getitemstates($args=array())
+	static function getItemstates($args=array())
 	{			
 		$args = PCPAdmin::getArgs($args);
 		return ImagesAdmin::getitemstates($args);	
 	}
 	
-	static function getitemstate($args=array())
+	static function getItemstate($args=array())
 	{	
 		$session = Session::instance();
 		$args = PCPAdmin::getArgs($args);
