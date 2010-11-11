@@ -56,7 +56,7 @@ class ImagesAdmin
 						,its.id
 						,its.value
 				FROM items_states its
-				INNER JOIN itemDefs id 
+				INNER JOIN itemdefs id 
 				ON its.item_id = id.id
 				INNER JOIN stories s
 				ON id.story_id = s.id

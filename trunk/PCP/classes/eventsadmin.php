@@ -42,7 +42,7 @@ class EventsAdmin
 		return $event->load($args);
 	}
 	
-	static function getlocationEvent($args=array())
+	static function getLocationEvent($args=array())
 	{
 		// get a single event object and populate it based on the arguments
 		$event = new Model_locationEvent($args);
@@ -63,21 +63,21 @@ class EventsAdmin
 		return $event->load($args);
 	}
 	
-	static function getEventsAdmin($args=array())
+	static function getEvents($args=array())
 	{				
 		if (isset($args['scene'])) 
 		{
-  			$EventsAdmin = EventsAdmin::getSceneEventsAdmin($args);
+  			$Events = EventsAdmin::getSceneEvents($args);
 		}
 		else if (isset($args['location'])) 
 		{
-  			$EventsAdmin = EventsAdmin::getLocationEventsAdmin($args);
+  			$Events = EventsAdmin::getLocationEvents($args);
 		}	
 		else if (isset($args['story'])) 
 		{
-  			$EventsAdmin = EventsAdmin::getStoryEventsAdmin($args);
+  			$Events = EventsAdmin::getStoryEvents($args);
 		}
-		return $EventsAdmin;
+		return $Events;
 	}
 	
 	static function getStoryEvents($args=array())

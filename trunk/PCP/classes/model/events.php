@@ -41,8 +41,12 @@ class Model_Events
     */
 	static function doEvent($event)
 	{
+	
+		if ($event->event =='event_assignrefresh')
+		var_dump($event); die();
+	
 		$events[] = $event;
-		return Model_Events::doEvents($events);	
+		return Model_Events::doEvents($events);							
 	}
 	
 	static function getJSEventTypes()
