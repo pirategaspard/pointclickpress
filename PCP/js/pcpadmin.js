@@ -114,7 +114,7 @@ $(document).ready(function() {
 	// if messages div has content show in pop-up
 	if (messages = $('#dialog_message'))
 	{		
-		if (messages.html().length > 0)
+		if (messages.children('p').html()) /* && messages.children('p').html().length > 0) */
 		{
 			//messages.css('display','block');
 			$("#dialog_message").dialog(
