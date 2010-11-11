@@ -40,11 +40,7 @@ class Model_Events
 		interprets the cell action(s)
     */
 	static function doEvent($event)
-	{
-	
-		if ($event->event =='event_assignrefresh')
-		var_dump($event); die();
-	
+	{	
 		$events[] = $event;
 		return Model_Events::doEvents($events);							
 	}

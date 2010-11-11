@@ -18,7 +18,7 @@ class EventsAdmin
 					$event = EventsAdmin::getSceneEvent($args);
 				break;
 				case 'location':
-					$event = EventsAdmin::getlocationEvent($args);
+					$event = EventsAdmin::getLocationEvent($args);
 				break;
 				case 'Story':
 					$event = EventsAdmin::getStoryEvent($args);
@@ -61,6 +61,27 @@ class EventsAdmin
 		// get a single event object and populate it based on the arguments
 		$event = new Model_GridEvent($args);
 		return $event->load($args);
+	}
+
+	/* create an event */
+	static function createEvent($event='',$event_value='',$type='event',$event_label='',$story_id=0)
+	{
+		$args = array(	'event'=>$event
+				,'event_value'=>$event_value
+				,'type'=>$type
+				,'event_label'=>$event_label
+				,'story_id'=>$story_id
+				);
+		$event = EventsAdmin::getEvent($args);
+		return $event;
+	}
+
+	
+	static function doEvent($event='',$event_value='',$type='event',$event_label='',$story_id=0)
+	{
+		$event = EventsAdmin::createEvent($event,$event_value,$type,$event_label,$story_id);
+		$event_results = Model_Events::doEvent($event);
+		return $event_results;
 	}
 	
 	static function getEvents($args=array())
