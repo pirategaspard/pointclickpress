@@ -17,9 +17,24 @@ class event_Eval extends pcpevent
 	
 	public function execute($args=array(),&$story_data=array())
 	{									
-		eval($args['event_value']);	
-		$response = new pcpresponse(NOP,array()); 
-		return $response->asArray();
+		$result = eval($args['event_value']);	
+		if ((isset($result))&&(is_array($result))&&($result[0] instanceof pcpresponse))
+		{
+			$response = $result;
+		}
+		// if you return an array it will consider it the parsed results
+		elseif((isset($result))&&(is_array($result)))
+		{
+			$story_data = array_merge($story_data,$result);
+		}
+
+		// you can return your own response above otherwise default is NOP
+		if(!isset($response))
+		{
+			$response = new pcpresponse(NOP,array()); 
+			return $response->asArray();
+		}
+		return $response;
 	}
 }
 ?>
