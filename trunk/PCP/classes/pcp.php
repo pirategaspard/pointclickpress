@@ -137,13 +137,19 @@ class PCP
 	/*
 		if an action is assigned to the cell this function 
 		interprets the cell action(s)
-    */
+	*/
 	static function doEvents($events)
 	{
 		$event_results = Model_Events::doEvents($events);
 		return $event_results;		
 	}
 	
+	static function doEvent($event='',$event_value='',$type='event',$event_label='',$story_id=0)
+        {
+                $event_results = EventsAdmin::doEvent($event,$event_value,$type,$event_label,$story_id);
+                return $event_results;
+        }
+
 	static function getCurrentlocationID()
 	{
 		$session = Session::instance();
@@ -159,7 +165,7 @@ class PCP
 		return $location_id;
 	}
 	
-	static function getlocation($location_id = 0)
+	static function getLocation($location_id = 0)
 	{
 		$args = PCP::getArgs();
 		$args['id'] = $location_id;
