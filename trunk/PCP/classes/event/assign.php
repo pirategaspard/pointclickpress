@@ -21,6 +21,8 @@ class event_assign extends pcpevent
 	
 	public function execute($args=array(),&$story_data=array())
 	{
+		
+		//var_dump($story_data);
 		$results = array();
 		$parsed = array(); // array of results	
 		$this->story_data = $story_data;						
@@ -47,7 +49,8 @@ class event_assign extends pcpevent
 			$story_data = array_merge($story_data,$parsed);		
 			// pass to the parent event to refresh the scene
 			$results = parent::execute($args,$story_data);
-		}				
+		}		
+		//var_dump($story_data); die();
 		return $results;
 	}
 	
@@ -91,7 +94,7 @@ class event_assign extends pcpevent
 				$math_values[1] = Events::getValueFromArray(Events::getVariableName($math_values[1]),$this->story_data);
 				$parsed[$name] = Events::doBasicMath($math_values[0],$operator,$math_values[1]);														
 			}
-		}		
+		}	
 		return $parsed;
 	}
 }
