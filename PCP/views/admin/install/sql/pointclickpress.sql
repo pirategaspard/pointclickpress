@@ -2243,7 +2243,7 @@ CREATE TABLE IF NOT EXISTS `stories` (
 --
 
 INSERT INTO `stories` (`id`, `title`, `author`, `description`, `first_location_id`, `image_id`, `status`, `grid_x`, `grid_y`, `create_date`) VALUES
-(3, 'River Path', 'Dan', 'Explore the old equipment by the river', 30, 24, 'p', 10, 10, '2010-10-07 18:04:34');
+(3, 'River Path', 'Dan', 'Explore the old equipment by the river. Points of interest include abandoned wells and a muddy river. Maybe you can find a bucket to scoop up water from the river?', 30, 24, 'p', 10, 10, '2010-10-07 18:04:34');
 
 -- --------------------------------------------------------
 
