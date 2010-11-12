@@ -18,7 +18,7 @@
 		
 		// Done!
 		echo '<h3>Done!</h3>';
-		echo '<a href="'.Kohana::$base_url.'" >Log in</a>';
+		echo '<a href="'.Kohana::$base_url.'admin/" >Log in</a>';
 	}
 	else
 	{
