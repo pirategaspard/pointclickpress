@@ -22,8 +22,9 @@ class event_Eval extends pcpevent
 		{
 			$response = $result;
 		}
-		// story_data may have been updated in the eval. 
-		// so our copy may be out of date. we need to refresh our copy here
+		// our copy of $story_data may be out of date because 
+		// $story_data may have been updated in the eval. 
+		// so we need to refresh our copy here
 		$session = Session::instance();
 		$story_data = $session->get('story_data',array());
 		
