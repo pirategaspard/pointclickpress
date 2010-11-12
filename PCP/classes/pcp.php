@@ -1,5 +1,5 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-
+/* functionality for the front end of PCP */
 class PCP
 {
 	/* Get the Story Info to use on the story details pages and for rendering scenes */
@@ -150,6 +150,12 @@ class PCP
                 return $event_results;
         }
 
+	static function createEvent($event='',$event_value='',$type='event',$event_label='',$story_id=0)
+        {
+                $event = EventsAdmin::createEvent($event,$event_value,$type,$event_label,$story_id);
+                return $event;
+        }
+	
 	static function getCurrentlocationID()
 	{
 		$session = Session::instance();

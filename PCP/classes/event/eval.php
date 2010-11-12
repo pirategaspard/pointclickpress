@@ -22,12 +22,11 @@ class event_Eval extends pcpevent
 		{
 			$response = $result;
 		}
-		// if you return an array it will consider it the parsed results
-		elseif((isset($result))&&(is_array($result)))
-		{
-			$story_data = array_merge($story_data,$result);
-		}
-
+		// story_data may have been updated in the eval. 
+		// so our copy may be out of date. we need to refresh our copy here
+		$session = Session::instance();
+		$story_data = $session->get('story_data',array());
+		
 		// you can return your own response above otherwise default is NOP
 		if(!isset($response))
 		{
