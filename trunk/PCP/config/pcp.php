@@ -12,7 +12,7 @@ $default_page_title = 'PointClickPress - ';
 */
 //$supported_screens = '480x320,640x480,800x480,800x600,1024x768'; // Basic standard VGA and some mobile
 //$supported_screens = '320x200,480x320,640x320,768x480,800x480,960x540,1024x576,1366x768'; // widescreen mobile (iphone,android,netbook) and HD TV
-$supported_screens = '480x320,800x480'; // Demo sizes
+$supported_screens = '480x320,800x480'; // Default sizes
 
 
 /* 

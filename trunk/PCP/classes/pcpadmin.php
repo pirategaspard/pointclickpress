@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
+/*
+ * PCP Admin helper class
+ * For accessing all basic admin functionality
+ * */
+
 class PCPAdmin
 {
 	static function getStory($args=array())
@@ -24,7 +29,7 @@ class PCPAdmin
 		return Model_Stories::getStories($args);		
 	}
 	
-	static function getlocation($args=array())
+	static function getLocation($args=array())
 	{
 		$session = Session::instance();
 		$args = PCPAdmin::getArgs($args);
@@ -32,7 +37,7 @@ class PCPAdmin
 		return Model_locations::getlocation($args); // get a scene location object
 	}
 	
-	static function getlocations($args=array())
+	static function getLocations($args=array())
 	{	
 		$args = PCPAdmin::getArgs($args);
 		return Model_locations::getlocations($args);		
@@ -126,7 +131,7 @@ class PCPAdmin
 	static function getItemstates($args=array())
 	{			
 		$args = PCPAdmin::getArgs($args);
-		return ImagesAdmin::getitemstates($args);	
+		return ItemstateAdmin::getItemstates($args);	
 	}
 	
 	static function getItemstate($args=array())
@@ -134,7 +139,7 @@ class PCPAdmin
 		$session = Session::instance();
 		$args = PCPAdmin::getArgs($args);
 		if (!isset($args['id']) && $session->get('itemstate_id')) { $args['id'] =  $session->get('itemstate_id'); }	
-		return ImagesAdmin::getitemstate($args); 		
+		return ItemstateAdmin::getItemstate($args); 		
 	}
 	
 	static function getPlugins($args=array())
@@ -244,10 +249,10 @@ class PCPAdmin
 		return $args;
 	}
 	
-	static function loadEventTypes()
+	static function loadEventDefs()
 	{
-		EventsAdmin::cacheJSEventTypes(); // cache JS event files
-		return EventsAdmin::loadEventTypes(); // get php event classes 
+		EventsAdmin::cacheJSEventDefs(); // cache JS event files
+		return EventsAdmin::loadEventDefs(); // get php event classes 
 	}
 	
 	/*

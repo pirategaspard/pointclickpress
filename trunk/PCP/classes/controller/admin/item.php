@@ -5,8 +5,7 @@ Class Controller_admin_item extends Controller_Template_Admin
 	function action_edit()
 	{		
 		$session = Session::instance();	
-		$data['item'] = PCPAdmin::getItemDef(array('include_images'=>true));
-		$data['itemstates'] = $data['item']->images; 
+		$data['item'] = PCPAdmin::getItemDef();
 		$data['item_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'item','action'=>'save')));		
 		$data['item_assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?scene_id='.$session->get('scene_id').'&item_id='.$data['item']->id;			
 		$data['back_url'] = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
@@ -14,9 +13,8 @@ Class Controller_admin_item extends Controller_Template_Admin
 		$data['add_item_link'] =  View::factory('/admin/item/add',$data)->render();
 		$data['story'] = PCPAdmin::getStory(array('story_id'=>$data['item']->story_id));
 				
-		$data['itemstate_add'] = View::factory('/admin/itemstate/add',$data)->render();
-		$data['itemstate_list'] = View::factory('/admin/itemstate/list',$data)->render();				
-				
+		$data['itemstate_list'] = Request::factory('/admin/itemstate/listSimple')->execute()->response;
+		
 		$this->template->breadcrumb .= View::factory('/admin/story/info',$data)->render();
 		$this->template->breadcrumb .= View::factory('/admin/item/info',$data)->render();		
 		$this->template->top_menu = View::factory('/admin/item/top_menu',$data)->render();						
@@ -96,6 +94,41 @@ Class Controller_admin_item extends Controller_Template_Admin
 			$session->set('result',$result);			
 		}
 		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'item','action'=>'edit')));
+	}
+	
+	function action_listSimple()
+	{
+		$this->simple_output();
+		$data = ItemAdmin::getData();	
+		$data['items'] = ItemAdmin::getItems($data);
+		$data['item_add'] = View::factory('/admin/item/add',$data)->render();
+		$this->template->content = View::factory('/admin/item/list',$data)->render();
+	}
+	
+	function action_listGridSimple()
+	{
+		$this->simple_output();
+		$data = ItemAdmin::getData();	
+		$data['items'] = ItemAdmin::getItems($data);
+		$this->template->content = View::factory('/admin/item/list_grid',$data)->render();
+	}
+	
+	function action_formGridSimple()
+	{
+		$this->simple_output();
+		$data = ItemAdmin::getData();
+		/* scene items */
+		if (1 == 1)
+		{
+			$session = Session::instance();
+			$session->delete('image_id');			
+		}
+		$data['back_url'] = Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?scene_id='.$data['scene_id'];
+		$data['item'] = PCPAdmin::getItemDef(array('scene_id'=>$data['scene_id']));
+		$data['griditem'] = PCPAdmin::getGridItem(array('scene_id'=>$data['scene_id']));			
+		$data['item_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'assignItem')));;
+		$data['assign_item_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'item','action'=>'list'))).'?scene_id='.$session->get('scene_id');//.'&grid_item_id='.$data['griditem']->id;
+		$this->template->content = View::factory('/admin/item/form_grid',$data)->render(); //inline form
 	}
 
 }

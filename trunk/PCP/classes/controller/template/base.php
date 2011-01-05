@@ -37,6 +37,11 @@ Class Controller_Template_Base extends Controller_Template
 		// Run anything that needs to run after this.
 		parent::after();
 	}
+	
+	protected function simple_output()
+	{
+		$this->template = new View('templates/simple');
+	}
 
 }
 

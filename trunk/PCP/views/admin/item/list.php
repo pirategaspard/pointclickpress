@@ -3,6 +3,7 @@
 	{
 ?>
 <fieldset class="ui-helper-reset ui-widget-content ui-corner-all" >
+	<?php if (isset($item_add)) echo('<span class="add">'.$item_add."</span>"); ?>
 	<legend>Items</legend>
 	<table>
 		<tr>

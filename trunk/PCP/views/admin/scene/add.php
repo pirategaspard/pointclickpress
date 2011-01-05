@@ -1,1 +1,1 @@
-<a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit'))).'?story_id='.$story->id.'&location_id='.$location->id.'&scene_id=0'); ?>" class="ui-widget ui-state-default ui-corner-all button" >Add Scene</a>
+<a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit'))).'?story_id='.$story_id.'&location_id='.$location_id.'&scene_id=0'); ?>" class="ui-widget ui-state-default ui-corner-all button" >Add Scene</a>

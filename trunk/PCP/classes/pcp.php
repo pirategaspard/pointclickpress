@@ -134,27 +134,25 @@ class PCP
 		return $event_results;	
 	}
 
+	// Event Facade functions 
 	/*
 		if an action is assigned to the cell this function 
 		interprets the cell action(s)
 	*/
 	static function doEvents($events)
 	{
-		$event_results = Model_Events::doEvents($events);
-		return $event_results;		
+		return Model_Events::doEvents($events);		
 	}
 	
 	static function doEvent($event='',$event_value='',$type='event',$event_label='',$story_id=0)
-        {
-                $event_results = EventsAdmin::doEvent($event,$event_value,$type,$event_label,$story_id);
-                return $event_results;
-        }
+	{
+		return EventsAdmin::doEvent($event,$event_value,$type,$event_label,$story_id);
+	}
 
 	static function createEvent($event='',$event_value='',$type='event',$event_label='',$story_id=0)
-        {
-                $event = EventsAdmin::createEvent($event,$event_value,$type,$event_label,$story_id);
-                return $event;
-        }
+	{
+		return EventsAdmin::createEvent($event,$event_value,$type,$event_label,$story_id);
+	}
 	
 	static function getCurrentlocationID()
 	{
@@ -194,9 +192,9 @@ class PCP
 		return $args;
 	}
 	
-	static function getJSEventTypes()
+	static function getJSEventDefs()
 	{	
-		return Model_Events::getJSEventTypes();
+		return Model_Events::getJSEventDefs();
 	}
 	
 	static function getScreens()

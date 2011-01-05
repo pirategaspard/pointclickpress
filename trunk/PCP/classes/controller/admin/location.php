@@ -10,12 +10,9 @@ Class Controller_admin_location extends Controller_Template_Admin
 	
 	function action_edit()
 	{		
-		$data['type'] = EventsAdmin::getEventType();
-		$data['location'] = PCPAdmin::getlocation(array('include_scenes'=>TRUE,'include_events'=>TRUE));
+		$data['location'] = PCPAdmin::getlocation(array('include_scenes'=>TRUE,'include_events'=>false));
 		$data['story'] = PCPAdmin::getStory(array('id'=>$data['location']->story_id));
-		$data['scenes'] = $data['location']->scenes;	
-		$data['events'] = $data['location']->events;	
-						
+		$data['scenes'] = $data['location']->scenes;			
 		
 		// if there is only one scene in a location redirect to scene edit
 		/*
@@ -34,12 +31,8 @@ Class Controller_admin_location extends Controller_Template_Admin
 		}
 		else
 		{			
-			// show locations 
-			$data['event_add'] = View::factory('/admin/event/add',$data)->render();
-			$data['event_list'] = View::factory('/admin/event/list',$data)->render();	//get event information and load list of events
-			
-			$data['scene_add'] = View::factory('/admin/scene/add',$data)->render();
-			$data['scene_list'] = View::factory('/admin/scene/list',$data)->render();					
+			$data['event_list'] = Request::factory('/admin/event/listSimple')->execute()->response;	
+			$data['scene_list'] = Request::factory('/admin/scene/listSimple')->execute()->response;					
 			
 			$data['location_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'location','action'=>'save')));					
 			$data['location_form'] =  View::factory('/admin/location/form',$data)->render();		
@@ -91,6 +84,20 @@ Class Controller_admin_location extends Controller_Template_Admin
 		$session->set('result',$result);
 		//Go back to the parent
 		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'edit')));
+	}
+	
+	function action_listSimple()
+	{
+		$this->simple_output();
+		$this->action_list();
+	}
+	
+	function action_list()
+	{
+		$data = LocationAdmin::getData();	
+		$data['locations'] = LocationAdmin::getLocations($data);
+		$data['location_add'] = View::factory('/admin/location/add',$data)->render();
+		$this->template->content = View::factory('/admin/location/list',$data)->render();	//get location information and load list of locations
 	}
 }
 

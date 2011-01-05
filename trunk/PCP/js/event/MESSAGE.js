@@ -10,7 +10,7 @@
 		if (div.length == 0)
 		{		
 			// if message div doesn't exist, create it
-			$('#scene').append('<div id="message"></div>');
+			$('#description').before('<div id="message"></div>');
 			div = $('#message');
 		}
 

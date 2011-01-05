@@ -1,5 +1,9 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
+/*
+		Frontend events helper class. 
+*/
+
 class Model_Events
 {	
 	/*
@@ -45,9 +49,9 @@ class Model_Events
 		return Model_Events::doEvents($events);							
 	}
 	
-	static function getJSEventTypes()
+	static function getJSEventDefs()
 	{	
-		return Cache::instance()->get('js_events',EventsAdmin::cacheJSEventTypes());
+		return Cache::instance()->get('js_event_defs',EventsAdmin::cacheJSEventDefs());
 	}
 
 

@@ -1,26 +1,31 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
+/* 
+ * backend Events helper file.
+ * Contains functions for getting event and events and managing events in the PCP admin
+ * */
+
 class EventsAdmin
 {		
 	// get a single Event object and populate it based on the arguments
 	static function getEvent($args=array())
 	{		
 		// if we have been passed a type, get that specific type of event, otherwise save a generic event	
-		if (isset($args['type']))
+		if (isset($args['event_type']))
 		{
 			// what kind of event are we getting? 
-			switch ($args['type'])
+			switch ($args['event_type'])
 			{	
-				case 'Grid':					
+				case 'grid':					
 					$event = EventsAdmin::getGridEvent($args);					
 				break;
-				case 'Scene':
+				case 'scene':
 					$event = EventsAdmin::getSceneEvent($args);
 				break;
 				case 'location':
 					$event = EventsAdmin::getLocationEvent($args);
 				break;
-				case 'Story':
+				case 'story':
 					$event = EventsAdmin::getStoryEvent($args);
 				break;
 				default:
@@ -86,19 +91,26 @@ class EventsAdmin
 	
 	static function getEvents($args=array())
 	{				
-		if (isset($args['scene'])) 
-		{
-  			$Events = EventsAdmin::getSceneEvents($args);
+		if (!isset($args['event_type'])) {$args['event_type']='';}	
+		
+		// what kind of event are we getting? 
+		switch ($args['event_type'])
+		{	
+			case 'scene':
+				$events = EventsAdmin::getSceneEvents($args);
+			break;
+			case 'location':
+				$events = EventsAdmin::getLocationEvents($args);
+			break;
+			case 'story':
+				$events = EventsAdmin::getStoryEvents($args);
+			break;
+			default:
+				$events = array();
+			break;
 		}
-		else if (isset($args['location'])) 
-		{
-  			$Events = EventsAdmin::getLocationEvents($args);
-		}	
-		else if (isset($args['story'])) 
-		{
-  			$Events = EventsAdmin::getStoryEvents($args);
-		}
-		return $Events;
+
+		return $events;
 	}
 	
 	static function getStoryEvents($args=array())
@@ -115,15 +127,15 @@ class EventsAdmin
 				ORDER BY e.id DESC';
 		
 		$tempArray = DB::query(Database::SELECT,$q,TRUE)
-					->param(':story_id',$args['story']->id)
+					->param(':story_id',$args['story_id'])
 					->execute()
 					->as_array();			
-		$EventsAdmin = array();
+		$events = array();
 		foreach($tempArray as $e)
 		{
-			$EventsAdmin[$e['id']] = EventsAdmin::getStoryEvent()->init($e);
+			$events[$e['id']] = EventsAdmin::getStoryEvent()->init($e);
 		}
-		return $EventsAdmin;		
+		return $events;		
 	}
 	
 	static function getLocationEvents($args=array())
@@ -140,15 +152,15 @@ class EventsAdmin
 				ORDER BY e.id DESC';
 		
 		$tempArray = DB::query(Database::SELECT,$q,TRUE)
-					->param(':location_id',$args['location']->id)
+					->param(':location_id',$args['location_id'])
 					->execute()
 					->as_array();			
-		$EventsAdmin = array();
+		$events = array();
 		foreach($tempArray as $e)
 		{
-			$EventsAdmin[$e['id']] = EventsAdmin::getLocationEvent()->init($e);
+			$events[$e['id']] = EventsAdmin::getLocationEvent()->init($e);
 		}
-		return $EventsAdmin;		
+		return $events;		
 	}
 	
 	static function getSceneEvents($args=array())
@@ -165,15 +177,15 @@ class EventsAdmin
 				ORDER BY e.id DESC';
 		
 		$tempArray = DB::query(Database::SELECT,$q,TRUE)
-					->param(':scene_id',$args['scene']->id)
+					->param(':scene_id',$args['scene_id'])
 					->execute()
-					->as_array();			
-		$EventsAdmin = array();
+					->as_array();
+		$events = array();
 		foreach($tempArray as $e)
 		{
-			$EventsAdmin[$e['id']] = EventsAdmin::getSceneEvent()->init($e);
+			$events[$e['id']] = EventsAdmin::getSceneEvent()->init($e);
 		}
-		return $EventsAdmin;		
+		return $events;		
 	}
 	
 	static function getGridEvents($args=array())
@@ -191,21 +203,21 @@ class EventsAdmin
 				ORDER BY e.id DESC';
 		
 		$tempArray = DB::query(Database::SELECT,$q,TRUE)
-					->param(':scene_id',$args['scene']->id)
+					->param(':scene_id',$args['scene_id'])
 					->execute()
 					->as_array();			
-		$EventsAdmin = array();
+		$events = array();
 		foreach($tempArray as $e)
 		{
-			$EventsAdmin[$e['id']] = EventsAdmin::getGridEvent()->init($e);
+			$events[$e['id']] = EventsAdmin::getGridEvent()->init($e);
 		}
-		return $EventsAdmin;		
+		return $events;		
 	}
 	
 	static function getEventsList($args=array())
 	{
-		if (!isset($args['type'])) {$args['type']='';}		
-		switch ($args['type'])
+		if (!isset($args['event_type'])) {$args['event_type']='';}		
+		switch ($args['event_type'])
 		{
 			case 'Grid':				
 				$view = View::factory('/admin/event/list_grid',$args)->render();
@@ -217,33 +229,64 @@ class EventsAdmin
 		return $view;
 	}
 	
-	static function getEventType()
+	static function getEventType($args=array())
 	{
-		$type = '';
-		$session = Session::instance();		
-		if (isset($_REQUEST['story_id'])||$session->get('story_id'))
+		$type = '';	
+		$session = Session::instance();	
+		if (isset($args['story_id'])||$session->get('story_id'))
 		{
-			$type = 'Story';
+			$type = 'story';
 		}
-		if (isset($_REQUEST['location_id'])||$session->get('location_id'))
+		if (isset($args['location_id'])||$session->get('location_id'))
 		{
 			$type = 'location';
 		}
-		if (isset($_REQUEST['scene_id'])||$session->get('scene_id'))
+		if (isset($args['scene_id'])||$session->get('scene_id'))
 		{
-			$type = 'Scene';
+			$type = 'scene';
 		}
 		if (isset($_POST['cell_ids'])||$session->get('cell_ids'))
 		{
-			$type = 'Grid';
+			$type = 'grid';
 		}	
 		return $type;
 	} 
 	
+	static function getData()
+	{
+		$session = Session::instance();	
+		if (isset($_REQUEST['story_id']))
+		{
+			$data['story_id'] = $_REQUEST['story_id'];			
+		}
+		else if ($session->get('story_id'))
+		{
+			$data['story_id'] = $session->get('story_id');
+		}
+		if (isset($_REQUEST['location_id']))
+		{
+			$data['location_id'] = $_REQUEST['location_id'];	
+		}
+		else if ($session->get('location_id'))
+		{
+			$data['location_id'] = $session->get('location_id');
+		}
+		if (isset($_REQUEST['scene_id']))
+		{
+			$data['scene_id'] = $_REQUEST['scene_id'];				
+		}
+		else if ($session->get('scene_id'))
+		{
+			$data['scene_id'] = $session->get('scene_id');
+		}
+		$data['event_type'] = self::getEventType($data);
+		return $data;
+	}
+	
 	/*
 		Searches the Event directory for class files 
 	*/
-	static function loadEventTypes()
+	static function loadEventDefs()
 	{	
 		$EventTypes = array();	// array to hold any event classes we find
 		$dir = 'classes/event/';
@@ -270,14 +313,13 @@ class EventsAdmin
 		}
 		return $EventTypes;		
 	}
-
 	
 	/*
 		Searches the js/event directory for js files
 	*/
-	static function loadJSEventTypes()
+	static function loadJSEventDefs()
 	{	
-		$JSEventTypes = array();	// array to hold any event scripts we find
+		$JSEventDefs = array();	// array to hold any event scripts we find
 		$dir = '/js/event/';
 		$files = scandir(APPPATH.$dir);// get all the files in the event directory
 		foreach($files as $file)
@@ -287,20 +329,20 @@ class EventsAdmin
 			if (($pathinfo['extension']) == 'js')
 			{
 				// add new event object to event array 
-				$JSEventTypes[] = 'event/'.$pathinfo['basename'];
+				$JSEventDefs[] = 'event/'.$pathinfo['basename'];
 			}			
 		}		
-		return $JSEventTypes;		
+		return $JSEventDefs;		
 	}
 	
 	/* 
 		caches js files array so that we don't rescan js/event/ on the frontend for each request
 	*/ 
-	static function cacheJSEventTypes()
+	static function cacheJSEventDefs()
 	{		
-		$JSEventTypes = self::loadJSEventTypes();
-		Cache::instance()->set('js_events',$JSEventTypes);
-		return $JSEventTypes; 
+		$JSEventDefs = self::loadJSEventDefs();
+		Cache::instance()->set('js_event_defs',$JSEventDefs);
+		return $JSEventDefs; 
 	}
 	
 }

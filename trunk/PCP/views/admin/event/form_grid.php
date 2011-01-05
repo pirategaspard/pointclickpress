@@ -1,6 +1,6 @@
 <?php 
 
-	if (isset($event) && (isset($event_types)))
+	if (isset($event) && (isset($event_defs)))
 	{ 
 ?>
 <fieldset class="ui-helper-reset ui-widget-content ui-corner-all">
@@ -11,15 +11,15 @@
 		<?php if (isset($scene_id)){ ?><input type="hidden" name="scene_id" value="<?php echo($scene_id); ?>" /> <?php } ?>
 		<?php if (isset($event->grid_event_id)){ ?><input type="hidden" name="grid_event_id" value="<?php echo($event->grid_event_id); ?>" /> <?php } ?>
 		<input type="hidden" name="back_url" value="<?php echo($back_url); ?>" />
-		<input type="hidden" name="type" value="<?php echo($type); ?>" />
+		<input type="hidden" name="event_type" value="<?php echo($event_type); ?>" />
 		<input type="hidden" name="id" value="<?php echo($event->id); ?>" />
 		Event Type:
 		<select id="event_type" name="event">
-			<?php foreach($event_types as $event_type)
+			<?php foreach($event_defs as $event_def)
 			{
 				$selected = '';
-				if ($event->event == $event_type->getClass()) $selected = ' selected="selected" ';
-				echo ('<option value="'.$event_type->getClass().'"'.$selected.' >'.$event_type->getLabel().'</option>');
+				if ($event->event == $event_def->getClass()) $selected = ' selected="selected" ';
+				echo ('<option value="'.$event_def->getClass().'"'.$selected.' >'.$event_def->getLabel().'</option>');
 			} ?>
 		</select>
 		<?php if(isset($locations)) { ?>
@@ -53,9 +53,9 @@
 <script >
 	var event_descriptions = Array();
 <?php 
-	foreach($event_types as $event_type)
+	foreach($event_defs as $event_def)
 	{
-		echo ("event_descriptions['".$event_type->getClass()."'] = '".htmlentities($event_type->getdescription(),ENT_QUOTES)."';\n "); 
+		echo ("event_descriptions['".$event_def->getClass()."'] = '".htmlentities($event_def->getdescription(),ENT_QUOTES)."';\n "); 
 	}
 ?>
 </script>

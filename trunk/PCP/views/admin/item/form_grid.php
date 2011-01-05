@@ -11,12 +11,12 @@
 		<input type="hidden" name="itemdef_id" value="<?php if($griditem->itemdef_id == 0 ) {echo($item->id);} else {echo($griditem->itemdef_id);} ?>" />
 		<input type="hidden" name="id" value="<?php echo($griditem->id); ?>" />
 		<label>
-			Item Type:
+			Item:
 			<input type="text" name="type" value="<?php if (strlen($griditem->type) == 0) { echo($item->title); } else {echo($griditem->type);} ?>" readonly="readonly" />
 			<a href="<?php echo($assign_item_link); ?>&KeepThis=true&TB_iframe=true" class="thickbox ui-widget ui-state-default ui-corner-all button" >Assign ItemType</a>
 		</label>
 		<label>
-			Item Title:
+			Instance Title:
 			<input type="text" name="title" value="<?php if (strlen($griditem->slug) == 0) { echo($item->title); } else {echo($griditem->slug); }  ?>" />
 		</label>
 		<label id="cell_id" for="cell_id">Cell Id:

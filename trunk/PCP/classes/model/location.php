@@ -43,12 +43,12 @@ class Model_location extends Model
 		}
 		if ($args['include_events'])
 		{			
-			$args['location'] = $this;
+			$args['location_id'] = $this->id;
 			$this->events = EventsAdmin::getlocationEvents($args);
 		}
 		if ($args['include_scenes'])
 		{			
-			$args['location'] = $this;
+			$args['location_id'] = $this->id;
 			$this->scenes = PCPAdmin::getScenes($args);
 		}
 		return $this;

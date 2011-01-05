@@ -1,10 +1,9 @@
 <?php 
-
 	if (isset($events))
 	{
 ?>
-<!-- <a href="<?php //echo(Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'edit'))).'?event_id=0'.$url_params); ?>">Add Event</a> -->
 <fieldset class="ui-helper-reset ui-widget-content ui-corner-all" >
+	<?php if (isset($event_add)) echo('<span class="add">'.$event_add."</span>"); ?>
 	<legend>Events</legend>
 	<table>
 		<tr>
