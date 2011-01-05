@@ -5,17 +5,17 @@ class itemadmin
 	static function getItem($args=array())
 	{
 		// if we have been passed a type, get that specific type of item, otherwise get a generic item	
-		if (isset($args['type']))
+		if (isset($args['item_type']))
 		{
 			// what kind of event are we getting? 
-			switch ($args['type'])
+			switch ($args['item_type'])
 			{	
-				case 'Grid':
-					unset($args['type']);					
+				case 'grid':
+					unset($args['item_type']);					
 					$item = self::getGridItem($args);					
 				break;
 				default:
-					unset($args['type']);
+					unset($args['item_type']);
 					$item = self::getItemDef($args);
 				break;
 			}
@@ -41,7 +41,7 @@ class itemadmin
 		return $item->load($args);
 	}
 	
-	// Grid items go on the grid to compose a scene 
+	// Items can have more than one state
 	static function getItemState($args=array())
 	{		
 		$item = new Model_ItemState($args);
@@ -88,7 +88,7 @@ class itemadmin
 				WHERE sc.id = :scene_id
 				ORDER BY git.id DESC';
 		$tempArray = DB::query(Database::SELECT,$q,TRUE)
-						->param(':scene_id',$args['scene']->id)
+						->param(':scene_id',$args['scene_id'])
 						->execute()
 						->as_array();				
 		$items = array();
@@ -98,5 +98,64 @@ class itemadmin
 			$items[$a['cell_id']] = ItemAdmin::getGridItem()->init($a);
 		}
 		return $items;		
+	}
+	
+	static function getItems($args=array())
+	{
+		// if we have been passed a type, get that specific type of item, otherwise get a generic item	
+		if (!isset($args['item_type'])) {$args['item_type'] = ''; }
+			
+			// what kind of event are we getting? 
+			switch ($args['item_type'])
+			{	
+				case 'grid':				
+					$items = self::getGridItems($args);					
+				break;
+				case 'def':
+					$items = self::getItemDefs($args);
+				break;
+				default:
+					$items = array();
+				break;
+			}
+					
+		return $items;
+	}
+	
+	static function getItemType($args=array())
+	{
+		$type = '';
+		if (isset($args['story_id']))
+		{
+			$type = 'def';
+		}
+		if (isset($args['scene_id']))
+		{
+			$type = 'grid';
+		}	
+		return $type;
+	}
+	
+	static function getData()
+	{
+		$session = Session::instance();	
+		if (isset($_REQUEST['story_id']))
+		{
+			$data['story_id'] = $_REQUEST['story_id'];			
+		}
+		else if ($session->get('story_id'))
+		{
+			$data['story_id'] = $session->get('story_id');
+		}
+		if (isset($_REQUEST['scene_id']))
+		{
+			$data['scene_id'] = $_REQUEST['scene_id'];				
+		}
+		else if ($session->get('scene_id'))
+		{
+			$data['scene_id'] = $session->get('scene_id');
+		}
+		$data['item_type'] = self::getItemType($data);
+		return $data;
 	}
 }

@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
+/*
+ * Contains functions for getting location and locations
+ * To Do: move and rename this to locationsAdmin.php?
+ * */
+
 class Model_locations
 {	
 	static function getlocation($args=array())
@@ -11,25 +16,21 @@ class Model_locations
 	
 	static function getlocations($args=array())
 	{				
-		/*
-			$args['story'] - story object		   
-		*/
-		
 		$q = '	SELECT c.*
 				FROM locations c
 				INNER JOIN stories s
 				ON s.id = c.story_id
 				WHERE 1 = 1 ';
 				
-		if (isset($args['location'])) $q .= 'AND c.id = :location'; //if we have a location id
-		if (isset($args['story'])) $q .= 'AND s.id = :story'; //if we have a story id
+		if (isset($args['location'])) $q .= ' AND c.id = :location'; //if we have a location
+		if (isset($args['story_id'])) $q .= ' AND s.id = :story_id'; //if we have a story id
 		
 		$q .= ' ORDER BY c.id ASC';
 		
 		$q = DB::query(Database::SELECT,$q,TRUE);
 		
 		if (isset($args['location']))	 $q->param(':location',$args['location']->id);
-		if (isset($args['story']))	 $q->param(':story',$args['story']->id);
+		if (isset($args['story_id']))	 $q->param(':story_id',$args['story_id']);
 								
 		$tempArray = $q->execute()->as_array();
 								

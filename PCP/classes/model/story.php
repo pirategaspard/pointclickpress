@@ -1,5 +1,9 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
+/*
+ * Story object 
+ * */
+
 class Model_Story extends Model 
 {
 	protected $id = 0;
@@ -74,12 +78,12 @@ class Model_Story extends Model
 		}
 		if ($args['include_events'])
 		{			
-			$args['story'] = $this;
+			$args['story_id'] = $this->id;
 			$this->events = EventsAdmin::getStoryEvents($args);
 		}
 		if ($args['include_locations'])
 		{			
-			$args['story'] = $this;
+			$args['story_id'] = $this->id;
 			$this->locations = PCPAdmin::getlocations($args);
 		}
 		return $this;

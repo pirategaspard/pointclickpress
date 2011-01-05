@@ -9,14 +9,6 @@ class ImagesAdmin
 		return $story;		
 	}
 	
-	static function getitemstate($args=array())
-	{
-		// get a single story object and populate it based on the arguments
-		$story = new Model_itemstate($args);
-		$story->load($args);
-		return $story;		
-	}
-
 	static function getImages($args=array())
 	{				
 		// get all the Images in the db
@@ -44,44 +36,6 @@ class ImagesAdmin
 		foreach($tempArray as $a)
 		{
 			$Images[$a['id']] = ImagesAdmin::getImage()->init($a);
-		}
-		return $Images;		
-	}
-	
-	static function getitemstates($args=array())
-	{				
-		// get all the Images in the db
-		$q = '	SELECT 	i.id AS image_id
-						,i.filename
-						,its.id
-						,its.value
-				FROM items_states its
-				INNER JOIN itemdefs id 
-				ON its.item_id = id.id
-				INNER JOIN stories s
-				ON id.story_id = s.id
-				LEFT OUTER JOIN images i
-				ON i.id = its.image_id
-				WHERE 1 = 1 ';
-				
-		if (isset($args['image'])) $q .= 'AND i.id = :image_id'; 
-		if (isset($args['item'])) $q .= 'AND its.item_id = :item_id';
-		if (isset($args['ItemDef'])) $q .= 'AND its.item_id = :item_id';  
-		
-		$q .= ' ORDER BY i.id DESC';
-		
-		$q = DB::query(Database::SELECT,$q,TRUE);						
-		
-		if (isset($args['image']))	 $q->param(':image_id',$args['image']->id);
-		if (isset($args['item']))	 $q->param(':item_id',$args['item']->id);
-		if (isset($args['ItemDef'])) $q->param(':item_id',$args['ItemDef']->id);
-						
-		$tempArray = $q->execute()->as_array();		
-		
-		$Images = array();
-		foreach($tempArray as $a)
-		{
-			$Images[$a['id']] = ImagesAdmin::getitemstate()->init($a);
 		}
 		return $Images;		
 	}

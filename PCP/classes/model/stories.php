@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
+/* 
+ * Contains functions for getting story and stories
+ * To Do: move and rename this to StoriesAdmin.php?
+ * */
+
 class Model_Stories
 {	
 	static function getStory($args=array())
@@ -25,8 +30,8 @@ class Model_Stories
 				FROM stories s
 				WHERE 1 = 1 ';
 				
-		if (isset($args['story'])) $q .= 'AND s.id = :story'; //if we have a story id
-		if (isset($args['status'])) $q .= 'AND s.status = :status'; 
+		if (isset($args['story'])) $q .= ' AND s.id = :story'; //if we have a story id
+		if (isset($args['status'])) $q .= ' AND s.status = :status'; 
 		
 		$q .= ' ORDER BY s.id DESC';
 		

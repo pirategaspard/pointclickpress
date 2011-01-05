@@ -5,9 +5,8 @@
 ?>
 	<div id="accordion">
 		<h3><a href="#">Events</a></h3>
-		<div>
+		<div style='display: none;'>
 			<?php
-			echo($event_add); 
 			echo($event_list);
 			?>
 		</div>

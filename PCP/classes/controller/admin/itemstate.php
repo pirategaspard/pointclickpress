@@ -26,7 +26,7 @@ Class Controller_admin_itemstate extends Controller_Template_Admin
 		$session = Session::instance();	
 		$data['scene_id'] = $session->get('scene_id');	
 		$data['back_url'] = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
-		$data['itemstates'] = PCPAdmin::getitemstates(array('item_id'=>$session->get('item_id')));
+		$data['itemstates'] = PCPAdmin::getItemstates(array('item_id'=>$session->get('item_id')));
 		$data['assign_itemstate_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'itemstate','action'=>'assignImage')));
 		$data['add_itemstate_link'] =  View::factory('/admin/itemstate/add',$data)->render();
 		
@@ -104,6 +104,15 @@ Class Controller_admin_itemstate extends Controller_Template_Admin
 		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'itemstate','action'=>'edit')));
 	}
 
+	function action_listSimple()
+	{
+		$this->simple_output();
+		$data = ItemstateAdmin::getData();	
+		$data['itemstates'] = ItemstateAdmin::getItemstates($data);
+		$data['itemstate_add'] = View::factory('/admin/itemstate/add',$data)->render();
+		$this->template->content = View::factory('/admin/itemstate/list',$data)->render();
+	}
+	
 }
 
 ?>

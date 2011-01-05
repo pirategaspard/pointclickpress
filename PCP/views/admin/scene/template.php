@@ -3,11 +3,10 @@
 	if ($scene->id > 0)
 	{
 ?>
-	<div id="accordion">
-		<h3><a href="#">Events</a></h3>
-		<div>
+	<div id="accordion" >
+		<h3 ><a href="#">Events</a></h3>
+		<div style='display: none;' >
 			<?php
-				echo($event_add); 
 				echo($event_list);
 			?>
 		</div>
@@ -25,13 +24,13 @@
 			        <li><a href="#tab-1"><span>Grid Events</span></a></li>
 			        <li><a href="#tab-2"><span>Grid Items</span></a></li>
 			    </ul>
-			    <div id="tab-1">
+			    <div id="tab-1" class="ui-tabs-hide">
 			    	<?php 
 					echo($grid_event_form);
 					echo($grid_event_list);
 					?>
 				</div>
-				<div id="tab-2">
+				<div id="tab-2" class="ui-tabs-hide">
 			    	<?php 
 			    	echo($item_form);
 					echo($items_list);

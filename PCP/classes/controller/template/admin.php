@@ -65,6 +65,5 @@ Class Controller_Template_Admin extends Controller_Template_Base
 		}
 		$session->delete('result');	
 	}
-
 }
 ?>

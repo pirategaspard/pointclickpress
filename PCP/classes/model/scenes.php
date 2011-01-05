@@ -1,5 +1,9 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
+/* 
+ * Contains functions for frontend scene data
+ * */
+
 class Model_Scenes 
 {
 									 
@@ -26,17 +30,17 @@ class Model_Scenes
 				ON s.id = c.story_id
 				WHERE 1 = 1 ';
 				
-		if (isset($args['scene'])) $q .= 'AND sc.id = :scene'; //if we have a scene id
-		if (isset($args['location'])) $q .= 'AND c.id = :location'; //if we have a location id
-		if (isset($args['story'])) $q .= 'AND s.id = :story'; //if we have a story id
+		if (isset($args['scene'])) $q .= ' AND sc.id = :scene'; //if we have a scene id
+		if (isset($args['location_id'])) $q .= ' AND c.id = :location_id'; //if we have a location id
+		if (isset($args['story_id'])) $q .= ' AND s.id = :story_id'; //if we have a story id
 		
 		$q .= ' ORDER BY sc.id ASC';
 		
 		$q = DB::query(Database::SELECT,$q,TRUE);
 		
 		if (isset($args['scene']))	 $q->param(':scene',$args['scene']->id);
-		if (isset($args['location']))	 $q->param(':location',$args['location']->id);
-		if (isset($args['story']))	 $q->param(':story',$args['story']->id);
+		if (isset($args['location_id']))	 $q->param(':location_id',$args['location_id']);
+		if (isset($args['story_id']))	 $q->param(':story_id',$args['story_id']);
 								
 		$tempArray = $q->execute()->as_array();
 		

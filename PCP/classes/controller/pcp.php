@@ -32,7 +32,7 @@ Class Controller_PCP extends Controller_Template_Base
     
 		$data['story'] = PCP::getStory();
 		$data['screens'] = PCP::getScreens();
-		$this->template->scripts = array_merge($this->template->scripts,PCP::getJSEventTypes());
+		$this->template->scripts = array_merge($this->template->scripts,PCP::getJSEventDefs());
 		$this->template->scripts[] = 'screen.js'; //get screen js to determine user's screen resolution
 		$this->template->title .= $data['story']->title;
 		$this->template->top_menu = View::factory('pcp/story_menu',$data)->render(); 
@@ -117,7 +117,7 @@ Class Controller_PCP extends Controller_Template_Base
 			//$data['items'] = Model_items::builditemstatePaths(array('story'=>$data['story'],'items'=>$data['scene']->items));
 			
 			// Compose the scene 
-			$this->template->scripts = array_merge($this->template->scripts,PCP::getJSEventTypes());			
+			$this->template->scripts = array_merge($this->template->scripts,PCP::getJSEventDefs());			
 			$this->template->scripts[] = 'grid.js'; //get grid js 
 			$this->template->head[] = View::factory('pcp/style',$data)->render();//get grid style
 			$this->template->title .= $data['story']->title.' : '.$data['scene']->title;

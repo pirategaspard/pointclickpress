@@ -3,19 +3,17 @@
 	if ($story->id > 0)
 	{
 ?>
-	<div id="accordion">
-		<h3><a href="#">Events</a></h3>
-		<div>
+	<div id='accordion' >
+		<h3><a href='#'>Events</a></h3>
+		<div style='display: none;' >
 			<?php 
-			echo($event_add);
-			echo($event_list);
+				echo($event_list);
 			?>	
 		</div>
-		<h3><a href="#">Items</a></h3>
-		<div>
+		<h3><a href='#'>Items</a></h3>
+		<div style='display: none;' >
 			<?php
-			echo($item_add);
-			echo($item_list);
+				echo($item_list);
 			?>
 		</div>
 	</div><!-- #accordion -->

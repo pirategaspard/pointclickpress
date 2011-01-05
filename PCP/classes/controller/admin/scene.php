@@ -13,11 +13,9 @@ Class Controller_admin_scene extends Controller_Template_Admin
 			$session->set('image_id',0);			
 		}
 					
-		$data['type'] = EventsAdmin::getEventType();
-		$data['scene'] = PCPAdmin::getScene(array('include_events'=>true,'include_items'=>true));		
+		$data['scene'] = PCPAdmin::getScene(array('include_events'=>false,'include_items'=>true));		
 		$data['story'] = PCPAdmin::getStoryInfo(array('id'=>$data['scene']->story_id,'include_locations'=>true,'include_scenes'=>false));			
-		$data['location'] = $data['story']->locations[$data['scene']->location_id];
-		$data['events'] = $data['scene']->events;					
+		$data['location'] = $data['story']->locations[$data['scene']->location_id];				
 		$data['story_id'] = $data['story']->id;
 		$data['location_id'] = $data['scene']->location_id;		
 		$data['scene_id'] = $data['scene']->id;	
@@ -28,9 +26,8 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		$data['story']->setDimensions(DEFAULT_STORY_WIDTH,DEFAULT_STORY_HEIGHT);
 		$data['assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?story_id='.$data['scene']->story_id.'&location_id='.$data['scene']->location_id.'&scene_id='.$session->get('scene_id');				
 		
-		/* scene events */			
-		$data['event_add'] = View::factory('/admin/event/add',$data)->render();
-		$data['event_list'] = EventsAdmin::getEventsList(array('events'=>$data['scene']->events));				
+		/* scene events */	
+		$data['event_list'] = Request::factory('/admin/event/listSimple')->execute()->response;
 		
 		/* scene */
 		$data['scene_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'save')));						
@@ -38,33 +35,15 @@ Class Controller_admin_scene extends Controller_Template_Admin
 						
 		if (strlen($data['scene']->filename) > 0)
 		{
-			$data['back_url'] = Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?scene_id='.$data['scene']->id;
-		
-			// TODO refactor these pieces out of here
-		
-			/* scene items */
-			if (1 == 1)
-			{
-				$session->delete('image_id');			
-			}
-			$data['item'] = PCPAdmin::getItemDef(array('scene_id'=>$data['scene']->id));
-			$data['griditem'] = PCPAdmin::getGridItem(array('scene_id'=>$data['scene']->id));			
-			$data['item_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'assignItem')));;
-			$data['assign_item_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'item','action'=>'list'))).'?scene_id='.$session->get('scene_id');//.'&grid_item_id='.$data['griditem']->id;
-			$data['item_form'] = View::factory('/admin/item/form_grid',$data)->render(); //inline form
-			$data['items'] = $data['scene']->items;
-			$data['items_list'] = View::factory('/admin/item/list_grid',$data)->render();
-		
-			/* grid events */						
-			$data['event_types'] = PCPAdmin::loadEventTypes();						
-			$data['locations'] = $data['story']->locations;
-			$data['event'] = PCPAdmin::getEvent(array('scene_id'=>$data['scene']->id,'type'=>'Grid'));				
-			$data['grid_event_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'save')));									
-			$data['type'] = 'Grid';
-			$data['grid_event_form'] = View::factory('/admin/event/form_grid',$data)->render(); //inline form
-			$data['grid_event_list'] = EventsAdmin::getEventsList(array('events'=>$data['scene']->grid_events,'type'=>$data['type']));		
+			// items
+			$data['item_form'] = Request::factory('/admin/item/formgridSimple')->execute()->response;
+			$data['items_list'] = Request::factory('/admin/item/listgridSimple')->execute()->response;
 			
-			/* Grid */
+			// events
+			$data['grid_event_form'] = Request::factory('/admin/event/formgridSimple')->execute()->response;
+			$data['grid_event_list'] = Request::factory('/admin/event/listgridSimple')->execute()->response;
+			
+			// grid
 			$data['grid'] = View::factory('/admin/scene/grid',$data)->render();
 		}
 		else
@@ -213,6 +192,20 @@ Class Controller_admin_scene extends Controller_Template_Admin
 			$session->set('result',$result);			
 		}
 		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')));
+	}
+	
+	function action_listSimple()
+	{
+		$this->simple_output();
+		$this->action_list();
+	}
+	
+	function action_list()
+	{
+		$data = SceneAdmin::getData();	
+		$data['scenes'] = SceneAdmin::getScenes($data);
+		$data['scene_add'] = View::factory('/admin/scene/add',$data)->render();
+		$this->template->content = View::factory('/admin/scene/list',$data)->render();	//get location information and load list of locations
 	}
 }
 
