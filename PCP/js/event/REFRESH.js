@@ -26,6 +26,7 @@
 		    }
 		  	$('#grid').css(css);
 	  	}
+	  	
 	  		  	
 	  	// show items
 	  	for(var i in data.items)

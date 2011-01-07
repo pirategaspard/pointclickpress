@@ -12,6 +12,6 @@
 		$cells.= '</a>';
 	}
 ?>	
-	<div id="grid">
+	<div id="grid" class='pointing'>
 	<?php echo($cells); ?>		
 	</div>

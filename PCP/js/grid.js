@@ -10,8 +10,9 @@
 */
 $(document).ready(function() 
 {
+	var grid = $('#grid');
 	// get all the cells in the grid
-	var cells = $('#grid').children('a'); 
+	var cells = grid.children('a'); 
 	/*
 		if browser supports javascript then 
 		the href atribute will be removed and we will use
@@ -25,6 +26,8 @@ $(document).ready(function()
 				On click send the number of the cell to the cellClickAjax
 				function in	the PCP controller
 			*/
+			grid.removeClass('pointing');
+			grid.addClass('waiting');
 			$.getJSON('cellClick',{n: $(this).attr('n')},parseData);
 			//$.post('cellClick', {n: $(this).attr('n')}, parseData);
 	});; 
@@ -32,6 +35,8 @@ $(document).ready(function()
 
 function parseData(events)
 {
+	var grid = $('#grid');
+	
 	// events contains array of pcpresponse objects. 
 	// events[i].function_name - name of plugin to execute
 	// events[i].data - data for plugin
@@ -51,4 +56,6 @@ function parseData(events)
 			}					
 		}
 	}
+	grid.removeClass('waiting');
+	grid.addClass('pointing');
 }
