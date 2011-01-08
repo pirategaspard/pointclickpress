@@ -124,6 +124,8 @@ Class Controller_PCP extends Controller_Template_Base
 			$this->template->top_menu = View::factory('pcp/scene_menu',$data)->render();  			
 			$data['grid'] = View::factory('pcp/grid',$data)->render(); //get grid
 			// render the scene
+			$data['scene_column_left'] = View::factory('pcp/scene_column_left',$data)->render();	
+			$data['scene_column_right'] = View::factory('pcp/scene_column_right',$data)->render();
 			$this->template->content = View::factory('pcp/scene',$data)->render();				
 		}		
         else
