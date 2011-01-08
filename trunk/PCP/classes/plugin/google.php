@@ -31,18 +31,7 @@ class plugin_google implements ipcpplugin
 	
 	public function install()
 	{
-		// This function is called from the Plugin Admin when searching for plugins
-		// If the plugin is not already installed it will call this function
-	
-		// If we wanted to create a table to support this plugin we could do it here:
-		/*
-		$q = '	CREATE TABLE `pointclickpress`.`hello_world` (
-					`id` INT NOT NULL
-					) ENGINE = InnoDB;';
-		$q_results = DB::query(NULL,$q,TRUE)->execute();
-		*/		
-		
-		// but we have nothing to install so just return true
+		// we have nothing to install so just return true
 		return true;
 	}
 		

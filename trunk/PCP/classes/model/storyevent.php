@@ -3,7 +3,6 @@
 class Model_StoryEvent extends Model_Event 
 {	
 	protected $story_id = 0;
-	protected $cells = array();
 	
 	public function __construct($args=array())
 	{
@@ -33,10 +32,9 @@ class Model_StoryEvent extends Model_Event
 							,se.story_id
 					FROM events e
 					INNER JOIN stories_events se
-					ON event_id = id
+					ON e.id = ce.event_id
 					WHERE e.id = :id';
-			$results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();											
-							
+			$results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();																
 			if (count($results) > 0 )
 			{				
 				$this->init($results[0]);	

@@ -3,7 +3,6 @@
 class Model_locationEvent extends Model_Event 
 {	
 	protected $location_id = 0;
-	protected $cells = array();
 	
 	public function __construct($args=array())
 	{
@@ -33,10 +32,9 @@ class Model_locationEvent extends Model_Event
 							,ce.location_id
 					FROM events e
 					INNER JOIN locations_events ce
-					ON event_id = id
+					ON e.id = ce.event_id
 					WHERE e.id = :id';
-			$q_results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();											
-							
+			$q_results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();																		
 			if (count($q_results) > 0 )
 			{				
 				$this->init($q_results[0]);	
@@ -61,10 +59,6 @@ class Model_locationEvent extends Model_Event
 								->execute();			
 			if ($q_results[1] > 0)
 			{
-				foreach ($this->cells as $cell)
-				{
-					Cells::getCell()->init(array('id'=>$cell,'event_id'=>$this->id))->save();
-				}
 				$this->id = $q_results[0];
 				$results->success = 1;
 			}
