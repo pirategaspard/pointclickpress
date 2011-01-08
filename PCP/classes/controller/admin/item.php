@@ -24,13 +24,17 @@ Class Controller_admin_item extends Controller_Template_Admin
 	function action_list()
 	{	
 		$session = Session::instance();	
+		$data['story_id'] = $session->get('story_id');
 		$data['scene_id'] = $session->get('scene_id');	
+		$data['story'] = PCPAdmin::getStory(array('story_id'=>$data['story_id'],'include_scenes'=>false,'include_locations'=>false,'include_events'=>false));
+		//var_dump($data); die();
 		$data['back_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')));
-		$data['items'] = PCPAdmin::getItemDefs(array('story_id'=>$session->get('story_id')));
+		$data['items'] = PCPAdmin::getItemDefs(array('story_id'=>$data['story_id']));
 		$data['assign_item_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'assignItem')));
 		$data['add_item_link'] =  View::factory('/admin/item/add',$data)->render();
 		
 		$this->template->header = '';
+		$this->template->breadcrumb .= View::factory('/admin/story/info',$data)->render();
 		$this->template->top_menu = View::factory('/admin/item/top_menu',$data)->render();
 		$this->template->content = View::factory('/admin/item/list',$data)->render();
 	}

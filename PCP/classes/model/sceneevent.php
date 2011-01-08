@@ -3,7 +3,6 @@
 class Model_SceneEvent extends Model_Event 
 {	
 	protected $scene_id = 0;
-	protected $cells = array();
 	
 	public function __construct($args=array())
 	{
@@ -17,10 +16,6 @@ class Model_SceneEvent extends Model_Event
 		if ((isset($args['scene_id']))&&(is_numeric($args['scene_id'])))
 		{
 			$this->scene_id = $args['scene_id'];
-		}
-		if (isset($args['cells']))
-		{
-			$this->cells = $args['cells'];
 		}
 		return $this;
 	}
@@ -37,15 +32,12 @@ class Model_SceneEvent extends Model_Event
 							,se.scene_id
 					FROM events e
 					INNER JOIN scenes_events se
-					ON event_id = id
+					ON e.id = ce.event_id
 					WHERE e.id = :id';
-			$q_results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();											
-							
+			$q_results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();																		
 			if (count($q_results) > 0 )
 			{				
-				$this->init($q_results[0]);
-				$this->cells = Cells::getCells(array('scene'=>$this));
-					
+				$this->init($q_results[0]);	
 			}
 		}
 		return $this;

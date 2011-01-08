@@ -240,11 +240,11 @@ class PCPAdmin
 		if (!isset($args['user_id']) &&  $session->get('user_id')) { $args['user_id'] =   $session->get('user_id'); }
 		
 		// defaults
-		if (!isset($args['include_scenes'])) { $args['include_scenes'] = TRUE; }
-		if (!isset($args['include_locations'])) { $args['include_locations'] = TRUE; }
-		if (!isset($args['include_events'])) { $args['include_events'] = TRUE; }
-		if (!isset($args['include_items'])) { $args['include_items'] = TRUE; }
-		if (!isset($args['include_itemstates'])) { $args['include_itemstates'] = TRUE; }
+		if (!isset($args['include_scenes'])) { $args['include_scenes'] = false; }
+		if (!isset($args['include_locations'])) { $args['include_locations'] = false; }
+		if (!isset($args['include_events'])) { $args['include_events'] = false; }
+		if (!isset($args['include_items'])) { $args['include_items'] = false; }
+		if (!isset($args['include_itemstates'])) { $args['include_itemstates'] = false; }
 		
 		return $args;
 	}

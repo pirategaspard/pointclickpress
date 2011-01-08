@@ -290,22 +290,24 @@ class EventsAdmin
 	{	
 		$EventTypes = array();	// array to hold any event classes we find
 		$dir = 'classes/event/';
-		if (strlen($event_type) > 0)
+		/*if (strlen($event_type) > 0)
 		{
 			$dir .= $event_type.'/';
-		}
+		}*/
 		$files = scandir(APPPATH.$dir);// get all the files in the event directory
 		foreach($files as $file)
 		{
 			$pathinfo = pathinfo(APPPATH.$dir.$file);
+			
+			
 			// if a file is php assume its a class 
 			if (($pathinfo['extension']) == 'php')
 			{
 				$class_name = 'event_';
-				if (strlen($event_type) > 0)
+				/*if (strlen($event_type) > 0)
 				{
 					$class_name .= $event_type.'_';
-				}
+				}*/
 				$class_name .= $pathinfo['filename'];
 				// test class to make sure it is an ipcpevent 
 				$event = new $class_name;				 
