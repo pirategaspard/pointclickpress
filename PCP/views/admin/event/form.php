@@ -6,6 +6,7 @@
 ?>
 	<fieldset class="ui-helper-reset ui-widget-content ui-corner-all">
 		<form method="post" action="<?php echo($event_form_action); ?>">
+		<?php if (isset($itemstate_id)){ ?><input type="hidden" name="itemstate_id" value="<?php echo($itemstate_id); ?>" /> <?php } ?>
 			<?php if (isset($story_id)){ ?><input type="hidden" name="story_id" value="<?php echo($story_id); ?>" /> <?php } ?>
 			<?php if (isset($location_id)){ ?><input type="hidden" name="location_id" value="<?php echo($location_id); ?>" /> <?php } ?>
 			<?php if (isset($scene_id)){ ?><input type="hidden" name="scene_id" value="<?php echo($scene_id); ?>" /> <?php } ?>
