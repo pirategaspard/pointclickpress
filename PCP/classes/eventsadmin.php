@@ -16,6 +16,9 @@ class EventsAdmin
 			// what kind of event are we getting? 
 			switch ($args['event_type'])
 			{	
+				case 'itemstate':					
+					$event = EventsAdmin::getitemstateEvent($args);					
+				break;
 				case 'grid':					
 					$event = EventsAdmin::getGridEvent($args);					
 				break;
@@ -67,6 +70,13 @@ class EventsAdmin
 		$event = new Model_GridEvent($args);
 		return $event->load($args);
 	}
+	
+	static function getitemstateEvent($args=array())
+	{		
+		// get a single event object and populate it based on the arguments
+		$event = new Model_itemstateEvent($args);
+		return $event->load($args);
+	}
 
 	/* create an event */
 	static function createEvent($event='',$event_value='',$type='event',$event_label='',$story_id=0)
@@ -96,6 +106,9 @@ class EventsAdmin
 		// what kind of event are we getting? 
 		switch ($args['event_type'])
 		{	
+			case 'itemstate':
+				$events = EventsAdmin::getitemstateEvents($args);
+			break;
 			case 'scene':
 				$events = EventsAdmin::getSceneEvents($args);
 			break;
@@ -214,6 +227,31 @@ class EventsAdmin
 		return $events;		
 	}
 	
+	static function getitemstateEvents($args=array())
+	{				
+		$q = '	SELECT 	e.id,
+						e.event,
+						e.event_label,
+						e.event_value,
+						b.itemstate_id
+				FROM events e
+				INNER JOIN items_states_events b
+					ON (e.id = b.event_id
+					AND b.itemstate_id = :itemstate_id)
+				ORDER BY e.id DESC';
+		
+		$tempArray = DB::query(Database::SELECT,$q,TRUE)
+					->param(':itemstate_id',$args['itemstate_id'])
+					->execute()
+					->as_array();
+		$events = array();
+		foreach($tempArray as $e)
+		{
+			$events[$e['id']] = EventsAdmin::getitemstateEvent()->init($e);
+		}
+		return $events;		
+	}
+	
 	static function getEventsList($args=array())
 	{
 		if (!isset($args['event_type'])) {$args['event_type']='';}		
@@ -248,6 +286,10 @@ class EventsAdmin
 		if (isset($_POST['cell_ids'])||$session->get('cell_ids'))
 		{
 			$type = 'grid';
+		}
+		if (isset($_POST['itemstate_id'])||$session->get('itemstate_id'))
+		{
+			$type = 'itemstate';
 		}	
 		return $type;
 	} 
@@ -278,6 +320,14 @@ class EventsAdmin
 		else if ($session->get('scene_id'))
 		{
 			$data['scene_id'] = $session->get('scene_id');
+		}
+		if (isset($_REQUEST['itemstate_id']))
+		{
+			$data['itemstate_id'] = $_REQUEST['itemstate_id'];				
+		}
+		else if ($session->get('itemstate_id'))
+		{
+			$data['itemstate_id'] = $session->get('itemstate_id');
 		}
 		$data['event_type'] = self::getEventType($data);
 		return $data;
