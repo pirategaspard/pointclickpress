@@ -26,6 +26,13 @@ Class Controller_admin_event extends Controller_Template_Admin
 			$data['story_id'] = $session->get('story_id');
 			$data['location_id'] = $session->get('location_id');
 			$data['scene_id'] = $session->get('scene_id');
+		}
+		if ($data['event_type'] == 'itemstate')
+		{
+			/* $data['story_id'] = $session->get('story_id');
+			$data['location_id'] = $session->get('location_id');
+			$data['scene_id'] = $session->get('scene_id'); */
+			$data['itemstate_id'] = $session->get('itemstate_id');
 		}					
 		$data['event'] = PCPAdmin::getEvent();
 		$data['event_defs'] = PCPAdmin::loadEventDefs();

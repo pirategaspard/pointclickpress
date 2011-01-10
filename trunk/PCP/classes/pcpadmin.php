@@ -228,6 +228,10 @@ class PCPAdmin
 		{
 			$session->set('plugin',$_REQUEST['plugin']);
 		}
+		if (isset($_REQUEST['itemstate_id']))
+		{
+			$session->set('itemstate_id',$_REQUEST['itemstate_id']);
+		}
 				
 		if (!isset($args['story_id']) && $session->get('story_id')) { $args['story_id'] =  $session->get('story_id'); }
 		if (!isset($args['location_id']) && $session->get('location_id')) { $args['location_id'] = $session->get('location_id'); }
