@@ -10,28 +10,25 @@ Class Controller_admin_event extends Controller_Template_Admin
 	{				
 		$session = Session::instance();
 		$data['event_type'] = EventsAdmin::getEventType();	
-		if ($data['event_type'] == 'story')
+		if ($data['event_type'] == EVENT_TYPE_STORY)
 		{
 			$data['story'] = PCPAdmin::getStoryInfo(array('id'=>$session->get('story_id'),'include_locations'=>true,'include_scenes'=>false));
 			$data['story_id'] = $session->get('story_id');
 			$data['locations'] = $data['story']->locations;	
 		}
-		if ($data['event_type'] == 'location')
+		if ($data['event_type'] == EVENT_TYPE_LOCATION)
 		{
 			$data['story_id'] = $session->get('story_id');
 			$data['location_id'] = $session->get('location_id');
 		}
-		if ($data['event_type'] == 'scene')
+		if ($data['event_type'] == EVENT_TYPE_SCENE)
 		{
 			$data['story_id'] = $session->get('story_id');
 			$data['location_id'] = $session->get('location_id');
 			$data['scene_id'] = $session->get('scene_id');
 		}
-		if ($data['event_type'] == 'itemstate')
+		if ($data['event_type'] == EVENT_TYPE_ITEMSTATE)
 		{
-			/* $data['story_id'] = $session->get('story_id');
-			$data['location_id'] = $session->get('location_id');
-			$data['scene_id'] = $session->get('scene_id'); */
 			$data['itemstate_id'] = $session->get('itemstate_id');
 		}					
 		$data['event'] = PCPAdmin::getEvent();
@@ -129,9 +126,9 @@ Class Controller_admin_event extends Controller_Template_Admin
 		$data['event_defs'] = PCPAdmin::loadEventDefs();						
 		//$data['locations'] = $data['story']->locations;
 		$data['locations'] = PCPAdmin::getLocations($data);
-		$data['event'] = PCPAdmin::getEvent(array('scene_id'=>$data['scene_id'],'event_type'=>'grid'));				
+		$data['event'] = PCPAdmin::getEvent(array('scene_id'=>$data['scene_id'],'event_type'=>EVENT_TYPE_GRID));				
 		$data['grid_event_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'save')));									
-		$data['event_type'] = 'grid';
+		$data['event_type'] = EVENT_TYPE_GRID;
 		$this->template->content = View::factory('/admin/event/form_grid',$data)->render(); //inline form
 	}
 }

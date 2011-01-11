@@ -16,19 +16,19 @@ class EventsAdmin
 			// what kind of event are we getting? 
 			switch ($args['event_type'])
 			{	
-				case 'itemstate':					
-					$event = EventsAdmin::getitemstateEvent($args);					
+				case EVENT_TYPE_ITEMSTATE:					
+					$event = EventsAdmin::getItemstateEvent($args);					
 				break;
-				case 'grid':					
+				case EVENT_TYPE_GRID:					
 					$event = EventsAdmin::getGridEvent($args);					
 				break;
-				case 'scene':
+				case EVENT_TYPE_SCENE:
 					$event = EventsAdmin::getSceneEvent($args);
 				break;
-				case 'location':
+				case EVENT_TYPE_LOCATION:
 					$event = EventsAdmin::getLocationEvent($args);
 				break;
-				case 'story':
+				case EVENT_TYPE_STORY:
 					$event = EventsAdmin::getStoryEvent($args);
 				break;
 				default:
@@ -71,7 +71,7 @@ class EventsAdmin
 		return $event->load($args);
 	}
 	
-	static function getitemstateEvent($args=array())
+	static function getItemstateEvent($args=array())
 	{		
 		// get a single event object and populate it based on the arguments
 		$event = new Model_itemstateEvent($args);
@@ -101,21 +101,21 @@ class EventsAdmin
 	
 	static function getEvents($args=array())
 	{				
-		if (!isset($args['event_type'])) {$args['event_type']='';}	
+		if (!isset($args['event_type'])) {$args['event_type']=EVENT_TYPE_NULL;}	
 		
 		// what kind of event are we getting? 
 		switch ($args['event_type'])
 		{	
-			case 'itemstate':
-				$events = EventsAdmin::getitemstateEvents($args);
+			case EVENT_TYPE_ITEMSTATE:
+				$events = EventsAdmin::getItemstateEvents($args);
 			break;
-			case 'scene':
+			case EVENT_TYPE_SCENE:
 				$events = EventsAdmin::getSceneEvents($args);
 			break;
-			case 'location':
+			case EVENT_TYPE_LOCATION:
 				$events = EventsAdmin::getLocationEvents($args);
 			break;
-			case 'story':
+			case EVENT_TYPE_STORY:
 				$events = EventsAdmin::getStoryEvents($args);
 			break;
 			default:
@@ -227,7 +227,7 @@ class EventsAdmin
 		return $events;		
 	}
 	
-	static function getitemstateEvents($args=array())
+	static function getItemstateEvents($args=array())
 	{				
 		$q = '	SELECT 	e.id,
 						e.event,
@@ -247,7 +247,7 @@ class EventsAdmin
 		$events = array();
 		foreach($tempArray as $e)
 		{
-			$events[$e['id']] = EventsAdmin::getitemstateEvent()->init($e);
+			$events[$e['id']] = EventsAdmin::getItemstateEvent()->init($e);
 		}
 		return $events;		
 	}
@@ -257,7 +257,7 @@ class EventsAdmin
 		if (!isset($args['event_type'])) {$args['event_type']='';}		
 		switch ($args['event_type'])
 		{
-			case 'Grid':				
+			case EVENT_TYPE_GRID:				
 				$view = View::factory('/admin/event/list_grid',$args)->render();
 			break;
 			default:
@@ -273,23 +273,23 @@ class EventsAdmin
 		$session = Session::instance();	
 		if (isset($args['story_id'])||$session->get('story_id'))
 		{
-			$type = 'story';
+			$type = EVENT_TYPE_STORY;
 		}
 		if (isset($args['location_id'])||$session->get('location_id'))
 		{
-			$type = 'location';
+			$type = EVENT_TYPE_LOCATION;
 		}
 		if (isset($args['scene_id'])||$session->get('scene_id'))
 		{
-			$type = 'scene';
+			$type = EVENT_TYPE_SCENE;
 		}
 		if (isset($_POST['cell_ids'])||$session->get('cell_ids'))
 		{
-			$type = 'grid';
+			$type = EVENT_TYPE_GRID;
 		}
 		if (isset($_POST['itemstate_id'])||$session->get('itemstate_id'))
 		{
-			$type = 'itemstate';
+			$type = EVENT_TYPE_ITEMSTATE;
 		}	
 		return $type;
 	} 
