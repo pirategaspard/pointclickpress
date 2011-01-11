@@ -9,6 +9,7 @@ class Model_pcpevent extends Model implements iPCPevent
 	protected $class_name = '';
 	protected $label = '';
 	protected $description = '';
+	protected $event_type_list = '';
 
 	public function __construct()
 	{
