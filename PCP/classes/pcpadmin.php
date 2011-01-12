@@ -259,6 +259,28 @@ class PCPAdmin
 		return EventsAdmin::loadEventDefs(); // get php event classes 
 	}
 	
+	static function loadEventTypeEventDefs($event_type=EVENT_TYPE_NULL)
+	{
+		$e = self::loadEventDefs();
+		$eventDefs = Array();
+		
+		if ($event_type != EVENT_TYPE_NULL)
+		{
+			foreach($e as $eventDef)
+			{
+				if (count(array_intersect($eventDef->getAllowedTypes(),array($event_type))) > 0)
+				{
+					$eventDefs[] = $eventDef;
+				}
+			}
+		}
+		else
+		{
+			$eventDefs = $e;
+		}
+		return $eventDefs; // get php event classes 
+	}
+	
 	/*
 	static function loadJSEventTypes()
 	{	
