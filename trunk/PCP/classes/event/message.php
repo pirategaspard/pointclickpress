@@ -40,5 +40,11 @@ class event_message implements iPCPevent
 	{
 		return 'Displays a Message to the User';
 	}
+	
+	public function getAllowedTypes()
+	{
+		return Array(EVENT_TYPE_NULL,EVENT_TYPE_STORY,EVENT_TYPE_LOCATION,EVENT_TYPE_SCENE,EVENT_TYPE_GRID,EVENT_TYPE_ITEMSTATE);
+
+	}
 }
 ?>

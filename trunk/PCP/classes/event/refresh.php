@@ -16,7 +16,8 @@ class event_refresh extends pcpevent implements iPCPevent
 		// init this event
 		parent::__construct();
 		$this->label = 'Scene Refresh';
-		$this->description = 'Refreshes the scene' ;	
+		$this->description = 'Refreshes the scene' ;
+		$this->allowed_event_types = Array(EVENT_TYPE_GRID);	
 	}
 
 	public function execute($args=array(),&$story_data=array())

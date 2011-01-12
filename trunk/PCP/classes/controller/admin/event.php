@@ -9,7 +9,7 @@ Class Controller_admin_event extends Controller_Template_Admin
 	function action_edit()
 	{				
 		$session = Session::instance();
-		$data['event_type'] = EventsAdmin::getEventType();	
+		$data = EventsAdmin::getData();	
 		if ($data['event_type'] == EVENT_TYPE_STORY)
 		{
 			$data['story'] = PCPAdmin::getStoryInfo(array('id'=>$session->get('story_id'),'include_locations'=>true,'include_scenes'=>false));
@@ -32,7 +32,7 @@ Class Controller_admin_event extends Controller_Template_Admin
 			$data['itemstate_id'] = $session->get('itemstate_id');
 		}					
 		$data['event'] = PCPAdmin::getEvent();
-		$data['event_defs'] = PCPAdmin::loadEventDefs();
+		$data['event_defs'] = PCPAdmin::loadEventTypeEventDefs($data['event_type']);
 		$data['back_url'] = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
 		$data['event_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'save')));
 		
@@ -123,7 +123,7 @@ Class Controller_admin_event extends Controller_Template_Admin
 		$this->simple_output();
 		$data = EventsAdmin::getData();	
 		$data['back_url'] = Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?scene_id='.$data['scene_id'];
-		$data['event_defs'] = PCPAdmin::loadEventDefs();						
+		$data['event_defs'] = PCPAdmin::loadEventTypeEventDefs(EVENT_TYPE_GRID);						
 		//$data['locations'] = $data['story']->locations;
 		$data['locations'] = PCPAdmin::getLocations($data);
 		$data['event'] = PCPAdmin::getEvent(array('scene_id'=>$data['scene_id'],'event_type'=>EVENT_TYPE_GRID));				

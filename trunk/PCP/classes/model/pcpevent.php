@@ -3,13 +3,13 @@
 	Base Class for PointClickPress Events
  */
 
-define('NOP', 'NOP'); // No Operation event name
+define('NOP', 'NOP'); // No Operation event response
 class Model_pcpevent extends Model implements iPCPevent
 {
 	protected $class_name = '';
 	protected $label = '';
 	protected $description = '';
-	protected $event_type_list = '';
+	protected $allowed_event_types = Array(EVENT_TYPE_NULL,EVENT_TYPE_STORY,EVENT_TYPE_LOCATION,EVENT_TYPE_SCENE,EVENT_TYPE_GRID,EVENT_TYPE_ITEMSTATE);
 
 	public function __construct()
 	{
@@ -29,6 +29,11 @@ class Model_pcpevent extends Model implements iPCPevent
 	public function getDescription()
 	{
 		return $this->description;
+	}
+	
+	public function getAllowedTypes()
+	{
+		return $this->allowed_event_types;
 	}
 	
 	public function execute($args=array(),&$story_data=array())
