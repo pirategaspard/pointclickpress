@@ -17,7 +17,10 @@ class EventsAdmin
 			switch ($args['event_type'])
 			{	
 				case EVENT_TYPE_ITEMSTATE:					
-					$event = EventsAdmin::getItemstateEvent($args);					
+					$event = EventsAdmin::getItemStateEvent($args);					
+				break;
+				case EVENT_TYPE_ITEMDEF:					
+					$event = EventsAdmin::getItemDefEvent($args);					
 				break;
 				case EVENT_TYPE_GRID:					
 					$event = EventsAdmin::getGridEvent($args);					
@@ -71,7 +74,14 @@ class EventsAdmin
 		return $event->load($args);
 	}
 	
-	static function getItemstateEvent($args=array())
+	static function getItemDefEvent($args=array())
+	{		
+		// get a single event object and populate it based on the arguments
+		$event = new Model_itemdefEvent($args);
+		return $event->load($args);
+	}
+	
+	static function getItemStateEvent($args=array())
 	{		
 		// get a single event object and populate it based on the arguments
 		$event = new Model_itemstateEvent($args);
@@ -91,7 +101,6 @@ class EventsAdmin
 		return $event;
 	}
 
-	
 	static function doEvent($event='',$event_value='',$type='event',$event_label='',$story_id=0)
 	{
 		$event = EventsAdmin::createEvent($event,$event_value,$type,$event_label,$story_id);
@@ -107,7 +116,10 @@ class EventsAdmin
 		switch ($args['event_type'])
 		{	
 			case EVENT_TYPE_ITEMSTATE:
-				$events = EventsAdmin::getItemstateEvents($args);
+				$events = EventsAdmin::getItemStateEvents($args);
+			break;
+			case EVENT_TYPE_ITEMDEF:
+				$events = EventsAdmin::getItemDefEvents($args);
 			break;
 			case EVENT_TYPE_SCENE:
 				$events = EventsAdmin::getSceneEvents($args);
@@ -227,7 +239,32 @@ class EventsAdmin
 		return $events;		
 	}
 	
-	static function getItemstateEvents($args=array())
+	static function getItemDefEvents($args=array())
+	{				
+		$q = '	SELECT 	e.id,
+						e.event,
+						e.event_label,
+						e.event_value,
+						b.itemstate_id
+				FROM events e
+				INNER JOIN item_def_events b
+					ON (e.id = b.event_id
+					AND b.itemstate_id = :itemdef_id)
+				ORDER BY e.id DESC';
+		
+		$tempArray = DB::query(Database::SELECT,$q,TRUE)
+					->param(':itemdef_id',$args['itemdef_id'])
+					->execute()
+					->as_array();
+		$events = array();
+		foreach($tempArray as $e)
+		{
+			$events[$e['id']] = EventsAdmin::getItemStateEvent()->init($e);
+		}
+		return $events;		
+	}
+	
+	static function getItemStateEvents($args=array())
 	{				
 		$q = '	SELECT 	e.id,
 						e.event,
@@ -254,7 +291,7 @@ class EventsAdmin
 	
 	static function getEventsList($args=array())
 	{
-		if (!isset($args['event_type'])) {$args['event_type']='';}		
+		if (!isset($args['event_type'])) {$args['event_type']=EVENT_TYPE_NULL;}		
 		switch ($args['event_type'])
 		{
 			case EVENT_TYPE_GRID:				
@@ -286,6 +323,10 @@ class EventsAdmin
 		if (isset($_POST['cell_ids'])||$session->get('cell_ids'))
 		{
 			$type = EVENT_TYPE_GRID;
+		}
+		if (isset($_POST['itemdef_id'])||$session->get('itemdef_id'))
+		{
+			$type = EVENT_TYPE_ITEMDEF;
 		}
 		if (isset($_POST['itemstate_id'])||$session->get('itemstate_id'))
 		{
