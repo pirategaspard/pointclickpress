@@ -6,7 +6,9 @@ class Model_ItemState extends Model
 	protected $item_id = 0;
 	protected $image_id = 0;
 	protected $filename = '';	
-	protected $events = array();		
+	protected $path = '';
+	protected $events = array();
+	protected $itemDef_events = array();		
 	
 	public function __construct($args=array())
 	{
@@ -16,6 +18,8 @@ class Model_ItemState extends Model
 	
 	function init($args=array())
 	{
+		if (!isset($args['include_events'])) $args['include_events']=false;
+		
 		if ((isset($args['id']))&&(is_numeric($args['id'])))
 		{
 			$this->id = $args['id'];
@@ -36,7 +40,7 @@ class Model_ItemState extends Model
 		{
 			$this->filename = $args['filename'];
 		}
-		if (isset($args['include_events']) && ($args['include_events'] == true))
+		if ($args['include_events'])
 		{			
 			$args['itemstate_id'] = $this->id;
 			$this->events = EventsAdmin::getItemstateEvents($args);
@@ -140,6 +144,16 @@ class Model_ItemState extends Model
 		}
 		$results->data = array('id'=>$this->id);
 		return $results;
+	}
+	
+	function setPath($string='')
+	{
+		$this->path = $string;
+	}
+	
+	function setItemDefEvents($events=array())
+	{
+		$this->itemDef_events = $events;
 	}
 }
 

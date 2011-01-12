@@ -76,7 +76,7 @@ class Model_Story extends Model
 			$this->grid_x = $grid[0];
 			$this->grid_y = $grid[1];
 		}
-		if (isset($args['include_events']) && ($args['include_events'] == true))
+		if ($args['include_events'])
 		{			
 			$args['story_id'] = $this->id;
 			$this->events = EventsAdmin::getStoryEvents($args);

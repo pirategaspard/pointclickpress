@@ -133,9 +133,9 @@ Class Controller_PCP extends Controller_Template_Base
         	plugins::executeHook('error');
         
 			// redirect to the story list page
-			Request::instance()->redirect(Route::get('default')->uri(array('action'=>'list_stories')));
+			//Request::instance()->redirect(Route::get('default')->uri(array('action'=>'list_stories')));
 			
-			/*
+			
 			//debug
 			//	var_dump($_SESSION);
 			if (($data['story'] == NULL))
@@ -151,7 +151,7 @@ Class Controller_PCP extends Controller_Template_Base
 				echo ("No filename");
 				var_dump($data['scene']);
 			}	
-			*/
+			
 		}
     } 
   

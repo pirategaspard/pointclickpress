@@ -41,12 +41,12 @@ class Model_location extends Model
 			$this->title = $args['title'];
 			$this->slug = Formatting::createSlug($args['title']);
 		}
-		if (isset($args['include_events']) && ($args['include_events'] == true))
+		if ($args['include_events'])
 		{			
 			$args['location_id'] = $this->id;
 			$this->events = EventsAdmin::getlocationEvents($args);
 		}
-		if (isset($args['include_scenes']) && ($args['include_scenes'] == true))
+		if ($args['include_scenes'])
 		{			
 			$args['location_id'] = $this->id;
 			$this->scenes = PCPAdmin::getScenes($args);
