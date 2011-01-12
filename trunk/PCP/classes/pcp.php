@@ -54,7 +54,7 @@ class PCP
 			$story_data = $session->get('story_data',array());
 			
 			/*
-				Switch for different scenes within location			 
+				Switch for different itemstates within an itemdef			 
 				If a there is a key set in the session story_data array then use that value
 				othewise use empty string
 			*/			
@@ -67,7 +67,7 @@ class PCP
 				$args['itemstate_value'] = DEFAULT_ITEMSTATE_VALUE;
 			}
 		}
-		return Model_items::getitemstateByItemId($args); 
+		return Model_items::getItemstateByItemId($args); 
 	}
 	
 	/* 
@@ -184,10 +184,10 @@ class PCP
 		if (!isset($args['cell_id']) && isset($_REQUEST['cell_id'])) { $args['cell_id'] =  $_REQUEST['cell_id']; }
 		if (!isset($args['event_id']) && isset($_REQUEST['event_id'])) { $args['event_id'] =  $_REQUEST['event_id']; }
 		
-		if (!isset($args['include_scenes'])) { $args['include_scenes'] = FALSE; }
-		if (!isset($args['include_locations'])) { $args['include_locations'] = FALSE; }
-		if (!isset($args['include_events'])) { $args['include_events'] = TRUE; }
-		if (!isset($args['include_items'])) { $args['include_items'] = TRUE; } 
+		if (!isset($args['include_scenes'])) { $args['include_scenes'] = false; }
+		if (!isset($args['include_locations'])) { $args['include_locations'] = false; }
+		if (!isset($args['include_events'])) { $args['include_events'] = true; }
+		if (!isset($args['include_items'])) { $args['include_items'] = true; } 
 		
 		return $args;
 	}

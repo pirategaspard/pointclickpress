@@ -55,7 +55,7 @@ $media_dir = 'media';
 $cache_driver = 'file';
 
 /* 
-	Define constants
+	Define configuration constants
  */
 define('DEFAULT_PAGE_TITLE', $default_page_title); 
 define('UPLOAD_PATH', $upload_dir);
@@ -77,5 +77,26 @@ define('DEFAULT_VALUE', '');
 define('DEFAULT_ITEMSTATE_VALUE', DEFAULT_VALUE);
 define('DEFAULT_SCENE_VALUE', DEFAULT_VALUE);
 
-define('CACHE_DRIVER', $cache_driver);
+define('CACHE_DRIVER', $cache_driver); 
+
+
+
+// event constants
+define('EVENT_TYPE_NULL', ''); 
+define('EVENT_TYPE_ITEMSTATE', 'itemstate'); 
+define('EVENT_TYPE_ITEMDEF', 'itemdef'); 
+define('EVENT_TYPE_GRID', 'grid'); 
+define('EVENT_TYPE_SCENE', 'scene'); 
+define('EVENT_TYPE_LOCATION', 'location'); 
+define('EVENT_TYPE_STORY', 'story'); 
+
+// item constants
+define('ITEM_TYPE_NULL', ''); 
+define('ITEM_TYPE_ITEMDEF', 'itemdef'); 
+define('ITEM_TYPE_GRID', 'grid'); 
+
+
+
+
+
 ?>

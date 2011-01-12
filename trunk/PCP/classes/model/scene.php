@@ -22,6 +22,9 @@ class Model_Scene extends Model
 	
 	function init($args=array())
 	{
+		if (!isset($args['include_events'])) $args['include_events']=false;
+		if (!isset($args['include_items'])) $args['include_items']=false;
+		
 		if ((isset($args['story_id']))&&(is_numeric($args['story_id'])))
 		{
 			$this->story_id = $args['story_id'];
@@ -58,7 +61,7 @@ class Model_Scene extends Model
 		{
 			$this->init_vars = $args['init_vars'];
 		}*/
-		if (isset($args['include_events']) && ($args['include_events'] == true))
+		if ($args['include_events'])
 		{			
 			$args['scene_id'] = $this->id;
 			$this->events = EventsAdmin::getSceneEvents($args);

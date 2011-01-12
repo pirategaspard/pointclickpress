@@ -10,9 +10,13 @@ class itemadmin
 			// what kind of event are we getting? 
 			switch ($args['item_type'])
 			{	
-				case 'grid':
+				case ITEM_TYPE_GRID:
 					unset($args['item_type']);					
 					$item = self::getGridItem($args);					
+				break;
+				case ITEM_TYPE_DEF:
+					unset($args['item_type']);
+					$item = self::getItemDef($args);
 				break;
 				default:
 					unset($args['item_type']);
@@ -95,6 +99,7 @@ class itemadmin
 		foreach($tempArray as $a)
 		{		
 			$a['include_images'] = true;
+			$a['include_events'] = true;
 			$items[$a['cell_id']] = ItemAdmin::getGridItem()->init($a);
 		}
 		return $items;		
@@ -103,15 +108,15 @@ class itemadmin
 	static function getItems($args=array())
 	{
 		// if we have been passed a type, get that specific type of item, otherwise get a generic item	
-		if (!isset($args['item_type'])) {$args['item_type'] = ''; }
+		if (!isset($args['item_type'])) {$args['item_type'] = ITEM_TYPE_NULL; }
 			
 			// what kind of event are we getting? 
 			switch ($args['item_type'])
 			{	
-				case 'grid':				
+				case ITEM_TYPE_GRID:				
 					$items = self::getGridItems($args);					
 				break;
-				case 'def':
+				case ITEM_TYPE_ITEMDEF:
 					$items = self::getItemDefs($args);
 				break;
 				default:
@@ -127,11 +132,11 @@ class itemadmin
 		$type = '';
 		if (isset($args['story_id']))
 		{
-			$type = 'def';
+			$type = ITEM_TYPE_ITEMDEF;
 		}
 		if (isset($args['scene_id']))
 		{
-			$type = 'grid';
+			$type = ITEM_TYPE_GRID;
 		}	
 		return $type;
 	}

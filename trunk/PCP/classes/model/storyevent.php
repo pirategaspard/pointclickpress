@@ -29,10 +29,10 @@ class Model_StoryEvent extends Model_Event
 							,e.event
 							,e.event_label
 							,e.event_value
-							,se.story_id
+							,b.story_id
 					FROM events e
-					INNER JOIN stories_events se
-					ON e.id = ce.event_id
+					INNER JOIN stories_events b
+					ON e.id = b.event_id
 					WHERE e.id = :id';
 			$results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();																
 			if (count($results) > 0 )

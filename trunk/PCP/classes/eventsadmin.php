@@ -245,11 +245,11 @@ class EventsAdmin
 						e.event,
 						e.event_label,
 						e.event_value,
-						b.itemstate_id
+						b.itemdef_id
 				FROM events e
-				INNER JOIN item_def_events b
+				INNER JOIN items_defs_events b
 					ON (e.id = b.event_id
-					AND b.itemstate_id = :itemdef_id)
+					AND b.itemdef_id = :itemdef_id)
 				ORDER BY e.id DESC';
 		
 		$tempArray = DB::query(Database::SELECT,$q,TRUE)

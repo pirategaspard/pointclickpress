@@ -7,7 +7,7 @@
 		$cells.= '<a n="'.$i.'" href="'.Kohana::$base_url.'cellClick?n='.$i.'" >';
 		if (isset($items[$i]))
 		{
-			$cells.= '<img src="'.$items[$i].'" />';	
+			$cells.= '<img src="'.$items[$i]->path.'" />';	
 		}
 		$cells.= '</a>';
 	}
