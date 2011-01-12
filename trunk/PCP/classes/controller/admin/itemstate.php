@@ -14,7 +14,6 @@ Class Controller_admin_itemstate extends Controller_Template_Admin
 		$data['add_itemstate_link'] =  View::factory('/admin/itemstate/add',$data)->render();
 		$data['story'] = PCPAdmin::getStory(array('story_id'=>$data['item']->story_id));
 		$data['event_list'] = Request::factory('/admin/event/listSimple')->execute()->response;
-
 		
 		$this->template->breadcrumb .= View::factory('/admin/story/info',$data)->render();
 		$this->template->breadcrumb .= View::factory('/admin/item/info',$data)->render();

@@ -34,6 +34,11 @@ class Model_ItemDef extends Model
 			$args['ItemDef_id'] = $this->id;
 			$this->images = ItemstateAdmin::getItemstates($args);
 		}
+		if (isset($args['include_events']) && ($args['include_events'] == true))
+		{			
+			$args['itemdef_id'] = $this->id;
+			$this->events = EventsAdmin::getItemDefEvents($args);
+		}
 		return $this;
 	}
 	

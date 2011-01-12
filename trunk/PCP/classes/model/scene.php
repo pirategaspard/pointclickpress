@@ -58,22 +58,21 @@ class Model_Scene extends Model
 		{
 			$this->init_vars = $args['init_vars'];
 		} 
-		if (isset($args['include_events']))
+		if (isset($args['include_events']) && ($args['include_events'] == true))
 		{			
 			$args['scene_id'] = $this->id;
 			$this->events = EventsAdmin::getSceneEvents($args);
 			$this->grid_events = EventsAdmin::getGridEvents($args);	
 		}
 		if (isset($args['include_items']))
-		{						
+		{				
+			$args['scene_id'] = $this->id;		
 			if (isset($args['simple_items']) && ($args['simple_items'] == true) )
 			{
-				$args['scene'] = $this;
 				$this->items = Model_Items::getGridItems($args);
 			}
 			else
 			{
-				$args['scene_id'] = $this->id;
 				$this->items = ItemAdmin::getGridItems($args);
 			}	
 		}

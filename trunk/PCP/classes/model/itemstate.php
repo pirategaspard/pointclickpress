@@ -5,7 +5,8 @@ class Model_ItemState extends Model
 	protected $value = DEFAULT_ITEMSTATE_VALUE;
 	protected $item_id = 0;
 	protected $image_id = 0;
-	protected $filename = '';			
+	protected $filename = '';	
+	protected $events = array();		
 	
 	public function __construct($args=array())
 	{
@@ -34,6 +35,11 @@ class Model_ItemState extends Model
 		if (isset($args['filename']))
 		{
 			$this->filename = $args['filename'];
+		}
+		if (isset($args['include_events']) && ($args['include_events'] == true))
+		{			
+			$args['itemstate_id'] = $this->id;
+			$this->events = EventsAdmin::getItemstateEvents($args);
 		}		
 		return $this;
 	}

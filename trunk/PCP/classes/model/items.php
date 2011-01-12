@@ -16,7 +16,7 @@ class Model_Items extends Model
 				WHERE sc.id = :scene_id
 				ORDER BY git.id DESC';
 		$tempArray = DB::query(Database::SELECT,$q,TRUE)
-						->param(':scene_id',$args['scene']->id)
+						->param(':scene_id',$args['scene_id'])
 						->execute()
 						->as_array();		
 		foreach($tempArray as $item)

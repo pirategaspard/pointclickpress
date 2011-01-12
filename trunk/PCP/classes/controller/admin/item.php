@@ -12,7 +12,7 @@ Class Controller_admin_item extends Controller_Template_Admin
 		$data['item_form'] =  View::factory('/admin/item/form',$data)->render();		
 		$data['add_item_link'] =  View::factory('/admin/item/add',$data)->render();
 		$data['story'] = PCPAdmin::getStory(array('story_id'=>$data['item']->story_id));
-				
+		$data['event_list'] = Request::factory('/admin/event/listSimple')->execute()->response;			
 		$data['itemstate_list'] = Request::factory('/admin/itemstate/listSimple')->execute()->response;
 		
 		$this->template->breadcrumb .= View::factory('/admin/story/info',$data)->render();

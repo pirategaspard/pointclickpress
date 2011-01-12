@@ -27,6 +27,10 @@ Class Controller_admin_event extends Controller_Template_Admin
 			$data['location_id'] = $session->get('location_id');
 			$data['scene_id'] = $session->get('scene_id');
 		}
+		if ($data['event_type'] == EVENT_TYPE_ITEMDEF)
+		{
+			$data['item_id'] = $session->get('item_id');
+		}
 		if ($data['event_type'] == EVENT_TYPE_ITEMSTATE)
 		{
 			$data['itemstate_id'] = $session->get('itemstate_id');
