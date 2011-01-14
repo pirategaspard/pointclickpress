@@ -362,6 +362,14 @@ class EventsAdmin
 		{
 			$data['scene_id'] = $session->get('scene_id');
 		}
+		if (isset($_REQUEST['itemdef_id']))
+		{
+			$data['itemdef_id'] = $_REQUEST['itemdef_id'];				
+		}
+		else if ($session->get('itemdef_id'))
+		{
+			$data['itemdef_id'] = $session->get('itemdef_id');
+		}
 		if (isset($_REQUEST['itemstate_id']))
 		{
 			$data['itemstate_id'] = $_REQUEST['itemstate_id'];				

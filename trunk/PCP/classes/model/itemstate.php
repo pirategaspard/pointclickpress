@@ -7,8 +7,7 @@ class Model_ItemState extends Model
 	protected $image_id = 0;
 	protected $filename = '';	
 	protected $path = '';
-	protected $events = array();
-	protected $itemDef_events = array();		
+	protected $events = array();		
 	
 	public function __construct($args=array())
 	{
@@ -149,11 +148,6 @@ class Model_ItemState extends Model
 	function setPath($string='')
 	{
 		$this->path = $string;
-	}
-	
-	function setItemDefEvents($events=array())
-	{
-		$this->itemDef_events = $events;
 	}
 }
 
