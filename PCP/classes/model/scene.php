@@ -57,10 +57,6 @@ class Model_Scene extends Model
 		{
 			$this->value = Formatting::createSlug($args['value']);
 		} 
-		/*if (isset($args['init_vars']))
-		{
-			$this->init_vars = $args['init_vars'];
-		}*/
 		if ($args['include_events'])
 		{			
 			$args['scene_id'] = $this->id;

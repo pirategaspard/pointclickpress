@@ -21,16 +21,13 @@ class Model_Items extends Model
 						->as_array();		
 		foreach($tempArray as $item)
 		{
-			// get itemstate obj
-			$state = PCP::getItemstate(array('item_id'=>$item['itemdef_id'],'slug'=>$item['slug']));//,'simple_items'=>true));
+			// parse items and build full file paths
+			$state = PCP::getitemstate(array('item_id'=>$item['itemdef_id'],'slug'=>$item['slug'],'simple_items'=>true));
 			//var_dump($state); die();						
 			if (count($state) > 0)
 			{	
-				// get current state - Is this line still needed?
 				$state = current($state);	
-				// parse items and build full image path based on arguments
-				$state->setPath($args['story']->getMediaPath().$state->image_id.'/'.$args['story']->screen_size.'/'.$state->filename);
-				$items[$item['cell_id']] = $state;
+				$items[$item['cell_id']] = $args['story']->getMediaPath().$state['image_id'].'/'.$args['story']->screen_size.'/'.$state['filename'];
 			}
 		}
 		return $items;		
@@ -57,20 +54,19 @@ class Model_Items extends Model
 						->param(':item_id',$args['item_id'])
 						->execute()
 						->as_array();
-		/* if (!isset($args['simple_items']) || ($args['simple_items'] == false) )
-		{ */
+		if (!isset($args['simple_items']) || ($args['simple_items'] == false) )
+		{ 
 			foreach($tempArray as $a)
 			{		
 				$a['include_images'] = true;
-				$a['include_events'] = true;
 				$items[$a['id']] = ItemAdmin::getItemState()->init($a);
 			}
-		/* }
+		}
 		else
 		{
 			// we'll parse this later
 			$items = $tempArray;
-		}*/
+		}
 		return $items;		
 	}
 	
