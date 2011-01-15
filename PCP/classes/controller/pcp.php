@@ -81,7 +81,6 @@ Class Controller_PCP extends Controller_Template_Base
         {
 			// redirect to the story list page
 			Request::instance()->redirect(Route::get('default')->uri(array('action'=>'list_stories')));
-			//echo ("1- oops!");
 		}
     }
     
@@ -105,8 +104,10 @@ Class Controller_PCP extends Controller_Template_Base
 		
 		// get the scene
 		$data['scene'] = PCP::getScene(array('location_id'=>PCP::getCurrentlocationId(),'story'=>$data['story'],'simple_items'=>true));
+		$data['items'] = $data['scene']->items;
 		// put any scene init events into session
-		$results = array_merge($results,PCP::doEvents($data['scene']->events));							
+		$results = array_merge($results,PCP::doEvents($data['scene']->events));	
+		//$results = array_merge($results,PCP::doEvents($data['items']->events));							
 		//put scene into session
 		$session->set('scene',$data['scene']);
 		plugins::executeHook('post_scene');	
