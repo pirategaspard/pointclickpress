@@ -79,8 +79,6 @@ define('DEFAULT_SCENE_VALUE', DEFAULT_VALUE);
 
 define('CACHE_DRIVER', $cache_driver); 
 
-
-
 // event constants
 define('EVENT_TYPE_NULL', ''); 
 define('EVENT_TYPE_ITEMSTATE', 'itemstate'); 
