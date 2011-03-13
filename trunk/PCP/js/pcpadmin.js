@@ -4,6 +4,7 @@
 	 
 	Users DO need javascript in order to use PCP admin.
  */
+// TODO: reorganize this file
 $(document).ready(function() {
 		
 	// when action type = 'event_link' hide the event_value field
@@ -88,20 +89,20 @@ $(document).ready(function() {
 		d.preventDefault();
 		var delete_link = $(this).attr('href');
 		$("#dialog_delete").dialog(
+			{
+				title: 'Confirm Delete'
+				,modal: true
+				,buttons: [
 					{
-						title: 'Confirm Delete'
-						,modal: true
-						,buttons: [
-						    {
-						        text: 'Delete',
-						        click: function() { window.location.href = delete_link; }
-						    }
-						    ,{
-								text: 'cancel',
-								click: function() { $(this).dialog("close"); }
-							}
-						]
-					});
+						text: 'Delete',
+						click: function() { window.location.href = delete_link; }
+					}
+					,{
+						text: 'cancel',
+						click: function() { $(this).dialog("close"); }
+					}
+				]
+			});
 	});
 	
 	// set cancel button link
@@ -129,7 +130,7 @@ $(document).ready(function() {
 		}
 	}
 	
-	//when the page loads fire these events to set up the form
+	//when the page loads fire these events to set up the form (if it exists)
 	$('#event_type').change();
 	$('input[name=cell_ids]').focusout();
 	$('input[name=cell_id]').focusout();
@@ -137,4 +138,27 @@ $(document).ready(function() {
 	// jQuery UI init
     $("#accordion").accordion({ collapsible: true, active: false, animated: false }); //autoHeight: true
     $("#tabs").tabs();
-});		
+    
+    // select tab (if tab param exists)
+    params = getQueryParams();
+    if (params['tab']) 
+    {
+		$("#tabs").tabs('select',params['tab']);
+	}
+});	
+
+function getQueryParams()
+{
+	var items = new Array()
+	var queryParamString = document.location.toString().split('?');
+	if (queryParamString.length > 0)
+	{
+		params = queryParamString[1].split('&');
+		for(i=0;i<params.length;i++)
+		{
+			item = params[i].split('=');
+			items[item[0]] = unescape(item[1]);
+		}
+	}
+	return items;
+}	

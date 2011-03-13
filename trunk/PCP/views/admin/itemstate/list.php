@@ -10,7 +10,7 @@
 			<th>Id</th>
 			<th></th>
 			<th>Value</th>
-			<th></th>
+			<th>Default</th>
 			<th></th>
 			<th></th>
 		</tr>
@@ -22,10 +22,11 @@
 			<?php } else { ?>
 			<td></td>
 			<?php } ?>
-			<td><?php echo ($itemstate->value); ?></td>			
-			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'itemstate','action'=>'edit'))).'?itemstate_id='.$itemstate->id); ?>" class="ui-widget ui-state-default ui-corner-all button" >Edit</a></td>
+			<td><?php echo ($itemstate->value); ?></td>	
+			<td><?php echo ($itemstate->isdefaultstate); ?></td>		
+			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'itemstate','action'=>'edit'))).'?'.$add_id.'&itemstate_id='.$itemstate->id); ?>" class="ui-widget ui-state-default ui-corner-all button" >Edit</a></td>
 			<td>&nbsp;&nbsp;</td>
-			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'itemstate','action'=>'delete'))).'?itemstate_id='.$itemstate->id); ?>" class="ui-widget ui-state-default ui-corner-all button delete" >Delete</a></td>
+			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'itemstate','action'=>'delete'))).'?'.$add_id.'&itemstate_id='.$itemstate->id); ?>" class="ui-widget ui-state-default ui-corner-all button delete" >Delete</a></td>
 		</tr>
 		<?php } ?>
 	</table>

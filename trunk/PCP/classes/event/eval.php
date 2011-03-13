@@ -1,8 +1,7 @@
 <?php 
 /*
-	Simple Ternary 'if' event class for PointClickPress
-	 
-	$var = (eval_value1 [>|<|<=|>=|==|!=] eval_value1 ) ? true_value1 : false_value 2;
+	Evaluate event class for PointClickPress
+	Execute arbitrary PHP code. 
  */
 
 class event_Eval extends Model_Base_PCPEvent

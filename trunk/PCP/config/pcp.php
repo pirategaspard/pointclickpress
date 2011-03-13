@@ -31,7 +31,7 @@ $thumbnail_size = '100x100'; // square
 	(must be a size in the suppored_screens list)
 */
 //$story_size = '640x480'; // standard
-$story_size = '800x480'; // wide
+$default_screen_size = '800x480'; // wide
 
 /*
 	supported grid sizes:
@@ -64,8 +64,8 @@ define('IMAGE_QUALITY', $image_quality);
 define('SUPPORTED_SCREENS', $supported_screens);
 define('SUPPORTED_GRID_SIZES', $supported_grid_sizes);
 define('SCENE_IMAGE_REDUCTION_PERCENT',1);
-$defaults = explode('x',$story_size);
-define('DEFAULT_SCREEN_SIZE', $story_size);
+$defaults = explode('x',$default_screen_size);
+define('DEFAULT_SCREEN_SIZE', $default_screen_size);
 define('DEFAULT_SCREEN_WIDTH', $defaults[0]);
 define('DEFAULT_SCREEN_HEIGHT', $defaults[1]);
 $defaults = explode('x',$thumbnail_size);
@@ -79,10 +79,13 @@ define('DEFAULT_SCENE_VALUE', DEFAULT_VALUE);
 
 define('CACHE_DRIVER', $cache_driver); 
 
+
+
 // event constants
 define('EVENT_TYPE_NULL', ''); 
-define('EVENT_TYPE_ITEMSTATE', 'itemstate'); 
 define('EVENT_TYPE_ITEMDEF', 'itemdef'); 
+define('EVENT_TYPE_ITEMSTATE', 'itemstate'); 
+define('EVENT_TYPE_GRIDITEM', 'griditem'); 
 define('EVENT_TYPE_GRID', 'grid'); 
 define('EVENT_TYPE_SCENE', 'scene'); 
 define('EVENT_TYPE_LOCATION', 'location'); 
@@ -90,8 +93,9 @@ define('EVENT_TYPE_STORY', 'story');
 
 // item constants
 define('ITEM_TYPE_NULL', ''); 
-define('ITEM_TYPE_ITEMDEF', 'itemdef'); 
+define('ITEM_TYPE_DEF', 'itemdef'); 
 define('ITEM_TYPE_GRID', 'grid'); 
+define('ITEM_TYPE_INSTANCE', 'scene'); 
 
 require 'events.php';
 

@@ -48,7 +48,7 @@ Class Controller_admin_story extends Controller_Template_Admin
 		$data['grid_sizes'] = explode(',',SUPPORTED_GRID_SIZES);
 
 		$data['event_list'] = Request::factory('/admin/event/listSimple')->execute()->response;
-		$data['item_list'] = Request::factory('/admin/item/listSimple')->execute()->response;	
+		$data['item_list'] = Request::factory('/admin/itemdef/listSimple')->execute()->response;	
 		$data['location_list'] = Request::factory('/admin/location/listSimple')->execute()->response;	
 						
 		$data['story_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'story','action'=>'save')));

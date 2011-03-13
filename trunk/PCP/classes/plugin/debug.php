@@ -41,8 +41,11 @@ class Plugin_Debug implements Interfaces_iPCPPlugin
 								
 			/* Add what ever you want to dump out of session here */			
 			$story_data = $session->get('story_data',array());
-			var_dump($story_data);
 			?>
+			<pre>
+				<?php var_dump($story_data);?>
+			</pre>
+			
 			<style>
 				#grid a {margin: -1px; padding: -1px; border: 1px solid red; }
 			</style> 

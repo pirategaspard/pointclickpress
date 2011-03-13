@@ -1,6 +1,6 @@
 <?php 
 	echo($item_form);
-	if ($item->id > 0)
+	if ($griditem->id > 0)
 	{
 ?>
 		<div id="accordion" >
@@ -12,6 +12,5 @@
 		</div>
 	</div><!-- #accordion -->
 <?php 
-		echo($itemstate_list);
 	}	
 ?>
