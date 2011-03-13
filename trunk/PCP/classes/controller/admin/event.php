@@ -9,10 +9,11 @@ Class Controller_admin_event extends Controller_Template_Admin
 	function action_edit()
 	{				
 		$session = Session::instance();
-		$data = EventsAdmin::getData();	
+		$data = Model_Admin_EventsAdmin::getData();
+		/*	
 		if ($data['event_type'] == EVENT_TYPE_STORY)
 		{
-			$data['story'] = PCPAdmin::getStoryInfo(array('id'=>$session->get('story_id'),'include_locations'=>true,'include_scenes'=>false));
+			$data['story'] = Model_Admin_StoriesAdmin::getStoryInfo(array('id'=>$session->get('story_id'),'include_locations'=>true,'include_scenes'=>false));
 			$data['story_id'] = $session->get('story_id');
 			$data['locations'] = $data['story']->locations;	
 		}
@@ -27,12 +28,9 @@ Class Controller_admin_event extends Controller_Template_Admin
 			$data['location_id'] = $session->get('location_id');
 			$data['scene_id'] = $session->get('scene_id');
 		}
-		if ($data['event_type'] == EVENT_TYPE_ITEMSTATE)
-		{
-			$data['itemstate_id'] = $session->get('itemstate_id');
-		}					
-		$data['event'] = PCPAdmin::getEvent();
-		$data['event_defs'] = PCPAdmin::loadEventTypeEventDefs($data['event_type']);
+		*/		
+		$data['event'] = Model_Admin_EventsAdmin::getEvent($data);
+		$data['event_defs'] = Model_Admin_EventsAdmin::loadEventTypeEventDefs($data['event_type']);
 		$data['back_url'] = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
 		$data['event_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'save')));
 		
@@ -56,7 +54,7 @@ Class Controller_admin_event extends Controller_Template_Admin
 			$myevent = new $_POST['event'];
 			$_POST['event_label'] = $myevent->getLabel();
 			//save event
-			$result = EventsAdmin::getEvent($_POST)->load()->init($_POST)->save();		
+			$result = Model_Admin_EventsAdmin::getEvent($_POST)->load()->init($_POST)->save();		
 		}
 		else
 		{
@@ -81,7 +79,7 @@ Class Controller_admin_event extends Controller_Template_Admin
 		$session = Session::instance();
 		$session->delete('result');
 		$back_url = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
-		$result = EventsAdmin::getEvent()->init(array('id'=>$_REQUEST['event_id']))->delete();
+		$result = Model_Admin_EventsAdmin::getEvent()->init(array('id'=>$_REQUEST['event_id']))->delete();
 		// Create User Message
 		if ($result->success)
 		{
@@ -98,8 +96,8 @@ Class Controller_admin_event extends Controller_Template_Admin
 	
 	function action_list()
 	{
-		$data = EventsAdmin::getData();	
-		$data['events'] = EventsAdmin::getEvents($data);
+		$data = Model_Admin_EventsAdmin::getData();	
+		$data['events'] = Model_Admin_EventsAdmin::getEvents($data);
 		$data['event_add'] = View::factory('/admin/event/add',$data)->render();
 		$this->template->content = View::factory('/admin/event/list',$data)->render();	//get event information and load list of events
 	}
@@ -113,20 +111,19 @@ Class Controller_admin_event extends Controller_Template_Admin
 	function action_listGridSimple()
 	{
 		$this->simple_output();
-		$data = EventsAdmin::getData();	
-		$data['events'] = EventsAdmin::getGridEvents($data);
+		$data = Model_Admin_EventsAdmin::getData();	
+		$data['events'] = Model_Admin_EventsAdmin::getGridEvents($data);
 		$this->template->content = View::factory('/admin/event/list_grid',$data)->render();
 	}
 	
 	function action_formGridSimple()
 	{
 		$this->simple_output();
-		$data = EventsAdmin::getData();	
+		$data = Model_Admin_EventsAdmin::getData();	
 		$data['back_url'] = Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?scene_id='.$data['scene_id'];
-		$data['event_defs'] = PCPAdmin::loadEventTypeEventDefs(EVENT_TYPE_GRID);						
-		//$data['locations'] = $data['story']->locations;
-		$data['locations'] = PCPAdmin::getLocations($data);
-		$data['event'] = PCPAdmin::getEvent(array('scene_id'=>$data['scene_id'],'event_type'=>EVENT_TYPE_GRID));				
+		$data['event_defs'] = Model_Admin_EventsAdmin::loadEventTypeEventDefs(EVENT_TYPE_GRID);						
+		$data['locations'] = Model_Admin_LocationsAdmin::getLocations($data);
+		$data['event'] = Model_Admin_EventsAdmin::getEvent(array('id'=>$data['id'],'scene_id'=>$data['scene_id'],'event_type'=>EVENT_TYPE_GRID));				
 		$data['grid_event_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'save')));									
 		$data['event_type'] = EVENT_TYPE_GRID;
 		$this->template->content = View::factory('/admin/event/form_grid',$data)->render(); //inline form

@@ -2,7 +2,7 @@
 /*
  */
 define('EVENTTIMER','EVENTTIMER'); // our event name
-class event_eventtimer extends pcpevent implements iPCPevent
+class event_eventtimer extends Model_Base_PCPEvent implements Interfaces_iPCPevent
 {
 	public function __construct()
 	{

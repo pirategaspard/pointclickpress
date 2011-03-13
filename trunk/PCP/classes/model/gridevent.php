@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Model_GridEvent extends Model_Event 
+class Model_GridEvent extends Model_Base_Event 
 {	
 	protected $grid_event_id = 0;
 	protected $scene_id = 0;	
@@ -53,7 +53,7 @@ class Model_GridEvent extends Model_Event
 			if (count($q_results) > 0 )
 			{				
 				$this->init($q_results[0]);
-				$this->cells = Model_Cells::getCells(array('event'=>$this));
+				$this->cells = Model_Admin_CellsAdmin::getCells(array('event'=>$this));
 			}			
 		}
 		return $this;
@@ -81,7 +81,7 @@ class Model_GridEvent extends Model_Event
 				$this->grid_event_id = $q_results[0];
 				foreach ($this->cells as $cell)
 				{
-					Model_Cells::getCell()->init(array('id'=>$cell,'scene_id'=>$this->scene_id,'grid_event_id'=>$this->grid_event_id))->save();
+					Model_Admin_CellsAdmin::getCell()->init(array('id'=>$cell,'scene_id'=>$this->scene_id,'grid_event_id'=>$this->grid_event_id))->save();
 				}
 				$results->data = array('id'=>$this->id,'grid_event_id' => $this->grid_event_id);
 				$results->success = 1;
@@ -107,7 +107,7 @@ class Model_GridEvent extends Model_Event
 				//save cells
 				foreach ($this->cells as $cell)
 				{
-					Model_Cells::getCell()->init(array('id'=>$cell,'scene_id'=>$this->scene_id,'grid_event_id'=>$this->grid_event_id))->save();
+					Model_Admin_CellsAdmin::getCell()->init(array('id'=>$cell,'scene_id'=>$this->scene_id,'grid_event_id'=>$this->grid_event_id))->save();
 				}					
 																		
 			}

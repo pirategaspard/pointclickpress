@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Model_pcpresponse
+class Model_Base_PCPResponse
 {	
 	public $function_name = '';
 	public $data = array();

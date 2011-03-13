@@ -95,7 +95,7 @@ define('ITEM_TYPE_NULL', '');
 define('ITEM_TYPE_ITEMDEF', 'itemdef'); 
 define('ITEM_TYPE_GRID', 'grid'); 
 
-
+require 'events.php';
 
 
 

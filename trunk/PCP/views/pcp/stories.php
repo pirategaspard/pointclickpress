@@ -1,3 +1,5 @@
+<?php /*var_dump($stories); die(); */?>
+
 <h1>Interactive Stories</h1>
 <fieldset class="ui-helper-reset ui-widget-content ui-corner-all">
 	<table>

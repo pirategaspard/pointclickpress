@@ -5,7 +5,7 @@ Class Controller_admin_plugin extends Controller_Template_Admin
 	
 	function action_list()
 	{		
-		$data['plugins'] = PCPAdmin::getPlugins();
+		$data['plugins'] = Model_Admin_PluginsAdmin::getPlugins();
 		$data['add'] = '';//View::factory('/admin/story/add',$data)->render();
 		$this->template->top_menu = View::factory('/admin/plugin/top_menu',$data)->render();
 		$this->template->content = View::factory('/admin/plugin/list',$data)->render();
@@ -13,7 +13,7 @@ Class Controller_admin_plugin extends Controller_Template_Admin
 	
 	function action_edit()
 	{		
-		$plugin = PCPAdmin::getPlugin(array('plugin'=>$_REQUEST['plugin']));
+		$plugin = Model_Admin_PluginsAdmin::getPluginByClassName(array('plugin'=>$_REQUEST['plugin']));
 		if(count($plugin) > 0)
 		{
 			if ($plugin[0]['status'] == 0)
@@ -24,7 +24,7 @@ Class Controller_admin_plugin extends Controller_Template_Admin
 			{
 				$status = 0;
 			}
-			if (pluginAdmin::updatePlugin($plugin[0]['id'],$status))
+			if (Model_Admin_PluginsAdmin::updatePlugin($plugin[0]['id'],$status))
 			{
 				$result = new pcpresult();
 			}
@@ -40,15 +40,23 @@ Class Controller_admin_plugin extends Controller_Template_Admin
 		$session = Session::instance();	
 		$session->set('result',$result);
 		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'plugin','action'=>'list')));
-		/*		
-		$data['form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'plugin','action'=>'save'))); 		
-		$this->template->top_menu = View::factory('/admin/plugin/top_menu',$data)->render();
-		$this->template->content = View::factory('/admin/plugin/form',$data)->render();
-		*/
 	}
 	
 	function action_save()
 	{		
+		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'plugin','action'=>'list')));
+	}
+	
+	function action_delete()
+	{
+		$plugin = Model_Admin_PluginsAdmin::getPluginByClassName(array('plugin'=>$_REQUEST['plugin']));
+		if(count($plugin) > 0)
+		{
+			// TODO: run un-install function in plugin
+			
+			// delete record
+			Model_Admin_PluginsAdmin::deletePluginByID($plugin[0]['id']);
+		}
 		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'plugin','action'=>'list')));
 	}
 	

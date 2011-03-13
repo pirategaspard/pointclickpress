@@ -9,11 +9,15 @@ Class Controller_admin_location extends Controller_Template_Admin
 	}
 	
 	function action_edit()
-	{		
-		$data['location'] = PCPAdmin::getlocation(array('include_scenes'=>TRUE,'include_events'=>false));
-		$data['story'] = PCPAdmin::getStory(array('id'=>$data['location']->story_id));
-		$data['scenes'] = $data['location']->scenes;			
-		
+	{
+		$session = Session::instance();		
+		$data = Model_Admin_LocationsAdmin::getData();
+		$data['location'] = Model_Admin_LocationsAdmin::getLocation(array('id'=>$data['location_id'],'include_scenes'=>TRUE))->init($data);
+		$data['story_id'] = (isset($data['story_id']))?$data['story_id']:$data['location']->story_id;
+		$data['story'] = Model_Admin_StoriesAdmin::getStory(array('id'=>$data['story_id']));
+		$data['scenes'] = $data['location']->scenes;
+		$session->set('story_id',$data['story_id']); //This may have been derived from the location obj and other calls in the request may need it
+		$session->set('location_id',$data['location_id']); //This may have been derived from the location obj and other calls in the request may need it
 		// if there is only one scene in a location redirect to scene edit
 		/*
 		if (($data['location']->id > 0)&&(count($data['location']->scenes) == 1))
@@ -27,7 +31,8 @@ Class Controller_admin_location extends Controller_Template_Admin
 		// if there is no scene in a location redirect to add a scene
 		if (($data['location']->id > 0)&&(count($data['location']->scenes) < 1))
 		{
-			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?scene_id=0');
+			$session->set('location_id',$data['location']->id);
+			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?location_id='.$data["location"]->id.'&story_id='.$data['story_id'].'&scene_id=0');
 		}
 		else
 		{			
@@ -49,7 +54,7 @@ Class Controller_admin_location extends Controller_Template_Admin
 		$session->delete('result');
 		if(count($_POST) > 0)
 		{
-			$result = PCPAdmin::getlocation()->init($_POST)->save();
+			$result = Model_Admin_LocationsAdmin::getlocation()->init($_POST)->save();
 			$session->set('location_id',$result->data['id']);
 		}
 		else
@@ -71,7 +76,7 @@ Class Controller_admin_location extends Controller_Template_Admin
 	{	
 		$session = Session::instance();
 		$session->delete('result');	
-		$result = PCPAdmin::getlocation()->init(array('id'=>$_REQUEST['location_id']))->delete();
+		$result = Model_Admin_LocationsAdmin::getlocation()->init(array('id'=>$_REQUEST['location_id']))->delete();
 		// Create User Message
 		if ($result->success)
 		{
@@ -83,7 +88,7 @@ Class Controller_admin_location extends Controller_Template_Admin
 		}
 		$session->set('result',$result);
 		//Go back to the parent
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'edit')));
+		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'edit')).'?story_id='.$_REQUEST['story_id']);
 	}
 	
 	function action_listSimple()
@@ -94,8 +99,8 @@ Class Controller_admin_location extends Controller_Template_Admin
 	
 	function action_list()
 	{
-		$data = LocationAdmin::getData();	
-		$data['locations'] = LocationAdmin::getLocations($data);
+		$data = Model_Admin_LocationsAdmin::getData();	
+		$data['locations'] = Model_Admin_LocationsAdmin::getLocations($data);
 		$data['location_add'] = View::factory('/admin/location/add',$data)->render();
 		$this->template->content = View::factory('/admin/location/list',$data)->render();	//get location information and load list of locations
 	}

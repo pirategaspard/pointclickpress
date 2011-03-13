@@ -2,28 +2,27 @@
 
 Class Controller_admin_scene extends Controller_Template_Admin
 {
-	
 	function action_edit()
 	{	
 		$session = Session::instance();
 	
 		// if we have a new scene, reset the image_id to zero
-		if ((isset($_REQUEST['scene_id'])) && ($_REQUEST['scene_id'] == 0))
-		{
-			$session->set('image_id',0);			
-		}
-					
-		$data['scene'] = PCPAdmin::getScene(array('include_events'=>false,'include_items'=>true));		
-		$data['story'] = PCPAdmin::getStoryInfo(array('id'=>$data['scene']->story_id,'include_locations'=>true,'include_scenes'=>false));			
+		$data = Model_Admin_ScenesAdmin::GetData();
+		$data['scene'] = Model_Admin_ScenesAdmin::getScene(array('id'=>$data['scene_id'],'include_events'=>false,'include_items'=>true))->init($data);
+		$data['story_id'] = (isset($data['story_id']))?$data['story_id']:$data['scene']->story_id;
+		$data['story'] = Model_Admin_StoriesAdmin::getStoryInfo(array('id'=>$data['story_id'],'include_locations'=>true,'include_scenes'=>false));			
 		$data['location'] = $data['story']->locations[$data['scene']->location_id];				
 		$data['story_id'] = $data['story']->id;
 		$data['location_id'] = $data['scene']->location_id;		
 		$data['scene_id'] = $data['scene']->id;	
+		$session->set('story_id',$data['story_id']); // This may have been derived from scene obj and other calls may need to use it
+		$session->set('location_id',$data['location_id']);
+		$session->set('scene_id',$data['scene_id']);
 				
 		// set the scene title equal to the parent location title if the scene title is empty, else set it to itself
 		$data['scene']->setTitle((strlen($data['scene']->title)>0) ? $data['scene']->title : $data['location']->title); //if (strlen($data['scene']->title)==0) $data['scene']->setTitle($data['location']->title);
 		// set the story size 
-		$data['story']->setDimensions(DEFAULT_STORY_WIDTH,DEFAULT_STORY_HEIGHT);
+		$data['story']->setDimensions(DEFAULT_SCREEN_WIDTH,DEFAULT_SCREEN_HEIGHT);
 		$data['assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?story_id='.$data['scene']->story_id.'&location_id='.$data['scene']->location_id.'&scene_id='.$session->get('scene_id');				
 		
 		/* scene events */	
@@ -36,8 +35,8 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		if (strlen($data['scene']->filename) > 0)
 		{
 			// items
-			$data['item_form'] = Request::factory('/admin/item/formgridSimple')->execute()->response;
-			$data['items_list'] = Request::factory('/admin/item/listgridSimple')->execute()->response;
+			$data['grid_item_form'] = Request::factory('/admin/griditem/formgridSimple')->execute()->response;
+			$data['grid_items_list'] = Request::factory('/admin/griditem/listgridSimple')->execute()->response;
 			
 			// events
 			$data['grid_event_form'] = Request::factory('/admin/event/formgridSimple')->execute()->response;
@@ -67,7 +66,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 			// if we don't have a scene location yet we must create one
 			if ((!isset($_POST['location_id'])) ||(strlen($_POST['location_id'])<=0)||($_POST['location_id']<=0))
 			{	
-				$result = PCPAdmin::getlocation()->init($_POST)->save();
+				$result = Model_Admin_LocationsAdmin::getlocation()->init($_POST)->save();
 				$_POST['location_id'] = $result->data['id'];
 			}
 			else
@@ -81,7 +80,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 				if ($session->get('scene_id') == 0)
 				{
 					// check that there is not already a scene in this location with this value
-					$scene = PCPAdmin::getSceneBylocationId($_POST['location_id'],$_POST['value']);																	
+					$scene = Model_Admin_ScenesAdmin::getSceneBylocationId($_POST['location_id'],$_POST['value']);																	
 					if (($scene->id > 0) && ($scene->id != $_POST['id']))
 					{									
 						$result = new pcpresult(0,'Locations cannot have two scenes with the same scene value');	
@@ -91,7 +90,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 					}
 				}				
 				//save Scene to db
-				$result = PCPAdmin::getScene()->init($_POST)->save();
+				$result = Model_Admin_ScenesAdmin::getScene()->init($_POST)->save();
 				if ($result->success)
 				{
 					// update scene id in session
@@ -115,7 +114,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 	{	
 		$session = Session::instance();	
 		$session->delete('result');
-		$result = PCPAdmin::getScene()->init(array('id'=>$_REQUEST['scene_id']))->delete();
+		$result = Model_Admin_ScenesAdmin::getScene()->init(array('id'=>$_REQUEST['scene_id']))->delete();
 		// Create User Message
 		if ($result->success)
 		{
@@ -134,11 +133,11 @@ Class Controller_admin_scene extends Controller_Template_Admin
 	{		
 		$session = Session::instance();	
 		$session->delete('result');
-		PCPAdmin::getArgs();			
-		if ($session->get('scene_id') && $session->get('image_id'))
+		$data = Model_Admin_ScenesAdmin::getData();			
+		if (isset($data['scene_id']) && isset($data['image_id']))
 		{
-			$scene = PCPAdmin::getScene();
-			$result = $scene->init(array('image_id'=>$session->get('image_id')))->save();
+			$scene = Model_Admin_ScenesAdmin::getScene(array('id'=>$data['scene_id']));
+			$result = $scene->init(array('image_id'=>$data['image_id']))->save();
 			// Create User Message
 			if ($result->success)
 			{
@@ -153,10 +152,10 @@ Class Controller_admin_scene extends Controller_Template_Admin
 	{		
 		$session = Session::instance();	
 		$session->delete('result');
-		PCPAdmin::getArgs();					
-		if ($_POST['scene_id'] && $_POST['itemdef_id'])
+		$data = Model_Admin_GridItemAdmin::getData();						
+		if (isset($data['scene_id']) && isset($data['itemdef_id']))
 		{
-			$item = PCPAdmin::getGridItem();					
+			$item = Model_Admin_GridItemAdmin::getGridItem();	
 			$result = $item->init($_POST)->save();
 			// Create User Message
 			if ($result->success)
@@ -169,16 +168,16 @@ Class Controller_admin_scene extends Controller_Template_Admin
 			}
 			$session->set('result',$result);			
 		}
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?scene_id='.$_POST['scene_id']);
+		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?tab=2&scene_id='.$_POST['scene_id']);
 	}
 	function action_DeleteItem()
 	{		
 		$session = Session::instance();	
 		$session->delete('result');
-		PCPAdmin::getArgs();					
-		if ($session->get('scene_id') && $session->get('grid_item_id'))
+		$data = Model_Admin_GridItemAdmin::getData();					
+		if (isset($data['scene_id']) && isset($data['griditem_id']))
 		{
-			$item = PCPAdmin::getGridItem();						
+			$item = Model_Admin_GridItemAdmin::getGridItem(array('id'=>$data['griditem_id']));
 			$result = $item->init($_POST)->delete();
 			// Create User Message
 			if ($result->success)
@@ -191,7 +190,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 			}
 			$session->set('result',$result);			
 		}
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')));
+		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?scene_id='.$data['scene_id']);
 	}
 	
 	function action_listSimple()
@@ -202,8 +201,8 @@ Class Controller_admin_scene extends Controller_Template_Admin
 	
 	function action_list()
 	{
-		$data = SceneAdmin::getData();	
-		$data['scenes'] = SceneAdmin::getScenes($data);
+		$data = Model_Admin_ScenesAdmin::getData();
+		$data['scenes'] = Model_Admin_ScenesAdmin::getScenes($data);
 		$data['scene_add'] = View::factory('/admin/scene/add',$data)->render();
 		$this->template->content = View::factory('/admin/scene/list',$data)->render();	//get location information and load list of locations
 	}

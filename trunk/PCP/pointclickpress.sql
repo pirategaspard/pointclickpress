@@ -1,23 +1,7 @@
--- phpMyAdmin SQL Dump
--- version 3.2.5
--- http://www.phpmyadmin.net
---
--- Host: localhost
--- Generation Time: Nov 12, 2010 at 05:34 PM
--- Server version: 5.0.27
--- PHP Version: 5.3.2
-
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
---
--- Database: `pointclickpress`
---
 
--- --------------------------------------------------------
 
---
--- Table structure for table `cells`
---
 
 CREATE TABLE IF NOT EXISTS `cells` (
   `id` int(20) unsigned NOT NULL,
@@ -26,9 +10,6 @@ CREATE TABLE IF NOT EXISTS `cells` (
   KEY `id_storyid` (`id`,`scene_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `cells`
---
 
 INSERT INTO `cells` (`id`, `scene_id`, `grid_event_id`) VALUES
 (90, 23, 16),
@@ -1173,6 +1154,10 @@ INSERT INTO `cells` (`id`, `scene_id`, `grid_event_id`) VALUES
 (25, 66, 130),
 (24, 66, 130),
 (23, 66, 130),
+(64, 49, 135),
+(74, 49, 135),
+(75, 49, 135),
+(65, 49, 135),
 (99, 74, 117),
 (94, 74, 117),
 (93, 74, 117),
@@ -1564,48 +1549,6 @@ INSERT INTO `cells` (`id`, `scene_id`, `grid_event_id`) VALUES
 (16, 65, 110),
 (15, 65, 110),
 (14, 65, 110),
-(67, 83, 154),
-(66, 83, 154),
-(65, 83, 154),
-(64, 83, 154),
-(63, 83, 154),
-(62, 83, 154),
-(57, 83, 154),
-(56, 83, 154),
-(55, 83, 154),
-(54, 83, 154),
-(53, 83, 154),
-(52, 83, 154),
-(47, 83, 154),
-(46, 83, 154),
-(45, 83, 154),
-(44, 83, 154),
-(43, 83, 154),
-(42, 83, 154),
-(37, 83, 154),
-(36, 83, 154),
-(35, 83, 154),
-(34, 83, 154),
-(33, 83, 154),
-(32, 83, 154),
-(27, 83, 154),
-(26, 83, 154),
-(25, 83, 154),
-(24, 83, 154),
-(23, 83, 154),
-(22, 83, 154),
-(17, 83, 154),
-(16, 83, 154),
-(15, 83, 154),
-(14, 83, 154),
-(13, 83, 154),
-(12, 83, 154),
-(44, 49, 135),
-(45, 49, 135),
-(54, 49, 135),
-(55, 49, 135),
-(65, 49, 135),
-(64, 49, 135),
 (86, 66, 156),
 (85, 66, 156),
 (84, 66, 156),
@@ -1644,13 +1587,45 @@ INSERT INTO `cells` (`id`, `scene_id`, `grid_event_id`) VALUES
 (26, 66, 156),
 (25, 66, 156),
 (24, 66, 156),
-(23, 66, 156);
+(23, 66, 156),
+(67, 83, 154),
+(66, 83, 154),
+(65, 83, 154),
+(64, 83, 154),
+(63, 83, 154),
+(62, 83, 154),
+(57, 83, 154),
+(56, 83, 154),
+(55, 83, 154),
+(54, 83, 154),
+(53, 83, 154),
+(52, 83, 154),
+(47, 83, 154),
+(46, 83, 154),
+(45, 83, 154),
+(44, 83, 154),
+(43, 83, 154),
+(42, 83, 154),
+(37, 83, 154),
+(36, 83, 154),
+(35, 83, 154),
+(34, 83, 154),
+(33, 83, 154),
+(32, 83, 154),
+(27, 83, 154),
+(26, 83, 154),
+(25, 83, 154),
+(24, 83, 154),
+(23, 83, 154),
+(22, 83, 154),
+(17, 83, 154),
+(16, 83, 154),
+(15, 83, 154),
+(14, 83, 154),
+(13, 83, 154),
+(12, 83, 154);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `events`
---
 
 CREATE TABLE IF NOT EXISTS `events` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
@@ -1658,17 +1633,14 @@ CREATE TABLE IF NOT EXISTS `events` (
   `event_label` varchar(255) NOT NULL,
   `event_value` text NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=167 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=192 ;
 
---
--- Dumping data for table `events`
---
 
 INSERT INTO `events` (`id`, `event`, `event_label`, `event_value`) VALUES
 (22, 'event_link', 'link', '21'),
 (24, 'event_link', 'link', '22'),
 (50, 'event_link', 'link', '31'),
-(51, 'event_assign', 'Assign value', '$direction = ''east'';\n$bucket = ''on_ground'';\n$wellisfull_flag = ''false'';'),
+(51, 'event_assign', 'Assign value', '$direction = ''east'';\n$wellisfull_flag = ''false'';'),
 (53, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''WEST'';'),
 (54, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''SOUTH_EAST'';'),
 (55, 'event_link', 'link', '34'),
@@ -1745,7 +1717,6 @@ INSERT INTO `events` (`id`, `event`, `event_label`, `event_value`) VALUES
 (139, 'event_assign', 'Assign value', '$direction = ''north'';'),
 (140, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''west'''),
 (141, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''west'';'),
-(142, 'event_Eval', 'Eval', 'if ($story_data[''bucket''] == ''on_ground'')\n{\n $event_value = ''You picked up the bucket!'';\n $events[] = PCP::createEvent(''event_message'',$event_value);\n $event_value = ''$bucket = "picked_up"'';\n $events[] = PCP::createEvent(''event_assignrefreshitems'',$event_value);\n return PCP::doEvents($events);\n}'),
 (143, 'event_link', 'link', '43'),
 (144, 'event_assign', 'Assign value', '$river = $direction; '),
 (145, 'event_link', 'link', '36'),
@@ -1767,24 +1738,33 @@ INSERT INTO `events` (`id`, `event`, `event_label`, `event_value`) VALUES
 (161, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''east'';'),
 (162, 'event_Eval', 'Eval', 'if ($story_data[''bucket''] == ''picked_up'')\n{ \n $event_value = ''$bucket = "full"'';\n $events[] = PCP::createEvent(''event_assign'',$event_value);\n $event_value = ''Your Bucket is now full of water'';\n $events[] = PCP::createEvent(''event_message'',$event_value);\n}\nelse\n{\n $event_value = ''The water is wet'';\n $events[] = PCP::createEvent(''event_message'',$event_value);\n}\n return PCP::doEvents($events);'),
 (163, 'event_assignrefresh', 'Assign value and scene refresh', '$well = '''';'),
-(164, 'event_Eval', 'Eval', 'if ($story_data[''bucket''] == ''full'')\n{ \n $event_value =''The well now contains water'';\n $events[] = PCP::createEvent(''event_message'',$event_value);\n $event_value =''$well = "detail_full"'';\n $events[] = PCP::createEvent(''event_assign'',$event_value);\n $event_value =''$wellisfull_flag = "true"'';\n $events[] = PCP::createEvent(''event_assignrefresh'',$event_value);\n}\nelse\n{\n $event_value = ''You fall into the well and break you neck!'';\n $events[] = PCP::createEvent(''event_message'',$event_value);\n $events[] = PCP::createEvent(''event_link'',''42'');\n}\nreturn PCP::doEvents($events);');
+(164, 'event_Eval', 'Eval', 'if ($story_data[''bucket''] == ''full'')\n{ \n $event_value =''$well = "detail_full"'';\n $events[] = PCP::createEvent(''event_assign'',$event_value);\n $event_value =''$wellisfull_flag = "true"'';\n $events[] = PCP::createEvent(''event_assignrefresh'',$event_value);\n}\nelse\n{\n $event_value = ''You fall into the well and break you neck!'';\n $events[] = PCP::createEvent(''event_message'',$event_value);\n $events[] = PCP::createEvent(''event_link'',''42'');\n}\nreturn PCP::doEvents($events);'),
+(167, 'event_assign', 'Assign value', '$abc=1;'),
+(168, 'event_assign', 'Assign value', '$abc=1;'),
+(169, 'event_assign', 'Assign value', '$ssdfg=1;'),
+(170, 'event_assign', 'Assign value', ''),
+(172, 'event_assign', 'Assign value', '$test = 1;'),
+(173, 'event_assign', 'Assign value', '$test = 1;'),
+(176, 'event_assign', 'Assign value', '$blah = 2;'),
+(178, 'event_assign', 'Assign value', '$bsdfa = 1;'),
+(179, 'event_assign', 'Assign value', '$bsdfa = 1;'),
+(180, 'event_assign', 'Assign value', '$asgds  =2;'),
+(181, 'event_assign', 'Assign value', '$bdsa = 1;'),
+(184, 'event_assign', 'Assign value', '$afdfsdf = 2;'),
+(185, 'event_assign', 'Assign value', '$asfsd = 432;'),
+(188, 'event_inventory_inventory', 'Add To Inventory', ''),
+(190, 'event_inventory_add', 'Add To Inventory', ''),
+(191, 'event_inventory_add', 'Add To Inventory', '');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `grids_events`
---
 
 CREATE TABLE IF NOT EXISTS `grids_events` (
   `grid_event_id` bigint(20) unsigned NOT NULL auto_increment,
   `scene_id` bigint(20) unsigned NOT NULL,
   `event_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY  (`grid_event_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=159 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=159 ;
 
---
--- Dumping data for table `grids_events`
---
 
 INSERT INTO `grids_events` (`grid_event_id`, `scene_id`, `event_id`) VALUES
 (1, 22, 1),
@@ -1915,11 +1895,7 @@ INSERT INTO `grids_events` (`grid_event_id`, `scene_id`, `event_id`) VALUES
 (157, 83, 165),
 (158, 66, 166);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `grids_items`
---
 
 CREATE TABLE IF NOT EXISTS `grids_items` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
@@ -1931,20 +1907,32 @@ CREATE TABLE IF NOT EXISTS `grids_items` (
   PRIMARY KEY  (`id`),
   KEY `item_id` (`itemdef_id`),
   KEY `scene_id` (`scene_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
---
--- Dumping data for table `grids_items`
---
 
 INSERT INTO `grids_items` (`id`, `itemdef_id`, `scene_id`, `cell_id`, `title`, `slug`) VALUES
-(4, 2, 49, 44, 'bucket', 'bucket');
+(4, 2, 49, 44, 'mybucket_too', 'mybucket_too'),
+(7, 2, 83, 88, 'bucket', 'bucket');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `images`
---
+
+CREATE TABLE IF NOT EXISTS `grids_items_events` (
+  `griditem_id` bigint(20) unsigned NOT NULL,
+  `event_id` bigint(20) unsigned NOT NULL,
+  KEY `griditemid` (`griditem_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+INSERT INTO `grids_items_events` (`griditem_id`, `event_id`) VALUES
+(0, 185),
+(4, 186),
+(6, 187),
+(6, 188),
+(4, 189),
+(4, 190),
+(7, 191);
+
+
 
 CREATE TABLE IF NOT EXISTS `images` (
   `id` bigint(20) NOT NULL auto_increment,
@@ -1952,11 +1940,8 @@ CREATE TABLE IF NOT EXISTS `images` (
   `type_id` int(11) unsigned NOT NULL,
   `filename` varchar(255) character set latin1 NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=52 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=52 ;
 
---
--- Dumping data for table `images`
---
 
 INSERT INTO `images` (`id`, `story_id`, `type_id`, `filename`) VALUES
 (14, 3, 1, 'DSC_0528.JPG'),
@@ -1996,84 +1981,91 @@ INSERT INTO `images` (`id`, `story_id`, `type_id`, `filename`) VALUES
 (50, 3, 1, 'DSC_0203.JPG'),
 (51, 3, 1, 'DSC_0233.JPG');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `image_types`
---
 
 CREATE TABLE IF NOT EXISTS `image_types` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `title` varchar(255) character set latin1 NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
---
--- Dumping data for table `image_types`
---
 
 INSERT INTO `image_types` (`id`, `title`) VALUES
 (1, 'scene'),
 (2, 'item');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `itemdefs`
---
 
 CREATE TABLE IF NOT EXISTS `itemdefs` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
   `title` varchar(255) NOT NULL,
   `story_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
---
--- Dumping data for table `itemdefs`
---
 
 INSERT INTO `itemdefs` (`id`, `title`, `story_id`) VALUES
 (2, 'bucket', 3);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `items_states`
---
+
+CREATE TABLE IF NOT EXISTS `items_defs_events` (
+  `itemdef_id` bigint(20) unsigned NOT NULL,
+  `event_id` bigint(20) unsigned NOT NULL,
+  KEY `itemdefid` (`itemdef_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+INSERT INTO `items_defs_events` (`itemdef_id`, `event_id`) VALUES
+(2, 182),
+(2, 184);
+
+
 
 CREATE TABLE IF NOT EXISTS `items_states` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
-  `item_id` bigint(20) unsigned NOT NULL,
+  `itemdef_id` bigint(20) unsigned NOT NULL,
   `image_id` bigint(20) unsigned NOT NULL,
   `value` varchar(255) character set latin1 NOT NULL,
+  `isdefaultstate` tinyint(4) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
---
--- Dumping data for table `items_states`
---
 
-INSERT INTO `items_states` (`id`, `item_id`, `image_id`, `value`) VALUES
-(3, 2, 42, 'on_ground'),
-(4, 2, 0, 'picked_up');
+INSERT INTO `items_states` (`id`, `itemdef_id`, `image_id`, `value`, `isdefaultstate`) VALUES
+(1, 1, 41, 'on_ground', 0),
+(2, 1, 0, 'taken', 0),
+(3, 2, 42, 'on_ground', 1),
+(4, 2, 0, 'picked_up', 0),
+(5, 4, 0, 'on', 0),
+(6, 4, 0, 'off', 0),
+(7, 0, 0, '', 0);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `locations`
---
+
+CREATE TABLE IF NOT EXISTS `items_states_events` (
+  `itemstate_id` bigint(20) unsigned NOT NULL,
+  `event_id` bigint(20) unsigned NOT NULL,
+  KEY `itemstateid` (`itemstate_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+INSERT INTO `items_states_events` (`itemstate_id`, `event_id`) VALUES
+(5, 174),
+(3, 175),
+(5, 176),
+(3, 177),
+(3, 183);
+
+
 
 CREATE TABLE IF NOT EXISTS `locations` (
   `story_id` bigint(20) unsigned NOT NULL,
   `id` bigint(20) unsigned NOT NULL auto_increment,
   `title` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=45 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=44 ;
 
---
--- Dumping data for table `locations`
---
 
 INSERT INTO `locations` (`story_id`, `id`, `title`) VALUES
 (3, 30, 'Stairs'),
@@ -2088,11 +2080,7 @@ INSERT INTO `locations` (`story_id`, `id`, `title`) VALUES
 (3, 42, 'Death'),
 (3, 43, 'River');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `locations_events`
---
 
 CREATE TABLE IF NOT EXISTS `locations_events` (
   `location_id` bigint(20) unsigned NOT NULL,
@@ -2100,9 +2088,6 @@ CREATE TABLE IF NOT EXISTS `locations_events` (
   KEY `locationid` (`location_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `locations_events`
---
 
 INSERT INTO `locations_events` (`location_id`, `event_id`) VALUES
 (25, 39),
@@ -2116,11 +2101,7 @@ INSERT INTO `locations_events` (`location_id`, `event_id`) VALUES
 (43, 122),
 (43, 144);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `plugins`
---
 
 CREATE TABLE IF NOT EXISTS `plugins` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
@@ -2130,21 +2111,17 @@ CREATE TABLE IF NOT EXISTS `plugins` (
   `hooks` text character set latin1 NOT NULL,
   `status` char(1) character set latin1 NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
 
---
--- Dumping data for table `plugins`
---
 
 INSERT INTO `plugins` (`id`, `label`, `description`, `class`, `hooks`, `status`) VALUES
-(9, 'Debug', 'Debug Plugin for PCP', 'plugin_debug', 'display_post_scene,error', '1'),
-(10, 'helloworld', 'This is the helloworld demonstration plugin', 'plugin_helloworld', 'post_start_story,display_pre_scene,display_post_scene', '0');
+(9, 'Debug', 'Debug Plugin for PCP', 'plugin_debug', 'display_post_scene,error', '0'),
+(10, 'helloworld', 'This is the helloworld demonstration plugin', 'plugin_helloworld', 'post_start_story,display_pre_scene,display_post_scene', '0'),
+(12, 'columns', 'This is the columns plugin', 'plugin_column', 'display_scene_column_left,display_scene_column_right', '0'),
+(13, 'Google integration', 'This is the Google Integration plugin', 'plugin_google', 'display_scene_column_left,display_scene_column_right,display_footer', '0'),
+(16, 'Inventory', 'Basic inventory plugin for PCP', 'plugin_inventory', 'css,js,display_post_scene', '1');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `scenes`
---
 
 CREATE TABLE IF NOT EXISTS `scenes` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
@@ -2156,11 +2133,8 @@ CREATE TABLE IF NOT EXISTS `scenes` (
   `value` varchar(255) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `scene_value` (`value`,`location_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=85 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=85 ;
 
---
--- Dumping data for table `scenes`
---
 
 INSERT INTO `scenes` (`id`, `story_id`, `location_id`, `title`, `description`, `image_id`, `value`) VALUES
 (42, 3, 30, 'Stairs', 'You see some old stairs. Dare you go down them?', 14, ''),
@@ -2187,21 +2161,17 @@ INSERT INTO `scenes` (`id`, `story_id`, `location_id`, `title`, `description`, `
 (66, 3, 40, 'Well', 'You peer into the well and see the bottom is filled with mud and sticks. ', 38, 'detail'),
 (67, 3, 31, 'Bottom of Stairs', 'You are on a wooded pathway covered in a thick layer of pine needles. In front of you the woods are overgrown with poison ivy.', 34, 'north'),
 (68, 3, 41, 'Poison Ivy Field2', 'You are in a field full of poison ivy! There is a cement pipe protruding from the ground. ', 36, ''),
-(73, 3, 36, 'Path3', 'You''ll need a machete to head in this direction', 39, 'north'),
+(73, 3, 36, 'Path3', '', 39, 'north'),
 (74, 3, 36, 'Path3', 'The river flows lazily beyond the trees', 45, 'south'),
 (77, 3, 42, 'Death', 'You are dead! <br />THE END', 43, ''),
-(78, 3, 43, 'River', 'The river flows lazily around the debris caused by the spring flooding. This looks like a good spot to test the water.', 46, 'east'),
-(80, 3, 43, 'River', 'You are standing on a the rounded stones of the riverbed. The river is very low.', 50, 'south'),
-(81, 3, 43, 'River', 'There is a steep embankment up to the wooded path.', 49, 'north'),
-(82, 3, 43, 'River', 'The river is very low. Ahead is mud that you decide not to venture into. ', 47, 'west'),
-(83, 3, 43, 'River', 'The river is very low. This looks like a good spot to test the water.', 48, 'detail'),
-(84, 3, 40, 'Well', 'You can see your shadow cast in the water at the bottom of the well. ', 51, 'detail_full');
+(78, 3, 43, 'River', 'This looks like a good spot to take a dip', 46, 'east'),
+(80, 3, 43, 'River', '', 50, 'south'),
+(81, 3, 43, 'River', '', 49, 'north'),
+(82, 3, 43, 'River', '', 47, 'west'),
+(83, 3, 43, 'River', 'the river is low', 48, 'detail'),
+(84, 3, 40, 'Well', 'The well is full of water', 51, 'detail_full');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `scenes_events`
---
 
 CREATE TABLE IF NOT EXISTS `scenes_events` (
   `scene_id` bigint(20) unsigned NOT NULL,
@@ -2209,20 +2179,13 @@ CREATE TABLE IF NOT EXISTS `scenes_events` (
   KEY `sceneid` (`scene_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `scenes_events`
---
 
 INSERT INTO `scenes_events` (`scene_id`, `event_id`) VALUES
 (45, 52),
 (68, 120),
 (71, 121);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `stories`
---
 
 CREATE TABLE IF NOT EXISTS `stories` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
@@ -2236,20 +2199,13 @@ CREATE TABLE IF NOT EXISTS `stories` (
   `grid_y` smallint(5) unsigned NOT NULL,
   `create_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
---
--- Dumping data for table `stories`
---
 
 INSERT INTO `stories` (`id`, `title`, `author`, `description`, `first_location_id`, `image_id`, `status`, `grid_x`, `grid_y`, `create_date`) VALUES
-(3, 'River Path', 'Dan', 'Explore the old equipment by the river. Points of interest include abandoned wells and a muddy river. Maybe you can find a bucket to scoop up water from the river?', 30, 24, 'p', 10, 10, '2010-10-07 18:04:34');
+(3, 'River Path', 'Dan', 'Explore the old equipment by the river', 30, 24, 'p', 10, 10, '2010-10-07 18:04:34');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `stories_events`
---
 
 CREATE TABLE IF NOT EXISTS `stories_events` (
   `story_id` bigint(20) unsigned NOT NULL,
@@ -2257,20 +2213,13 @@ CREATE TABLE IF NOT EXISTS `stories_events` (
   KEY `storyid` (`story_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `stories_events`
---
 
 INSERT INTO `stories_events` (`story_id`, `event_id`) VALUES
 (2, 36),
 (3, 51),
 (5, 120);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `users`
---
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) unsigned NOT NULL auto_increment,
@@ -2283,11 +2232,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `last_login` datetime default NULL,
   `created` datetime default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=38 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=37 ;
 
---
--- Dumping data for table `users`
---
 
 INSERT INTO `users` (`id`, `email`, `username`, `password`, `active`, `logins`, `last_ip_address`, `last_login`, `created`) VALUES
-(37, 'admin@localhost', 'admin', '2e80e939646125be46ab1da1b93e2c8745332648', 1, 0, '127.0.0.1', NULL, '2010-11-12 17:28:52');
+(36, 'admin@localhost', 'admin', '2e80e939646125be46ab1da1b93e2c8745332648', 1, 0, '127.0.0.1', NULL, '2010-10-09 00:12:25');

@@ -6,7 +6,8 @@ class Model_ItemDef extends Model
 	protected $title = '';
 	protected $slug = '';
 	protected $story_id = 0;
-	protected $images = array();			
+	protected $states = array();
+	protected $events = array();			
 	
 	public function __construct($args=array())
 	{
@@ -16,7 +17,8 @@ class Model_ItemDef extends Model
 	
 	function init($args=array())
 	{
-		if (!isset($args['include_images'])) $args['include_images']=false;
+		if (!isset($args['include_itemstates'])) $args['include_itemstates']=false;
+		if (!isset($args['include_events'])) $args['include_events']=false;
 		
 		if ((isset($args['id']))&&(is_numeric($args['id'])))
 		{
@@ -31,10 +33,15 @@ class Model_ItemDef extends Model
 		{
 			$this->story_id = $args['story_id'];
 		}		
-		if (isset($args['include_images']))
+		if ($args['include_itemstates'])
 		{
 			$args['itemdef_id'] = $this->id;
-			$this->images = ItemstateAdmin::getItemstates($args);
+			$this->states = Model_Admin_Itemstates::getItemstates($args);
+		}
+		if ($args['include_events'])
+		{
+			$args['itemdef_id'] = $this->id;
+			$this->events = Model_Admin_EventsAdmin::getItemDefEvents($args);
 		}
 		return $this;
 	}

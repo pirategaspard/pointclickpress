@@ -1,3 +1,3 @@
 <?php 
-	plugins::executeHook('display_scene_column_left');
+	Hooks::executeHook(DISPLAY_COLUMN_LEFT);
 ?>

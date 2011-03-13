@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Model_itemstateEvent extends Model_Event 
+class Model_ItemstateEvent extends Model_Base_Event 
 {	
 	protected $itemstate_id = 0;
 	

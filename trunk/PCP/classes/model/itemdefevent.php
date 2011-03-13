@@ -1,8 +1,8 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Model_itemsdefEvent extends Model_Event 
+class Model_itemdefEvent extends Model_Base_Event 
 {	
-	protected $itemsdef_id = 0;
+	protected $itemdef_id = 0;
 	
 	public function __construct($args=array())
 	{
@@ -13,9 +13,9 @@ class Model_itemsdefEvent extends Model_Event
 	function init($args=array())
 	{		
 		parent::init($args);
-		if ((isset($args['itemsdef_id']))&&(is_numeric($args['itemsdef_id'])))
+		if ((isset($args['itemdef_id']))&&(is_numeric($args['itemdef_id'])))
 		{
-			$this->itemsdef_id = $args['itemsdef_id'];
+			$this->itemdef_id = $args['itemdef_id'];
 		}
 		return $this;
 	}
@@ -29,7 +29,7 @@ class Model_itemsdefEvent extends Model_Event
 							,e.event
 							,e.event_label
 							,e.event_value
-							,ce.itemsdef_id
+							,ce.itemdef_id
 					FROM events e
 					INNER JOIN items_defs_events ce
 					ON e.id = ce.event_id
@@ -51,10 +51,10 @@ class Model_itemsdefEvent extends Model_Event
 			parent::save();
 			//INSERT new record
 			$q = '	INSERT INTO items_defs_events
-						(itemsdef_id,event_id)
-					VALUES (:itemsdef_id,:id)';						
+						(itemdef_id,event_id)
+					VALUES (:itemdef_id,:id)';						
 			$q_results = DB::query(Database::INSERT,$q,TRUE)
-								->param(':itemsdef_id',$this->itemsdef_id)
+								->param(':itemdef_id',$this->itemdef_id)
 								->param(':id',$this->id)
 								->execute();			
 			if ($q_results[1] > 0)

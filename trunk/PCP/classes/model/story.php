@@ -76,15 +76,16 @@ class Model_Story extends Model
 			$this->grid_x = $grid[0];
 			$this->grid_y = $grid[1];
 		}
+		
 		if ($args['include_events'])
 		{			
 			$args['story_id'] = $this->id;
-			$this->events = EventsAdmin::getStoryEvents($args);
+			$this->events = Model_PCP_Events::getStoryEvents($args);
 		}
 		if ($args['include_locations'])
 		{			
 			$args['story_id'] = $this->id;
-			$this->locations = PCPAdmin::getlocations($args);
+			$this->locations = Model_PCP_Locations::getLocations($args);
 		}
 		return $this;
 	}
@@ -93,7 +94,6 @@ class Model_Story extends Model
 	{		
 		if ($this->id > 0)
 		{
-			
 			$q = '	SELECT 	s.id
 							,s.title
 							,s.author
@@ -253,6 +253,11 @@ class Model_Story extends Model
 	{
 		return $this->grid_x.'x'.$this->grid_y;
 	}	
+	
+	function getEvents()
+	{
+		return Model_PCP_Events::getStoryEvents(array('story_id'=>$this->id));
+	}
 }
 
 ?>

@@ -3,7 +3,7 @@
 	This is the example plugin for PointClickPress
  */
 
-class plugin_column implements ipcpplugin
+class Plugin_Column implements Interfaces_iPCPPlugin
 {
 	public function getClass()
 	{

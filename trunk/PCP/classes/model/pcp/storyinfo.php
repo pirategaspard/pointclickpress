@@ -1,25 +1,26 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Model_StoryInfo extends Model_Story 
+class Model_PCP_StoryInfo extends Model_Story 
 {
-	protected $scene_width = DEFAULT_STORY_WIDTH;
-	protected $scene_height = DEFAULT_STORY_HEIGHT;
-	protected $real_scene_width = DEFAULT_STORY_WIDTH;
-	protected $real_scene_height = DEFAULT_STORY_HEIGHT;
+	protected $scene_width = DEFAULT_SCREEN_WIDTH;
+	protected $scene_height = DEFAULT_SCREEN_HEIGHT;
+	protected $real_scene_width = DEFAULT_SCREEN_WIDTH;
+	protected $real_scene_height = DEFAULT_SCREEN_HEIGHT;
 	protected $screen_size = '0x0';
 	protected $cell_width = 0;	
 	protected $cell_height = 0;
 	
 	public function __construct($args=array())
 	{
-		$this->screen_size = DEFAULT_STORY_WIDTH . 'x' . DEFAULT_STORY_HEIGHT;
-		parent::__construct($args);			
+		
+		parent::__construct($args);	
+		$this->screen_size = DEFAULT_SCREEN_SIZE;		
 	}
 	
 	// set the story screen size
-	function setDimensions($orig_width=DEFAULT_STORY_WIDTH,$orig_height=DEFAULT_STORY_HEIGHT)
+	function setDimensions($orig_width=DEFAULT_SCREEN_WIDTH,$orig_height=DEFAULT_SCREEN_HEIGHT)
 	{
-		$screens = Model_Screens::getScreens();
+		$screens = Model_PCP_Screens::getScreens();
 		$width = $orig_width;
 		$height = $orig_height;
 		foreach($screens as $screen)
@@ -48,6 +49,14 @@ class Model_StoryInfo extends Model_Story
 	function getMediaPath()
 	{
 		return Kohana::$base_url.MEDIA_PATH.'/'.trim($this->id).'/';
+	}
+	
+	function initItems()
+	{
+		/* get all items used in this story, 
+		   determine their starting state and location, 
+		   and place that info into session */
+		return Model_PCP_Items::getStoryItemInfo(array('story_id'=>$this->id));
 	}
 }
 

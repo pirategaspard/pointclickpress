@@ -5,7 +5,7 @@
  * To Do: move and rename this to locationsAdmin.php?
  * */
 
-class Model_locations
+class Model_PCP_Locations
 {	
 	static function getlocation($args=array())
 	{
@@ -39,8 +39,23 @@ class Model_locations
 		{
 			if(isset($args['include_scenes'])) $a['include_scenes'] = $args['include_scenes'];
 			if(isset($args['include_events'])) $a['include_events'] = $args['include_events'];
-			$locations[$a['id']] = Model_locations::getlocation()->init($a);
+			$locations[$a['id']] = self::getlocation()->init($a);
 		}
 		return $locations;		
+	}
+	
+	static function getCurrentlocationID()
+	{
+		$session = Session::instance();
+		$story_data = $session->get('story_data',array());
+		if (isset($story_data['location_id']))
+		{
+			$location_id = $story_data['location_id'];
+		}
+		else
+		{
+			$location_id = 0 ;
+		}		
+		return $location_id;
 	}
 }

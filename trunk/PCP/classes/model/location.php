@@ -5,7 +5,7 @@
 	For instance a scene where the door to the house is closed
 	and a scene where the door the house is open.
  */
-class Model_location extends Model 
+class Model_Location extends Model 
 {
 	protected $story_id = 0;
 	protected $id = 0;
@@ -20,7 +20,6 @@ class Model_location extends Model
 	{
 		parent::__construct();		
 		$this->init($args);
-		
 	}
 	
 	function init($args=array())
@@ -44,12 +43,12 @@ class Model_location extends Model
 		if ($args['include_events'])
 		{			
 			$args['location_id'] = $this->id;
-			$this->events = EventsAdmin::getlocationEvents($args);
+			$this->events = Model_PCP_Events::getLocationEvents($args);
 		}
 		if ($args['include_scenes'])
 		{			
 			$args['location_id'] = $this->id;
-			$this->scenes = PCPAdmin::getScenes($args);
+			$this->scenes = Model_PCP_Scenes::getScenes(array('location_id'=>$this->id));
 		}
 		return $this;
 	}
@@ -165,6 +164,11 @@ class Model_location extends Model
 									->execute();								
 		}		
 		return $results;
+	}
+	
+	function getEvents()
+	{
+		return Model_PCP_Events::getLocationEvents(array('location_id'=>$this->id));
 	}
 }
 

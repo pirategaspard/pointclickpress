@@ -10,7 +10,7 @@ class Controller_admin_users extends Controller_Template_Admin
 	
 	function action_list()
 	{
-		$data['users'] = PCPAdmin::getUsers();
+		$data['users'] = Model_Admin_UsersAdmin::getUsers();
 		$data['user_add'] = View::factory('/admin/user/add',$data)->render();
 		$this->template->content = View::factory('/admin/user/list',$data)->render();
 		$this->template->top_menu = View::factory('/admin/user/top_menu',$data)->render();
@@ -18,7 +18,8 @@ class Controller_admin_users extends Controller_Template_Admin
 	
 	function action_edit()
 	{
-		$data['user'] = PCPAdmin::getUser();
+		$data = Model_Admin_UsersAdmin::getData();
+		$data['user'] = Model_Admin_UsersAdmin::getUser(array('id'=>$data['user_id']));
 		$data['user_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'users','action'=>'save')));
 		$data['user_form'] = View::factory('/admin/user/form',$data)->render();
 		$this->template->content = View::factory('/admin/user/template',$data)->render();
@@ -33,7 +34,7 @@ class Controller_admin_users extends Controller_Template_Admin
 		{
 			if ((isset($_POST['id']))&&($_POST['id'] > 0))
 			{
-				$result = PCPAdmin::getUser()->init($_POST)->save();	
+				$result = Model_Admin_UsersAdmin::getUser()->init($_POST)->save();	
 			}
 			else
 			{
@@ -58,7 +59,7 @@ class Controller_admin_users extends Controller_Template_Admin
 	{	
 		$session = Session::instance();	
 		$session->delete('result');
-		$result = PCPAdmin::getUser()->init(array('id'=>$_REQUEST['user_id']))->delete();
+		$result = Model_Admin_UsersAdmin::getUser()->init(array('id'=>$_REQUEST['user_id']))->delete();
 		// Create User Message
 		if ($result->success)
 		{
@@ -84,14 +85,14 @@ class Controller_admin_users extends Controller_Template_Admin
 	
 	function action_dologin()
 	{
-		if (!Usersadmin::isloggedin())
+		if (!Model_Admin_UsersAdmin::isloggedin())
 		{
 			if($_POST)
 			{
-				$result = Usersadmin::authenticate($_POST['username'], $_POST['password']);
+				$result = Model_Admin_UsersAdmin::authenticate($_POST['username'], $_POST['password']);
 				if(($result->success)&&(($result->data['id'])>0))
 				{
-					Usersadmin::login($result->data['id']);
+					Model_Admin_UsersAdmin::login($result->data['id']);
 					Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'list')));
 				}
 				else
@@ -117,7 +118,7 @@ class Controller_admin_users extends Controller_Template_Admin
 	
 	function action_dologout()
 	{
-		Usersadmin::logout();
+		Model_Admin_UsersAdmin::logout();
 		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'users','action'=>'Login')));
 	}
 }

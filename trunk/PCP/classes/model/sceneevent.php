@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Model_SceneEvent extends Model_Event 
+class Model_SceneEvent extends Model_Base_Event 
 {	
 	protected $scene_id = 0;
 	

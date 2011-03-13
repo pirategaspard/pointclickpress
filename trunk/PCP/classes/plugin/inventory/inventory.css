@@ -1,0 +1,5 @@
+<style>
+	#inventory {display:block; text-align: center; padding: 10px; margin: 0 auto; width: 50%;}
+	#inventory ul {display:block; text-align: center; margin: 0 auto;}
+	#inventory li {display:inline; float: left; list-style-type: none;}
+</style>

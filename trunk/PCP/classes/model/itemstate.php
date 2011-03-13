@@ -2,16 +2,17 @@
 class Model_ItemState extends Model 
 {
 	protected $id = 0;
+	protected $title = '';
 	protected $value = DEFAULT_ITEMSTATE_VALUE;
-	protected $item_id = 0;
+	protected $itemdef_id = 0;
 	protected $image_id = 0;
 	protected $filename = '';	
-	protected $path = '';
+	protected $isdefaultstate = 0;
 	protected $events = array();		
 	
 	public function __construct($args=array())
 	{
-		parent::__construct();		
+		parent::__construct( );		
 		$this->init($args);		
 	}
 	
@@ -27,10 +28,14 @@ class Model_ItemState extends Model
 		{
 			$this->value = Formatting::createSlug($args['value']);
 		}
-		if (isset($args['item_id']))
+		if (isset($args['title']))
 		{
-			$this->item_id = $args['item_id'];
-		}		
+			$this->title = $args['title'];
+		}
+		if (isset($args['itemdef_id']))
+		{
+			$this->itemdef_id = $args['itemdef_id'];
+		}	
 		if (isset($args['image_id']))
 		{
 			$this->image_id = $args['image_id'];
@@ -39,10 +44,14 @@ class Model_ItemState extends Model
 		{
 			$this->filename = $args['filename'];
 		}
+		if (isset($args['isdefaultstate']))
+		{
+			$this->isdefaultstate = $args['isdefaultstate'];
+		}
 		if ($args['include_events'])
 		{			
 			$args['itemstate_id'] = $this->id;
-			$this->events = EventsAdmin::getItemstateEvents($args);
+			$this->events = Model_Admin_EventsAdmin::getItemstateEvents($args);
 		}		
 		return $this;
 	}
@@ -53,10 +62,14 @@ class Model_ItemState extends Model
 		{
 			$q = '	SELECT 	its.id
 							,its.value
-							,its.item_id
+							,its.itemdef_id
+							,its.isdefaultstate
 							,i.id as image_id
-							,i.filename						
+							,i.filename	
+							,id.title					
 					FROM items_states its
+					INNER JOIN itemdefs id
+					ON its.itemdef_id = id.id
 					LEFT OUTER JOIN images i
 					ON its.image_id = i.id
 					WHERE its.id = :id';
@@ -76,19 +89,33 @@ class Model_ItemState extends Model
 		$results = new pcpresult();
 		if ($this->id == 0)
 		{
+			// remove any other default states
+			if($this->isdefaultstate)
+			{
+				$q = '	UPDATE items_states
+						SET isdefaultstate = 0
+						WHERE itemdef_id = :itemdef_id';
+				$results->success = DB::query(Database::UPDATE,$q,TRUE)
+								->param(':itemdef_id',$this->itemdef_id)
+								->execute();
+			}
+			
 			//INSERT new record
 			$q = '	INSERT INTO items_states
 						(value
-						,item_id
-						,image_id)
+						,itemdef_id
+						,image_id
+						,isdefaultstate)
 					VALUES (
 						:value
-						,:item_id
-						,:image_id)';						
+						,:itemdef_id
+						,:image_id
+						,:isdefaultstate)';						
 			$q_results = DB::query(Database::INSERT,$q,TRUE)								
 								->param(':value',$this->value)
-								->param(':item_id',$this->item_id)
+								->param(':itemdef_id',$this->itemdef_id)
 								->param(':image_id',$this->image_id)
+								->param(':isdefaultstate',$this->isdefaultstate)
 								->execute();									
 			if ($q_results[1] > 0)
 			{
@@ -108,13 +135,15 @@ class Model_ItemState extends Model
 			{
 				$q = '	UPDATE items_states
 						SET value = :value
-							,item_id = :item_id
+							,itemdef_id = :itemdef_id
 							,image_id = :image_id
+							,isdefaultstate = :isdefaultstate
 						WHERE id = :id';
 				$results->success = DB::query(Database::UPDATE,$q,TRUE)
 								->param(':value',$this->value)
-								->param(':item_id',$this->item_id)
+								->param(':itemdef_id',$this->itemdef_id)
 								->param(':image_id',$this->image_id)
+								->param(':isdefaultstate',$this->isdefaultstate)
 								->param(':id',$this->id)
 								->execute();																	
 			}
@@ -145,9 +174,9 @@ class Model_ItemState extends Model
 		return $results;
 	}
 	
-	function setPath($string='')
+	function getPath($screen_size=DEFAULT_SCREEN_SIZE)
 	{
-		$this->path = $string;
+		return $this->image_id.'/'.$screen_size.'/'.$this->filename;
 	}
 }
 

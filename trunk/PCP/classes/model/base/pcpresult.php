@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Model_PCPResult 
+class Model_Base_PCPResult 
 {
 	protected $success = 0;
 	protected $message = '';

@@ -1,10 +1,10 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 /*
-	Basic debuggins plugin for PointClickPress
+	Basic debuging plugin for PointClickPress
  */
 
-class plugin_debug implements ipcpplugin
+class Plugin_Debug implements Interfaces_iPCPPlugin
 {
 	public function getClass()
 	{

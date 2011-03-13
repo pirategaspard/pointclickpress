@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Model_Screens
+class Model_PCP_Screens
 {
 	static function getScreens()
 	{	

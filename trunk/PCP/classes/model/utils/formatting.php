@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Model_utils_Formatting
+class Model_Utils_Formatting
 {
 
 	/* Based on sanitize_title_with_dashes function from WP */

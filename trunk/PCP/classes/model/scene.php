@@ -60,20 +60,13 @@ class Model_Scene extends Model
 		if ($args['include_events'])
 		{			
 			$args['scene_id'] = $this->id;
-			$this->events = EventsAdmin::getSceneEvents($args);
-			$this->grid_events = EventsAdmin::getGridEvents($args);	
+			$this->events = Model_Admin_EventsAdmin::getSceneEvents($args);
+			$this->grid_events = Model_Admin_EventsAdmin::getGridEvents($args);	
 		}
 		if (isset($args['include_items']))
 		{				
 			$args['scene_id'] = $this->id;		
-			if (isset($args['simple_items']) && ($args['simple_items'] == true) )
-			{
-				$this->items = Model_Items::getGridItems($args);
-			}
-			else
-			{
-				$this->items = ItemAdmin::getGridItems($args);
-			}	
+			$this->items = Model_PCP_Items::getGridItems($args);
 		}
 		return $this;
 	}
@@ -214,15 +207,13 @@ class Model_Scene extends Model
 	{
 		if((($w == NULL) || ($h == NULL)) && ($screen_size == NULL))
 		{
-			$screen_size = DEFAULT_STORY_WIDTH.'x'.DEFAULT_STORY_HEIGHT;
+			$screen_size = DEFAULT_SCREEN_SIZE;
 		}		
 		elseif (($w)&&($h))
 		{
 			$screen_size = $w.'x'.$h;
 		}
-		$regex = DIRECTORY_SEPARATOR;
 		return Kohana::$base_url.MEDIA_PATH.'/'.trim($this->story_id).'/'.$this->image_id.'/'.$screen_size.'/'.$this->filename;
-
 	}
 	
 	/*
@@ -232,6 +223,11 @@ class Model_Scene extends Model
 	function setTitle($string)
 	{			
 		$this->title = $string;
+	}
+	
+	function getEvents()
+	{
+		return Model_PCP_Events::getSceneEvents(array('scene_id'=>$this->id));
 	}
 
 }

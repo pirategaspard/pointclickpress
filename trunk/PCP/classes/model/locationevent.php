@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Model_locationEvent extends Model_Event 
+class Model_LocationEvent extends Model_Base_Event 
 {	
 	protected $location_id = 0;
 	
@@ -22,7 +22,6 @@ class Model_locationEvent extends Model_Event
 	
 	function load($args=array())
 	{
-		
 		if ($this->id > 0)
 		{
 			$q = '	SELECT 	e.id

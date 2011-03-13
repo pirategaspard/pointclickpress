@@ -10,27 +10,41 @@
 */
 $(document).ready(function() 
 {
-	var grid = $('#grid');
-	// get all the cells in the grid
-	var cells = grid.children('a'); 
 	/*
 		if browser supports javascript then 
 		the href atribute will be removed and we will use
 		the ajax method below instead. otherwise page will refresh 
 		everytime user clicks on a cell
 	*/
-	cells.removeAttr('href'); 	
+	$('#grid>a').removeAttr('href'); 	
 	// attach ajax listener to cell click
-	cells.click(function() {
+	$('#grid>a').live('click',function(event) {
 			/* 
-				On click send the number of the cell to the cellClickAjax
-				function in	the PCP controller
+				On click send the number of the cell to the 
+				cellClick function in the PCP controller
 			*/
+			//event.preventDefault();
+			var grid = $('#grid');
 			grid.removeClass('pointing');
 			grid.addClass('waiting');
-			$.getJSON('cellClick',{n: $(this).attr('n')},parseData);
-			//$.post('cellClick', {n: $(this).attr('n')}, parseData);
+			var cell = $(event.target);
+			$.getJSON('cellClick',{n: cell.attr('n')},parseData);
+			//$.post('cellClick', {n: cell.attr('n')}, parseData);
 	});; 
+	
+	// attach ajax listener to  all grid items
+	$('#grid>div>form').live('submit',function(event) {
+			/* 
+				On click send the number of the cell to the 
+				itemClick function in the PCP controller
+			*/
+			event.preventDefault();
+			var grid = $('#grid');
+			grid.removeClass('pointing');
+			grid.addClass('waiting');
+			var f = $(event.target);
+			$.getJSON('itemClick',{n: f.attr('n'),i: f.attr('i')},parseData);
+		});
 });
 
 function parseData(events)
@@ -56,6 +70,7 @@ function parseData(events)
 			}					
 		}
 	}
+	// we are done with the request, go back to pointing
 	grid.removeClass('waiting');
 	grid.addClass('pointing');
 }
