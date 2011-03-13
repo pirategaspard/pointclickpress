@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Model_StoryEvent extends Model_Event 
+class Model_StoryEvent extends Model_Base_Event 
 {	
 	protected $story_id = 0;
 	
@@ -43,14 +43,12 @@ class Model_StoryEvent extends Model_Event
 		return $this;
 	}
 	
-	
 	function save()
 	{	
 		$results = new pcpresult();
 		if ($this->id == 0)
 		{
 			parent::save();
-		
 			//INSERT new record
 			$q = '	INSERT INTO stories_events
 						(story_id,event_id)

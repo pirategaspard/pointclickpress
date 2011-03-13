@@ -4,12 +4,12 @@
  */
 
 define('NOP', 'NOP'); // No Operation event response
-class Model_pcpevent extends Model implements iPCPevent
+class Model_Base_PCPEvent extends Model implements interfaces_iPCPevent
 {
 	protected $class_name = '';
 	protected $label = '';
 	protected $description = '';
-	protected $allowed_event_types = Array(EVENT_TYPE_NULL,EVENT_TYPE_STORY,EVENT_TYPE_LOCATION,EVENT_TYPE_SCENE,EVENT_TYPE_GRID,EVENT_TYPE_ITEMSTATE);
+	protected $allowed_event_types = Array(EVENT_TYPE_NULL,EVENT_TYPE_STORY,EVENT_TYPE_LOCATION,EVENT_TYPE_SCENE,EVENT_TYPE_GRID,EVENT_TYPE_ITEMDEF,EVENT_TYPE_ITEMSTATE,EVENT_TYPE_GRIDITEM);
 
 	public function __construct()
 	{

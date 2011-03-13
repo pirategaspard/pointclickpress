@@ -1,14 +1,20 @@
 <?php
-	$total = $story->grid_total();
+	$total = $story->grid_total(); 
 	$cells = '';
-	for($i=0;$i<$total;$i++)
+	for($n=0;$n<$total;$n++)
 	{
-		$cells.= '<a n="'.$i.'" href="'.Kohana::$base_url.'cellClick?n='.$i.'" >';
-		if (isset($items[$i]))
+		// if there is an item for this cell
+		if (isset($items[$n]))
 		{
-			$cells.= '<img src="'.$items[$i].'" />';	
+			// add item to scene
+			$cells.= '<div n="'.$n.'" >';
+			$cells.= '<form n="'.$n.'" i="'.key($items[$n]).'" action="'.Kohana::$base_url.'itemclick?n='.$n.'" method="post" ><input type="image" src="'.$story->getMediaPath().current($items[$n])->getPath($story->screen_size).'" name="i" value="'.key($items[$n]).'" /></form>';
+			$cells.= '</div>';
 		}
-		$cells.= '</a>';
+		else
+		{
+			$cells.= '<a n="'.$n.'" href="'.Kohana::$base_url.'cellClick?n='.$n.'" ></a>';
+		}
 	}
 ?>	
 	<div id="grid" class='pointing'>

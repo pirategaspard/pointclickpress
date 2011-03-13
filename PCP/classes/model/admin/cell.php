@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Model_Cell extends Model 
+class Model_Admin_Cell extends Model 
 {
 	protected $id = 0;		
 	protected $scene_id = 0;

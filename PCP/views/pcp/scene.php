@@ -7,7 +7,7 @@
 		</td>
 		<td>
 			<?php 
-				plugins::executeHook('display_pre_scene');
+				Hooks::executeHook(DISPLAY_PRE_SCENE);
 			?>
 
 			<div id="scene">
@@ -17,7 +17,7 @@
 			</div>
 
 			<?php 
-				plugins::executeHook('display_post_scene');
+				Hooks::executeHook(DISPLAY_POST_SCENE);
 			?>
 		</td>
 		<td>

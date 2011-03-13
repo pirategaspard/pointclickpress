@@ -2,15 +2,14 @@
 
 /* 
  * Contains functions for getting story and stories
- * To Do: move and rename this to StoriesAdmin.php?
  * */
 
-class Model_Stories
+class Model_Pcp_Stories
 {	
 	static function getStory($args=array())
 	{
 		// get a single story object and populate it based on the arguments
-		$story = new Model_story($args);
+		$story = new Model_Story($args);
 		$story->load($args);
 		return $story;		
 	}
@@ -18,7 +17,7 @@ class Model_Stories
 	static function getStoryInfo($args=array())
 	{
 		// get a single storyinfo object and populate it based on the arguments
-		$storyinfo = new Model_StoryInfo($args);
+		$storyinfo = new Model_PCP_StoryInfo($args);
 		$storyinfo->load($args);
 		return $storyinfo;		
 	}
@@ -49,7 +48,7 @@ class Model_Stories
 			if(isset($args['include_scenes'])) $a['include_scenes'] = $args['include_scenes'];
 			if(isset($args['include_events'])) $a['include_events'] = $args['include_events'];
 			
-			$stories[$a['id']] = Model_Stories::getStory()->init($a);
+			$stories[$a['id']] = self::getStory()->init($a);
 		}
 		return $stories;		
 	}

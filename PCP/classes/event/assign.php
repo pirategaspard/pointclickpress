@@ -7,7 +7,7 @@
 	$mylocation = 'NORTH'; //Remember that location slugs are session variables that can be assigned a scene value!
  */
 
-class event_assign extends pcpevent
+class event_assign extends Model_Base_PCPEvent
 {	
 	private $story_data = array();
 	

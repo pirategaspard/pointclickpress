@@ -5,7 +5,7 @@
  */
 
 define('REFRESH_ITEMS','REFRESH_ITEMS'); // our event name
-class event_refreshitems extends pcpevent implements iPCPevent
+class event_refreshitems extends Model_Base_PCPEvent
 {	
 	
 	public function __construct()
@@ -22,31 +22,32 @@ class event_refreshitems extends pcpevent implements iPCPevent
 	
 		// init response data
 		$data = array();
-		$data['items'] = '';		
+		$data['items'] = '';
 		// get session
-		$session = Session::instance();
-		// set story data 
-		$session->set('story_data',$story_data);						
+		$session = Session::instance();	
 		// get story
 		$story = $session->get('story',NULL);
-		//get location 
-		$location = PCP::getlocation($story_data['location_id']);
-		// put any location init events into session
-		$results = array_merge($results,PCP::doEvents($location->events));
-		// get scene
-		$scene = PCP::getScene(array('location_id'=>$story_data['location_id'],'story'=>$story,'simple_items'=>true));
-		// if we have valid data continue
-		if ($scene)
-		{
-			// put any scene init events into session
-			$results = array_merge($results,PCP::doEvents($scene->events));													
-			// populate response data 					
-			$data['items'] = $scene->items;
-		}					
+		// get item locations	
+		$item_locations = Model_PCP_Items::getSceneGridItemInfo($story_data['scene_id'],$story_data['item_locations']);										
+		// populate response data 					
+		$data['items'] = $this->getItems($item_locations,$story_data,$story);				
 		// return REFRESH response
 		$response = new pcpresponse(REFRESH_ITEMS,$data);
 		$results = array_merge($results,$response->asArray());
 		return $results;
+	}
+	
+	private function getItems($item_locations=array(),$story_data=array(),$story=null)
+	{
+		$items = array();
+		$itemstates = Items::getGriditemsCurrentItemStates($item_locations,$story_data);
+		
+		foreach ($itemstates as $cell_id=>$itemstate)
+		{
+			$items[$cell_id] = array(	'id'=>key($itemstate),
+										'path'=>$story->getMediaPath().current($itemstate)->getPath($story->screen_size));
+		}
+		return $items;
 	}
 	
 	public function getClass()

@@ -5,13 +5,18 @@
 	$.fn.REFRESH_ITEMS = function(data) 
   	{    		
 		// clear any items in the cells in the grid
-		var cells = $('#grid').children('a');
-		cells.empty();
+		var itemcells = $('#grid').children('div');
+		itemcells.each(function(){
+			var obj = $(this)
+			obj.replaceWith('<a n="'+obj.attr('n')+'"></a>');
+		});
 	  		  	
 	  	// show items
-	  	for(var i in data.items)
+	  	var cells = $('#grid').children('a');
+	  	for(var n in data.items)
 		{
-			$(cells[i]).html('<img src="'+data.items[i]+'" />');
+			//$(cells[n]).html('<img src="'+data.items[n]+'" />');
+			$(cells[n]).replaceWith('<div n='+n+'><form n='+n+' i='+data.items[n].id+' action="itemclick?n='+n+'" method="post" ><input type="image" src="'+data.items[n].path+'" name="i" value="'+data.items[n].id+'" /></form></div>');
 	  	}
 	};	
 })( jQuery );

@@ -1,8 +1,12 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Model_utils_dir 
+class Model_Utils_Dir 
 {
-									 
+					
+	public static function instance()
+	{
+		return self;
+	}				 
 	
 	public static function prep_directory($path)
 	{

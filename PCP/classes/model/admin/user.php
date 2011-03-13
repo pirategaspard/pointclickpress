@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Model_Useradmin extends Model 
+class Model_Admin_User extends Model 
 {
 	protected $id = 0;
 	protected $username = "";
@@ -134,7 +134,6 @@ class Model_Useradmin extends Model
 				throw new Kohana_Exception('Error Inserting Record in file: :file',
 					array(':file' => Kohana::debug_path(__FILE__)));
 			}
-			
 		}
 		elseif ($this->id > 0)
 		{

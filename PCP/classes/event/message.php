@@ -10,7 +10,7 @@
  */
 
 define('MESSAGE','MESSAGE'); // our event name
-class event_message implements iPCPevent
+class event_message extends Model_Base_PCPEvent implements Interfaces_iPCPevent
 {	
 	public function execute($args=array(),&$story_data=array())
 	{

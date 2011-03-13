@@ -20,7 +20,7 @@
 			<td><?php echo ($plugin['description']); ?></td>				
 			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'plugin','action'=>'edit'))).'?plugin='.$plugin['class']); ?>" class="ui-widget ui-state-default ui-corner-all button" ><?php echo ($plugin['status'])?'De-activate':'Activate'; ?></a></td>
 			<td>&nbsp;&nbsp;</td>
-			<!-- <td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'plugin','action'=>'delete'))).'?plugin='.$plugin['class']); ?>">UnInstall</a></td> -->
+			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'plugin','action'=>'delete'))).'?plugin='.$plugin['class']); ?>">UnInstall</a></td>
 		</tr>
 		<?php } ?>
 	</table>

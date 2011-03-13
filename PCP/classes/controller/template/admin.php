@@ -14,7 +14,7 @@ Class Controller_Template_Admin extends Controller_Template_Base
 	// Run anything that need ot run before this.
 		parent::before();
 		
-		if ((Usersadmin::isloggedin())||((strcasecmp(Request::instance()->action,'login') == 0)||(strcasecmp(Request::instance()->action,'dologin') == 0)||(strcasecmp(Request::instance()->controller,'install') == 0)))
+		if ((Model_Admin_Usersadmin::isloggedin())||((strcasecmp(Request::instance()->action,'login') == 0)||(strcasecmp(Request::instance()->action,'dologin') == 0)||(strcasecmp(Request::instance()->controller,'install') == 0)))
 		{
 			if($this->auto_render)
 			{

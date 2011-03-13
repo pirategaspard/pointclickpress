@@ -31,7 +31,7 @@
 		<?php if (strlen($image->filename) > 0) { ?>
 			filename:  <input type="text" name="filename" value="<?php echo($image->filename); ?>" readonly="readonly" >
 			<img src="<?php echo(Kohana::$base_url.MEDIA_PATH.'/'.$image->story_id.'/'.$image->id.'/'.THUMBNAIL_IMAGE_SIZE.'/'.$image->filename); ?>" >
-			<input type="submit" name="submit" value="Delete" class="ui-widget ui-state-default ui-corner-all button delete" >
+			<input type="submit" href="<?php echo($image_form_action.'?image_id='.$image->id); ?>" name="submit" value="Delete" class="ui-widget ui-state-default ui-corner-all button delete" >
 		<?php } else { ?>
 			filename: <input type="file" name="filename" >
 			<input type="submit" name="submit" value="Upload" class="ui-widget ui-state-default ui-corner-all button save" >

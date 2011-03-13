@@ -17,7 +17,7 @@
 					} 
 				?>
 			</select>
-			<input type="submit" name="submit" value="PLAY NOW" class="thickbox ui-widget ui-state-default ui-corner-all button save">
+			<input type="submit" name="submit" value="PLAY NOW" class="ui-widget ui-state-default ui-corner-all button save">
 		</form>
 	</div>
 </div>
