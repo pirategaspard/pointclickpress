@@ -42,10 +42,10 @@
 			<input type="text" name="cell_ids" value="<?php echo($event->getCellIds()); ?>" />
 		</label>
 		<div id="event_description" class="event_description"></div>
+		<input id="button_submit" type="submit" name="submit" value="submit" class="ui-widget ui-state-default ui-corner-all button save" />		
 		<?php if($event->id > 0 ) { ?>
 		<input type="button" name="cancel" value="cancel" scene_id="<?php echo($scene_id); ?>" class="ui-widget ui-state-default ui-corner-all button cancel button_cancel" />
 		<?php } ?>
-		<input id="button_submit" type="submit" name="submit" value="submit" class="ui-widget ui-state-default ui-corner-all button save" />		
 	</form>
 </fieldset>
 <?php } ?>

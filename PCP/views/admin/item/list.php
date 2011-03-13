@@ -1,10 +1,10 @@
 <?php 
-	if (isset($items))
+	if (isset($griditems))
 	{
 ?>
 <fieldset class="ui-helper-reset ui-widget-content ui-corner-all" >
-	<?php if (isset($item_add)) echo('<span class="add">'.$item_add."</span>"); ?>
-	<legend>Items</legend>
+	<?php if (isset($griditem_add)) echo('<span class="add">'.$griditem_add."</span>"); ?>
+	<legend>Grid Items</legend>
 	<table>
 		<tr>
 			<th>Id</th>
@@ -13,19 +13,14 @@
 			<th></th>
 			<th></th>
 		</tr>
-		<?php foreach ($items as $item) { ?>
+		<?php foreach ($griditems as $griditem) { ?>
 		<tr>
-			<td><?php echo ($item->id); ?></td>
-			<td><?php echo ($item->title); ?></td>			
-		<?php if(isset($scene_id)) { ?>
-			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit'))).'?item_id='.$item->id); ?>" target="_parent" class="ui-widget ui-state-default ui-corner-all button" >Assign Item</a></td>
+			<td><?php echo ($griditem->id); ?></td>
+			<td><?php echo ($griditem->title); ?></td>			
+			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'griditem','action'=>'edit'))).'?griditem_id='.$griditem->id); ?>" class="ui-widget ui-state-default ui-corner-all button" >Edit</a></td>
+			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit'))).'?tab=2&scene_id='.$griditem->scene_id.'&griditem_id='.$griditem->id); ?>" class="ui-widget ui-state-default ui-corner-all button">Edit In Scene</a></td>
 			<td>&nbsp;&nbsp;</td>
-			<td></td>
-		<?php } else { ?>
-			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'item','action'=>'edit'))).'?item_id='.$item->id); ?>" class="ui-widget ui-state-default ui-corner-all button" >Edit</a></td>
-			<td>&nbsp;&nbsp;</td>
-			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'item','action'=>'delete'))).'?item_id='.$item->id); ?>" class="ui-widget ui-state-default ui-corner-all button delete" >Delete</a></td>
-		<?php }?>
+			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'griditem','action'=>'delete'))).'?griditem_id='.$griditem->id); ?>" class="ui-widget ui-state-default ui-corner-all button delete" >Delete</a></td>
 		</tr>
 		<?php } ?>
 	</table>

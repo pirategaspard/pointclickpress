@@ -6,11 +6,12 @@
 ?>
 	<fieldset class="ui-helper-reset ui-widget-content ui-corner-all">
 		<form method="post" action="<?php echo($event_form_action); ?>">
-			<?php if (isset($itemstate_id)){ ?><input type="hidden" name="itemstate_id" value="<?php echo($itemstate_id); ?>" /> <?php } ?>
-			<?php if (isset($item_id)){ ?><input type="hidden" name="item_id" value="<?php echo($item_id); ?>" /> <?php } ?>
 			<?php if (isset($story_id)){ ?><input type="hidden" name="story_id" value="<?php echo($story_id); ?>" /> <?php } ?>
 			<?php if (isset($location_id)){ ?><input type="hidden" name="location_id" value="<?php echo($location_id); ?>" /> <?php } ?>
 			<?php if (isset($scene_id)){ ?><input type="hidden" name="scene_id" value="<?php echo($scene_id); ?>" /> <?php } ?>
+			<?php if (isset($itemdef_id)){ ?><input type="hidden" name="itemdef_id" value="<?php echo($itemdef_id); ?>" /> <?php } ?>
+			<?php if (isset($itemstate_id)){ ?><input type="hidden" name="itemstate_id" value="<?php echo($itemstate_id); ?>" /> <?php } ?>
+			<?php if (isset($griditem_id)){ ?><input type="hidden" name="griditem_id" value="<?php echo($griditem_id); ?>" /> <?php } ?>
 			<input type="hidden" name="back_url" value="<?php echo($back_url); ?>" />
 			<input type="hidden" name="event_type" value="<?php echo($event_type); ?>" />
 			<input type="hidden" name="id" value="<?php echo($event->id); ?>" />

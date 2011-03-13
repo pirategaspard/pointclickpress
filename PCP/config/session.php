@@ -3,5 +3,41 @@
 return array(
 	'cookie' => array(
 		'encrypted' => FALSE,
+		'lifetime' => 0,
 	),
 );
+
+/*return array(
+    'native' => array(
+        'name' => 'session_name',
+        'lifetime' => 43200,
+    ),
+    'cookie' => array(
+        'name' => 'cookie_name',
+        'encrypted' => TRUE,
+        'lifetime' => 43200,
+    ),
+    'database' => array(
+        'name' => 'cookie_name',
+        'encrypted' => TRUE,
+        'lifetime' => 43200,
+        'group' => 'default',
+        'table' => 'table_name',
+        'columns' => array(
+            'session_id'  => 'session_id',
+            'last_active' => 'last_active',
+            'contents'    => 'contents'
+        ),
+        'gc' => 500,
+    ),
+);
+);*/
+
+/*
+ * CREATE TABLE  `sessions` (
+    `session_id` VARCHAR(24) NOT NULL,
+    `last_active` INT UNSIGNED NOT NULL,
+    `contents` TEXT NOT NULL,
+    PRIMARY KEY (`session_id`),
+    INDEX (`last_active`)
+) ENGINE = MYISAM; */

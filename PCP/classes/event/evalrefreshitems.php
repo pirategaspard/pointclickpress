@@ -4,19 +4,19 @@
 	Execute arbitrary PHP code.
  */
 
-class event_EvalRefresh extends event_refresh
+class event_EvalRefreshitems extends event_refreshitems
 {	
 	public function __construct()
 	{
 		// init this event
 		parent::__construct();
-		$this->label = "Eval w/ Scene Refresh";
-		$this->description = "Execute arbitrary PHP code then refreshes the scene. Use with caution." ;	
+		$this->label = "Eval w/ Item Refresh";
+		$this->description = "Execute arbitrary PHP code then refreshes items in scene. Use with caution." ;	
 	}
 	
 	public function execute($args=array(),&$story_data=array())
 	{							
-	$result = eval($args['event_value']);	
+		$result = eval($args['event_value']);	
 		if ((isset($result))&&(is_array($result))&&($result[0] instanceof pcpresponse))
 		{
 			$response = $result;

@@ -32,8 +32,8 @@
 				</div>
 				<div id="tab-2" class="ui-tabs-hide">
 			    	<?php 
-			    	echo($item_form);
-					echo($items_list);
+			    	echo($grid_item_form);
+					echo($grid_items_list);
 			    	?>
 			    </div>		
 			</div><!-- #tabs -->

@@ -29,9 +29,9 @@
 					} 
 				?>
 			</td>
-			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit'))).'?event_id='.$event->id); ?>" class="ui-widget ui-state-default ui-corner-all button" >Edit</a></td>
+			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit'))).'?scene_id='.$scene_id.'&event_id='.$event->id); ?>" class="ui-widget ui-state-default ui-corner-all button" >Edit</a></td>
 			<td>&nbsp;&nbsp;</td>
-			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'delete'))).'?event_id='.$event->id); ?>" class="ui-widget ui-state-default ui-corner-all button delete">Delete</a></td>
+			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'event','action'=>'delete'))).'?scene_id='.$scene_id.'&event_id='.$event->id); ?>" class="ui-widget ui-state-default ui-corner-all button delete">Delete</a></td>
 		</tr>
 		<?php } ?>
 	</table>
