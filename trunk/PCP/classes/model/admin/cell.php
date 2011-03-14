@@ -4,7 +4,7 @@ class Model_Admin_Cell extends Model
 {
 	protected $id = 0;		
 	protected $scene_id = 0;
-	protected $grid_event_id = 0;
+	protected $grid_action_id = 0;
 	
 	public function __construct($args=array())
 	{
@@ -22,9 +22,9 @@ class Model_Admin_Cell extends Model
 		{
 			$this->scene_id = $args['scene_id'];
 		}
-		if ((isset($args['grid_event_id']))&&(is_numeric($args['grid_event_id'])))
+		if ((isset($args['grid_action_id']))&&(is_numeric($args['grid_action_id'])))
 		{
-			$this->grid_event_id = $args['grid_event_id'];
+			$this->grid_action_id = $args['grid_action_id'];
 		}
 		return $this;
 	}
@@ -35,10 +35,10 @@ class Model_Admin_Cell extends Model
 		{
 			$q = '	SELECT 	c.id													
 							,g.scene_id
-							,g.grid_event_id							
+							,g.grid_action_id							
 				FROM cells c
-				INNER JOIN grids_events g
-					ON g.grid_event_id = c.grid_event_id
+				INNER JOIN grids_actions g
+					ON g.grid_action_id = c.grid_action_id
 				WHERE c.id = :id';
 			$q_results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();											
 							
@@ -56,13 +56,13 @@ class Model_Admin_Cell extends Model
 		$results = new pcpresult();
 		//INSERT new record
 		$q = '	INSERT INTO cells
-					(id,scene_id,grid_event_id)
-				VALUES (:id,:scene_id,:grid_event_id)';
+					(id,scene_id,grid_action_id)
+				VALUES (:id,:scene_id,:grid_action_id)';
 					
 		$q_results = DB::query(Database::INSERT,$q,TRUE)							
 							->param(':id',$this->id)
 							->param(':scene_id',$this->scene_id)
-							->param(':grid_event_id',$this->grid_event_id)
+							->param(':grid_action_id',$this->grid_action_id)
 							->execute();			
 		if ($q_results[1] > 0)
 		{

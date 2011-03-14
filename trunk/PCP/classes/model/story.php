@@ -27,7 +27,7 @@ class Model_Story extends Model
 	
 	function init($args=array())
 	{
-		if (!isset($args['include_events'])) $args['include_events']=false;
+		if (!isset($args['include_actions'])) $args['include_actions']=false;
 		if (!isset($args['include_locations'])) $args['include_locations']=false;
 		
 		if ((isset($args['id']))&&(is_numeric($args['id'])))
@@ -77,10 +77,10 @@ class Model_Story extends Model
 			$this->grid_y = $grid[1];
 		}
 		
-		if ($args['include_events'])
+		if ($args['include_actions'])
 		{			
 			$args['story_id'] = $this->id;
-			$this->events = Model_PCP_Events::getStoryEvents($args);
+			$this->events = Model_PCP_Actions::getStoryActions($args);
 		}
 		if ($args['include_locations'])
 		{			
@@ -212,7 +212,7 @@ class Model_Story extends Model
 		if ($this->id > 0)
 		{
 			//delete children first
-			$this->init(array('include_locations'=>true,'include_scenes'=>true,'include_events'=>true))->load();
+			$this->init(array('include_locations'=>true,'include_scenes'=>true,'include_actions'=>true))->load();
 			foreach($this->locations as $location)
 			{
 				$location->delete();
@@ -254,9 +254,9 @@ class Model_Story extends Model
 		return $this->grid_x.'x'.$this->grid_y;
 	}	
 	
-	function getEvents()
+	function getActions()
 	{
-		return Model_PCP_Events::getStoryEvents(array('story_id'=>$this->id));
+		return Model_PCP_Actions::getStoryActions(array('story_id'=>$this->id));
 	}
 }
 

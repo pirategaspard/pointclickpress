@@ -7,7 +7,7 @@
 		<h3 ><a href="#">Events</a></h3>
 		<div style='display: none;' >
 			<?php
-				echo($event_list);
+				echo($action_list);
 			?>
 		</div>
 	</div><!-- #accordion -->
@@ -26,8 +26,8 @@
 			    </ul>
 			    <div id="tab-1" class="ui-tabs-hide">
 			    	<?php 
-					echo($grid_event_form);
-					echo($grid_event_list);
+					echo($grid_action_form);
+					echo($grid_action_list);
 					?>
 				</div>
 				<div id="tab-2" class="ui-tabs-hide">

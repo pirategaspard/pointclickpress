@@ -12,7 +12,7 @@ Class Controller_admin_item extends Controller_Template_Admin
 		$data['item_form'] =  View::factory('/admin/item/form',$data)->render();		
 		$data['add_item_link'] =  View::factory('/admin/item/add',$data)->render();
 		$data['story'] = PCPAdmin::getStory(array('story_id'=>$data['item']->story_id));
-		$data['event_list'] = Request::factory('/admin/event/listSimple')->execute()->response;			
+		$data['action_list'] = Request::factory('/admin/action/listSimple')->execute()->response;			
 		$data['itemstate_list'] = Request::factory('/admin/itemstate/listSimple')->execute()->response;
 		
 		$this->template->breadcrumb .= View::factory('/admin/story/info',$data)->render();
@@ -26,7 +26,7 @@ Class Controller_admin_item extends Controller_Template_Admin
 		$session = Session::instance();	
 		$data['story_id'] = $session->get('story_id');
 		$data['scene_id'] = $session->get('scene_id');	
-		$data['story'] = PCPAdmin::getStory(array('story_id'=>$data['story_id'],'include_scenes'=>false,'include_locations'=>false,'include_events'=>false));
+		$data['story'] = PCPAdmin::getStory(array('story_id'=>$data['story_id'],'include_scenes'=>false,'include_locations'=>false,'include_actions'=>false));
 		//var_dump($data); die();
 		$data['back_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')));
 		$data['items'] = PCPAdmin::getItemDefs(array('story_id'=>$data['story_id']));

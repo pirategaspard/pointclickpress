@@ -12,7 +12,7 @@ Class Controller_admin_griditem extends Controller_Template_Admin
 		$data['story_id'] = (isset($data['story_id']))?$data['story_id']:$data['griditem']->story_id;
 		$data['itemdef'] = Model_Admin_GriditemAdmin::getItemDef($data);		
 		$data['story'] = Model_Admin_StoriesAdmin::getStory(array('story_id'=>$data['griditem']->story_id));
-		$data['event_list'] = Request::factory('/admin/event/listSimple')->execute()->response;			
+		$data['action_list'] = Request::factory('/admin/action/listSimple')->execute()->response;			
 		$data['assign_itemdef_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'itemdef','action'=>'list'))).'?scene_id='.$data['griditem']->scene_id;
 		$data['item_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'griditem','action'=>'save')));
 		$data['item_form'] =  View::factory('/admin/item/form',$data)->render();
@@ -28,7 +28,7 @@ Class Controller_admin_griditem extends Controller_Template_Admin
 	{	
 		$session = Session::instance();	
 		$data = Model_Admin_GriditemAdmin::getData();	
-		$data['story'] = Model_Admin_StoriesAdmin::getStory(array('story_id'=>$data['story_id'],'include_scenes'=>false,'include_locations'=>false,'include_events'=>false));
+		$data['story'] = Model_Admin_StoriesAdmin::getStory(array('story_id'=>$data['story_id'],'include_scenes'=>false,'include_locations'=>false,'include_actions'=>false));
 		$data['back_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')));
 		$data['itemdefs'] = Model_Admin_ItemDefAdmin::getItemDefs(array('story_id'=>$data['story_id']));
 		$data['assign_item_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'assignItem')));

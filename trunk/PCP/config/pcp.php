@@ -82,14 +82,14 @@ define('CACHE_DRIVER', $cache_driver);
 
 
 // event constants
-define('EVENT_TYPE_NULL', ''); 
-define('EVENT_TYPE_ITEMDEF', 'itemdef'); 
-define('EVENT_TYPE_ITEMSTATE', 'itemstate'); 
-define('EVENT_TYPE_GRIDITEM', 'griditem'); 
-define('EVENT_TYPE_GRID', 'grid'); 
-define('EVENT_TYPE_SCENE', 'scene'); 
-define('EVENT_TYPE_LOCATION', 'location'); 
-define('EVENT_TYPE_STORY', 'story'); 
+define('ACTION_TYPE_NULL', ''); 
+define('ACTION_TYPE_ITEMDEF', 'itemdef'); 
+define('ACTION_TYPE_ITEMSTATE', 'itemstate'); 
+define('ACTION_TYPE_GRIDITEM', 'griditem'); 
+define('ACTION_TYPE_GRID', 'grid'); 
+define('ACTION_TYPE_SCENE', 'scene'); 
+define('ACTION_TYPE_LOCATION', 'location'); 
+define('ACTION_TYPE_STORY', 'story'); 
 
 // item constants
 define('ITEM_TYPE_NULL', ''); 

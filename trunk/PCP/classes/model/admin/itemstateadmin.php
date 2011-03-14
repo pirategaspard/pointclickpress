@@ -40,7 +40,7 @@ class Model_Admin_ItemstateAdmin extends Model_PCP_Itemstates
 		{
 			$data['image_id'] = $_REQUEST['image_id'];
 		}
-		$data['item_type'] = EVENT_TYPE_ITEMSTATE;
+		$data['item_type'] = ACTION_TYPE_ITEMSTATE;
 		return $data;
 	}
 

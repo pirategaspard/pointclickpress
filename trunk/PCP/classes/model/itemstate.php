@@ -18,7 +18,7 @@ class Model_ItemState extends Model
 	
 	function init($args=array())
 	{
-		if (!isset($args['include_events'])) $args['include_events']=false;
+		if (!isset($args['include_actions'])) $args['include_actions']=false;
 		
 		if ((isset($args['id']))&&(is_numeric($args['id'])))
 		{
@@ -48,10 +48,10 @@ class Model_ItemState extends Model
 		{
 			$this->isdefaultstate = $args['isdefaultstate'];
 		}
-		if ($args['include_events'])
+		if ($args['include_actions'])
 		{			
 			$args['itemstate_id'] = $this->id;
-			$this->events = Model_Admin_EventsAdmin::getItemstateEvents($args);
+			$this->events = Model_Admin_ActionsAdmin::getItemstateActions($args);
 		}		
 		return $this;
 	}

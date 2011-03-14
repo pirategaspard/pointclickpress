@@ -24,7 +24,7 @@ class Model_Location extends Model
 	
 	function init($args=array())
 	{
-		if (!isset($args['include_events'])) $args['include_events']=false;
+		if (!isset($args['include_actions'])) $args['include_actions']=false;
 		if (!isset($args['include_scenes'])) $args['include_scenes']=false;
 		
 		if ((isset($args['story_id']))&&(is_numeric($args['story_id'])))
@@ -40,10 +40,10 @@ class Model_Location extends Model
 			$this->title = $args['title'];
 			$this->slug = Formatting::createSlug($args['title']);
 		}
-		if ($args['include_events'])
+		if ($args['include_actions'])
 		{			
 			$args['location_id'] = $this->id;
-			$this->events = Model_PCP_Events::getLocationEvents($args);
+			$this->events = Model_PCP_Actions::getLocationActions($args);
 		}
 		if ($args['include_scenes'])
 		{			
@@ -147,7 +147,7 @@ class Model_Location extends Model
 		if ($this->id > 0)
 		{
 			//delete all children first
-			$this->init(array('include_locations'=>true,'include_scenes'=>true,'include_events'=>true))->load();
+			$this->init(array('include_locations'=>true,'include_scenes'=>true,'include_actions'=>true))->load();
 			foreach($this->scenes as $scene)
 			{
 				$scene->delete();
@@ -166,9 +166,9 @@ class Model_Location extends Model
 		return $results;
 	}
 	
-	function getEvents()
+	function getActions()
 	{
-		return Model_PCP_Events::getLocationEvents(array('location_id'=>$this->id));
+		return Model_PCP_Actions::getLocationActions(array('location_id'=>$this->id));
 	}
 }
 

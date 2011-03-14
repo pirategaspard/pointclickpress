@@ -39,7 +39,7 @@ class Model_Admin_PCPAdmin
 		if (isset($_REQUEST['scene_id']))
 		{
 			$session->set('scene_id',$_REQUEST['scene_id']);
-			$session->delete('event_id');
+			$session->delete('action_id');
 			$session->delete('item_id');			
 			$session->delete('griditem_id');
 			$session->delete('cell_id');
@@ -49,9 +49,9 @@ class Model_Admin_PCPAdmin
 		{
 			$session->set('cell_id',$_REQUEST['cell_id']);
 		}
-		if (isset($_REQUEST['event_id']))
+		if (isset($_REQUEST['action_id']))
 		{
-			$session->set('event_id',$_REQUEST['event_id']);
+			$session->set('action_id',$_REQUEST['action_id']);
 		}
 		if (isset($_REQUEST['image_id']))
 		{
@@ -91,7 +91,7 @@ class Model_Admin_PCPAdmin
 		if (!isset($args['location_id']) && $session->get('location_id')) { $args['location_id'] = $session->get('location_id'); }
 		if (!isset($args['scene_id']) && $session->get('scene_id')) { $args['scene_id'] =  $session->get('scene_id'); }
 		if (!isset($args['cell_id']) &&  $session->get('cell_id')) { $args['cell_id'] =   $session->get('cell_id'); }
-		if (!isset($args['event_id']) &&  $session->get('event_id')) { $args['event_id'] =   $session->get('event_id'); }
+		if (!isset($args['action_id']) &&  $session->get('action_id')) { $args['action_id'] =   $session->get('action_id'); }
 		if (!isset($args['image_id']) &&  $session->get('image_id')) { $args['image_id'] =   $session->get('image_id'); }
 		if (!isset($args['item_id']) &&  $session->get('item_id')) { $args['item_id'] =   $session->get('item_id'); }
 		if (!isset($args['itemstate_id']) &&  $session->get('itemstate_id')) { $args['itemstate_id'] =   $session->get('itemstate_id'); }
@@ -100,7 +100,7 @@ class Model_Admin_PCPAdmin
 		// defaults
 		if (!isset($args['include_scenes'])) { $args['include_scenes'] = false; }
 		if (!isset($args['include_locations'])) { $args['include_locations'] = false; }
-		if (!isset($args['include_events'])) { $args['include_events'] = false; }
+		if (!isset($args['include_actions'])) { $args['include_actions'] = false; }
 		if (!isset($args['include_items'])) { $args['include_items'] = false; }
 		if (!isset($args['include_itemstates'])) { $args['include_itemstates'] = false; }
 		

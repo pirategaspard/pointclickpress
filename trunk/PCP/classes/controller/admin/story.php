@@ -47,7 +47,7 @@ Class Controller_admin_story extends Controller_Template_Admin
 		$data['locations'] = $data['story']->locations; // needed to choose starting location
 		$data['grid_sizes'] = explode(',',SUPPORTED_GRID_SIZES);
 
-		$data['event_list'] = Request::factory('/admin/event/listSimple')->execute()->response;
+		$data['action_list'] = Request::factory('/admin/action/listSimple')->execute()->response;
 		$data['item_list'] = Request::factory('/admin/itemdef/listSimple')->execute()->response;	
 		$data['location_list'] = Request::factory('/admin/location/listSimple')->execute()->response;	
 						

@@ -7,27 +7,27 @@
 // TODO: reorganize this file
 $(document).ready(function() {
 		
-	// when action type = 'event_link' hide the event_value field
-	$('#event_type').change(function() 
+	// when action type = 'action_link' hide the action_value field
+	$('#action_type').change(function() 
 	{		
-		if ($(this).val() == 'event_link')
+		if ($(this).val() == 'action_link')
 		{	
 			$('#location_select').show();		
-			$('#event_value').hide();			
+			$('#action_value').hide();			
 		}
 		else
 		{
 			$('#location_select').hide();
-			$('#event_value').show();
+			$('#action_value').show();
 		}
 		
-		$('#event_description').html(event_descriptions[$(this).val()]);		
+		$('#action_description').html(action_descriptions[$(this).val()]);		
 	});
 	
-	// when location select is changed update the 'event_value' field
+	// when location select is changed update the 'action_value' field
 	$('select[name="location_select"]').mouseout(function() 
 	{														
-		$('textarea[name=event_value]').val($('select[name="location_select"]').val());			
+		$('textarea[name=action_value]').val($('select[name="location_select"]').val());			
 	});
 	
 	// change grid color based on cell_id list
@@ -131,7 +131,7 @@ $(document).ready(function() {
 	}
 	
 	//when the page loads fire these events to set up the form (if it exists)
-	$('#event_type').change();
+	$('#action_type').change();
 	$('input[name=cell_ids]').focusout();
 	$('input[name=cell_id]').focusout();
 				
