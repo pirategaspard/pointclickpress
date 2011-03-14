@@ -11,7 +11,7 @@ class Model_Scene extends Model
 	protected $filename = "";
 	protected $value = DEFAULT_SCENE_VALUE;	
 	protected $events = array();
-	protected $grid_events = array();
+	protected $grid_actions = array();
 	protected $items = array();
 	
 	public function __construct($args=array())
@@ -22,7 +22,7 @@ class Model_Scene extends Model
 	
 	function init($args=array())
 	{
-		if (!isset($args['include_events'])) $args['include_events']=false;
+		if (!isset($args['include_actions'])) $args['include_actions']=false;
 		if (!isset($args['include_items'])) $args['include_items']=false;
 		
 		if ((isset($args['story_id']))&&(is_numeric($args['story_id'])))
@@ -57,11 +57,11 @@ class Model_Scene extends Model
 		{
 			$this->value = Formatting::createSlug($args['value']);
 		} 
-		if ($args['include_events'])
+		if ($args['include_actions'])
 		{			
 			$args['scene_id'] = $this->id;
-			$this->events = Model_Admin_EventsAdmin::getSceneEvents($args);
-			$this->grid_events = Model_Admin_EventsAdmin::getGridEvents($args);	
+			$this->events = Model_Admin_ActionsAdmin::getSceneActions($args);
+			$this->grid_actions = Model_Admin_ActionsAdmin::getGridActions($args);	
 		}
 		if (isset($args['include_items']))
 		{				
@@ -184,14 +184,14 @@ class Model_Scene extends Model
 		if ($this->id > 0)
 		{
 			// delete children 1st
-			$this->init(array('include_events'=>true))->load();						
+			$this->init(array('include_actions'=>true))->load();						
 			foreach($this->events as $event)
 			{
 				$event->delete();
 			}
-			foreach($this->grid_events as $grid_event)
+			foreach($this->grid_actions as $grid_action)
 			{
-				$grid_event->delete();
+				$grid_action->delete();
 			}
 			
 			$q = '	DELETE FROM scenes
@@ -225,9 +225,9 @@ class Model_Scene extends Model
 		$this->title = $string;
 	}
 	
-	function getEvents()
+	function getActions()
 	{
-		return Model_PCP_Events::getSceneEvents(array('scene_id'=>$this->id));
+		return Model_PCP_Actions::getSceneActions(array('scene_id'=>$this->id));
 	}
 
 }

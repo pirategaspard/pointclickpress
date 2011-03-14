@@ -15,7 +15,7 @@ Class Controller_admin_itemstate extends Controller_Template_Admin
 		$data['itemstate_form'] =  View::factory('/admin/itemstate/form',$data)->render();		
 		$data['add_itemstate_link'] =  View::factory('/admin/itemstate/add',$data)->render();
 		$data['story'] = Model_Admin_StoriesAdmin::getStory(array('id'=>$data['itemdef']->story_id));
-		$data['event_list'] = Request::factory('/admin/event/listSimple')->execute()->response;
+		$data['action_list'] = Request::factory('/admin/action/listSimple')->execute()->response;
 		
 		$this->template->breadcrumb .= View::factory('/admin/story/info',$data)->render();
 		$this->template->breadcrumb .= View::factory('/admin/itemdef/info',$data)->render();

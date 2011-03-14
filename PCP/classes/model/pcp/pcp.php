@@ -82,81 +82,81 @@ class Model_PCP_PCP
 	}*/
 	
 	/*
-	static function getSceneItemEvents($item_locations)
+	static function getSceneItemActions($item_locations)
 	{
-		$events = array();
+		$actions = array();
 		if (isset($item_locations['griditems']))
 		{
 			$griditems = $item_locations['griditems'];
 			foreach($griditems as $griditem)
 			{
-				$events = array_merge(EventsAdmin::getItemDefEvents(array('itemdef_id'=>$griditem['itemdef_id'])),$events);
-				$events = array_merge(EventsAdmin::getItemStateEvents(array('itemstate_id'=>$griditem['itemstate_id'])),$events);
+				$actions = array_merge(EventsAdmin::getItemDefActions(array('itemdef_id'=>$griditem['itemdef_id'])),$actions);
+				$actions = array_merge(EventsAdmin::getItemStateActions(array('itemstate_id'=>$griditem['itemstate_id'])),$actions);
 			}
 		}
-		return $events;
+		return $actions;
 	}
 	
-	static function getGridItemEvents($griditem_id=0,$scene_id=0)
+	static function getGridItemActions($griditem_id=0,$scene_id=0)
 	{
-		$events = array();
+		$actions = array();
 		if (($griditem_id>0)&&($scene_id>0))
 		{
-			$events = EventsAdmin::getGridItemEvents(array('griditem_id'=>$griditem_id,'scene_id'=>$scene_id));
+			$actions = EventsAdmin::getGridItemActions(array('griditem_id'=>$griditem_id,'scene_id'=>$scene_id));
 		}
-		return $events;
+		return $actions;
 	}*/
 	
 	/* 
 	  	a cell in a scene has been clicked, 
 	  	get the action attached to the cell(s) (if any) 
 	 */
-	static function getCellEvent($scene_id,$cell_id)
+	static function getCellAction($scene_id,$cell_id)
 	{
 		$results = new pcpresult();
 		$q = '	SELECT 	e.id,
-						e.event,
-						e.event_label,
-						e.event_value
+						e.action,
+						e.action_label,
+						e.action_value
 				FROM cells c
-				INNER JOIN grids_events g
-					ON g.grid_event_id = c.grid_event_id
-				INNER JOIN events e
-					ON e.id = g.event_id
+				INNER JOIN grids_actions g
+					ON g.grid_action_id = c.grid_action_id
+				INNER JOIN actions e
+					ON e.id = g.action_id
 				WHERE 	c.id = :cell_id
 					AND c.scene_id = :scene_id
 				ORDER BY e.id DESC';
-		$events_temp = DB::query(Database::SELECT,$q,TRUE)
+		$actions_temp = DB::query(Database::SELECT,$q,TRUE)
 								->param(':scene_id',$scene_id)
 								->param(':cell_id',$cell_id)
 								->execute()
 								->as_array();
 		
-		if (count($events_temp) > 0)
+		if (count($actions_temp) > 0)
 		{
-			foreach($events_temp as $event_temp)
+			foreach($actions_temp as $action_temp)
 			{
-				$events[] = EventsAdmin::getGridEvent()->init($event_temp); 			
+				$actions[] = EventsAdmin::getGridAction()->init($action_temp); 			
 			}
 			$results->success = 1;
-			$results->data = array('events'=>$events);
+			$results->data = array('actions'=>$actions);
 		}
 		return $results;
 	}
 	
-	static function getGridEvent($scene_id=0,$cell_id=0)
+	static function getGridAction($scene_id=0,$cell_id=0)
 	{
-		$events = array();		
+		$actions = array();		
 		//if scene id and cell id are greater than 0
 		if (($scene_id > 0) && ($cell_id > 0))
 		{				
-			$results = PCP::getCellEvent($scene_id,$cell_id);	
+			$results = PCP::getCellAction($scene_id,$cell_id);	
 			if ($results->success)
 			{
-				$events = $results->data['events'];
+				$actions = $results->data['actions'];
 			}
 		}
-		return $events;
+		return $actions;
 	}
 
 	// Event Facade functions 
@@ -165,20 +165,20 @@ class Model_PCP_PCP
 		interprets the cell action(s)
 	*/
 	/*
-	static function doEvents($events)
+	static function doActions($actions)
 	{
-		return Model_Events::doEvents($events);		
+		return Model_Actions::doActions($actions);		
 	}
 	*/
 	
-	static function doEvent($event='',$event_value='',$type='event',$event_label='',$story_id=0)
+	static function doAction($action='',$action_value='',$type='action',$action_label='',$story_id=0)
 	{
-		return EventsAdmin::doEvent($event,$event_value,$type,$event_label,$story_id);
+		return EventsAdmin::doAction($action,$action_value,$type,$action_label,$story_id);
 	}
 
-	static function createEvent($event='',$event_value='',$type='event',$event_label='',$story_id=0)
+	static function createAction($action='',$action_value='',$type='action',$action_label='',$story_id=0)
 	{
-		return EventsAdmin::createEvent($event,$event_value,$type,$event_label,$story_id);
+		return EventsAdmin::createAction($action,$action_value,$type,$action_label,$story_id);
 	}
 	/*
 	static function getCurrentlocationID()
@@ -210,20 +210,20 @@ class Model_PCP_PCP
 		if (!isset($args['location_id']) && isset($_REQUEST['location_id'])) { $args['location_id'] = $_REQUEST['location_id']; }
 		if (!isset($args['scene_id']) && isset($_REQUEST['scene_id'])) { $args['scene_id'] =  $_REQUEST['scene_id']; }
 		if (!isset($args['cell_id']) && isset($_REQUEST['cell_id'])) { $args['cell_id'] =  $_REQUEST['cell_id']; }
-		if (!isset($args['event_id']) && isset($_REQUEST['event_id'])) { $args['event_id'] =  $_REQUEST['event_id']; }
+		if (!isset($args['action_id']) && isset($_REQUEST['action_id'])) { $args['action_id'] =  $_REQUEST['action_id']; }
 		
 		if (!isset($args['include_scenes'])) { $args['include_scenes'] = false; }
 		if (!isset($args['include_locations'])) { $args['include_locations'] = false; }
-		if (!isset($args['include_events'])) { $args['include_events'] = true; }
+		if (!isset($args['include_actions'])) { $args['include_actions'] = true; }
 		if (!isset($args['include_items'])) { $args['include_items'] = false; } 
 		
 		return $args;
 	}
 	
 	/*
-	 * static function getJSEventDefs()
+	 * static function getJSActionDefs()
 	{	
-		return Model_Events::getJSEventDefs();
+		return Model_Actions::getJSActionDefs();
 	}
 	
 	

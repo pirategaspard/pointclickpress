@@ -36,7 +36,7 @@ Class Controller_admin_location extends Controller_Template_Admin
 		}
 		else
 		{			
-			$data['event_list'] = Request::factory('/admin/event/listSimple')->execute()->response;	
+			$data['action_list'] = Request::factory('/admin/action/listSimple')->execute()->response;	
 			$data['scene_list'] = Request::factory('/admin/scene/listSimple')->execute()->response;					
 			
 			$data['location_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'location','action'=>'save')));					

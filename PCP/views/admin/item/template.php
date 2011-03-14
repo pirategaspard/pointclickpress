@@ -7,7 +7,7 @@
 		<h3 ><a href="#">Events</a></h3>
 		<div style='display: none;' >
 			<?php
-				echo($event_list);
+				echo($action_list);
 			?>
 		</div>
 	</div><!-- #accordion -->

@@ -8,7 +8,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 	
 		// if we have a new scene, reset the image_id to zero
 		$data = Model_Admin_ScenesAdmin::GetData();
-		$data['scene'] = Model_Admin_ScenesAdmin::getScene(array('id'=>$data['scene_id'],'include_events'=>false,'include_items'=>true))->init($data);
+		$data['scene'] = Model_Admin_ScenesAdmin::getScene(array('id'=>$data['scene_id'],'include_actions'=>false,'include_items'=>true))->init($data);
 		$data['story_id'] = (isset($data['story_id']))?$data['story_id']:$data['scene']->story_id;
 		$data['story'] = Model_Admin_StoriesAdmin::getStoryInfo(array('id'=>$data['story_id'],'include_locations'=>true,'include_scenes'=>false));			
 		$data['location'] = $data['story']->locations[$data['scene']->location_id];				
@@ -26,7 +26,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		$data['assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?story_id='.$data['scene']->story_id.'&location_id='.$data['scene']->location_id.'&scene_id='.$session->get('scene_id');				
 		
 		/* scene events */	
-		$data['event_list'] = Request::factory('/admin/event/listSimple')->execute()->response;
+		$data['action_list'] = Request::factory('/admin/action/listSimple')->execute()->response;
 		
 		/* scene */
 		$data['scene_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'save')));						
@@ -39,8 +39,8 @@ Class Controller_admin_scene extends Controller_Template_Admin
 			$data['grid_items_list'] = Request::factory('/admin/griditem/listgridSimple')->execute()->response;
 			
 			// events
-			$data['grid_event_form'] = Request::factory('/admin/event/formgridSimple')->execute()->response;
-			$data['grid_event_list'] = Request::factory('/admin/event/listgridSimple')->execute()->response;
+			$data['grid_action_form'] = Request::factory('/admin/action/formgridSimple')->execute()->response;
+			$data['grid_action_list'] = Request::factory('/admin/action/listgridSimple')->execute()->response;
 			
 			// grid
 			$data['grid'] = View::factory('/admin/scene/grid',$data)->render();

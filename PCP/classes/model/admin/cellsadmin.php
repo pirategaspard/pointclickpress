@@ -13,10 +13,10 @@ class Model_Admin_CellsAdmin extends Model
 	{		
 		$q = '	SELECT 	cl.id						
 				FROM cells cl
-				INNER JOIN grids_events g
-					ON g.grid_event_id = cl.grid_event_id
+				INNER JOIN grids_actions g
+					ON g.grid_action_id = cl.grid_action_id
 				INNER JOIN events e
-					ON e.id = g.event_id
+					ON e.id = g.action_id
 				INNER JOIN scenes sc
 					ON sc.id = g.scene_id
 				INNER JOIN locations c

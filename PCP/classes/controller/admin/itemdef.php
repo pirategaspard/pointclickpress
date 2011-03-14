@@ -14,7 +14,7 @@ Class Controller_admin_itemdef extends Controller_Template_Admin
 		$data['itemdef_form'] =  View::factory('/admin/itemdef/form',$data)->render();		
 		$data['add_itemdef_link'] =  View::factory('/admin/itemdef/add',$data)->render();
 		$data['story'] = Model_Admin_StoriesAdmin::getStory(array('id'=>$data['story_id']));
-		$data['event_list'] = Request::factory('/admin/event/listSimple')->execute()->response;			
+		$data['action_list'] = Request::factory('/admin/action/listSimple')->execute()->response;			
 		$data['itemstate_list'] = Request::factory('/admin/itemstate/listSimple')->execute()->response;
 		$data['iteminstances_list'] = Request::factory('/admin/griditem/listSimple')->execute()->response;
 		$session->set('story_id',$data['story_id']);
@@ -29,7 +29,7 @@ Class Controller_admin_itemdef extends Controller_Template_Admin
 	{	
 		$session = Session::instance();	
 		$data = Model_Admin_ItemDefAdmin::getData();
-		$data['story'] = Model_Admin_StoriesAdmin::getStory(array('story_id'=>$data['story_id'],'include_scenes'=>false,'include_locations'=>false,'include_events'=>false));
+		$data['story'] = Model_Admin_StoriesAdmin::getStory(array('story_id'=>$data['story_id'],'include_scenes'=>false,'include_locations'=>false,'include_actions'=>false));
 		$data['back_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')));
 		$data['itemdefs'] = Model_Admin_ItemDefAdmin::getItemDefs(array('story_id'=>$data['story_id']));
 		$data['assign_itemdef_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'assignItem')));

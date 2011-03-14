@@ -31,7 +31,7 @@ Class Controller_PCP extends Controller_Template_PCP
     
 		$data['story'] = Model_PCP_PCP::getStory();
 		$data['screens'] = Model_PCP_Screens::getScreens();
-		$this->template->scripts = array_merge($this->template->scripts,Model_PCP_Events::getJSEventDefs());
+		$this->template->scripts = array_merge($this->template->scripts,Model_PCP_Actions::getJSActionDefs());
 		$this->template->scripts[] = 'screen.js'; //get screen js to determine user's screen resolution
 		$this->template->title .= $data['story']->title;
 		$this->template->top_menu = View::factory('pcp/story_menu',$data)->render(); 
@@ -80,7 +80,7 @@ Class Controller_PCP extends Controller_Template_PCP
 			$session->set('story_data',$story_data); 
 			Hooks::executeHook(POST_START_STORY);									
 			// put any story init events into session
-			Model_PCP_Events::doEvents($story->getEvents());			
+			Model_PCP_Actions::doActions($story->getActions());			
 			// redirect to the first scene
 			Request::instance()->redirect(Route::get('default')->uri(array('action'=>'scene')));
 		}		
@@ -107,7 +107,7 @@ Class Controller_PCP extends Controller_Template_PCP
 		$story_data = $session->get('story_data');
 		$location =  Model_PCP_Locations::getlocation(array('id'=>$story_data['location_id']));	
 		// put any location init events into session
-		$results = array_merge($results,Events::doEvents($location->getEvents()));
+		$results = array_merge($results,Actions::doActions($location->getActions()));
 		
 		// get the scene
 		$data['scene'] = Model_PCP_Scenes::getCurrentScene(array('location_id'=>Model_PCP_Locations::getCurrentlocationId()));//,'story'=>$data['story']));
@@ -115,9 +115,9 @@ Class Controller_PCP extends Controller_Template_PCP
 		$data['items'] = Model_PCP_Items::getGriditemsCurrentItemStates($item_locations,$story_data);
 		
 		// put any scene init events into session
-		$results = array_merge($results,Events::doEvents($data['scene']->getEvents()));	
+		$results = array_merge($results,Actions::doActions($data['scene']->getActions()));	
 		// put any item events into session
-		$results = array_merge($results,Events::doEvents(Model_PCP_Events::getSceneItemEvents($item_locations)));	
+		$results = array_merge($results,Actions::doActions(Model_PCP_Actions::getSceneItemActions($item_locations)));	
 		
 		//put scene into session
 		$session->set('scene',$data['scene']);
@@ -129,7 +129,7 @@ Class Controller_PCP extends Controller_Template_PCP
 		if (($data['story'] != NULL) && ($data['scene']->id > 0) && (strlen($data['scene']->filename) > 0))
 		{	
 			// Compose the scene 
-			$this->template->scripts = array_merge($this->template->scripts,Model_PCP_Events::getJSEventDefs());			
+			$this->template->scripts = array_merge($this->template->scripts,Model_PCP_Actions::getJSActionDefs());			
 			$this->template->scripts[] = 'grid.js'; //get grid js 
 			$this->template->head[] = View::factory('pcp/style',$data)->render();//get grid style
 			$this->template->title .= $data['story']->title.' : '.$data['scene']->title;
@@ -187,7 +187,7 @@ Class Controller_PCP extends Controller_Template_PCP
     	// update story data
     	$session->set('story_data',$story_data);
     	// do the grid event (if any)
-    	$results = Events::doEvents(Events::getCellEvents(array('scene_id'=>$story_data['scene_id'],'cell_id'=>$story_data['cell_id'])));
+    	$results = Actions::doActions(Actions::getCellActions(array('scene_id'=>$story_data['scene_id'],'cell_id'=>$story_data['cell_id'])));
     	//get item location info
 		$item_locations = Items::getSceneGridItemInfo($story_data['scene_id'],$story_data['item_locations']);
     	// do plugins
@@ -231,7 +231,7 @@ Class Controller_PCP extends Controller_Template_PCP
     	// update story data
     	$session->set('story_data',$story_data);
     	// do item event (if any)
-    	$results = Events::doEvents(Events::getGridItemEvents(array('griditem_id'=>$story_data['griditem_id'],'scene_id'=>$story_data['scene_id'])));
+    	$results = Actions::doActions(Actions::getGridItemActions(array('griditem_id'=>$story_data['griditem_id'],'scene_id'=>$story_data['scene_id'])));
 		// do plugins
 		Hooks::executeHook(POST_CELL_CLICK);
 		Hooks::executeHook(POST_ITEM_CLICK);
