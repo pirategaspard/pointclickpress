@@ -1,6 +1,6 @@
 <?php 
 /*
-	Evaluate event class for PointClickPress
+	Evaluate action class for PointClickPress
 	Execute arbitrary PHP code. 
  */
 
@@ -8,7 +8,7 @@ class action_Eval extends Model_Base_PCPAction
 {	
 	public function __construct()
 	{
-		// init this event
+		// init this action
 		parent::__construct();
 		$this->label = "Eval";
 		$this->description = "Execute arbitrary PHP code. Use with caution." ;	

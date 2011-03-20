@@ -38,7 +38,7 @@ class Model_PCP_Locations
 		foreach($tempArray as $a)
 		{
 			if(isset($args['include_scenes'])) $a['include_scenes'] = $args['include_scenes'];
-			if(isset($args['include_events'])) $a['include_events'] = $args['include_events'];
+			if(isset($args['include_actions'])) $a['include_actions'] = $args['include_actions'];
 			$locations[$a['id']] = self::getlocation()->init($a);
 		}
 		return $locations;		

@@ -4,7 +4,7 @@
 
 class Model_PCP_Actions
 {	
-	// get a single Event object and populate it based on the arguments
+	// get a single action object and populate it based on the arguments
 	static function getAction($args=array())
 	{		
 		// if we have been passed a type, get that specific type of action, otherwise save a generic action	
@@ -405,7 +405,7 @@ class Model_PCP_Actions
 			$action_obj = new $class_name; 
 			if ($action_obj instanceof interfaces_iPCPaction)
 			{
-				// execute action. Events manipulate session's "story_data" info
+				// execute action. actions manipulate session's "story_data" info
 				$action_results = array_merge($action_results,$action_obj->execute(array('action_value'=>$action->action_value),$story_data));
 				//$action_results = $action_class->execute(array('action_value'=>$action->action_value),$story_data);
 			}

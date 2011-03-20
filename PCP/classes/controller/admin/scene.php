@@ -25,7 +25,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		$data['story']->setDimensions(DEFAULT_SCREEN_WIDTH,DEFAULT_SCREEN_HEIGHT);
 		$data['assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?story_id='.$data['scene']->story_id.'&location_id='.$data['scene']->location_id.'&scene_id='.$session->get('scene_id');				
 		
-		/* scene events */	
+		/* scene actions */	
 		$data['action_list'] = Request::factory('/admin/action/listSimple')->execute()->response;
 		
 		/* scene */
@@ -38,7 +38,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 			$data['grid_item_form'] = Request::factory('/admin/griditem/formgridSimple')->execute()->response;
 			$data['grid_items_list'] = Request::factory('/admin/griditem/listgridSimple')->execute()->response;
 			
-			// events
+			// actions
 			$data['grid_action_form'] = Request::factory('/admin/action/formgridSimple')->execute()->response;
 			$data['grid_action_list'] = Request::factory('/admin/action/listgridSimple')->execute()->response;
 			

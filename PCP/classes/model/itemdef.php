@@ -7,7 +7,7 @@ class Model_ItemDef extends Model
 	protected $slug = '';
 	protected $story_id = 0;
 	protected $states = array();
-	protected $events = array();			
+	protected $actions = array();			
 	
 	public function __construct($args=array())
 	{
@@ -41,7 +41,7 @@ class Model_ItemDef extends Model
 		if ($args['include_actions'])
 		{
 			$args['itemdef_id'] = $this->id;
-			$this->events = Model_Admin_ActionsAdmin::getItemDefActions($args);
+			$this->actions = Model_Admin_ActionsAdmin::getItemDefActions($args);
 		}
 		return $this;
 	}

@@ -46,7 +46,7 @@ Class Controller_PCP extends Controller_Template_PCP
     {
 		if (isset($_REQUEST['story_id']))
 		{			
-			Hooks::executeHook(PRE_START_STORY);									
+			Events::announceEvent(PRE_START_STORY);									
 			// Get the current session
 			$session = Session::instance();	
 			//set story id into session
@@ -78,8 +78,8 @@ Class Controller_PCP extends Controller_Template_PCP
 			$story_data['story_id'] = $story->id;
 			// set new story data into session 
 			$session->set('story_data',$story_data); 
-			Hooks::executeHook(POST_START_STORY);									
-			// put any story init events into session
+			Events::announceEvent(POST_START_STORY);									
+			// put any story init actions into session
 			Model_PCP_Actions::doActions($story->getActions());			
 			// redirect to the first scene
 			Request::instance()->redirect(Route::get('default')->uri(array('action'=>'scene')));
@@ -98,15 +98,15 @@ Class Controller_PCP extends Controller_Template_PCP
     {    
 		$results = array();
 		
-	    Hooks::executeHook(PRE_SCENE);	    
+	    Events::announceEvent(PRE_SCENE);	    
 		// get session
 		$session = Session::instance();			
 		// get story
 		$data['story'] = $session->get('story',NULL);																	
-		//get location from session (so that we can process any location events)
+		//get location from session (so that we can process any location actions)
 		$story_data = $session->get('story_data');
 		$location =  Model_PCP_Locations::getlocation(array('id'=>$story_data['location_id']));	
-		// put any location init events into session
+		// put any location init actions into session
 		$results = array_merge($results,Actions::doActions($location->getActions()));
 		
 		// get the scene
@@ -114,9 +114,9 @@ Class Controller_PCP extends Controller_Template_PCP
 		$item_locations = Model_PCP_Items::getSceneGridItemInfo($data['scene']->id,$story_data['item_locations']);
 		$data['items'] = Model_PCP_Items::getGriditemsCurrentItemStates($item_locations,$story_data);
 		
-		// put any scene init events into session
+		// put any scene init actions into session
 		$results = array_merge($results,Actions::doActions($data['scene']->getActions()));	
-		// put any item events into session
+		// put any item actions into session
 		$results = array_merge($results,Actions::doActions(Model_PCP_Actions::getSceneItemActions($item_locations)));	
 		
 		//put scene into session
@@ -142,7 +142,7 @@ Class Controller_PCP extends Controller_Template_PCP
 		}		
         else
         {
-        	Hooks::executeHook(ERROR);
+        	Events::announceEvent(ERROR);
         
 			// redirect to the story list page
 		//	Request::instance()->redirect(Route::get('default')->uri(array('action'=>'list_stories')));
@@ -162,7 +162,7 @@ Class Controller_PCP extends Controller_Template_PCP
 			//	var_dump($data['scene']);
 			}	
 		}
-		Hooks::executeHook(POST_SCENE);	
+		Events::announceEvent(POST_SCENE);	
     } 
   
     /* handles cell clicks */
@@ -171,7 +171,7 @@ Class Controller_PCP extends Controller_Template_PCP
 		// disable auto render	
 		$this->auto_render = FALSE;
 		// do plugins
-    	Hooks::executeHook(PRE_CELL_CLICK);
+    	Events::announceEvent(PRE_CELL_CLICK);
     	// get session
 		$session = Session::instance();
 		// get story data
@@ -186,12 +186,12 @@ Class Controller_PCP extends Controller_Template_PCP
     	$story_data['griditem_id'] = 0;
     	// update story data
     	$session->set('story_data',$story_data);
-    	// do the grid event (if any)
+    	// do the grid action (if any)
     	$results = Actions::doActions(Actions::getCellActions(array('scene_id'=>$story_data['scene_id'],'cell_id'=>$story_data['cell_id'])));
     	//get item location info
 		$item_locations = Items::getSceneGridItemInfo($story_data['scene_id'],$story_data['item_locations']);
     	// do plugins
-    	Hooks::executeHook(POST_CELL_CLICK);
+    	Events::announceEvent(POST_CELL_CLICK);
  
     	if (Request::$is_ajax)
     	{    		
@@ -214,8 +214,8 @@ Class Controller_PCP extends Controller_Template_PCP
 		// disable auto render	
 	    $this->auto_render = FALSE;
 	    // do plugins
-	    Hooks::executeHook(PRE_ITEM_CLICK);
-    	Hooks::executeHook(PRE_CELL_CLICK);
+	    Events::announceEvent(PRE_ITEM_CLICK);
+    	Events::announceEvent(PRE_CELL_CLICK);
     	// get session
 		$session = Session::instance();
 		// get story data
@@ -230,11 +230,11 @@ Class Controller_PCP extends Controller_Template_PCP
     	$story_data['griditem_id'] = (isset($_REQUEST['i']))?$_REQUEST['i']:0;
     	// update story data
     	$session->set('story_data',$story_data);
-    	// do item event (if any)
+    	// do item action (if any)
     	$results = Actions::doActions(Actions::getGridItemActions(array('griditem_id'=>$story_data['griditem_id'],'scene_id'=>$story_data['scene_id'])));
 		// do plugins
-		Hooks::executeHook(POST_CELL_CLICK);
-		Hooks::executeHook(POST_ITEM_CLICK);
+		Events::announceEvent(POST_CELL_CLICK);
+		Events::announceEvent(POST_ITEM_CLICK);
  
     	if (Request::$is_ajax)
     	{    		

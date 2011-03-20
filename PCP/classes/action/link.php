@@ -7,7 +7,7 @@ class action_link extends action_refresh
 {	
 	public function __construct()
 	{
-		// init this event
+		// init this action
 		parent::__construct();
 		$this->label = 'link';
 		$this->description = 'Create a link to another scene location';	
@@ -24,7 +24,7 @@ class action_link extends action_refresh
 		{
 			// simple assignment, just update the location id 
 			$story_data['location_id'] = $args['action_value'];
-			// pass to the parent event to refresh the scene
+			// pass to the parent action to refresh the scene
 			$results = parent::execute($args,$story_data);	
 		}
 		return $results;

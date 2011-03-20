@@ -4,13 +4,13 @@
 	Requires refreshitems.js 
  */
 
-define('REFRESH_ITEMS','REFRESH_ITEMS'); // our event name
+define('REFRESH_ITEMS','REFRESH_ITEMS'); // our action name
 class action_refreshitems extends Model_Base_PCPAction
 {	
 	
 	public function __construct()
 	{
-		// init this event
+		// init this action
 		parent::__construct();
 		$this->label = 'Items Refresh';
 		$this->description = 'Refreshes Items in the scene' ;	

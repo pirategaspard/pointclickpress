@@ -14,7 +14,7 @@ Class Controller_Template_Base extends Controller_Template
 	// Run anything that need to run before this.
 		parent::before();
 
-		Hooks::Instance(); // initalize hooks engine
+		Events::Instance(); // initalize events engine
 		Plugins::init(); // initalize any plugins for this story
 		
 		if($this->auto_render)

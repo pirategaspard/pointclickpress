@@ -1,6 +1,6 @@
 <?php 
 /*
-	Simple Ternary 'if' event class for PointClickPress
+	Simple Ternary 'if' action class for PointClickPress
 	 
 	$var = (eval_value1 [>|<|<=|>=|==|!=] eval_value1 ) ? true_value1 : false_value 2;
  */
@@ -11,7 +11,7 @@ class action_Ternaryrefresh extends action_refresh
 	
 	public function __construct()
 	{
-		// init this event
+		// init this action
 		parent::__construct();
 		$this->label = "Ternary 'if' and scene refresh";
 		$this->description = "Assign a variable using a ternary 'If' statement then refresh the scene \$var = (eval_value1 [>|<|<=|>=|==|!=] eval_value1 ) ? true_value1 : false_value 2;" ;	
@@ -44,7 +44,7 @@ class action_Ternaryrefresh extends action_refresh
 		{
 			//update story_data
 			$story_data = array_merge($story_data,$parsed);		
-			// pass to the parent event to refresh the scene
+			// pass to the parent action to refresh the scene
 			$results = parent::execute($args,$story_data);
 		}
 		return $results;

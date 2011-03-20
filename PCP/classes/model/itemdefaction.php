@@ -26,11 +26,11 @@ class Model_ItemdefAction extends Model_Base_Action
 		if ($this->id > 0)
 		{
 			$q = '	SELECT 	e.id
-							,e.event
+							,e.action
 							,e.action_label
 							,e.action_value
 							,ce.itemdef_id
-					FROM events e
+					FROM actions e
 					INNER JOIN items_defs_actions ce
 					ON e.id = ce.action_id
 					WHERE e.id = :id';

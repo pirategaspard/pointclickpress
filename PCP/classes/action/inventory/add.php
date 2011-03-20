@@ -7,7 +7,7 @@ class action_inventory_add extends action_refreshitems
 {	
 	public function __construct()
 	{
-		// init this event
+		// init this action
 		parent::__construct();
 		$this->label = 'Add To Inventory';
 		$this->description = 'Add item to inventory';	

@@ -1,6 +1,6 @@
 <?php 
 /*
-	Evaluate event & scene refresh class for PointClickPress
+	Evaluate action & scene refresh class for PointClickPress
 	Execute arbitrary PHP code.
  */
 
@@ -8,7 +8,7 @@ class action_EvalRefreshitems extends action_refreshitems
 {	
 	public function __construct()
 	{
-		// init this event
+		// init this action
 		parent::__construct();
 		$this->label = "Eval w/ Item Refresh";
 		$this->description = "Execute arbitrary PHP code then refreshes items in scene. Use with caution." ;	

@@ -16,7 +16,7 @@ class Model_Story extends Model
 	protected $image_id = 0;
 	protected $filename = '';
 	protected $status = 'd';
-	protected $events = array();
+	protected $actions = array();
 	protected $locations = array();
 	
 	public function __construct($args=array())
@@ -80,7 +80,7 @@ class Model_Story extends Model
 		if ($args['include_actions'])
 		{			
 			$args['story_id'] = $this->id;
-			$this->events = Model_PCP_Actions::getStoryActions($args);
+			$this->actions = Model_PCP_Actions::getStoryActions($args);
 		}
 		if ($args['include_locations'])
 		{			
@@ -217,9 +217,9 @@ class Model_Story extends Model
 			{
 				$location->delete();
 			}
-			foreach($this->events as $event)
+			foreach($this->actions as $action)
 			{
-				$event->delete();
+				$action->delete();
 			}
 			
 			$q = '	DELETE FROM stories

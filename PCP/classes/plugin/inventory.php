@@ -7,16 +7,16 @@ class plugin_inventory extends Model_Base_PCPPlugin
 {	
 	public function __construct()
 	{
-		// init this event
+		// init this action
 		parent::__construct();
 		$this->label = 'Inventory';
 		$this->description = 'Basic inventory plugin for PCP';
-		$this->hooks = 'post_start_story,css,js,display_post_scene';	
+		$this->events = 'post_start_story,css,js,display_post_scene';	
 	}
 	
-	public function execute($hook_name='')
+	public function execute($event_name='')
 	{
-		switch($hook_name)
+		switch($event_name)
 		{
 			case 'post_start_story':
 			{

@@ -1,6 +1,6 @@
 <?php
 /*
- 	Interface for PointClickPress Events
+ 	Interface for PointClickPress actions
  */
 interface interfaces_iPCPAction
 {
