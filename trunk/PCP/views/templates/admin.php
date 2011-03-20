@@ -4,9 +4,9 @@
 		<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
 		<meta http-equiv="Content-Language" content="en-us" />		
 		<?php foreach ($styles as $style)	{ ?><link href="<?php echo(Kohana::$base_url.'css/'.$style); ?>" rel="stylesheet" type="text/css" ><?php } ?>
-		<?php Hooks::executeHook(ADMIN_CSS); ?>
+		<?php Events::announceEvent(ADMIN_CSS); ?>
 		<title><?php echo $title;?></title>
-		<?php Hooks::executeHook(ADMIN_HEAD); ?>
+		<?php Events::announceEvent(ADMIN_HEAD); ?>
 	</head>
 	<body>
 		<div id="container">
@@ -22,6 +22,6 @@
 		<div id="dialog_message"><?php echo $messages; ?></div>
 		<div id="dialog_delete"> Are You Sure?</div>
 		<?php foreach ($scripts as $script)	{ ?><script src="<?php echo(Kohana::$base_url.'js/'.$script); ?>" ></script><?php print("\n"); } ?>		
-		<?php Hooks::executeHook(ADMIN_JS); ?>
+		<?php Events::announceEvent(ADMIN_JS); ?>
 	</body>
 </html>

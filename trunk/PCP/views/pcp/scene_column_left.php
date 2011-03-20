@@ -1,3 +1,3 @@
 <?php 
-	Hooks::executeHook(DISPLAY_COLUMN_LEFT);
+	Events::announceEvent(DISPLAY_COLUMN_LEFT);
 ?>
