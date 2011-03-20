@@ -46,7 +46,7 @@ class Model_Pcp_Stories
 		{
 			if(isset($args['include_locations'])) $a['include_locations'] = $args['include_locations'];
 			if(isset($args['include_scenes'])) $a['include_scenes'] = $args['include_scenes'];
-			if(isset($args['include_events'])) $a['include_events'] = $args['include_events'];
+			if(isset($args['include_actions'])) $a['include_actions'] = $args['include_actions'];
 			
 			$stories[$a['id']] = self::getStory()->init($a);
 		}

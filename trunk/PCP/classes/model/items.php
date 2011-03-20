@@ -6,7 +6,7 @@ class Model_Items extends Model
 		// if we have been passed a type, get that specific type of item, otherwise get a generic item	
 		if (isset($args['item_type']))
 		{
-			// what kind of event are we getting? 
+			// what kind of action are we getting? 
 			switch ($args['item_type'])
 			{	
 				case ITEM_TYPE_GRID:
@@ -35,7 +35,7 @@ class Model_Items extends Model
 		// if we have been passed a type, get that specific type of item, otherwise get a generic item	
 		if (!isset($args['item_type'])) {$args['item_type'] = ITEM_TYPE_NULL; }
 			
-			// what kind of event are we getting? 
+			// what kind of action are we getting? 
 			switch ($args['item_type'])
 			{	
 				case ITEM_TYPE_GRID:				

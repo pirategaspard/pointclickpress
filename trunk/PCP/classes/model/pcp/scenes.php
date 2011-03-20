@@ -41,7 +41,7 @@ class Model_PCP_Scenes
 		$Scenes = array();
 		foreach($tempArray as $a)
 		{
-			if(isset($args['include_events'])) $a['include_events'] = $args['include_events'];			
+			if(isset($args['include_actions'])) $a['include_actions'] = $args['include_actions'];			
 			$Scenes[$a['id']] = self::getScene()->init($a);
 		}
 		
@@ -78,7 +78,7 @@ class Model_PCP_Scenes
 			if (count($q_results) > 0)			
 			{							
 				$a = $q_results[0];
-				$a['include_events'] = true;
+				$a['include_actions'] = true;
 				$a['include_items'] = true;								
 				$scene->init($a); // populate scene object
 			}

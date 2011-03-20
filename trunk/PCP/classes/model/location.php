@@ -11,7 +11,7 @@ class Model_Location extends Model
 	protected $id = 0;
 	protected $title = '';
 	protected $slug = '';
-	protected $events = array();
+	protected $actions = array();
 	protected $scenes = array();
 		
 	//protected $values = array();	
@@ -43,7 +43,7 @@ class Model_Location extends Model
 		if ($args['include_actions'])
 		{			
 			$args['location_id'] = $this->id;
-			$this->events = Model_PCP_Actions::getLocationActions($args);
+			$this->actions = Model_PCP_Actions::getLocationActions($args);
 		}
 		if ($args['include_scenes'])
 		{			
@@ -152,9 +152,9 @@ class Model_Location extends Model
 			{
 				$scene->delete();
 			}
-			foreach($this->events as $event)
+			foreach($this->actions as $action)
 			{
-				$event->delete();
+				$action->delete();
 			}
 			
 			$q = '	DELETE FROM locations

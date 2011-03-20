@@ -5,7 +5,7 @@ class Model_Plugins
 	
 	public static function init()
 	{
-		self::AddPluginHooks();
+		self::AddPluginEvents();
 	}
 	
 	static function getPlugin($args=array())
@@ -32,21 +32,21 @@ class Model_Plugins
 										->as_array();	
 	}
 			
-	/* adds hooks from plugins that are active in db */
-	private static function AddPluginHooks()
+	/* adds events from plugins that are active in db */
+	private static function AddPluginEvents()
 	{	
-		$hooks_instance = Hooks::instance();
+		$events_instance = Events::instance();
 		$q = '	SELECT *
 				FROM plugins
 				WHERE status = 1'; // only get active plugins
 		$plugins = DB::query(Database::SELECT,$q,TRUE)->execute()->as_array();
 		foreach ($plugins as $plugin)
 		{		
-			// get array of hooks that this plugin will be executed on
-			$hooks = explode(',',$plugin['hooks']); 
-			foreach($hooks as $hook)
+			// get array of events that this plugin will be executed on
+			$events = explode(',',$plugin['events']); 
+			foreach($events as $event)
 			{									
-				$hooks_instance->registerHookClass($hook,$plugin['class']);
+				$events_instance->registerEventClass($event,$plugin['class']);
 			}			
 		}
 		unset($plugins);																		

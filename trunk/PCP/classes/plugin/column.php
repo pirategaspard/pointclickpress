@@ -23,9 +23,9 @@ class Plugin_Column implements Interfaces_iPCPPlugin
 		return 'This is the columns plugin';
 	}
 	
-	public function getHooks()
+	public function getEvents()
 	{
-		// This is a comma seperated list of hooks to call this plugin from
+		// This is a comma seperated list of events to call this plugin from
 		return 'display_scene_column_left,display_scene_column_right';
 	}
 	
@@ -46,13 +46,13 @@ class Plugin_Column implements Interfaces_iPCPPlugin
 		return true;
 	}
 		
-	public function execute($hook_name='')
+	public function execute($event_name='')
 	{						
 		/*
-			You are passed the hook you are currently being called from
+			You are passed the event you are currently being called from
 			You can use this to decide to perform different actions
 		*/
-		switch($hook_name)
+		switch($event_name)
 		{
 			case 'display_scene_column_left':
 			{

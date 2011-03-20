@@ -23,9 +23,9 @@ class plugin_helloworld implements Interfaces_iPCPPlugin
 		return 'This is the helloworld demonstration plugin';
 	}
 	
-	public function getHooks()
+	public function getEvents()
 	{
-		// This is a comma seperated list of hooks to call this plugin from
+		// This is a comma seperated list of events to call this plugin from
 		return 'post_start_story,display_pre_scene,display_post_scene';
 	}
 	
@@ -46,13 +46,13 @@ class plugin_helloworld implements Interfaces_iPCPPlugin
 		return true;
 	}
 		
-	public function execute($hook_name='')
+	public function execute($event_name='')
 	{						
 		/*
-			You are passed the hook you are currently being called from
+			You are passed the event you are currently being called from
 			You can use this to decide to perform different actions
 		*/
-		switch($hook_name)
+		switch($event_name)
 		{
 			case 'display_pre_scene':
 			{
@@ -75,7 +75,7 @@ class plugin_helloworld implements Interfaces_iPCPPlugin
 		
 		// uncomment the code block below for secret cheat to go immediately to last scene in the first story!
 		/*
-		if ($hook_name == 'post_start_story')
+		if ($event_name == 'post_start_story')
 		{
 			// get story data out of session
 			$story_data = $session->get('story_data',array());

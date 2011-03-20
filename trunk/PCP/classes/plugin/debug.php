@@ -27,12 +27,12 @@ class Plugin_Debug implements Interfaces_iPCPPlugin
 		return true;
 	}
 	
-	public function getHooks()
+	public function getEvents()
 	{
 		return 'display_post_scene,error';
 	}
 		
-	public function execute($hook_name='')
+	public function execute($event_name='')
 	{
 		// did we pass 'debug' on the url?
 		if (isset($_GET['debug']))
@@ -52,7 +52,7 @@ class Plugin_Debug implements Interfaces_iPCPPlugin
 			
 			<?php
 			
-			if($hook_name == 'error')
+			if($event_name == 'error')
 			{
 				//die();
 			}

@@ -24,8 +24,8 @@ class Model_Admin_PluginsAdmin extends Model_Plugins
 				self::deletePlugin($plugin['class']);
 			}
 		}
-		// step 3: delete hooks cache since plugin data may have changed. 	
-		//Hooks::instance()->clearHooks();
+		// step 3: delete events cache since plugin data may have changed. 	
+		//Events::instance()->clearEvents();
 		//step 4: re-query db for all currently installed plugins
 		$plugins = self::loadPlugins();	
 		return $plugins;
@@ -47,20 +47,20 @@ class Model_Admin_PluginsAdmin extends Model_Plugins
 	static function insertPlugin($plugin) 
 	{
 		$q = '	INSERT INTO plugins
-				(label,description,class,hooks,status)
+				(label,description,class,events,status)
 				VALUES
 				(
 					:label,
 					:description,
 					:class,
-					:hooks,
+					:events,
 					:status
 				)';
 		$q_results = DB::query(Database::INSERT,$q,TRUE)
 											->param(':label',$plugin->getLabel())
 											->param(':description',$plugin->getDescription())
 											->param(':class',$plugin->getClass())
-											->param(':hooks',$plugin->getHooks())
+											->param(':events',$plugin->getEvents())
 											->param(':status',0)
 											->execute();
 		return true;
@@ -112,7 +112,7 @@ class Model_Admin_PluginsAdmin extends Model_Plugins
 			// if a file is php assume its a class 
 			if ((isset($pathinfo['extension']))&&($pathinfo['extension'] == 'php'))
 			{
-				// add new plugin object to event array 
+				// add new plugin object to action array 
 				$class_name = 'plugin_'.$pathinfo['filename'];
 				// test class to make sure it is an ipcpplugin 
 				$plugin = new $class_name;				 

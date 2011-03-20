@@ -8,7 +8,7 @@ class Model_ItemState extends Model
 	protected $image_id = 0;
 	protected $filename = '';	
 	protected $isdefaultstate = 0;
-	protected $events = array();		
+	protected $actions = array();		
 	
 	public function __construct($args=array())
 	{
@@ -51,7 +51,7 @@ class Model_ItemState extends Model
 		if ($args['include_actions'])
 		{			
 			$args['itemstate_id'] = $this->id;
-			$this->events = Model_Admin_ActionsAdmin::getItemstateActions($args);
+			$this->actions = Model_Admin_ActionsAdmin::getItemstateActions($args);
 		}		
 		return $this;
 	}

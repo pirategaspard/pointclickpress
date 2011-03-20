@@ -15,7 +15,7 @@ class Model_Admin_CellsAdmin extends Model
 				FROM cells cl
 				INNER JOIN grids_actions g
 					ON g.grid_action_id = cl.grid_action_id
-				INNER JOIN events e
+				INNER JOIN actions e
 					ON e.id = g.action_id
 				INNER JOIN scenes sc
 					ON sc.id = g.scene_id
@@ -26,7 +26,7 @@ class Model_Admin_CellsAdmin extends Model
 				WHERE 1 = 1 ';
 				
 		if (isset($args['cell'])) $q .= ' AND cl.id = :cell '; //if we have a cell id
-		if (isset($args['event'])) $q .= ' AND e.id = :event '; //if we have a action id
+		if (isset($args['action'])) $q .= ' AND e.id = :action '; //if we have a action id
 		if (isset($args['scene'])) $q .= ' AND sc.id = :scene '; //if we have a scene id
 		if (isset($args['location'])) $q .= ' AND c.id = :location '; //if we have a location id
 		if (isset($args['story'])) $q .= ' AND s.id = :story '; //if we have a story id
@@ -36,7 +36,7 @@ class Model_Admin_CellsAdmin extends Model
 		$q = DB::query(Database::SELECT,$q,TRUE);
 		
 		if (isset($args['cell']))	 	$q->param(':cell',$args['cell']->id);
-		if (isset($args['event']))		$q->param(':event',$args['event']->id);
+		if (isset($args['action']))		$q->param(':action',$args['action']->id);
 		if (isset($args['scene']))		$q->param(':scene',$args['scene']->id);
 		if (isset($args['location']))	$q->param(':location',$args['location']->id);
 		if (isset($args['story']))		$q->param(':story',$args['story']->id);

@@ -7,7 +7,7 @@ class Model_Base_PCPPlugin extends Model implements Interfaces_iPCPPlugin
 	protected $class_name = ''; // this class name 
 	protected $label = ''; // name of plugin
 	protected $description = ''; // description of plugin
-	protected $hooks = ''; // comma seperated list of hook names
+	protected $events = ''; // comma seperated list of event names
 
 	public function __construct()
 	{
@@ -29,9 +29,9 @@ class Model_Base_PCPPlugin extends Model implements Interfaces_iPCPPlugin
 		return $this->description;
 	}
 	
-	public function getHooks()
+	public function getEvents()
 	{
-		return $this->hooks;
+		return $this->events;
 	}
 	
 	public function install()
@@ -39,7 +39,7 @@ class Model_Base_PCPPlugin extends Model implements Interfaces_iPCPPlugin
 		return true; 
 	}
 	
-	public function execute($hook_name='')
+	public function execute($event_name='')
 	{
 		// do nothing
 	}

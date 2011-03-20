@@ -1,9 +1,9 @@
 <?php
 /*
-	Base Class for PointClickPress Events
+	Base Class for PointClickPress actions
  */
 
-define('NOP', 'NOP'); // No Operation event response
+define('NOP', 'NOP'); // No Operation action response
 class Model_Base_PCPAction extends Model implements interfaces_iPCPAction
 {
 	protected $class_name = '';

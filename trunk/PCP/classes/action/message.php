@@ -2,15 +2,15 @@
 /*
 	Creates a simple user message. 
 	Requires message.js
-	Demonstrates a PCP event implementing the iPCPevent interface
+	Demonstrates a PCP action implementing the iPCPaction interface
 	
 	How to use:
-	event value:  message ; wait time	
+	action value:  message ; wait time	
 	example: Hello World! ; 10000
  */
 
-define('MESSAGE','MESSAGE'); // our event name
-class action_message extends Model_Base_PCPAction implements Interfaces_iPCPevent
+define('MESSAGE','MESSAGE'); // our action name
+class action_message extends Model_Base_PCPAction implements Interfaces_iPCPaction
 {	
 	public function execute($args=array(),&$story_data=array())
 	{

@@ -10,7 +10,7 @@ class Model_Scene extends Model
 	protected $image_id = 0;
 	protected $filename = "";
 	protected $value = DEFAULT_SCENE_VALUE;	
-	protected $events = array();
+	protected $actions = array();
 	protected $grid_actions = array();
 	protected $items = array();
 	
@@ -60,7 +60,7 @@ class Model_Scene extends Model
 		if ($args['include_actions'])
 		{			
 			$args['scene_id'] = $this->id;
-			$this->events = Model_Admin_ActionsAdmin::getSceneActions($args);
+			$this->actions = Model_Admin_ActionsAdmin::getSceneActions($args);
 			$this->grid_actions = Model_Admin_ActionsAdmin::getGridActions($args);	
 		}
 		if (isset($args['include_items']))
@@ -185,9 +185,9 @@ class Model_Scene extends Model
 		{
 			// delete children 1st
 			$this->init(array('include_actions'=>true))->load();						
-			foreach($this->events as $event)
+			foreach($this->actions as $action)
 			{
-				$event->delete();
+				$action->delete();
 			}
 			foreach($this->grid_actions as $grid_action)
 			{

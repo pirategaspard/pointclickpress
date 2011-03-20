@@ -13,7 +13,7 @@ class action_assignrefresh extends action_refresh
 	
 	public function __construct()
 	{
-		// init this event
+		// init this action
 		parent::__construct();
 		$this->label = 'Assign value and scene refresh';
 		$this->description = 'Assign a new value to a session variable then refresh the scene. Example: $door_open = 1;';	
@@ -45,7 +45,7 @@ class action_assignrefresh extends action_refresh
 		{
 			//update story_data
 			$story_data = array_merge($story_data,$parsed);		
-			// pass to the parent event to refresh the scene
+			// pass to the parent action to refresh the scene
 			$results = parent::execute($args,$story_data);
 		}	
 		//var_dump($parsed); die();	

@@ -90,8 +90,8 @@ class Model_PCP_PCP
 			$griditems = $item_locations['griditems'];
 			foreach($griditems as $griditem)
 			{
-				$actions = array_merge(EventsAdmin::getItemDefActions(array('itemdef_id'=>$griditem['itemdef_id'])),$actions);
-				$actions = array_merge(EventsAdmin::getItemStateActions(array('itemstate_id'=>$griditem['itemstate_id'])),$actions);
+				$actions = array_merge(actionsAdmin::getItemDefActions(array('itemdef_id'=>$griditem['itemdef_id'])),$actions);
+				$actions = array_merge(actionsAdmin::getItemStateActions(array('itemstate_id'=>$griditem['itemstate_id'])),$actions);
 			}
 		}
 		return $actions;
@@ -102,7 +102,7 @@ class Model_PCP_PCP
 		$actions = array();
 		if (($griditem_id>0)&&($scene_id>0))
 		{
-			$actions = EventsAdmin::getGridItemActions(array('griditem_id'=>$griditem_id,'scene_id'=>$scene_id));
+			$actions = actionsAdmin::getGridItemActions(array('griditem_id'=>$griditem_id,'scene_id'=>$scene_id));
 		}
 		return $actions;
 	}*/
@@ -136,7 +136,7 @@ class Model_PCP_PCP
 		{
 			foreach($actions_temp as $action_temp)
 			{
-				$actions[] = EventsAdmin::getGridAction()->init($action_temp); 			
+				$actions[] = actionsAdmin::getGridAction()->init($action_temp); 			
 			}
 			$results->success = 1;
 			$results->data = array('actions'=>$actions);
@@ -159,7 +159,7 @@ class Model_PCP_PCP
 		return $actions;
 	}
 
-	// Event Facade functions 
+	// action Facade functions 
 	/*
 		if an action is assigned to the cell this function 
 		interprets the cell action(s)
@@ -173,12 +173,12 @@ class Model_PCP_PCP
 	
 	static function doAction($action='',$action_value='',$type='action',$action_label='',$story_id=0)
 	{
-		return EventsAdmin::doAction($action,$action_value,$type,$action_label,$story_id);
+		return actionsAdmin::doAction($action,$action_value,$type,$action_label,$story_id);
 	}
 
 	static function createAction($action='',$action_value='',$type='action',$action_label='',$story_id=0)
 	{
-		return EventsAdmin::createAction($action,$action_value,$type,$action_label,$story_id);
+		return actionsAdmin::createAction($action,$action_value,$type,$action_label,$story_id);
 	}
 	/*
 	static function getCurrentlocationID()

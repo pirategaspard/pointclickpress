@@ -13,7 +13,7 @@ class action_assign extends Model_Base_PCPAction
 	
 	public function __construct()
 	{
-		// init this event
+		// init this action
 		parent::__construct();
 		$this->label = 'Assign value';
 		$this->description = 'Assign a new value to a session variable. Example: $door_open = 1;';	
@@ -47,7 +47,7 @@ class action_assign extends Model_Base_PCPAction
 		{
 			//update story_data
 			$story_data = array_merge($story_data,$parsed);		
-			// pass to the parent event to refresh the scene
+			// pass to the parent action to refresh the scene
 			$results = parent::execute($args,$story_data);
 		}		
 		//var_dump($story_data); die();

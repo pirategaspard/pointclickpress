@@ -2,18 +2,18 @@
 /*
 	Refreshes the scene.
 	Requires refresh.js 
-	This is the base event for many other events. 
-	In general Events should strive to only manipulate story_data. 
-	This event cheats a bit. -dg
+	This is the base action for many other actions. 
+	In general actions should strive to only manipulate story_data. 
+	This action cheats a bit. -dg
  */
 
-define('REFRESH','REFRESH'); // our event name
+define('REFRESH','REFRESH'); // our action name
 class action_refresh extends Model_Base_PCPAction
 {	
 	
 	public function __construct()
 	{
-		// init this event
+		// init this action
 		parent::__construct();
 		$this->label = 'Scene Refresh';
 		$this->description = 'Refreshes the scene' ;
@@ -29,8 +29,8 @@ class action_refresh extends Model_Base_PCPAction
 		$data['filename'] = '';
 		$data['title'] = '';
 		$data['description'] = '';
-		// do hook
-		Hooks::executeHook(PRE_SCENE);		
+		// do event
+		Events::announceEvent(PRE_SCENE);		
 		// get session
 		$session = Session::instance();
 		// set story data 
@@ -39,7 +39,7 @@ class action_refresh extends Model_Base_PCPAction
 		$story = $session->get('story',NULL);
 		//get location 
 		$location = Model_PCP_Locations::getLocation(array('id'=>$story_data['location_id']));
-		// put any location init events into session
+		// put any location init actions into session
 		$results = array_merge($results,Actions::doActions($location->getActions()));
 		
 		/*var_dump($location);
@@ -66,16 +66,16 @@ class action_refresh extends Model_Base_PCPAction
 			$data['title'] = DEFAULT_PAGE_TITLE.$story->title.' : '.$scene->title;
 			$data['description'] = $scene->description;
 			
-			// put any scene init events into session
+			// put any scene init actions into session
 			$results = array_merge($results,Actions::doActions($scene->getActions()));		
-			// put any item events into session
+			// put any item actions into session
 			$results = array_merge($results,Actions::doActions(Actions::getSceneItemActions($item_locations)));
 		}
 		// set data back into session
 		$session->set('scene',$scene);
 		$session->set('location',$location);
-		// do hook
-		Hooks::executeHook(POST_SCENE);					
+		// do event
+		Events::announceEvent(POST_SCENE);					
 		// return REFRESH response
 		$response = new pcpresponse(REFRESH,$data);
 		$results = array_merge($results,$response->asArray());
