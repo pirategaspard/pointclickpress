@@ -46,7 +46,7 @@ class Model_Plugins
 			$events = explode(',',$plugin['events']); 
 			foreach($events as $event)
 			{									
-				$events_instance->registerEventClass($event,$plugin['class']);
+				$events_instance->addListener($event,$plugin['class']);
 			}			
 		}
 		unset($plugins);																		

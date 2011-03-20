@@ -7,7 +7,7 @@
 		</td>
 		<td>
 			<?php 
-				Hooks::executeHook(DISPLAY_PRE_SCENE);
+				Events::announceEvent(DISPLAY_PRE_SCENE);
 			?>
 
 			<div id="scene">
@@ -17,7 +17,7 @@
 			</div>
 
 			<?php 
-				Hooks::executeHook(DISPLAY_POST_SCENE);
+				Events::announceEvent(DISPLAY_POST_SCENE);
 			?>
 		</td>
 		<td>
