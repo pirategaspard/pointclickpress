@@ -2,7 +2,7 @@
 /*
 	Base Class for PointClickPress Plugins
  */
-class Model_Base_PCPPlugin extends Model implements Interfaces_iPCPPlugin
+class Model_Base_PCPPlugin extends Model implements Interface_iPCPPlugin
 {
 	protected $class_name = ''; // this class name 
 	protected $label = ''; // name of plugin
