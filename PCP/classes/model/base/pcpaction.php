@@ -4,7 +4,7 @@
  */
 
 define('NOP', 'NOP'); // No Operation action response
-class Model_Base_PCPAction extends Model implements interfaces_iPCPAction
+class Model_Base_PCPAction extends Model implements Interface_iPCPAction
 {
 	protected $class_name = '';
 	protected $label = '';

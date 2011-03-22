@@ -2,7 +2,7 @@
 /*
  */
 define('actionTIMER','actionTIMER'); // our action name
-class action_actiontimer extends Model_Base_PCPAction implements Interfaces_iPCPaction
+class action_actiontimer extends Model_Base_PCPAction implements Interface_iPCPaction 
 {
 	public function __construct()
 	{

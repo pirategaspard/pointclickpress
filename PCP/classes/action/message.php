@@ -10,7 +10,7 @@
  */
 
 define('MESSAGE','MESSAGE'); // our action name
-class action_message extends Model_Base_PCPAction implements Interfaces_iPCPaction
+class action_message extends Model_Base_PCPAction implements Interface_iPCPaction
 {	
 	public function execute($args=array(),&$story_data=array())
 	{

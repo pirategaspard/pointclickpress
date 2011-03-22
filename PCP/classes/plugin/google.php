@@ -3,7 +3,7 @@
 	This is the example plugin for PointClickPress
  */
 
-class Plugin_Google implements Interfaces_iPCPPlugin
+class Plugin_Google implements Interface_iPCPPlugin
 {
 	public function getClass()
 	{

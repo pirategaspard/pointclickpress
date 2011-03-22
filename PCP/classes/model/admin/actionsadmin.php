@@ -231,7 +231,7 @@ class Model_Admin_ActionsAdmin extends Model_PCP_Actions
 				$class_name = preg_replace('/\//','_',$class_name);
 				// test class to make sure it is an ipcpaction 
 				$action = new $class_name;				 
-				if ($action instanceof interfaces_iPCPaction)
+				if ($action instanceof Interface_iPCPaction)
 				{
 					// add new action object to action array 
 					$actiontypes[] = $action;

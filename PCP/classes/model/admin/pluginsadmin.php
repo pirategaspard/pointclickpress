@@ -116,7 +116,7 @@ class Model_Admin_PluginsAdmin extends Model_Plugins
 				$class_name = 'plugin_'.$pathinfo['filename'];
 				// test class to make sure it is an ipcpplugin 
 				$plugin = new $class_name;				 
-				if ($plugin instanceof Interfaces_iPCPPlugin)
+				if ($plugin instanceof Interface_iPCPPlugin)
 				{	
 					$plugins[$plugin->getClass()] = $plugin;
 				}				
