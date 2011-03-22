@@ -4,7 +4,7 @@
 	Basic debuging plugin for PointClickPress
  */
 
-class Plugin_Debug implements Interfaces_iPCPPlugin
+class Plugin_Debug implements Interface_iPCPPlugin
 {
 	public function getClass()
 	{

@@ -2,7 +2,7 @@
 /*
  	Interface for PointClickPress Plugins
  */
-interface Interfaces_iPCPPlugin
+interface Interface_iPCPPlugin
 {
 	public function getClass();	
 	public function getLabel();	

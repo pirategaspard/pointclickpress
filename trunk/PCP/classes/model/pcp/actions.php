@@ -403,7 +403,7 @@ class Model_PCP_Actions
 			$class_name = $action->action;
 			// get the class
 			$action_obj = new $class_name; 
-			if ($action_obj instanceof interfaces_iPCPaction)
+			if ($action_obj instanceof Interface_iPCPaction)
 			{
 				// execute action. actions manipulate session's "story_data" info
 				$action_results = array_merge($action_results,$action_obj->execute(array('action_value'=>$action->action_value),$story_data));
