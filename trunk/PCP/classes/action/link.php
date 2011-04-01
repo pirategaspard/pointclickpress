@@ -15,7 +15,7 @@ class action_link extends action_refresh
 			the new location_id from the action_value field
 		*/
 		$results = NOP;
-		if (Actions::isNumeric($args['action_value']))
+		if ($this->isNumeric($args['action_value']))
 		{
 			// simple assignment, just update the location id 
 			$story_data['location_id'] = $args['action_value'];
