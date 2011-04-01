@@ -5,19 +5,14 @@
 	$var = (eval_value1 [>|<|<=|>=|==|!=] eval_value1 ) ? true_value1 : false_value 2;
  */
 
-class action_Ternary extends Model_Base_PCPAction
+class action_Ternary extends Model_Base_PCPActionDef
 {	
+	protected $label = "Ternary 'If' statement";
+	protected $description = "Assign a variable using a ternary 'If' statement \$var = (eval_value1 [>|<|<=|>=|==|!=] eval_value1 ) ? true_value1 : false_value 2;" ;		
+	
 	private $story_data = array();
 	
-	public function __construct()
-	{
-		// init this action
-		parent::__construct();
-		$this->label = "Ternary 'If' statement";
-		$this->description = "Assign a variable using a ternary 'If' statement \$var = (eval_value1 [>|<|<=|>=|==|!=] eval_value1 ) ? true_value1 : false_value 2;" ;	
-	}
-	
-	public function execute($args=array(),&$story_data=array())
+	public function performAction($args=array(),&$story_data=array(),$hook_name='')
 	{		
 		$results = array();
 		$parsed = array(); // array of results
@@ -45,7 +40,7 @@ class action_Ternary extends Model_Base_PCPAction
 			//update story_data
 			$story_data = array_merge($story_data,$parsed);		
 			// pass to the parent action to refresh the scene
-			$results = parent::execute($args,$story_data);
+			$results = parent::performAction($args,$story_data);
 		}
 		return $results;
 	}

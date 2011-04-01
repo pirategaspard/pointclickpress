@@ -3,48 +3,11 @@
 	This is the example plugin for PointClickPress
  */
 
-class Plugin_Column implements Interface_iPCPPlugin
+class plugin_column extends Model_Base_PCPPlugin
 {
-	public function getClass()
-	{
-		// This is the class name of this plugin
-		return get_class($this);
-	}
-		
-	public function getLabel()
-	{
-		// This is the label for this plugin
-		return 'columns';
-	}
-		
-	public function getDescription()
-	{
-		// This is the description of this plugin
-		return 'This is the columns plugin';
-	}
-	
-	public function getEvents()
-	{
-		// This is a comma seperated list of events to call this plugin from
-		return 'display_scene_column_left,display_scene_column_right';
-	}
-	
-	public function install()
-	{
-		// This function is called from the Plugin Admin when searching for plugins
-		// If the plugin is not already installed it will call this function
-	
-		// If we wanted to create a table to support this plugin we could do it here:
-		/*
-		$q = '	CREATE TABLE `pointclickpress`.`hello_world` (
-					`id` INT NOT NULL
-					) ENGINE = InnoDB;';
-		$q_results = DB::query(NULL,$q,TRUE)->execute();
-		*/		
-		
-		// but we have nothing to install so just return true
-		return true;
-	}
+	protected $label = 'columns'; // This is the label for this plugin
+	protected $description = 'This is the columns plugin'; // This is the description of this plugin
+	protected $events = array(DISPLAY_COLUMN_LEFT,DISPLAY_COLUMN_RIGHT); // This is an array of events to call this plugin from
 		
 	public function execute($event_name='')
 	{						
@@ -54,12 +17,12 @@ class Plugin_Column implements Interface_iPCPPlugin
 		*/
 		switch($event_name)
 		{
-			case 'display_scene_column_left':
+			case DISPLAY_COLUMN_LEFT:
 			{
 				echo('This is the left column!');
 				break;
 			}
-			case 'display_scene_column_right':
+			case DISPLAY_COLUMN_RIGHT:
 			{
 				echo('This is the right column!');
 				break;

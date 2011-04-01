@@ -99,6 +99,4 @@ define('ITEM_TYPE_INSTANCE', 'scene');
 
 require 'events.php';
 
-
-
 ?>

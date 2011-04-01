@@ -30,7 +30,7 @@ Class Controller_Admin_Action extends Controller_Template_Admin
 		}
 		*/		
 		$data['action'] = Model_Admin_ActionsAdmin::getAction($data);
-		$data['action_defs'] = Model_Admin_ActionsAdmin::loadActionTypeActions($data['action_type']);
+		$data['action_defs'] = Model_Admin_ActionDefsAdmin::loadActionTypeActions($data['action_type']);
 		$data['back_url'] = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
 		$data['action_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'action','action'=>'save')));
 		
@@ -121,7 +121,7 @@ Class Controller_Admin_Action extends Controller_Template_Admin
 		$this->simple_output();
 		$data = Model_Admin_ActionsAdmin::getData();	
 		$data['back_url'] = Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?scene_id='.$data['scene_id'];
-		$data['action_defs'] = Model_Admin_ActionsAdmin::loadActionTypeActions(ACTION_TYPE_GRID);						
+		$data['action_defs'] = Model_Admin_ActionDefsAdmin::loadActionTypeActions(ACTION_TYPE_GRID);						
 		$data['locations'] = Model_Admin_LocationsAdmin::getLocations($data);
 		$data['action'] = Model_Admin_ActionsAdmin::getAction(array('id'=>$data['id'],'scene_id'=>$data['scene_id'],'action_type'=>ACTION_TYPE_GRID));				
 		$data['grid_action_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'action','action'=>'save')));									

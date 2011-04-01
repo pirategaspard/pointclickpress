@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Model_LocationAction extends Model_Base_Action 
+class Model_LocationAction extends Model_Base_PCPAction 
 {	
 	protected $location_id = 0;
 	

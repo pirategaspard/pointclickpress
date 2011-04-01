@@ -2,19 +2,16 @@
 /*
 	Removes and item from a scene and adds it to inventory
  */
-
-class action_inventory_add extends action_refreshitems
+define('INVENTORY_ADD_ITEM','INVENTORY_ADD_ITEM');
+class action_inventory_add extends Model_Base_PCPActionDef
 {	
-	public function __construct()
-	{
-		// init this action
-		parent::__construct();
-		$this->label = 'Add To Inventory';
-		$this->description = 'Add item to inventory';	
-		$this->allowed_action_types = array(ACTION_TYPE_GRIDITEM);	
-	}
 	
-	public function execute($args=array(),&$story_data=array())
+	protected $label = 'Add To Inventory'; 
+	protected $description = 'Add item to inventory';
+	protected $allowed_action_types = array(ACTION_TYPE_GRIDITEM);
+	protected $events = array(INVENTORY_ADD_ITEM);
+	
+	public function performAction($args=array(),&$story_data=array(),$hook_name='')
 	{
 		if (isset($story_data['item_locations'][$story_data['scene_id']]['griditems'][$story_data['cell_id']]))
 		{
@@ -27,7 +24,9 @@ class action_inventory_add extends action_refreshitems
 			// remove item from scene
 			unset($story_data['item_locations'][$story_data['scene_id']]['griditems'][$story_data['cell_id']]); 
 		}
-		return parent::execute($args,$story_data);
+		$refresh = new action_refresh;
+		$results = $refresh->performAction($args,$story_data);
+		return $results;
 	}
 }
 ?>

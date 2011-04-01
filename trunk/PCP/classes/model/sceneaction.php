@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Model_SceneAction extends Model_Base_Action 
+class Model_SceneAction extends Model_Base_PCPAction 
 {	
 	protected $scene_id = 0;
 	

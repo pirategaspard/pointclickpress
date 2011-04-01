@@ -323,7 +323,7 @@ class Model_PCP_Actions
 		return $actions;
 	}
 
-	/*
+		/*
                 a cell in a scene has been clicked,
                 get the action attached to the cell(s) (if any)
          */
@@ -373,7 +373,7 @@ class Model_PCP_Actions
 		return $actions;
 	}
 */
-	/* create an action */
+	/* create an action only */
 	static function createAction($action='',$action_value='',$type='action',$action_label='',$story_id=0)
 	{
 		$args = array(	'action'=>$action
@@ -384,6 +384,24 @@ class Model_PCP_Actions
 				);
 		$action = self::getAction($args);
 		return $action;
+	}
+		
+	// creates an action and then does it, useful when programming custom actions with eval()
+	static function makeAction($action='',$action_value='',$type='action',$action_label='',$story_id=0)
+	{
+		$action = self::createAction($action,$action_value,$type,$action_label,$story_id);
+		$action_results = self::doAction($action);
+		return $action_results;
+	}
+	
+	/*
+		if an action is assigned to the cell this function 
+		interprets the cell action(s)
+    */
+	static function doAction($action)
+	{	
+		$actions[] = $action;
+		return self::doActions($actions);							
 	}
 	
 	/*
@@ -403,15 +421,15 @@ class Model_PCP_Actions
 			$class_name = $action->action;
 			// get the class
 			$action_obj = new $class_name; 
-			if ($action_obj instanceof Interface_iPCPaction)
+			if ($action_obj instanceof Interface_iPCPActionDef)
 			{
-				// execute action. actions manipulate session's "story_data" info
-				$action_results = array_merge($action_results,$action_obj->execute(array('action_value'=>$action->action_value),$story_data));
-				//$action_results = $action_class->execute(array('action_value'=>$action->action_value),$story_data);
+				//Events::announceEvent($class_name.'_EVENT');
+				// execute action. 
+				$action_results = array_merge($action_results,$action_obj->performAction(array('action_value'=>$action->action_value),$story_data,$class_name));
 			}
 			else
 			{
-				throw new Kohana_Exception($class_name . ' is not of type iPCPAction.');
+				throw new Kohana_Exception($class_name . ' is not of type Interface_iPCPActionDef.');
 			}
 		}
 		//update session
@@ -419,27 +437,9 @@ class Model_PCP_Actions
 		return $action_results;		
 	}
 	
-	/*
-		if an action is assigned to the cell this function 
-		interprets the cell action(s)
-    */
-	static function doAction($action)
-	{	
-		$actions[] = $action;
-		return self::doActions($actions);							
-	}
-	
-	// creates an action and then does it, useful when programming custom actions with eval()
-	static function makeAction($action='',$action_value='',$type='action',$action_label='',$story_id=0)
-	{
-		$action = self::createAction($action,$action_value,$type,$action_label,$story_id);
-		$action_results = self::doAction($action);
-		return $action_results;
-	}
-	
 	static function getJSActionDefs()
 	{	
-		return Cache::instance()->get('js_action_defs',Model_Admin_ActionsAdmin::cacheJSActionDefs());
+		return Cache::instance()->get('js_action_defs',Model_Admin_ActionDefsAdmin::cacheJSActionDefs());
 	}
 
 

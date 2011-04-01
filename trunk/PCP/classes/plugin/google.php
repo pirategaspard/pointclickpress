@@ -3,38 +3,12 @@
 	This is the example plugin for PointClickPress
  */
 
-class Plugin_Google implements Interface_iPCPPlugin
+class plugin_google extends Model_Base_PCPPlugin
 {
-	public function getClass()
-	{
-		// This is the class name of this plugin
-		return get_class($this);
-	}
-		
-	public function getLabel()
-	{
-		// This is the label for this plugin
-		return 'Google integration';
-	}
-		
-	public function getDescription()
-	{
-		// This is the description of this plugin
-		return 'This is the Google Integration plugin';
-	}
-	
-	public function getEvents()
-	{
-		// This is a comma seperated list of events to call this plugin from
-		return 'display_scene_column_left,display_scene_column_right,display_footer';
-	}
-	
-	public function install()
-	{
-		// we have nothing to install so just return true
-		return true;
-	}
-		
+	protected $label = 'Google integration'; // This is the label for this plugin
+	protected $description = 'This is the Google Integration plugin'; // This is the description of this plugin
+	protected $events = array(DISPLAY_COLUMN_LEFT,DISPLAY_COLUMN_RIGHT,DISPLAY_FOOTER); // This is an array of events to call this plugin from
+
 	public function execute($event_name='')
 	{						
 		/*
@@ -43,17 +17,17 @@ class Plugin_Google implements Interface_iPCPPlugin
 		*/
 		switch($event_name)
 		{
-			case 'display_scene_column_left':
+			case DISPLAY_COLUMN_LEFT:
 			{
 				include('google/adsense1.php');
 				break;
 			}
-			case 'display_scene_column_right':
+			case DISPLAY_COLUMN_RIGHT:
 			{
 				include('google/adsense2.php');
 				break;
 			}	
-			case 'display_footer':
+			case DISPLAY_FOOTER:
 			{
 				include('google/analytics.php');
 				break;

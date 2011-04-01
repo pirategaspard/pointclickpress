@@ -5,20 +5,17 @@
 
 class plugin_inventory extends Model_Base_PCPPlugin
 {	
-	public function __construct()
-	{
-		// init this action
-		parent::__construct();
-		$this->label = 'Inventory';
-		$this->description = 'Basic inventory plugin for PCP';
-		$this->events = 'post_start_story,css,js,display_post_scene';	
-	}
+	
+	protected $label = 'Inventory'; // This is the label for this plugin
+	protected $description = 'Basic inventory plugin for PCP'; // This is the description of this plugin
+	protected $events = array(POST_START_STORY,CSS,JS,DISPLAY_POST_SCENE); // This is an array of events to call this plugin from
+	
 	
 	public function execute($event_name='')
 	{
 		switch($event_name)
 		{
-			case 'post_start_story':
+			case POST_START_STORY:
 			{
 				// init current item in session
 				$session = Session::instance();			
@@ -26,16 +23,16 @@ class plugin_inventory extends Model_Base_PCPPlugin
 				$story_data['current_item'] = 0;
 				$session->set('story_data',$story_data);
 			}
-			case 'css':
+			case CSS:
 			{
 				include('inventory/css.php');
 				break;
-			}case 'js':
+			}case JS:
 			{
 				include('inventory/js.php');
 				break;
 			}	
-			case 'display_post_scene':
+			case DISPLAY_POST_SCENE:
 			{
 				include('inventory/link.php');
 				break;
