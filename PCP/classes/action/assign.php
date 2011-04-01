@@ -21,7 +21,7 @@ class action_assign extends Model_Base_PCPActionDef
 		$results = array();
 		$parsed = array(); // array of results	
 		$this->story_data = $story_data;						
-		$expressions = Actions::Tokenize($args['action_value']); // explode on semi-colon if there is more than one statement here
+		$expressions = $this->tokenize($args['action_value']); // explode on semi-colon if there is more than one statement here
 		foreach($expressions as $expression)
 		{
 			// only evaluate if they are assigning a value;
@@ -31,9 +31,9 @@ class action_assign extends Model_Base_PCPActionDef
 				$name = trim($temp[0]);
 				$value = trim($temp[1]);	
 				// make sure the left side has a valid variable name;
-				if (Actions::isVariable($name))
+				if ($this->isVariable($name))
 				{					
-					$name = Actions::getVariableName($name);	//remove any whitespace and strip $ from variable name so we can put it in session['story_data'][$var]		
+					$name = $this->getVariableName($name);	//remove any whitespace and strip $ from variable name so we can put it in session['story_data'][$var]		
 					$parsed = array_merge($parsed,$this->assign($name,$value));
 				}				
 			}
@@ -52,7 +52,7 @@ class action_assign extends Model_Base_PCPActionDef
 	public function assign($name,$value)
 	{
 		$parsed = array(); // array of results								
-		if (Actions::isVariableOrNumeric($value))
+		if ($this->isVariableOrNumeric($value))
 		{
 			/* 
 				SIMPLE VALUE
@@ -60,10 +60,10 @@ class action_assign extends Model_Base_PCPActionDef
 				1; or $var;
 			*/
 			//echo (' simple assignment: ');					
-			//echo(Actions::getValueFromArray(Actions::getVariableName($value),$this->story_data));
-			$parsed[$name] = Actions::getValueFromArray(Actions::getVariableName($value),$this->story_data);
+			//echo($this->getValueFromArray($this->getVariableName($value),$this->story_data));
+			$parsed[$name] = $this->getValueFromArray($this->getVariableName($value),$this->story_data);
 		}
-		else if (Actions::isString($value))
+		else if ($this->isString($value))
 		{
 			/* 
 				SIMPLE VALUE
@@ -71,7 +71,7 @@ class action_assign extends Model_Base_PCPActionDef
 				1; or $var;
 			*/
 			//echo (' simple assignment: '.preg_replace('/[\'"]/','',$value));
-			$parsed[$name] = Actions::removeQuotes($value);	
+			$parsed[$name] = $this->removeQuotes($value);	
 		}
 		else if(preg_match('/((\$[a-zA-Z\'\[\]0-9]+)|([0-9]+))\s*([\+\-\*\/])\s*((\$[a-zA-Z\'\[\]0-9]+)|([0-9]+))/',$value))
 		{
@@ -81,13 +81,13 @@ class action_assign extends Model_Base_PCPActionDef
 				$name + 1; $name - 1; 1 * 1; $name + $name; $name['blah'] + $name['blah'];
 			*/
 			//echo (' math: ');
-			$operator = Actions::getOperator($value);
-			$math_values = Actions::Tokenize($value,$operator);
+			$operator = $this->getOperator($value);
+			$math_values = $this->tokenize($value,$operator);
 			if (count($eval_values) == 2) 
 			{
-				$math_values[0] = Actions::getValueFromArray(Actions::getVariableName($math_values[0]),$this->story_data);
-				$math_values[1] = Actions::getValueFromArray(Actions::getVariableName($math_values[1]),$this->story_data);
-				$parsed[$name] = Actions::doBasicMath($math_values[0],$operator,$math_values[1]);														
+				$math_values[0] = $this->getValueFromArray($this->getVariableName($math_values[0]),$this->story_data);
+				$math_values[1] = $this->getValueFromArray($this->getVariableName($math_values[1]),$this->story_data);
+				$parsed[$name] = $this->doBasicMath($math_values[0],$operator,$math_values[1]);														
 			}
 		}	
 		return $parsed;

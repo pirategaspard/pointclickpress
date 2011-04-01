@@ -17,7 +17,7 @@ class action_Ternary extends Model_Base_PCPActionDef
 		$results = array();
 		$parsed = array(); // array of results
 		$this->story_data = $story_data;				
-		$expressions = Actions::Tokenize($args['action_value']); // explode on semi-colon if there is more than one statement here
+		$expressions = $this->tokenize($args['action_value']); // explode on semi-colon if there is more than one statement here
 		foreach($expressions as $expression)
 		{						
 			// only evaluate if they are assigning a value;
@@ -28,9 +28,9 @@ class action_Ternary extends Model_Base_PCPActionDef
 				$value = trim($temp[1]);							
 				
 				// make sure the left side has a valid variable name;
-				if (Actions::isVariable($name))
+				if ($this->isVariable($name))
 				{																											
-					$name = Actions::getVariableName($name);	//remove any whitespace and strip $ from variable name so we can put it in session['story_data'][$var]																	
+					$name = $this->getVariableName($name);	//remove any whitespace and strip $ from variable name so we can put it in session['story_data'][$var]																	
 					$parsed = array_merge($parsed,$this->assign($name,$value));
 				}				
 			}			
@@ -50,27 +50,27 @@ class action_Ternary extends Model_Base_PCPActionDef
 	{
 		$parsed = array(); // array of results	
 		// seperate if statement left & right 
-		$if_statement = Actions::Tokenize($value,'?');		
+		$if_statement = $this->tokenize($value,'?');		
 		if (count($if_statement) == 2) 
 		{					
 			// get true false values 
-			$values = Actions::Tokenize($if_statement[1],':');
+			$values = $this->tokenize($if_statement[1],':');
 			if (count($values) == 2) 
 			{ 
 				// get rid of the parenthesis around the if statement
 				$if_statement[0] = preg_replace('/[\(\)]/','',$if_statement[0]);
-				$operator = Actions::getOperator($if_statement[0]);								
+				$operator = $this->getOperator($if_statement[0]);								
 				if($operator!=null)
 				{								
-					$eval_values = Actions::Tokenize($if_statement[0],$operator);					
+					$eval_values = $this->tokenize($if_statement[0],$operator);					
 					if (count($eval_values) == 2) 
 					{											
-						$eval_values[0] = Actions::getValueFromArray(Actions::getVariableName($eval_values[0]),$this->story_data);
-						$eval_values[1] = Actions::getValueFromArray(Actions::getVariableName($eval_values[1]),$this->story_data);
-						$values[0] = Actions::getValueFromArray(Actions::getVariableName($values[0]),$this->story_data);
-						$values[1] = Actions::getValueFromArray(Actions::getVariableName($values[1]),$this->story_data);		
+						$eval_values[0] = $this->getValueFromArray($this->getVariableName($eval_values[0]),$this->story_data);
+						$eval_values[1] = $this->getValueFromArray($this->getVariableName($eval_values[1]),$this->story_data);
+						$values[0] = $this->getValueFromArray($this->getVariableName($values[0]),$this->story_data);
+						$values[1] = $this->getValueFromArray($this->getVariableName($values[1]),$this->story_data);		
 						
-						if($this->evaluate(Actions::removeQuotes($eval_values[0]),$operator,Actions::removeQuotes($eval_values[1])))
+						if($this->evaluate($this->removeQuotes($eval_values[0]),$operator,$this->removeQuotes($eval_values[1])))
 						{
 							$parsed[$name] = $values[0];									
 						}

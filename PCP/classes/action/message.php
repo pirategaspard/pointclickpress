@@ -18,7 +18,7 @@ class action_message extends Model_Base_PCPActionDef
 	
 	public function performAction($args=array(),&$story_data=array(),$hook_name='')
 	{
-		$action_data = explode(';',$args['action_value']);
+		$action_data = $this->tokenize($args['action_value']);
 		$data = array();
 		$data['message'] = $action_data[0];
 		if (isset($action_data[1]))
