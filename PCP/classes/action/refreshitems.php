@@ -5,8 +5,11 @@
  */
 
 define('REFRESH_ITEMS','REFRESH_ITEMS'); // our action name
-class action_refreshitems extends Model_Base_PCPAction
+class action_refreshitems extends Model_Base_PCPActionDef
 {	
+	
+	protected $label = 'Items Refresh';
+	protected $description = 'Refreshes Items in the scene';	
 	
 	public function __construct()
 	{
@@ -16,7 +19,7 @@ class action_refreshitems extends Model_Base_PCPAction
 		$this->description = 'Refreshes Items in the scene' ;	
 	}
 
-	public function execute($args=array(),&$story_data=array())
+	public function performAction($args=array(),&$story_data=array(),$hook_name='')
 	{
 		$results = array();
 	
@@ -49,10 +52,6 @@ class action_refreshitems extends Model_Base_PCPAction
 		}
 		return $items;
 	}
-	
-	public function getClass()
-	{
-		return get_class($this);
-	}
+
 }
 ?>

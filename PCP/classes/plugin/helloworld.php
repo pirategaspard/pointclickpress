@@ -3,32 +3,12 @@
 	This is the example plugin for PointClickPress
  */
 
-class plugin_helloworld implements Interface_iPCPPlugin
+class plugin_helloworld extends Model_Base_PCPPlugin
 {
-	public function getClass()
-	{
-		// This is the class name of this plugin
-		return get_class($this);
-	}
-		
-	public function getLabel()
-	{
-		// This is the label for this plugin
-		return 'helloworld';
-	}
-		
-	public function getDescription()
-	{
-		// This is the description of this plugin
-		return 'This is the helloworld demonstration plugin';
-	}
-	
-	public function getEvents()
-	{
-		// This is a comma seperated list of events to call this plugin from
-		return 'post_start_story,display_pre_scene,display_post_scene';
-	}
-	
+	protected $label = 'helloworld'; // This is the label for this plugin
+	protected $description = 'This is the helloworld demonstration plugin'; // This is the description of this plugin
+	protected $events = array(POST_START_STORY,DISPLAY_PRE_SCENE,DISPLAY_POST_SCENE); // This is an array of events to call this plugin from
+			
 	public function install()
 	{
 		// This function is called from the Plugin Admin when searching for plugins
@@ -54,12 +34,12 @@ class plugin_helloworld implements Interface_iPCPPlugin
 		*/
 		switch($event_name)
 		{
-			case 'display_pre_scene':
+			case DISPLAY_PRE_SCENE:
 			{
 				echo('This is the Hello World Demo Plugin!');
 				break;
 			}
-			case 'display_post_scene':
+			case DISPLAY_POST_SCENE:
 			{
 				// Don't forget that you can include other files from here!
 				include('helloworld/index.htm');

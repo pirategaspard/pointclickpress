@@ -5,15 +5,10 @@
 
 class action_link extends action_refresh
 {	
-	public function __construct()
-	{
-		// init this action
-		parent::__construct();
-		$this->label = 'link';
-		$this->description = 'Create a link to another scene location';	
-	}
+	protected $label = 'Link';
+	protected $description = 'Create a link to another scene location';
 	
-	public function execute($args=array(),&$story_data=array())
+	public function performAction($args=array(),&$story_data=array(),$hook_name='')
 	{
 		/* 
 			update the location_id variable in session with 
@@ -25,7 +20,7 @@ class action_link extends action_refresh
 			// simple assignment, just update the location id 
 			$story_data['location_id'] = $args['action_value'];
 			// pass to the parent action to refresh the scene
-			$results = parent::execute($args,$story_data);	
+			$results = parent::performAction($args,$story_data);	
 		}
 		return $results;
 	}

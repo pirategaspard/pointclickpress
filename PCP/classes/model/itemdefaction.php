@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Model_ItemdefAction extends Model_Base_Action 
+class Model_ItemdefAction extends Model_Base_PCPAction 
 {	
 	protected $itemdef_id = 0;
 	

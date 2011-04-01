@@ -4,30 +4,16 @@
 	Execute arbitrary PHP code.
  */
 
-class action_EvalRefresh extends action_refresh
+class action_EvalRefresh extends action_eval
 {	
-	public function __construct()
-	{
-		// init this action
-		parent::__construct();
-		$this->label = "Eval w/ Scene Refresh";
-		$this->description = "Execute arbitrary PHP code then refreshes the scene. Use with caution." ;	
-	}
+	protected $label = "Eval w/ Scene Refresh";
+	protected $description = "Execute arbitrary PHP code then refreshes the scene. Use with caution." ;		
 	
-	public function execute($args=array(),&$story_data=array())
+	public function performAction($args=array(),&$story_data=array(),$hook_name='')
 	{							
-	$result = eval($args['action_value']);	
-		if ((isset($result))&&(is_array($result))&&($result[0] instanceof pcpresponse))
-		{
-			$response = $result;
-		}
-		// our copy of $story_data may be out of date because 
-		// $story_data may have been updated in the eval. 
-		// so we need to refresh our copy here
-		$session = Session::instance();
-		$story_data = $session->get('story_data',array());
-		
-		$results = parent::execute($args,$story_data);
+		$results = parent::performAction($args,$story_data);	
+		$refresh = new action_refresh;
+		$results = $refresh->performAction($args,$story_data);
 		return $results;
 	}
 }

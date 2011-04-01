@@ -21,6 +21,9 @@ Class Controller_admin_story extends Controller_Template_Admin
 	*/
 	function action_list()
 	{			
+		Model_Admin_ActionDefsAdmin::searchForListeners(); // search for new ActionDefs
+		Model_Admin_PluginsAdmin::searchForListeners(); // search for new Plugins
+		
 		$data['stories'] = Model_Admin_StoriesAdmin::getStories(array('include_locations'=>true,'include_scenes'=>true));
 		if (count($data['stories']) > 0 )
 		{

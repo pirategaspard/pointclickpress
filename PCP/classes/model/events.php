@@ -23,7 +23,14 @@ class Model_Events
 		foreach($classes as $class)
 		{
 			$c = new $class();
-			$c->execute($event_name);
+			if ($c instanceof Interface_iPCPListener)
+			{ 
+				$c->execute($event_name);
+			}
+			else
+			{
+				throw new Kohana_Exception($class_name . ' is not of type iPCPListener.');
+			}
 			unset($c);	
 		}		
 	}
@@ -90,6 +97,38 @@ class Model_Events
 		{
 			return false;
 		}
+	}
+	
+	static function initalizeListenerClasses()
+	{
+		//self::registerAllListenerClasses();
+	}
+	
+	private static function getAllListenerClasses()
+	{
+		$q = '	SELECT class,events
+				FROM actiondefs
+				UNION ALL
+				SELECT class,events
+				FROM plugins
+				WHERE status = 1'; // only active plugins
+		return DB::query(Database::SELECT,$q,TRUE)->execute()->as_array();
+	}
+	
+	private static function registerAllListenerClasses()
+	{
+		$instance = self::instance();
+		$listeners = self::getAllListenerClasses();
+		foreach ($listeners as $listener)
+		{		
+			// get array of events that this plugin will be executed on
+			$events = explode(',',$listener['events']); 
+			foreach($events as $event)
+			{									
+				$instance->addListener($event,$listener['class']);
+			}			
+		}
+		unset($listeners);
 	}
 }
 ?>

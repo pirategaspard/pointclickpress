@@ -6,23 +6,18 @@
 	$visits = $visits + 1;
 	$mylocation = 'NORTH'; //Remember that location slugs are session variables that can be assigned a scene value!
  */
-
-class action_assign extends Model_Base_PCPAction
+define('ASSIGN','ASSIGN');
+class action_assign extends Model_Base_PCPActionDef
 {	
+	
+	protected $label = 'Assign value'; 
+	protected $description = 'Assign a new value to a session variable. Example: $door_open = 1;';
+	protected $events = array(ASSIGN);
+	
 	private $story_data = array();
 	
-	public function __construct()
+	public function performAction($args=array(),&$story_data=array(),$hook_name='')
 	{
-		// init this action
-		parent::__construct();
-		$this->label = 'Assign value';
-		$this->description = 'Assign a new value to a session variable. Example: $door_open = 1;';	
-	}
-	
-	public function execute($args=array(),&$story_data=array())
-	{
-		
-		//var_dump($story_data);
 		$results = array();
 		$parsed = array(); // array of results	
 		$this->story_data = $story_data;						
@@ -48,7 +43,7 @@ class action_assign extends Model_Base_PCPAction
 			//update story_data
 			$story_data = array_merge($story_data,$parsed);		
 			// pass to the parent action to refresh the scene
-			$results = parent::execute($args,$story_data);
+			$results = parent::performAction($args,$story_data);
 		}		
 		//var_dump($story_data); die();
 		return $results;

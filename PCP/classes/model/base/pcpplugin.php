@@ -2,32 +2,9 @@
 /*
 	Base Class for PointClickPress Plugins
  */
-class Model_Base_PCPPlugin extends Model implements Interface_iPCPPlugin
+class Model_Base_PCPPlugin extends Model_Base_PCPAdminItem implements Interface_iPCPPlugin
 {
-	protected $class_name = ''; // this class name 
-	protected $label = ''; // name of plugin
-	protected $description = ''; // description of plugin
-	protected $events = ''; // comma seperated list of event names
-
-	public function __construct()
-	{
-		$this->class_name = get_class($this);	
-	}
-	
-	public function getClass()
-	{
-		return $this->class_name;
-	}
-	
-	public function getLabel()
-	{
-		return $this->label;
-	}
-	
-	public function getDescription()
-	{
-		return $this->description;
-	}
+	protected $events = Array(); // array of event names that this plugin should listen for
 	
 	public function getEvents()
 	{
@@ -35,6 +12,11 @@ class Model_Base_PCPPlugin extends Model implements Interface_iPCPPlugin
 	}
 	
 	public function install()
+	{
+		return true; 
+	}
+	
+	public function uninstall()
 	{
 		return true; 
 	}

@@ -93,6 +93,8 @@ class Controller_admin_users extends Controller_Template_Admin
 				if(($result->success)&&(($result->data['id'])>0))
 				{
 					Model_Admin_UsersAdmin::login($result->data['id']);
+					Model_Admin_ActionDefsAdmin::searchForListeners(); // search for new ActionDefs
+					Model_Admin_PluginsAdmin::searchForListeners(); // search for new Plugins
 					Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'list')));
 				}
 				else
@@ -107,7 +109,7 @@ class Controller_admin_users extends Controller_Template_Admin
 		}
 		else        
 		{
-			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'users','action'=>'Login')));	
+			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'list')));	
 		}
 	}
 	

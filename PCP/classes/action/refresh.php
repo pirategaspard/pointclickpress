@@ -8,19 +8,13 @@
  */
 
 define('REFRESH','REFRESH'); // our action name
-class action_refresh extends Model_Base_PCPAction
+class action_refresh extends Model_Base_PCPActionDef
 {	
+	protected $label = 'Scene Refresh';
+	protected $description = 'Refreshes the scene';
+	protected $allowed_action_types = array(ACTION_TYPE_GRID,ACTION_TYPE_GRIDITEM);	
 	
-	public function __construct()
-	{
-		// init this action
-		parent::__construct();
-		$this->label = 'Scene Refresh';
-		$this->description = 'Refreshes the scene' ;
-		$this->allowed_action_types = array(ACTION_TYPE_GRID,ACTION_TYPE_GRIDITEM);	
-	}
-
-	public function execute($args=array(),&$story_data=array())
+	public function performAction($args=array(),&$story_data=array(),$hook_name='')
 	{
 		$results = array();
 	
@@ -93,11 +87,6 @@ class action_refresh extends Model_Base_PCPAction
 										'path'=>$story->getMediaPath().current($itemstate)->getPath($story->screen_size));
 		}
 		return $items;
-	}
-	
-	public function getClass()
-	{
-		return get_class($this);
 	}
 }
 ?>

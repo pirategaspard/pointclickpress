@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Model_GridItemAction extends Model_Base_Action 
+class Model_GridItemAction extends Model_Base_PCPAction 
 {	
 	protected $griditem_id = 0;
 	

@@ -4,33 +4,11 @@
 	Basic debuging plugin for PointClickPress
  */
 
-class Plugin_Debug implements Interface_iPCPPlugin
+class plugin_debug extends Model_Base_PCPPlugin
 {
-	public function getClass()
-	{
-		return get_class($this);
-	}
-		
-	public function getLabel()
-	{
-		return 'Debug';
-	}
-		
-	public function getDescription()
-	{
-		return 'Debug Plugin for PCP';
-	}
-	
-	public function install()
-	{
-		// we have nothing to install
-		return true;
-	}
-	
-	public function getEvents()
-	{
-		return 'display_post_scene,error';
-	}
+	protected $label = 'Debug'; // This is the label for this plugin
+	protected $description = 'Debug Plugin for PCP. Add "?debug" on the url to see debug information'; // This is the description of this plugin
+	protected $events = array(DISPLAY_POST_SCENE,ERROR); // This is an array of events to call this plugin from
 		
 	public function execute($event_name='')
 	{
@@ -52,7 +30,7 @@ class Plugin_Debug implements Interface_iPCPPlugin
 			
 			<?php
 			
-			if($event_name == 'error')
+			if($event_name == ERROR)
 			{
 				//die();
 			}

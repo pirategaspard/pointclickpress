@@ -4,17 +4,12 @@
 	Execute arbitrary PHP code. 
  */
 
-class action_Eval extends Model_Base_PCPAction
+class action_Eval extends Model_Base_PCPActionDef
 {	
-	public function __construct()
-	{
-		// init this action
-		parent::__construct();
-		$this->label = "Eval";
-		$this->description = "Execute arbitrary PHP code. Use with caution." ;	
-	}
+	protected $label = "Eval";
+	protected $description = "Execute arbitrary PHP code. Use with caution." ;	
 	
-	public function execute($args=array(),&$story_data=array())
+	public function performAction($args=array(),&$story_data=array(),$hook_name='')
 	{									
 		$result = eval($args['action_value']);	
 		if ((isset($result))&&(is_array($result))&&($result[0] instanceof pcpresponse))

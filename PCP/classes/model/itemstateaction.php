@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Model_ItemstateAction extends Model_Base_Action 
+class Model_ItemstateAction extends Model_Base_PCPAction 
 {	
 	protected $itemstate_id = 0;
 	

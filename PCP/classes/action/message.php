@@ -10,9 +10,13 @@
  */
 
 define('MESSAGE','MESSAGE'); // our action name
-class action_message extends Model_Base_PCPAction implements Interface_iPCPaction
+class action_message extends Model_Base_PCPActionDef
 {	
-	public function execute($args=array(),&$story_data=array())
+	protected $label = 'User Message';
+	protected $description = 'Displays a Message to the User';
+	protected $allowed_action_types = Array(ACTION_TYPE_NULL,ACTION_TYPE_STORY,ACTION_TYPE_LOCATION,ACTION_TYPE_SCENE,ACTION_TYPE_GRID,ACTION_TYPE_ITEMSTATE);
+	
+	public function performAction($args=array(),&$story_data=array(),$hook_name='')
 	{
 		$action_data = explode(';',$args['action_value']);
 		$data = array();
@@ -24,27 +28,6 @@ class action_message extends Model_Base_PCPAction implements Interface_iPCPactio
 		// return message response
 		$response = new pcpresponse(MESSAGE,$data); 
 		return $response->asArray();
-	}
-	
-	public function getClass()
-	{
-		return get_class($this);
-	}
-	
-	public function getLabel()
-	{
-		return 'User Message';
-	}
-	
-	public function getDescription()
-	{
-		return 'Displays a Message to the User';
-	}
-	
-	public function getAllowedTypes()
-	{
-		return Array(ACTION_TYPE_NULL,ACTION_TYPE_STORY,ACTION_TYPE_LOCATION,ACTION_TYPE_SCENE,ACTION_TYPE_GRID,ACTION_TYPE_ITEMSTATE);
-
 	}
 }
 ?>

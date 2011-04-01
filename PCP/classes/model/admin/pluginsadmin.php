@@ -2,38 +2,38 @@
 // for plugin Admin area
 class Model_Admin_PluginsAdmin extends Model_Plugins
 {
-	static function getPlugins()
+	static function searchForListeners()
 	{
 		// step 1: search plugin directory and get plugins
-		$plugin_files = self::searchForPlugins();
+		$classes_found = self::search();
 		//for each plugin that is found get installed status
-		foreach ($plugin_files as $plugin)
+		foreach ($classes_found as $class)
 		{
-			if (!self::isInstalled($plugin->getClass()))
+			if (!self::isInstalled($class->getClass()))
 			{
-				$plugin->install();
-				self::insertPlugin($plugin);
+				$class->install(); // install plugin
+				self::insert($class);
 			}
 		}
 		// step 2: for all plugins that are in the db, delete any that do not exist
-		$plugins_installed = self::loadPlugins();		
-		foreach ($plugins_installed as $plugin)
+		$classes_installed = self::load();		
+		foreach ($classes_installed as $class)
 		{
-			if (!array_key_exists($plugin['class'],$plugin_files))
+			if (!array_key_exists($class['class'],$classes_found))
 			{
-				self::deletePlugin($plugin['class']);
+				self::deleteByClassName($class['class']);
 			}
 		}
 		// step 3: delete events cache since plugin data may have changed. 	
 		//Events::instance()->clearEvents();
 		//step 4: re-query db for all currently installed plugins
-		$plugins = self::loadPlugins();	
-		return $plugins;
+		$classes_installed = self::load();	
+		return $classes_installed;
 	}
 		
 	static function isInstalled($class_name) 
 	{
-		$q_results = self::getPluginByClassName($class_name);
+		$q_results = self::getByClassName($class_name);
 		if (count($q_results) > 0 )
 		{				
 			return true;	
@@ -42,9 +42,18 @@ class Model_Admin_PluginsAdmin extends Model_Plugins
 		{
 			return false;
 		}
-	}		
+	}
+	
+	static function uninstall($id)
+	{
+		$plugin = self::getByID($id);
+		$p = new $plugin['class'];
+		$p->uninstall(); // uninstall plugin
+		unset($p);
+		return self::deleteByID($id);
+	}
 		
-	static function insertPlugin($plugin) 
+	static function insert($class) 
 	{
 		$q = '	INSERT INTO plugins
 				(label,description,class,events,status)
@@ -57,16 +66,16 @@ class Model_Admin_PluginsAdmin extends Model_Plugins
 					:status
 				)';
 		$q_results = DB::query(Database::INSERT,$q,TRUE)
-											->param(':label',$plugin->getLabel())
-											->param(':description',$plugin->getDescription())
-											->param(':class',$plugin->getClass())
-											->param(':events',$plugin->getEvents())
+											->param(':label',$class->getLabel())
+											->param(':description',$class->getDescription())
+											->param(':class',$class->getClass())
+											->param(':events',implode(',',$class->getEvents()))
 											->param(':status',0)
 											->execute();
 		return true;
 	}
 	
-	static function deletePlugin($class_name) 
+	static function deleteByClassName($class_name) 
 	{
 		$q = '	DELETE FROM plugins
 				WHERE class = :class';
@@ -74,7 +83,7 @@ class Model_Admin_PluginsAdmin extends Model_Plugins
 		return true;	
 	}
 	
-	static function deletePluginByID($id) 
+	static function deleteByID($id) 
 	{
 		$q = '	DELETE FROM plugins
 				WHERE id = :id';
@@ -82,7 +91,7 @@ class Model_Admin_PluginsAdmin extends Model_Plugins
 		return true;	
 	}
 	
-	static function updatePlugin($id,$status)
+	static function update($id,$status)
 	{
 		$q = '	UPDATE plugins
 				SET	status = :status
@@ -94,35 +103,18 @@ class Model_Admin_PluginsAdmin extends Model_Plugins
 		return true;
 	}
 	
-	static function loadPlugins() 
+	static function load() 
 	{
 		$q = '	SELECT *
 				FROM plugins';
 		return DB::query(Database::SELECT,$q,TRUE)->execute()->as_array();		
-	}		
-	
-	static function searchForPlugins()
-	{		
-		$dir = 'classes/plugin/';
-		$files = scandir(APPPATH.$dir);// get all the files in the plugin directory
-		$plugins = array();
-		foreach($files as $file)
-		{
-			$pathinfo = pathinfo(APPPATH.$dir.$file);
-			// if a file is php assume its a class 
-			if ((isset($pathinfo['extension']))&&($pathinfo['extension'] == 'php'))
-			{
-				// add new plugin object to action array 
-				$class_name = 'plugin_'.$pathinfo['filename'];
-				// test class to make sure it is an ipcpplugin 
-				$plugin = new $class_name;				 
-				if ($plugin instanceof Interface_iPCPPlugin)
-				{	
-					$plugins[$plugin->getClass()] = $plugin;
-				}				
-			}		
-		}
-		return $plugins;				
 	}	
+	
+	// recursive search for actiondef class files
+	private static function search()
+	{
+		$dir = 'classes/plugin/';
+		return Model_Admin_EventsAdmin::searchForListeners(APPPATH.$dir,'Interface_iPCPPlugin');	
+	}
 }
 ?>
