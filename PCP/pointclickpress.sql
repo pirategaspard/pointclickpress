@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `actiondefs` (
   `types` text NOT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `class` (`class`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=68 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=70 ;
 
 
 INSERT INTO `actiondefs` (`id`, `label`, `description`, `class`, `events`, `types`) VALUES
@@ -25,7 +25,13 @@ INSERT INTO `actiondefs` (`id`, `label`, `description`, `class`, `events`, `type
 (37, 'User Message', 'Displays a Message to the User', 'action_message', '', ',story,location,scene,grid,itemstate'),
 (38, 'Items Refresh', 'Refreshes Items in the scene', 'action_refreshitems', '', ',story,location,scene,grid,itemdef,itemstate,griditem'),
 (39, 'Scene Refresh', 'Refreshes the scene', 'action_refresh', '', 'grid,griditem'),
-(57, 'Assign value', 'Assign a new value to a session variable. Example: $door_open = 1;', 'action_assign', 'ASSIGN', ',story,location,scene,grid,itemdef,itemstate,griditem');
+(57, 'Assign value', 'Assign a new value to a session variable. Example: $door_open = 1;', 'action_assign', 'ASSIGN', ',story,location,scene,grid,itemdef,itemstate,griditem'),
+(63, 'Eval', 'Execute arbitrary PHP code. Use with caution.', 'action_eval', '', ',story,location,scene,grid,itemdef,itemstate,griditem'),
+(64, 'Eval w/ Item Refresh', 'Execute arbitrary PHP code then refreshes items in scene. Use with caution.', 'action_evalrefreshitems', '', ',story,location,scene,grid,itemdef,itemstate,griditem'),
+(65, 'Eval w/ Scene Refresh', 'Execute arbitrary PHP code then refreshes the scene. Use with caution.', 'action_evalrefresh', '', ',story,location,scene,grid,itemdef,itemstate,griditem'),
+(66, 'Ternary ''If'' statement', 'Assign a variable using a ternary ''If'' statement $var = (eval_value1 [>|<|<=|>=|==|!=] eval_value1 ) ? true_value1 : false_value 2;', 'action_ternary', '', ',story,location,scene,grid,itemdef,itemstate,griditem'),
+(67, 'Ternary ''if'' and scene refresh', 'Assign a variable using a ternary ''If'' statement then refresh the scene $var = (eval_value1 [>|<|<=|>=|==|!=] eval_value1 ) ? true_value1 : false_value 2;', 'action_ternaryrefresh', '', ',story,location,scene,grid,itemdef,itemstate,griditem'),
+(69, 'Use Inventory Item', 'Use item from inventory. "item_id;cell_id_to_trigger"', 'action_inventory_use', 'INVENTORY_USE_ITEM', 'grid');
 
 
 
@@ -35,13 +41,13 @@ CREATE TABLE IF NOT EXISTS `actions` (
   `action_label` varchar(255) NOT NULL,
   `action_value` text NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=192 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=197 ;
 
 
 INSERT INTO `actions` (`id`, `action`, `action_label`, `action_value`) VALUES
 (22, 'action_link', 'link', '21'),
 (24, 'action_link', 'link', '22'),
-(50, 'action_link', 'link', '31'),
+(50, 'action_link', 'Link', '31'),
 (51, 'action_assign', 'Assign value', '$direction = ''east'';\n$wellisfull_flag = ''false'';'),
 (53, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''WEST'';'),
 (54, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''SOUTH_EAST'';'),
@@ -104,7 +110,7 @@ INSERT INTO `actions` (`id`, `action`, `action_label`, `action_value`) VALUES
 (115, 'action_link', 'link', '41'),
 (116, 'action_link', 'link', '37'),
 (117, 'action_assignrefresh', 'Assign value and scene refresh', '$well = '''';'),
-(118, 'action_Eval', 'Eval', 'if ($story_data[''wellisfull_flag''] == ''true'')\n{ \n $action_value = ''$well = "detail_full";'';\n}\nelse\n{\n $action_value = ''$well = "detail";'';\n}\n$actions[] = PCP::createaction(''action_assignrefresh'',$action_value);\nreturn PCP::doactions($actions);'),
+(118, 'action_evalrefresh', 'Eval w/ Scene Refresh', 'if (Storydata::get(''wellisfull_flag'') == ''true'')\n{ \n  StoryData::set(''well'',"detail_full");\n}\nelse\n{\n  StoryData::set(''well'',"detail");\n}'),
 (119, 'action_link', 'link', '41'),
 (121, 'action_assign', 'Assign value', '$direction = ''north'';'),
 (124, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''north'';'),
@@ -138,9 +144,9 @@ INSERT INTO `actions` (`id`, `action`, `action_label`, `action_value`) VALUES
 (159, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''east'';'),
 (160, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''west'';'),
 (161, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''east'';'),
-(162, 'action_Eval', 'Eval', 'if ($story_data[''bucket''] == ''picked_up'')\n{ \n $action_value = ''$bucket = "full"'';\n $actions[] = PCP::createaction(''action_assign'',$action_value);\n $action_value = ''Your Bucket is now full of water'';\n $actions[] = PCP::createaction(''action_message'',$action_value);\n}\nelse\n{\n $action_value = ''The water is wet'';\n $actions[] = PCP::createaction(''action_message'',$action_value);\n}\n return PCP::doactions($actions);'),
+(162, 'action_eval', 'Eval', 'Storydata::set(''bucket'',''full'');\n$action_value = ''Your Bucket is now full of water'';\n$actions[] = Actions::createaction(''action_message'',$action_value);\nreturn Actions::doactions($actions);'),
 (163, 'action_assignrefresh', 'Assign value and scene refresh', '$well = '''';'),
-(164, 'action_Eval', 'Eval', 'if ($story_data[''bucket''] == ''full'')\n{ \n $action_value =''$well = "detail_full"'';\n $actions[] = PCP::createaction(''action_assign'',$action_value);\n $action_value =''$wellisfull_flag = "true"'';\n $actions[] = PCP::createaction(''action_assignrefresh'',$action_value);\n}\nelse\n{\n $action_value = ''You fall into the well and break you neck!'';\n $actions[] = PCP::createaction(''action_message'',$action_value);\n $actions[] = PCP::createaction(''action_link'',''42'');\n}\nreturn PCP::doactions($actions);'),
+(164, 'action_evalrefresh', 'Eval w/ Scene Refresh', 'if (Storydata::get(''bucket'') == ''full'')\n{ \n Storydata::set(''well'',"detail_full");\n Storydata::set(''wellisfull_flag'',"true");\n return NOP;\n}\nelse\n{\n $action_value = ''You fall into the well and break you neck!'';\n $actions[] = Actions::createaction(''action_message'',$action_value);\n $actions[] = Actions::createaction(''action_link'',''42'');\n return Actions::doactions($actions);\n}'),
 (167, 'action_assign', 'Assign value', '$abc=1;'),
 (168, 'action_assign', 'Assign value', '$abc=1;'),
 (169, 'action_assign', 'Assign value', '$ssdfg=1;'),
@@ -156,7 +162,9 @@ INSERT INTO `actions` (`id`, `action`, `action_label`, `action_value`) VALUES
 (185, 'action_assign', 'Assign value', '$asfsd = 432;'),
 (188, 'action_inventory_inventory', 'Add To Inventory', ''),
 (190, 'action_inventory_add', 'Add To Inventory', ''),
-(191, 'action_inventory_add', 'Add To Inventory', '');
+(191, 'action_inventory_add', 'Add To Inventory', ''),
+(195, 'action_inventory_use', 'Use Inventory Item', '2;900'),
+(196, 'action_message', 'User Message', 'The water is wet');
 
 
 
@@ -1644,6 +1652,7 @@ INSERT INTO `cells` (`id`, `scene_id`, `grid_action_id`) VALUES
 (13, 66, 158),
 (15, 66, 158),
 (16, 66, 158),
+(96, 42, 160),
 (76, 65, 110),
 (75, 65, 110),
 (74, 65, 110),
@@ -1675,6 +1684,123 @@ INSERT INTO `cells` (`id`, `scene_id`, `grid_action_id`) VALUES
 (16, 65, 110),
 (15, 65, 110),
 (14, 65, 110),
+(9, 42, 161),
+(19, 42, 161),
+(8, 42, 161),
+(18, 42, 161),
+(901, 42, 162),
+(76, 42, 49),
+(75, 42, 49),
+(74, 42, 49),
+(73, 42, 49),
+(72, 42, 49),
+(66, 42, 49),
+(65, 42, 49),
+(64, 42, 49),
+(63, 42, 49),
+(62, 42, 49),
+(56, 42, 49),
+(55, 42, 49),
+(54, 42, 49),
+(53, 42, 49),
+(52, 42, 49),
+(46, 42, 49),
+(45, 42, 49),
+(44, 42, 49),
+(43, 42, 49),
+(42, 42, 49),
+(36, 42, 49),
+(35, 42, 49),
+(34, 42, 49),
+(33, 42, 49),
+(32, 42, 49),
+(26, 42, 49),
+(25, 42, 49),
+(24, 42, 49),
+(23, 42, 49),
+(22, 42, 49),
+(9001, 42, 163),
+(21, 83, 164),
+(31, 83, 164),
+(41, 83, 164),
+(51, 83, 164),
+(61, 83, 164),
+(22, 83, 164),
+(32, 83, 164),
+(42, 83, 164),
+(52, 83, 164),
+(62, 83, 164),
+(23, 83, 164),
+(24, 83, 164),
+(25, 83, 164),
+(26, 83, 164),
+(28, 83, 164),
+(27, 83, 164),
+(38, 83, 164),
+(37, 83, 164),
+(36, 83, 164),
+(35, 83, 164),
+(34, 83, 164),
+(33, 83, 164),
+(43, 83, 164),
+(44, 83, 164),
+(45, 83, 164),
+(46, 83, 164),
+(47, 83, 164),
+(48, 83, 164),
+(58, 83, 164),
+(57, 83, 164),
+(56, 83, 164),
+(55, 83, 164),
+(54, 83, 164),
+(53, 83, 164),
+(63, 83, 164),
+(64, 83, 164),
+(65, 83, 164),
+(66, 83, 164),
+(67, 83, 164),
+(68, 83, 164),
+(68, 83, 165),
+(67, 83, 165),
+(66, 83, 165),
+(65, 83, 165),
+(64, 83, 165),
+(63, 83, 165),
+(62, 83, 165),
+(61, 83, 165),
+(58, 83, 165),
+(57, 83, 165),
+(56, 83, 165),
+(55, 83, 165),
+(54, 83, 165),
+(53, 83, 165),
+(52, 83, 165),
+(51, 83, 165),
+(48, 83, 165),
+(47, 83, 165),
+(46, 83, 165),
+(45, 83, 165),
+(44, 83, 165),
+(43, 83, 165),
+(42, 83, 165),
+(41, 83, 165),
+(38, 83, 165),
+(37, 83, 165),
+(36, 83, 165),
+(35, 83, 165),
+(34, 83, 165),
+(33, 83, 165),
+(32, 83, 165),
+(31, 83, 165),
+(28, 83, 165),
+(27, 83, 165),
+(26, 83, 165),
+(25, 83, 165),
+(24, 83, 165),
+(23, 83, 165),
+(22, 83, 165),
+(21, 83, 165),
+(900, 83, 154),
 (86, 66, 156),
 (85, 66, 156),
 (84, 66, 156),
@@ -1713,74 +1839,7 @@ INSERT INTO `cells` (`id`, `scene_id`, `grid_action_id`) VALUES
 (26, 66, 156),
 (25, 66, 156),
 (24, 66, 156),
-(23, 66, 156),
-(67, 83, 154),
-(66, 83, 154),
-(65, 83, 154),
-(64, 83, 154),
-(63, 83, 154),
-(62, 83, 154),
-(57, 83, 154),
-(56, 83, 154),
-(55, 83, 154),
-(54, 83, 154),
-(53, 83, 154),
-(52, 83, 154),
-(47, 83, 154),
-(46, 83, 154),
-(45, 83, 154),
-(44, 83, 154),
-(43, 83, 154),
-(42, 83, 154),
-(37, 83, 154),
-(36, 83, 154),
-(35, 83, 154),
-(34, 83, 154),
-(33, 83, 154),
-(32, 83, 154),
-(27, 83, 154),
-(26, 83, 154),
-(25, 83, 154),
-(24, 83, 154),
-(23, 83, 154),
-(22, 83, 154),
-(17, 83, 154),
-(16, 83, 154),
-(15, 83, 154),
-(14, 83, 154),
-(13, 83, 154),
-(12, 83, 154),
-(76, 42, 49),
-(75, 42, 49),
-(74, 42, 49),
-(73, 42, 49),
-(72, 42, 49),
-(66, 42, 49),
-(65, 42, 49),
-(64, 42, 49),
-(63, 42, 49),
-(62, 42, 49),
-(56, 42, 49),
-(55, 42, 49),
-(54, 42, 49),
-(53, 42, 49),
-(52, 42, 49),
-(46, 42, 49),
-(45, 42, 49),
-(44, 42, 49),
-(43, 42, 49),
-(42, 42, 49),
-(36, 42, 49),
-(35, 42, 49),
-(34, 42, 49),
-(33, 42, 49),
-(32, 42, 49),
-(26, 42, 49),
-(25, 42, 49),
-(24, 42, 49),
-(23, 42, 49),
-(22, 42, 49),
-(96, 42, 160);
+(23, 66, 156);
 
 
 
@@ -1789,7 +1848,7 @@ CREATE TABLE IF NOT EXISTS `grids_actions` (
   `scene_id` bigint(20) unsigned NOT NULL,
   `action_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY  (`grid_action_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=161 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=166 ;
 
 
 INSERT INTO `grids_actions` (`grid_action_id`, `scene_id`, `action_id`) VALUES
@@ -1921,7 +1980,12 @@ INSERT INTO `grids_actions` (`grid_action_id`, `scene_id`, `action_id`) VALUES
 (157, 83, 165),
 (158, 66, 166),
 (159, 42, 197),
-(160, 42, 198);
+(160, 42, 198),
+(161, 42, 192),
+(162, 42, 193),
+(163, 42, 194),
+(164, 83, 195),
+(165, 83, 196);
 
 
 
@@ -1939,8 +2003,7 @@ CREATE TABLE IF NOT EXISTS `grids_items` (
 
 
 INSERT INTO `grids_items` (`id`, `itemdef_id`, `scene_id`, `cell_id`, `title`, `slug`) VALUES
-(4, 2, 49, 44, 'mybucket_too', 'mybucket_too'),
-(7, 2, 83, 88, 'bucket', 'bucket');
+(4, 2, 49, 44, 'mybucket_too', 'mybucket_too');
 
 
 
@@ -2148,7 +2211,7 @@ CREATE TABLE IF NOT EXISTS `plugins` (
   `status` char(1) character set latin1 NOT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `class` (`class`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=81 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=85 ;
 
 
 INSERT INTO `plugins` (`id`, `label`, `description`, `class`, `events`, `status`) VALUES
@@ -2156,7 +2219,7 @@ INSERT INTO `plugins` (`id`, `label`, `description`, `class`, `events`, `status`
 (77, 'Debug', 'Debug Plugin for PCP. Add "?debug" on the url to see debug information', 'plugin_debug', 'display_post_scene,error', '1'),
 (78, 'Google integration', 'This is the Google Integration plugin', 'plugin_google', 'display_column_left,display_column_right,display_footer', '0'),
 (79, 'helloworld', 'This is the helloworld demonstration plugin', 'plugin_helloworld', 'post_start_story,display_pre_scene,display_post_scene', '0'),
-(80, 'Inventory', 'Basic inventory plugin for PCP', 'plugin_inventory', 'post_start_story,css,js,display_post_scene', '0');
+(84, 'Inventory', 'Basic inventory plugin for PCP', 'plugin_inventory', 'post_start_story,css,admin_js,js,display_post_scene,display_post_grid_select', '1');
 
 
 
@@ -2226,6 +2289,20 @@ INSERT INTO `scenes_actions` (`scene_id`, `action_id`) VALUES
 
 
 
+CREATE TABLE IF NOT EXISTS `sessions` (
+  `session_id` varchar(24) NOT NULL,
+  `last_active` int(10) unsigned NOT NULL,
+  `contents` text NOT NULL,
+  PRIMARY KEY  (`session_id`),
+  KEY `last_active` (`last_active`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+INSERT INTO `sessions` (`session_id`, `last_active`, `contents`) VALUES
+('4da25743286b92-22430829', 1302484806, '08DK2qVEXYf/SiXMJzB0DyeRjUNMoTgTzayjqrcwCPYwcuQpO5RJk6iZCxfyFeXl6nvwkDxnczvnUBkECRm/hvvLO4z+BJUExFUL7SvzLeYYG7zkUXQ3vMVPhpwfJ1gc2iDOApC8aD2mpezUFlY=');
+
+
+
 CREATE TABLE IF NOT EXISTS `stories` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
   `title` varchar(255) NOT NULL,
@@ -2238,12 +2315,11 @@ CREATE TABLE IF NOT EXISTS `stories` (
   `grid_y` smallint(5) unsigned NOT NULL,
   `create_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 
 INSERT INTO `stories` (`id`, `title`, `author`, `description`, `first_location_id`, `image_id`, `status`, `grid_x`, `grid_y`, `create_date`) VALUES
-(3, 'River Path', 'Dan', 'Explore the old equipment by the river', 30, 14, 'p', 10, 10, '2010-10-07 18:04:34'),
-(15, 'bv', 'vn', 'vcnvn', NULL, 0, 'd', 10, 10, '2011-03-12 17:32:08');
+(3, 'River Path', 'Dan', 'Explore the old equipment by the river', 30, 14, 'p', 10, 10, '2010-10-07 18:04:34');
 
 
 
