@@ -1,36 +1,182 @@
--- phpMyAdmin SQL Dump
--- version 3.2.5
--- http://www.phpmyadmin.net
---
--- Host: localhost
--- Generation Time: Nov 12, 2010 at 05:34 PM
--- Server version: 5.0.27
--- PHP Version: 5.3.2
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
---
--- Database: `pointclickpress`
---
 
--- --------------------------------------------------------
 
---
--- Table structure for table `cells`
---
+
+CREATE TABLE IF NOT EXISTS `actiondefs` (
+  `id` bigint(20) unsigned NOT NULL auto_increment,
+  `label` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `class` varchar(255) NOT NULL,
+  `events` text NOT NULL,
+  `types` text NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `class` (`class`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=70 ;
+
+
+INSERT INTO `actiondefs` (`id`, `label`, `description`, `class`, `events`, `types`) VALUES
+(29, 'Items Refresh', 'Refreshes Items in the scene', 'action_assignrefreshitems', '', ',story,location,scene,grid,itemdef,itemstate,griditem'),
+(30, 'Assign value and scene refresh', 'Assign a new value to a session variable then refresh the scene. Example: $door_open = 1;', 'action_assignrefresh', '', 'grid,griditem'),
+(34, 'Event Timer', 'Execute a timed click on a cell. Can be used to execute timed events', 'action_eventtimer', '', ',story,location,scene,grid,itemdef,itemstate,griditem'),
+(35, 'Add To Inventory', 'Add item to inventory', 'action_inventory_add', '', 'griditem'),
+(36, 'Link', 'Create a link to another scene location', 'action_link', '', 'grid,griditem'),
+(37, 'User Message', 'Displays a Message to the User', 'action_message', '', ',story,location,scene,grid,itemstate'),
+(38, 'Items Refresh', 'Refreshes Items in the scene', 'action_refreshitems', '', ',story,location,scene,grid,itemdef,itemstate,griditem'),
+(39, 'Scene Refresh', 'Refreshes the scene', 'action_refresh', '', 'grid,griditem'),
+(57, 'Assign value', 'Assign a new value to a session variable. Example: $door_open = 1;', 'action_assign', 'ASSIGN', ',story,location,scene,grid,itemdef,itemstate,griditem'),
+(63, 'Eval', 'Execute arbitrary PHP code. Use with caution.', 'action_eval', '', ',story,location,scene,grid,itemdef,itemstate,griditem'),
+(64, 'Eval w/ Item Refresh', 'Execute arbitrary PHP code then refreshes items in scene. Use with caution.', 'action_evalrefreshitems', '', ',story,location,scene,grid,itemdef,itemstate,griditem'),
+(65, 'Eval w/ Scene Refresh', 'Execute arbitrary PHP code then refreshes the scene. Use with caution.', 'action_evalrefresh', '', ',story,location,scene,grid,itemdef,itemstate,griditem'),
+(66, 'Ternary ''If'' statement', 'Assign a variable using a ternary ''If'' statement $var = (eval_value1 [>|<|<=|>=|==|!=] eval_value1 ) ? true_value1 : false_value 2;', 'action_ternary', '', ',story,location,scene,grid,itemdef,itemstate,griditem'),
+(67, 'Ternary ''if'' and scene refresh', 'Assign a variable using a ternary ''If'' statement then refresh the scene $var = (eval_value1 [>|<|<=|>=|==|!=] eval_value1 ) ? true_value1 : false_value 2;', 'action_ternaryrefresh', '', ',story,location,scene,grid,itemdef,itemstate,griditem'),
+(69, 'Use Inventory Item', 'Use item from inventory. "item_id;cell_id_to_trigger"', 'action_inventory_use', 'INVENTORY_USE_ITEM', 'grid');
+
+
+
+CREATE TABLE IF NOT EXISTS `actions` (
+  `id` bigint(20) unsigned NOT NULL auto_increment,
+  `action` varchar(255) NOT NULL,
+  `action_label` varchar(255) NOT NULL,
+  `action_value` text NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=197 ;
+
+
+INSERT INTO `actions` (`id`, `action`, `action_label`, `action_value`) VALUES
+(22, 'action_link', 'link', '21'),
+(24, 'action_link', 'link', '22'),
+(50, 'action_link', 'Link', '31'),
+(51, 'action_assign', 'Assign value', '$direction = ''east'';\n$wellisfull_flag = ''false'';'),
+(53, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''WEST'';'),
+(54, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''SOUTH_EAST'';'),
+(55, 'action_link', 'link', '34'),
+(57, 'action_assign', 'Assign value', '$path1 = $direction; '),
+(58, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''EAST'';'),
+(59, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''SOUTH'';'),
+(60, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''NORTH'';'),
+(61, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''SOUTH_EAST'';'),
+(62, 'action_link', 'link', '33'),
+(64, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''DETAIL'';'),
+(65, 'action_link', 'link', '31'),
+(66, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''SOUTH'';'),
+(67, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''NORTH'';'),
+(68, 'action_assign', 'Assign value', '$building1 = $direction'),
+(69, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''WEST'';'),
+(70, 'action_link', 'link', '36'),
+(71, 'action_link', 'link', '35'),
+(72, 'action_assign', 'Assign value', '$path2 = $direction;'),
+(73, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''EAST'';'),
+(74, 'action_link', 'link', '31'),
+(75, 'action_assignrefresh', 'Assign value and scene refresh', '$building2 = ''DETAIL_DOWN'';'),
+(76, 'action_assignrefresh', 'Assign value and scene refresh', '$building2 = '''';'),
+(77, 'action_assignrefresh', 'Assign value and scene refresh', '$building2 = ''DETAIL_MID'';'),
+(78, 'action_assignrefresh', 'Assign value and scene refresh', '$building2 = ''DETAIL_MID'';'),
+(79, 'action_assignrefresh', 'Assign value and scene refresh', '$building2 = ''DETAIL_BOX1_CLOSED'';'),
+(80, 'action_link', 'link', '34'),
+(81, 'action_assignrefresh', 'Assign value and scene refresh', '$building2 = ''DETAIL_BOX1_OPEN'';'),
+(82, 'action_assignrefresh', 'Assign value and scene refresh', '$building2 = '''';'),
+(83, 'action_assignrefresh', 'Assign value and scene refresh', '$building2 = ''DETAIL_MID'';'),
+(84, 'action_assignrefresh', 'Assign value and scene refresh', '$building2 = '''';'),
+(85, 'action_assignrefresh', 'Assign value and scene refresh', '$building2 = ''DETAIL_MID'';'),
+(86, 'action_assignrefresh', 'Assign value and scene refresh', '$building2 = ''DETAIL_BOX1_CLOSED'';'),
+(87, 'action_assignrefresh', 'Assign value and scene refresh', '$building2 = ''DETAIL_BOX1_CLOSED'';'),
+(88, 'action_assignrefresh', 'Assign value and scene refresh', '$building2 = ''DETAIL_BOX2_CLOSED'';'),
+(89, 'action_assignrefresh', 'Assign value and scene refresh', '$building2 = '''';'),
+(90, 'action_assign', 'Assign value', '$building2 = ''DETAIL_MID'';'),
+(91, 'action_assignrefresh', 'Assign value and scene refresh', '$building2 = ''DETAIL_BOX2_CLOSED'';'),
+(92, 'action_assignrefresh', 'Assign value and scene refresh', '$building2 = ''DETAIL_BOX2_OPEN'';'),
+(93, 'action_assignrefresh', 'Assign value and scene refresh', '$building2 = ''DETAIL_MID'';'),
+(94, 'action_assign', 'Assign value', '$path3 = $direction;'),
+(95, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''west'';'),
+(96, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''east'';'),
+(97, 'action_link', 'link', '34'),
+(98, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''SOUTH'';'),
+(99, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''EAST'';'),
+(100, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''NORTH'';'),
+(102, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''WEST'';'),
+(103, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''SOUTH'';'),
+(104, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''EAST'';'),
+(105, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''NORTH'';'),
+(106, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''NORTH'';'),
+(107, 'action_link', 'link', '36'),
+(108, 'action_link', 'link', '31'),
+(109, 'action_assign', 'Assign value', '$direction = ''WEST'';'),
+(110, 'action_assign', 'Assign value', '$direction = ''EAST'';'),
+(111, 'action_link', 'link', '40'),
+(112, 'action_link', 'link', '37'),
+(114, 'action_assign', 'Assign value', '$direction = ''NORTH'';'),
+(115, 'action_link', 'link', '41'),
+(116, 'action_link', 'link', '37'),
+(117, 'action_assignrefresh', 'Assign value and scene refresh', '$well = '''';'),
+(118, 'action_evalrefresh', 'Eval w/ Scene Refresh', 'if (Storydata::get(''wellisfull_flag'') == ''true'')\n{ \n  StoryData::set(''well'',"detail_full");\n}\nelse\n{\n  StoryData::set(''well'',"detail");\n}'),
+(119, 'action_link', 'link', '41'),
+(121, 'action_assign', 'Assign value', '$direction = ''north'';'),
+(124, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''north'';'),
+(125, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''east'';'),
+(126, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''west'';'),
+(127, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''south'';'),
+(128, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''south'';'),
+(129, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''north'';'),
+(130, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''south'';'),
+(135, 'action_link', 'link', '31'),
+(138, 'action_link', 'link', '31'),
+(139, 'action_assign', 'Assign value', '$direction = ''north'';'),
+(140, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''west'''),
+(141, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''west'';'),
+(143, 'action_link', 'link', '43'),
+(144, 'action_assign', 'Assign value', '$river = $direction; '),
+(145, 'action_link', 'link', '36'),
+(146, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''south'';'),
+(147, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''east'';'),
+(148, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''west'';'),
+(149, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''north'';'),
+(150, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''west'';'),
+(151, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''east'';'),
+(152, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''west'';'),
+(153, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''north'';'),
+(154, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''south'';'),
+(155, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''detail'';'),
+(156, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''east'';'),
+(157, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''north'';'),
+(158, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''south'';'),
+(159, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''east'';'),
+(160, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''west'';'),
+(161, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''east'';'),
+(162, 'action_eval', 'Eval', 'Storydata::set(''bucket'',''full'');\n$action_value = ''Your Bucket is now full of water'';\n$actions[] = Actions::createaction(''action_message'',$action_value);\nreturn Actions::doactions($actions);'),
+(163, 'action_assignrefresh', 'Assign value and scene refresh', '$well = '''';'),
+(164, 'action_evalrefresh', 'Eval w/ Scene Refresh', 'if (Storydata::get(''bucket'') == ''full'')\n{ \n Storydata::set(''well'',"detail_full");\n Storydata::set(''wellisfull_flag'',"true");\n return NOP;\n}\nelse\n{\n $action_value = ''You fall into the well and break you neck!'';\n $actions[] = Actions::createaction(''action_message'',$action_value);\n $actions[] = Actions::createaction(''action_link'',''42'');\n return Actions::doactions($actions);\n}'),
+(167, 'action_assign', 'Assign value', '$abc=1;'),
+(168, 'action_assign', 'Assign value', '$abc=1;'),
+(169, 'action_assign', 'Assign value', '$ssdfg=1;'),
+(170, 'action_assign', 'Assign value', ''),
+(172, 'action_assign', 'Assign value', '$test = 1;'),
+(173, 'action_assign', 'Assign value', '$test = 1;'),
+(176, 'action_assign', 'Assign value', '$blah = 2;'),
+(178, 'action_assign', 'Assign value', '$bsdfa = 1;'),
+(179, 'action_assign', 'Assign value', '$bsdfa = 1;'),
+(180, 'action_assign', 'Assign value', '$asgds  =2;'),
+(181, 'action_assign', 'Assign value', '$bdsa = 1;'),
+(184, 'action_assign', 'Assign value', '$afdfsdf = 2;'),
+(185, 'action_assign', 'Assign value', '$asfsd = 432;'),
+(188, 'action_inventory_inventory', 'Add To Inventory', ''),
+(190, 'action_inventory_add', 'Add To Inventory', ''),
+(191, 'action_inventory_add', 'Add To Inventory', ''),
+(195, 'action_inventory_use', 'Use Inventory Item', '2;900'),
+(196, 'action_message', 'User Message', 'The water is wet');
+
+
 
 CREATE TABLE IF NOT EXISTS `cells` (
   `id` int(20) unsigned NOT NULL,
   `scene_id` bigint(20) unsigned NOT NULL,
-  `grid_event_id` bigint(20) unsigned NOT NULL,
+  `grid_action_id` bigint(20) unsigned NOT NULL,
   KEY `id_storyid` (`id`,`scene_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `cells`
---
 
-INSERT INTO `cells` (`id`, `scene_id`, `grid_event_id`) VALUES
+INSERT INTO `cells` (`id`, `scene_id`, `grid_action_id`) VALUES
 (90, 23, 16),
 (91, 23, 16),
 (92, 23, 16),
@@ -959,7 +1105,6 @@ INSERT INTO `cells` (`id`, `scene_id`, `grid_event_id`) VALUES
 (32, 42, 0),
 (33, 42, 0),
 (34, 42, 0),
-(35, 42, 0),
 (36, 42, 0),
 (42, 42, 0),
 (43, 42, 0),
@@ -981,36 +1126,6 @@ INSERT INTO `cells` (`id`, `scene_id`, `grid_event_id`) VALUES
 (74, 42, 0),
 (75, 42, 0),
 (76, 42, 0),
-(76, 42, 49),
-(75, 42, 49),
-(74, 42, 49),
-(73, 42, 49),
-(72, 42, 49),
-(66, 42, 49),
-(65, 42, 49),
-(64, 42, 49),
-(63, 42, 49),
-(62, 42, 49),
-(56, 42, 49),
-(55, 42, 49),
-(54, 42, 49),
-(53, 42, 49),
-(52, 42, 49),
-(46, 42, 49),
-(45, 42, 49),
-(44, 42, 49),
-(43, 42, 49),
-(42, 42, 49),
-(36, 42, 49),
-(35, 42, 49),
-(34, 42, 49),
-(33, 42, 49),
-(32, 42, 49),
-(26, 42, 49),
-(25, 42, 49),
-(24, 42, 49),
-(23, 42, 49),
-(22, 42, 49),
 (23, 66, 129),
 (24, 66, 129),
 (25, 66, 129),
@@ -1173,6 +1288,10 @@ INSERT INTO `cells` (`id`, `scene_id`, `grid_event_id`) VALUES
 (25, 66, 130),
 (24, 66, 130),
 (23, 66, 130),
+(64, 49, 135),
+(74, 49, 135),
+(75, 49, 135),
+(65, 49, 135),
 (99, 74, 117),
 (94, 74, 117),
 (93, 74, 117),
@@ -1533,6 +1652,7 @@ INSERT INTO `cells` (`id`, `scene_id`, `grid_event_id`) VALUES
 (13, 66, 158),
 (15, 66, 158),
 (16, 66, 158),
+(96, 42, 160),
 (76, 65, 110),
 (75, 65, 110),
 (74, 65, 110),
@@ -1564,48 +1684,123 @@ INSERT INTO `cells` (`id`, `scene_id`, `grid_event_id`) VALUES
 (16, 65, 110),
 (15, 65, 110),
 (14, 65, 110),
-(67, 83, 154),
-(66, 83, 154),
-(65, 83, 154),
-(64, 83, 154),
-(63, 83, 154),
-(62, 83, 154),
-(57, 83, 154),
-(56, 83, 154),
-(55, 83, 154),
-(54, 83, 154),
-(53, 83, 154),
-(52, 83, 154),
-(47, 83, 154),
-(46, 83, 154),
-(45, 83, 154),
-(44, 83, 154),
-(43, 83, 154),
-(42, 83, 154),
-(37, 83, 154),
-(36, 83, 154),
-(35, 83, 154),
-(34, 83, 154),
-(33, 83, 154),
-(32, 83, 154),
-(27, 83, 154),
-(26, 83, 154),
-(25, 83, 154),
-(24, 83, 154),
-(23, 83, 154),
-(22, 83, 154),
-(17, 83, 154),
-(16, 83, 154),
-(15, 83, 154),
-(14, 83, 154),
-(13, 83, 154),
-(12, 83, 154),
-(44, 49, 135),
-(45, 49, 135),
-(54, 49, 135),
-(55, 49, 135),
-(65, 49, 135),
-(64, 49, 135),
+(9, 42, 161),
+(19, 42, 161),
+(8, 42, 161),
+(18, 42, 161),
+(901, 42, 162),
+(76, 42, 49),
+(75, 42, 49),
+(74, 42, 49),
+(73, 42, 49),
+(72, 42, 49),
+(66, 42, 49),
+(65, 42, 49),
+(64, 42, 49),
+(63, 42, 49),
+(62, 42, 49),
+(56, 42, 49),
+(55, 42, 49),
+(54, 42, 49),
+(53, 42, 49),
+(52, 42, 49),
+(46, 42, 49),
+(45, 42, 49),
+(44, 42, 49),
+(43, 42, 49),
+(42, 42, 49),
+(36, 42, 49),
+(35, 42, 49),
+(34, 42, 49),
+(33, 42, 49),
+(32, 42, 49),
+(26, 42, 49),
+(25, 42, 49),
+(24, 42, 49),
+(23, 42, 49),
+(22, 42, 49),
+(9001, 42, 163),
+(21, 83, 164),
+(31, 83, 164),
+(41, 83, 164),
+(51, 83, 164),
+(61, 83, 164),
+(22, 83, 164),
+(32, 83, 164),
+(42, 83, 164),
+(52, 83, 164),
+(62, 83, 164),
+(23, 83, 164),
+(24, 83, 164),
+(25, 83, 164),
+(26, 83, 164),
+(28, 83, 164),
+(27, 83, 164),
+(38, 83, 164),
+(37, 83, 164),
+(36, 83, 164),
+(35, 83, 164),
+(34, 83, 164),
+(33, 83, 164),
+(43, 83, 164),
+(44, 83, 164),
+(45, 83, 164),
+(46, 83, 164),
+(47, 83, 164),
+(48, 83, 164),
+(58, 83, 164),
+(57, 83, 164),
+(56, 83, 164),
+(55, 83, 164),
+(54, 83, 164),
+(53, 83, 164),
+(63, 83, 164),
+(64, 83, 164),
+(65, 83, 164),
+(66, 83, 164),
+(67, 83, 164),
+(68, 83, 164),
+(68, 83, 165),
+(67, 83, 165),
+(66, 83, 165),
+(65, 83, 165),
+(64, 83, 165),
+(63, 83, 165),
+(62, 83, 165),
+(61, 83, 165),
+(58, 83, 165),
+(57, 83, 165),
+(56, 83, 165),
+(55, 83, 165),
+(54, 83, 165),
+(53, 83, 165),
+(52, 83, 165),
+(51, 83, 165),
+(48, 83, 165),
+(47, 83, 165),
+(46, 83, 165),
+(45, 83, 165),
+(44, 83, 165),
+(43, 83, 165),
+(42, 83, 165),
+(41, 83, 165),
+(38, 83, 165),
+(37, 83, 165),
+(36, 83, 165),
+(35, 83, 165),
+(34, 83, 165),
+(33, 83, 165),
+(32, 83, 165),
+(31, 83, 165),
+(28, 83, 165),
+(27, 83, 165),
+(26, 83, 165),
+(25, 83, 165),
+(24, 83, 165),
+(23, 83, 165),
+(22, 83, 165),
+(21, 83, 165),
+(900, 83, 154),
 (86, 66, 156),
 (85, 66, 156),
 (84, 66, 156),
@@ -1646,147 +1841,17 @@ INSERT INTO `cells` (`id`, `scene_id`, `grid_event_id`) VALUES
 (24, 66, 156),
 (23, 66, 156);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `events`
---
 
-CREATE TABLE IF NOT EXISTS `events` (
-  `id` bigint(20) unsigned NOT NULL auto_increment,
-  `event` varchar(255) NOT NULL,
-  `event_label` varchar(255) NOT NULL,
-  `event_value` text NOT NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=167 ;
-
---
--- Dumping data for table `events`
---
-
-INSERT INTO `events` (`id`, `event`, `event_label`, `event_value`) VALUES
-(22, 'event_link', 'link', '21'),
-(24, 'event_link', 'link', '22'),
-(50, 'event_link', 'link', '31'),
-(51, 'event_assign', 'Assign value', '$direction = ''east'';\n$bucket = ''on_ground'';\n$wellisfull_flag = ''false'';'),
-(53, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''WEST'';'),
-(54, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''SOUTH_EAST'';'),
-(55, 'event_link', 'link', '34'),
-(57, 'event_assign', 'Assign value', '$path1 = $direction; '),
-(58, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''EAST'';'),
-(59, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''SOUTH'';'),
-(60, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''NORTH'';'),
-(61, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''SOUTH_EAST'';'),
-(62, 'event_link', 'link', '33'),
-(64, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''DETAIL'';'),
-(65, 'event_link', 'link', '31'),
-(66, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''SOUTH'';'),
-(67, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''NORTH'';'),
-(68, 'event_assign', 'Assign value', '$building1 = $direction'),
-(69, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''WEST'';'),
-(70, 'event_link', 'link', '36'),
-(71, 'event_link', 'link', '35'),
-(72, 'event_assign', 'Assign value', '$path2 = $direction;'),
-(73, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''EAST'';'),
-(74, 'event_link', 'link', '31'),
-(75, 'event_assignrefresh', 'Assign value and scene refresh', '$building2 = ''DETAIL_DOWN'';'),
-(76, 'event_assignrefresh', 'Assign value and scene refresh', '$building2 = '''';'),
-(77, 'event_assignrefresh', 'Assign value and scene refresh', '$building2 = ''DETAIL_MID'';'),
-(78, 'event_assignrefresh', 'Assign value and scene refresh', '$building2 = ''DETAIL_MID'';'),
-(79, 'event_assignrefresh', 'Assign value and scene refresh', '$building2 = ''DETAIL_BOX1_CLOSED'';'),
-(80, 'event_link', 'link', '34'),
-(81, 'event_assignrefresh', 'Assign value and scene refresh', '$building2 = ''DETAIL_BOX1_OPEN'';'),
-(82, 'event_assignrefresh', 'Assign value and scene refresh', '$building2 = '''';'),
-(83, 'event_assignrefresh', 'Assign value and scene refresh', '$building2 = ''DETAIL_MID'';'),
-(84, 'event_assignrefresh', 'Assign value and scene refresh', '$building2 = '''';'),
-(85, 'event_assignrefresh', 'Assign value and scene refresh', '$building2 = ''DETAIL_MID'';'),
-(86, 'event_assignrefresh', 'Assign value and scene refresh', '$building2 = ''DETAIL_BOX1_CLOSED'';'),
-(87, 'event_assignrefresh', 'Assign value and scene refresh', '$building2 = ''DETAIL_BOX1_CLOSED'';'),
-(88, 'event_assignrefresh', 'Assign value and scene refresh', '$building2 = ''DETAIL_BOX2_CLOSED'';'),
-(89, 'event_assignrefresh', 'Assign value and scene refresh', '$building2 = '''';'),
-(90, 'event_assign', 'Assign value', '$building2 = ''DETAIL_MID'';'),
-(91, 'event_assignrefresh', 'Assign value and scene refresh', '$building2 = ''DETAIL_BOX2_CLOSED'';'),
-(92, 'event_assignrefresh', 'Assign value and scene refresh', '$building2 = ''DETAIL_BOX2_OPEN'';'),
-(93, 'event_assignrefresh', 'Assign value and scene refresh', '$building2 = ''DETAIL_MID'';'),
-(94, 'event_assign', 'Assign value', '$path3 = $direction;'),
-(95, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''west'';'),
-(96, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''east'';'),
-(97, 'event_link', 'link', '34'),
-(98, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''SOUTH'';'),
-(99, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''EAST'';'),
-(100, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''NORTH'';'),
-(102, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''WEST'';'),
-(103, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''SOUTH'';'),
-(104, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''EAST'';'),
-(105, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''NORTH'';'),
-(106, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''NORTH'';'),
-(107, 'event_link', 'link', '36'),
-(108, 'event_link', 'link', '31'),
-(109, 'event_assign', 'Assign value', '$direction = ''WEST'';'),
-(110, 'event_assign', 'Assign value', '$direction = ''EAST'';'),
-(111, 'event_link', 'link', '40'),
-(112, 'event_link', 'link', '37'),
-(114, 'event_assign', 'Assign value', '$direction = ''NORTH'';'),
-(115, 'event_link', 'link', '41'),
-(116, 'event_link', 'link', '37'),
-(117, 'event_assignrefresh', 'Assign value and scene refresh', '$well = '''';'),
-(118, 'event_Eval', 'Eval', 'if ($story_data[''wellisfull_flag''] == ''true'')\n{ \n $event_value = ''$well = "detail_full";'';\n}\nelse\n{\n $event_value = ''$well = "detail";'';\n}\n$events[] = PCP::createEvent(''event_assignrefresh'',$event_value);\nreturn PCP::doEvents($events);'),
-(119, 'event_link', 'link', '41'),
-(121, 'event_assign', 'Assign value', '$direction = ''north'';'),
-(124, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''north'';'),
-(125, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''east'';'),
-(126, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''west'';'),
-(127, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''south'';'),
-(128, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''south'';'),
-(129, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''north'';'),
-(130, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''south'';'),
-(135, 'event_link', 'link', '31'),
-(138, 'event_link', 'link', '31'),
-(139, 'event_assign', 'Assign value', '$direction = ''north'';'),
-(140, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''west'''),
-(141, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''west'';'),
-(142, 'event_Eval', 'Eval', 'if ($story_data[''bucket''] == ''on_ground'')\n{\n $event_value = ''You picked up the bucket!'';\n $events[] = PCP::createEvent(''event_message'',$event_value);\n $event_value = ''$bucket = "picked_up"'';\n $events[] = PCP::createEvent(''event_assignrefreshitems'',$event_value);\n return PCP::doEvents($events);\n}'),
-(143, 'event_link', 'link', '43'),
-(144, 'event_assign', 'Assign value', '$river = $direction; '),
-(145, 'event_link', 'link', '36'),
-(146, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''south'';'),
-(147, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''east'';'),
-(148, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''west'';'),
-(149, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''north'';'),
-(150, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''west'';'),
-(151, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''east'';'),
-(152, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''west'';'),
-(153, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''north'';'),
-(154, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''south'';'),
-(155, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''detail'';'),
-(156, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''east'';'),
-(157, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''north'';'),
-(158, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''south'';'),
-(159, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''east'';'),
-(160, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''west'';'),
-(161, 'event_assignrefresh', 'Assign value and scene refresh', '$direction = ''east'';'),
-(162, 'event_Eval', 'Eval', 'if ($story_data[''bucket''] == ''picked_up'')\n{ \n $event_value = ''$bucket = "full"'';\n $events[] = PCP::createEvent(''event_assign'',$event_value);\n $event_value = ''Your Bucket is now full of water'';\n $events[] = PCP::createEvent(''event_message'',$event_value);\n}\nelse\n{\n $event_value = ''The water is wet'';\n $events[] = PCP::createEvent(''event_message'',$event_value);\n}\n return PCP::doEvents($events);'),
-(163, 'event_assignrefresh', 'Assign value and scene refresh', '$well = '''';'),
-(164, 'event_Eval', 'Eval', 'if ($story_data[''bucket''] == ''full'')\n{ \n $event_value =''The well now contains water'';\n $events[] = PCP::createEvent(''event_message'',$event_value);\n $event_value =''$well = "detail_full"'';\n $events[] = PCP::createEvent(''event_assign'',$event_value);\n $event_value =''$wellisfull_flag = "true"'';\n $events[] = PCP::createEvent(''event_assignrefresh'',$event_value);\n}\nelse\n{\n $event_value = ''You fall into the well and break you neck!'';\n $events[] = PCP::createEvent(''event_message'',$event_value);\n $events[] = PCP::createEvent(''event_link'',''42'');\n}\nreturn PCP::doEvents($events);');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `grids_events`
---
-
-CREATE TABLE IF NOT EXISTS `grids_events` (
-  `grid_event_id` bigint(20) unsigned NOT NULL auto_increment,
+CREATE TABLE IF NOT EXISTS `grids_actions` (
+  `grid_action_id` bigint(20) unsigned NOT NULL auto_increment,
   `scene_id` bigint(20) unsigned NOT NULL,
-  `event_id` bigint(20) unsigned NOT NULL,
-  PRIMARY KEY  (`grid_event_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=159 ;
+  `action_id` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY  (`grid_action_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=166 ;
 
---
--- Dumping data for table `grids_events`
---
 
-INSERT INTO `grids_events` (`grid_event_id`, `scene_id`, `event_id`) VALUES
+INSERT INTO `grids_actions` (`grid_action_id`, `scene_id`, `action_id`) VALUES
 (1, 22, 1),
 (2, 23, 2),
 (3, 23, 3),
@@ -1913,13 +1978,16 @@ INSERT INTO `grids_events` (`grid_event_id`, `scene_id`, `event_id`) VALUES
 (155, 84, 163),
 (156, 66, 164),
 (157, 83, 165),
-(158, 66, 166);
+(158, 66, 166),
+(159, 42, 197),
+(160, 42, 198),
+(161, 42, 192),
+(162, 42, 193),
+(163, 42, 194),
+(164, 83, 195),
+(165, 83, 196);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `grids_items`
---
 
 CREATE TABLE IF NOT EXISTS `grids_items` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
@@ -1931,20 +1999,32 @@ CREATE TABLE IF NOT EXISTS `grids_items` (
   PRIMARY KEY  (`id`),
   KEY `item_id` (`itemdef_id`),
   KEY `scene_id` (`scene_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
---
--- Dumping data for table `grids_items`
---
 
 INSERT INTO `grids_items` (`id`, `itemdef_id`, `scene_id`, `cell_id`, `title`, `slug`) VALUES
-(4, 2, 49, 44, 'bucket', 'bucket');
+(4, 2, 49, 44, 'mybucket_too', 'mybucket_too');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `images`
---
+
+CREATE TABLE IF NOT EXISTS `grids_items_actions` (
+  `griditem_id` bigint(20) unsigned NOT NULL,
+  `action_id` bigint(20) unsigned NOT NULL,
+  KEY `griditemid` (`griditem_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+INSERT INTO `grids_items_actions` (`griditem_id`, `action_id`) VALUES
+(0, 185),
+(4, 186),
+(6, 187),
+(6, 188),
+(4, 189),
+(4, 190),
+(7, 191),
+(8, 196);
+
+
 
 CREATE TABLE IF NOT EXISTS `images` (
   `id` bigint(20) NOT NULL auto_increment,
@@ -1952,11 +2032,8 @@ CREATE TABLE IF NOT EXISTS `images` (
   `type_id` int(11) unsigned NOT NULL,
   `filename` varchar(255) character set latin1 NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=52 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=57 ;
 
---
--- Dumping data for table `images`
---
 
 INSERT INTO `images` (`id`, `story_id`, `type_id`, `filename`) VALUES
 (14, 3, 1, 'DSC_0528.JPG'),
@@ -1994,86 +2071,99 @@ INSERT INTO `images` (`id`, `story_id`, `type_id`, `filename`) VALUES
 (48, 3, 1, 'DSC_0207.JPG'),
 (49, 3, 1, 'DSC_0195.JPG'),
 (50, 3, 1, 'DSC_0203.JPG'),
-(51, 3, 1, 'DSC_0233.JPG');
+(51, 3, 1, 'DSC_0233.JPG'),
+(55, 14, 1, 'IMG_20101007_192002-1.jpg'),
+(56, 14, 2, 'IMG_20101007_192002-1-1.jpg');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `image_types`
---
 
 CREATE TABLE IF NOT EXISTS `image_types` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `title` varchar(255) character set latin1 NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
---
--- Dumping data for table `image_types`
---
 
 INSERT INTO `image_types` (`id`, `title`) VALUES
 (1, 'scene'),
 (2, 'item');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `itemdefs`
---
 
 CREATE TABLE IF NOT EXISTS `itemdefs` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
   `title` varchar(255) NOT NULL,
   `story_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
---
--- Dumping data for table `itemdefs`
---
 
 INSERT INTO `itemdefs` (`id`, `title`, `story_id`) VALUES
-(2, 'bucket', 3);
+(2, 'bucket', 3),
+(6, 'yuyyuyuyuyetu', 14);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `items_states`
---
+
+CREATE TABLE IF NOT EXISTS `items_defs_actions` (
+  `itemdef_id` bigint(20) unsigned NOT NULL,
+  `action_id` bigint(20) unsigned NOT NULL,
+  KEY `itemdefid` (`itemdef_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+INSERT INTO `items_defs_actions` (`itemdef_id`, `action_id`) VALUES
+(2, 182),
+(2, 184);
+
+
 
 CREATE TABLE IF NOT EXISTS `items_states` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
-  `item_id` bigint(20) unsigned NOT NULL,
+  `itemdef_id` bigint(20) unsigned NOT NULL,
   `image_id` bigint(20) unsigned NOT NULL,
   `value` varchar(255) character set latin1 NOT NULL,
+  `isdefaultstate` tinyint(4) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
---
--- Dumping data for table `items_states`
---
 
-INSERT INTO `items_states` (`id`, `item_id`, `image_id`, `value`) VALUES
-(3, 2, 42, 'on_ground'),
-(4, 2, 0, 'picked_up');
+INSERT INTO `items_states` (`id`, `itemdef_id`, `image_id`, `value`, `isdefaultstate`) VALUES
+(1, 1, 41, 'on_ground', 0),
+(2, 1, 0, 'taken', 0),
+(3, 2, 42, 'on_ground', 1),
+(4, 2, 0, 'picked_up', 0),
+(5, 4, 0, 'on', 0),
+(6, 4, 0, 'off', 0),
+(7, 0, 0, '', 0),
+(8, 0, 0, 'gj', 0),
+(9, 0, 0, 'bvvj', 1),
+(10, 6, 56, 'bvvj', 1);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `locations`
---
+
+CREATE TABLE IF NOT EXISTS `items_states_actions` (
+  `itemstate_id` bigint(20) unsigned NOT NULL,
+  `action_id` bigint(20) unsigned NOT NULL,
+  KEY `itemstateid` (`itemstate_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+INSERT INTO `items_states_actions` (`itemstate_id`, `action_id`) VALUES
+(5, 174),
+(3, 175),
+(5, 176),
+(3, 177),
+(3, 183);
+
+
 
 CREATE TABLE IF NOT EXISTS `locations` (
   `story_id` bigint(20) unsigned NOT NULL,
   `id` bigint(20) unsigned NOT NULL auto_increment,
   `title` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=45 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=44 ;
 
---
--- Dumping data for table `locations`
---
 
 INSERT INTO `locations` (`story_id`, `id`, `title`) VALUES
 (3, 30, 'Stairs'),
@@ -2088,23 +2178,16 @@ INSERT INTO `locations` (`story_id`, `id`, `title`) VALUES
 (3, 42, 'Death'),
 (3, 43, 'River');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `locations_events`
---
 
-CREATE TABLE IF NOT EXISTS `locations_events` (
+CREATE TABLE IF NOT EXISTS `locations_actions` (
   `location_id` bigint(20) unsigned NOT NULL,
-  `event_id` bigint(20) unsigned NOT NULL,
+  `action_id` bigint(20) unsigned NOT NULL,
   KEY `locationid` (`location_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `locations_events`
---
 
-INSERT INTO `locations_events` (`location_id`, `event_id`) VALUES
+INSERT INTO `locations_actions` (`location_id`, `action_id`) VALUES
 (25, 39),
 (31, 57),
 (33, 68),
@@ -2114,37 +2197,31 @@ INSERT INTO `locations_events` (`location_id`, `event_id`) VALUES
 (41, 121),
 (31, 123),
 (43, 122),
-(43, 144);
+(43, 144),
+(30, 193);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `plugins`
---
 
 CREATE TABLE IF NOT EXISTS `plugins` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
   `label` varchar(255) character set latin1 NOT NULL,
   `description` text character set latin1 NOT NULL,
   `class` varchar(255) character set latin1 NOT NULL,
-  `hooks` text character set latin1 NOT NULL,
+  `events` text character set latin1 NOT NULL,
   `status` char(1) character set latin1 NOT NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `class` (`class`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=85 ;
 
---
--- Dumping data for table `plugins`
---
 
-INSERT INTO `plugins` (`id`, `label`, `description`, `class`, `hooks`, `status`) VALUES
-(9, 'Debug', 'Debug Plugin for PCP', 'plugin_debug', 'display_post_scene,error', '1'),
-(10, 'helloworld', 'This is the helloworld demonstration plugin', 'plugin_helloworld', 'post_start_story,display_pre_scene,display_post_scene', '0');
+INSERT INTO `plugins` (`id`, `label`, `description`, `class`, `events`, `status`) VALUES
+(76, 'columns', 'This is the columns plugin', 'plugin_column', 'display_column_left,display_column_right', '0'),
+(77, 'Debug', 'Debug Plugin for PCP. Add "?debug" on the url to see debug information', 'plugin_debug', 'display_post_scene,error', '1'),
+(78, 'Google integration', 'This is the Google Integration plugin', 'plugin_google', 'display_column_left,display_column_right,display_footer', '0'),
+(79, 'helloworld', 'This is the helloworld demonstration plugin', 'plugin_helloworld', 'post_start_story,display_pre_scene,display_post_scene', '0'),
+(84, 'Inventory', 'Basic inventory plugin for PCP', 'plugin_inventory', 'post_start_story,css,admin_js,js,display_post_scene,display_post_grid_select', '1');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `scenes`
---
 
 CREATE TABLE IF NOT EXISTS `scenes` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
@@ -2156,11 +2233,8 @@ CREATE TABLE IF NOT EXISTS `scenes` (
   `value` varchar(255) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `scene_value` (`value`,`location_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=85 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=85 ;
 
---
--- Dumping data for table `scenes`
---
 
 INSERT INTO `scenes` (`id`, `story_id`, `location_id`, `title`, `description`, `image_id`, `value`) VALUES
 (42, 3, 30, 'Stairs', 'You see some old stairs. Dare you go down them?', 14, ''),
@@ -2187,42 +2261,47 @@ INSERT INTO `scenes` (`id`, `story_id`, `location_id`, `title`, `description`, `
 (66, 3, 40, 'Well', 'You peer into the well and see the bottom is filled with mud and sticks. ', 38, 'detail'),
 (67, 3, 31, 'Bottom of Stairs', 'You are on a wooded pathway covered in a thick layer of pine needles. In front of you the woods are overgrown with poison ivy.', 34, 'north'),
 (68, 3, 41, 'Poison Ivy Field2', 'You are in a field full of poison ivy! There is a cement pipe protruding from the ground. ', 36, ''),
-(73, 3, 36, 'Path3', 'You''ll need a machete to head in this direction', 39, 'north'),
+(73, 3, 36, 'Path3', '', 39, 'north'),
 (74, 3, 36, 'Path3', 'The river flows lazily beyond the trees', 45, 'south'),
 (77, 3, 42, 'Death', 'You are dead! <br />THE END', 43, ''),
-(78, 3, 43, 'River', 'The river flows lazily around the debris caused by the spring flooding. This looks like a good spot to test the water.', 46, 'east'),
-(80, 3, 43, 'River', 'You are standing on a the rounded stones of the riverbed. The river is very low.', 50, 'south'),
-(81, 3, 43, 'River', 'There is a steep embankment up to the wooded path.', 49, 'north'),
-(82, 3, 43, 'River', 'The river is very low. Ahead is mud that you decide not to venture into. ', 47, 'west'),
-(83, 3, 43, 'River', 'The river is very low. This looks like a good spot to test the water.', 48, 'detail'),
-(84, 3, 40, 'Well', 'You can see your shadow cast in the water at the bottom of the well. ', 51, 'detail_full');
+(78, 3, 43, 'River', 'This looks like a good spot to take a dip', 46, 'east'),
+(80, 3, 43, 'River', '', 50, 'south'),
+(81, 3, 43, 'River', '', 49, 'north'),
+(82, 3, 43, 'River', '', 47, 'west'),
+(83, 3, 43, 'River', 'the river is low', 48, 'detail'),
+(84, 3, 40, 'Well', 'The well is full of water', 51, 'detail_full');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `scenes_events`
---
 
-CREATE TABLE IF NOT EXISTS `scenes_events` (
+CREATE TABLE IF NOT EXISTS `scenes_actions` (
   `scene_id` bigint(20) unsigned NOT NULL,
-  `event_id` bigint(20) unsigned NOT NULL,
+  `action_id` bigint(20) unsigned NOT NULL,
   KEY `sceneid` (`scene_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `scenes_events`
---
 
-INSERT INTO `scenes_events` (`scene_id`, `event_id`) VALUES
+INSERT INTO `scenes_actions` (`scene_id`, `action_id`) VALUES
 (45, 52),
 (68, 120),
-(71, 121);
+(71, 121),
+(42, 194),
+(42, 195);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `stories`
---
+
+CREATE TABLE IF NOT EXISTS `sessions` (
+  `session_id` varchar(24) NOT NULL,
+  `last_active` int(10) unsigned NOT NULL,
+  `contents` text NOT NULL,
+  PRIMARY KEY  (`session_id`),
+  KEY `last_active` (`last_active`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+INSERT INTO `sessions` (`session_id`, `last_active`, `contents`) VALUES
+('4da25743286b92-22430829', 1302484806, '08DK2qVEXYf/SiXMJzB0DyeRjUNMoTgTzayjqrcwCPYwcuQpO5RJk6iZCxfyFeXl6nvwkDxnczvnUBkECRm/hvvLO4z+BJUExFUL7SvzLeYYG7zkUXQ3vMVPhpwfJ1gc2iDOApC8aD2mpezUFlY=');
+
+
 
 CREATE TABLE IF NOT EXISTS `stories` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
@@ -2236,41 +2315,28 @@ CREATE TABLE IF NOT EXISTS `stories` (
   `grid_y` smallint(5) unsigned NOT NULL,
   `create_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
---
--- Dumping data for table `stories`
---
 
 INSERT INTO `stories` (`id`, `title`, `author`, `description`, `first_location_id`, `image_id`, `status`, `grid_x`, `grid_y`, `create_date`) VALUES
-(3, 'River Path', 'Dan', 'Explore the old equipment by the river. Points of interest include abandoned wells and a muddy river. Maybe you can find a bucket to scoop up water from the river?', 30, 24, 'p', 10, 10, '2010-10-07 18:04:34');
+(3, 'River Path', 'Dan', 'Explore the old equipment by the river', 30, 14, 'p', 10, 10, '2010-10-07 18:04:34');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `stories_events`
---
 
-CREATE TABLE IF NOT EXISTS `stories_events` (
+CREATE TABLE IF NOT EXISTS `stories_actions` (
   `story_id` bigint(20) unsigned NOT NULL,
-  `event_id` bigint(20) unsigned NOT NULL,
+  `action_id` bigint(20) unsigned NOT NULL,
   KEY `storyid` (`story_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `stories_events`
---
 
-INSERT INTO `stories_events` (`story_id`, `event_id`) VALUES
+INSERT INTO `stories_actions` (`story_id`, `action_id`) VALUES
 (2, 36),
 (3, 51),
-(5, 120);
+(5, 120),
+(3, 192);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `users`
---
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) unsigned NOT NULL auto_increment,
@@ -2283,11 +2349,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `last_login` datetime default NULL,
   `created` datetime default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=38 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=37 ;
 
---
--- Dumping data for table `users`
---
 
 INSERT INTO `users` (`id`, `email`, `username`, `password`, `active`, `logins`, `last_ip_address`, `last_login`, `created`) VALUES
-(37, 'admin@localhost', 'admin', '2e80e939646125be46ab1da1b93e2c8745332648', 1, 0, '127.0.0.1', NULL, '2010-11-12 17:28:52');
+(36, 'admin@localhost', 'admin', '2e80e939646125be46ab1da1b93e2c8745332648', 1, 0, '127.0.0.1', NULL, '2010-10-09 00:12:25');
