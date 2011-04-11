@@ -6,24 +6,27 @@
 	$('#scene_link').click(function(){ tb_remove(); })
 </script>
 <div id="inventory" >
-	<?php 
-		$session = Session::instance();			
-		$story = $session->get('story',null);	
-		$story_data = $session->get('story_data',array());
-		if (isset($story_data['item_locations']['inventory']))
+	<?php 		
+		$inventory_items = plugin_inventory::getInventory();
+		if (count($inventory_items)>0)
 		{
-			$inventory_items = $story_data['item_locations']['inventory'];
-			
+			$session = Session::Instance();
+			$story = $session->get('story');
+		
 			echo '<ul>';
 			foreach ($inventory_items as $item_info)
 			{
-				$item = Model_PCP_Items::getItemState($item_info['itemstate_id']);
-				echo '<li><a href="'.Kohana::$base_url.'plugin?plugin=plugin_inventory&f=setCurrentItem&i='.$item->itemdef_id.'"><img src="'.$story->getMediaPath().$item->getPath($story->screen_size).'" alt="'.$item->title.'" title="'.$item->title.'" /></a></li>';
+				$item = current($item_info);
+				if (plugin_inventory::getCurrentItem() == $item['itemdef_id']) {echo '<li style="border: solid 2px red">';}
+				else {echo '<li>';}
+				$item = Model_PCP_Items::getItemState($item['itemstate_id']);
+				echo '<a href="'.Kohana::$base_url.'plugin?plugin=plugin_inventory&f=setCurrentItem&i='.$item->itemdef_id.'"><img src="'.$story->getMediaPath().$item->getPath($story->screen_size).'" alt="'.$item->title.'" title="'.$item->title.'" /></a></li>';
 			}
+			/*
 			if ($story_data['current_item'] > 0)
 			{
 				echo '<li><a href="'.Kohana::$base_url.'plugin?plugin=plugin_inventory&f=setCurrentItem&i=0">Return Item To Inventory</li>';
-			}
+			}*/
 			echo '</ul>';
 		}
 		else

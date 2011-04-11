@@ -71,7 +71,7 @@ Class Controller_Admin_Action extends Controller_Template_Admin
 		}
 		$session->set('result',$result);
 		//redirect to add a new story
-		Request::instance()->redirect($_POST['back_url']);
+		Request::Current()->redirect($_POST['back_url']);
 	}
 	
 	function action_delete()
@@ -91,7 +91,7 @@ Class Controller_Admin_Action extends Controller_Template_Admin
 		}
 		$session->set('result',$result);
 		//Go back to the parent
-		Request::instance()->redirect($back_url);
+		Request::Current()->redirect($back_url);
 	}
 	
 	function action_list()

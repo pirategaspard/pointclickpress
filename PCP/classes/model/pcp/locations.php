@@ -46,16 +46,6 @@ class Model_PCP_Locations
 	
 	static function getCurrentlocationID()
 	{
-		$session = Session::instance();
-		$story_data = $session->get('story_data',array());
-		if (isset($story_data['location_id']))
-		{
-			$location_id = $story_data['location_id'];
-		}
-		else
-		{
-			$location_id = 0 ;
-		}		
-		return $location_id;
+		return Storydata::get('location_id',0);		
 	}
 }

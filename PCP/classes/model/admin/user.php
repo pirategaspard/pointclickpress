@@ -16,7 +16,6 @@ class Model_Admin_User extends Model
 	
 	public function __construct($args=array())
 	{
-		parent::__construct();		
 		$this->init($args);		
 	}
 	

@@ -8,8 +8,7 @@ class Model_Image extends Model
 	protected $filename = '';
 
 	public function __construct($args=array())
-	{
-		parent::__construct();		
+	{	
 		$this->init($args);		
 	}
 	

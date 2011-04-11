@@ -16,11 +16,11 @@ class action_assign extends Model_Base_PCPActionDef
 	
 	private $story_data = array();
 	
-	public function performAction($args=array(),&$story_data=array(),$hook_name='')
+	public function performAction($args=array(),$hook_name='')
 	{
 		$results = array();
 		$parsed = array(); // array of results	
-		$this->story_data = $story_data;						
+		$this->story_data = Storydata::getStorydata();						
 		$expressions = $this->tokenize($args['action_value']); // explode on semi-colon if there is more than one statement here
 		foreach($expressions as $expression)
 		{
@@ -34,17 +34,12 @@ class action_assign extends Model_Base_PCPActionDef
 				if ($this->isVariable($name))
 				{					
 					$name = $this->getVariableName($name);	//remove any whitespace and strip $ from variable name so we can put it in session['story_data'][$var]		
-					$parsed = array_merge($parsed,$this->assign($name,$value));
+					$this->assign($name,$value);
 				}				
 			}
 		}
-		if (count($parsed) > 0)
-		{
-			//update story_data
-			$story_data = array_merge($story_data,$parsed);		
-			// pass to the parent action to refresh the scene
-			$results = parent::performAction($args,$story_data);
-		}		
+		// pass to the parent action to refresh the scene
+		$results = parent::performAction($args);
 		//var_dump($story_data); die();
 		return $results;
 	}
@@ -61,7 +56,8 @@ class action_assign extends Model_Base_PCPActionDef
 			*/
 			//echo (' simple assignment: ');					
 			//echo($this->getValueFromArray($this->getVariableName($value),$this->story_data));
-			$parsed[$name] = $this->getValueFromArray($this->getVariableName($value),$this->story_data);
+			//$parsed[$name] = $this->getValueFromArray($this->getVariableName($value),$this->story_data);
+			Storydata::set($name,$this->getValueFromArray($this->getVariableName($value),StoryData::getStorydata()));
 		}
 		else if ($this->isString($value))
 		{
@@ -71,7 +67,8 @@ class action_assign extends Model_Base_PCPActionDef
 				1; or $var;
 			*/
 			//echo (' simple assignment: '.preg_replace('/[\'"]/','',$value));
-			$parsed[$name] = $this->removeQuotes($value);	
+			//$parsed[$name] = $this->removeQuotes($value);	
+			Storydata::set($name,$this->removeQuotes($value));
 		}
 		else if(preg_match('/((\$[a-zA-Z\'\[\]0-9]+)|([0-9]+))\s*([\+\-\*\/])\s*((\$[a-zA-Z\'\[\]0-9]+)|([0-9]+))/',$value))
 		{
@@ -85,9 +82,10 @@ class action_assign extends Model_Base_PCPActionDef
 			$math_values = $this->tokenize($value,$operator);
 			if (count($eval_values) == 2) 
 			{
-				$math_values[0] = $this->getValueFromArray($this->getVariableName($math_values[0]),$this->story_data);
-				$math_values[1] = $this->getValueFromArray($this->getVariableName($math_values[1]),$this->story_data);
-				$parsed[$name] = $this->doBasicMath($math_values[0],$operator,$math_values[1]);														
+				$math_values[0] = $this->getValueFromArray($this->getVariableName($math_values[0]),StoryData::getStorydata());
+				$math_values[1] = $this->getValueFromArray($this->getVariableName($math_values[1]),StoryData::getStorydata());
+				//$parsed[$name] = $this->doBasicMath($math_values[0],$operator,$math_values[1]);	
+				Storydata::set($name,$this->doBasicMath($math_values[0],$operator,$math_values[1]));
 			}
 		}	
 		return $parsed;

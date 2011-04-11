@@ -1,7 +1,20 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-//-- Environment setup --------------------------------------------------------
+// -- Environment setup --------------------------------------------------------
 
+// Load the core Kohana class
+require SYSPATH.'classes/kohana/core'.EXT;
+
+if (is_file(APPPATH.'classes/kohana'.EXT))
+{
+	// Application extends the core
+	require APPPATH.'classes/kohana'.EXT;
+}
+else
+{
+	// Load empty core extension
+	require SYSPATH.'classes/kohana'.EXT;
+}
 /**
  * Set the default time zone.
  *
@@ -34,7 +47,23 @@ spl_autoload_register(array('Kohana', 'auto_load'));
  */
 ini_set('unserialize_callback_func', 'spl_autoload_call');
 
-//-- Configuration and initialization -----------------------------------------
+// -- Configuration and initialization -----------------------------------------
+
+/**
+ * Set the default language
+ */
+I18n::lang('en-us');
+
+/**
+ * Set Kohana::$environment if a 'KOHANA_ENV' environment variable has been supplied.
+ *
+ * Note: If you supply an invalid environment name, a PHP warning will be thrown
+ * saying "Couldn't find constant Kohana::<INVALID_ENV_NAME>"
+ */
+if (isset($_SERVER['KOHANA_ENV']))
+{
+	Kohana::$environment = constant('Kohana::'.strtoupper($_SERVER['KOHANA_ENV']));
+}
 
 /**
  * Initialize Kohana, setting the default options.
@@ -62,12 +91,12 @@ if (!defined('__DIR__')) {
 } 
 //automatically create the base_url
 $app_path = '/'.substr(strrchr(__DIR__,DIRECTORY_SEPARATOR),1).'/';
-Kohana::init(array('base_url' => $app_path,'index_file' => ''));
+Kohana::init(array('base_url' => $app_path,'index_file' => '','profile'=>true));
 
 /*
 	Attach the file write to logging. Multiple writers are supported.
  */
-//Kohana::$log->attach(new Kohana_Log_File(APPPATH.'logs'));
+Kohana::$log->attach(new Kohana_Log_File(APPPATH.'logs'));
 
 /*
 	Attach a file reader to config. Multiple readers are supported.
@@ -79,7 +108,7 @@ Kohana::$config->attach(new Kohana_Config_File);
 */
 Kohana::modules(array(
 	// 'auth'       => MODPATH.'auth',       // Basic authentication
-	//'codebench'  => MODPATH.'codebench',  // Benchmarking tool
+	'codebench'  => MODPATH.'codebench',  // Benchmarking tool
 	'database'   => MODPATH.'database',   // Database access
 	'image'      => MODPATH.'image',      // Image manipulation
 	'cache'      => MODPATH.'cache',      // Cache
@@ -89,6 +118,12 @@ Kohana::modules(array(
 
 // update cache driver
 Cache::$default = CACHE_DRIVER;
+
+// default session
+Session::$default = 'database';
+
+// cookei salt
+Cookie::$salt = 'PCP';
 
 // Route for Admin Area
 Route::set('admin', 'admin(/<controller>(/<action>(/<id>)))')
@@ -104,12 +139,3 @@ Route::set('default', '(<action>)')
 		'controller' => 'PCP',
 		'action'     => 'index',
 	));
-
-/**
- * Execute the main request. A source of the URI can be passed, eg: $_SERVER['PATH_INFO'].
- * If no source is specified, the URI will be automatically detected.
- */
-echo Request::instance()
-	->execute()
-	->send_headers()
-	->response;

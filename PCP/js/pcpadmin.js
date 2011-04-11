@@ -153,11 +153,14 @@ function getQueryParams()
 	var queryParamString = document.location.toString().split('?');
 	if (queryParamString.length > 0)
 	{
-		params = queryParamString[1].split('&');
-		for(i=0;i<params.length;i++)
+		if (queryParamString[1])
 		{
-			item = params[i].split('=');
-			items[item[0]] = unescape(item[1]);
+			params = queryParamString[1].split('&');
+			for(i=0;i<params.length;i++)
+			{
+				item = params[i].split('=');
+				items[item[0]] = unescape(item[1]);
+			}
 		}
 	}
 	return items;

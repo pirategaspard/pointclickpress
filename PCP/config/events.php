@@ -9,6 +9,7 @@ define('DISPLAY_COLUMN_RIGHT', 'display_column_right');
 define('DISPLAY_FOOTER', 'display_footer');
 define('DISPLAY_PRE_SCENE', 'display_pre_scene');
 define('DISPLAY_POST_SCENE', 'display_post_scene');
+define('DISPLAY_POST_GRID_SELECT','display_post_grid_select');
 
 define('PRE_START_STORY', 'pre_start_story');
 define('POST_START_STORY', 'post_start_story');

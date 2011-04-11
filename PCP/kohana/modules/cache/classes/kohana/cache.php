@@ -67,8 +67,8 @@
  * *  Kohana 3.0.x
  * *  PHP 5.2.4 or greater
  * 
- * @package    Kohana
- * @category   Cache
+ * @package    Kohana/Cache
+ * @category   Base
  * @version    2.0
  * @author     Kohana Team
  * @copyright  (c) 2009-2010 Kohana Team
@@ -138,7 +138,7 @@ abstract class Kohana_Cache {
 	}
 
 	/**
-	 * @var  Kohana_Config
+	 * @var  Config
 	 */
 	protected $_config;
 

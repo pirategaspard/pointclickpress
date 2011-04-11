@@ -52,7 +52,7 @@ class Controller_admin_users extends Controller_Template_Admin
 		}
 		$session->set('result',$result);
 		//redirect to edit the story just saved
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'users','action'=>'edit')).'?user_id='.$result->data['id']);
+		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'users','action'=>'edit')).'?user_id='.$result->data['id']);
 	}
 	
 	function action_delete()
@@ -71,7 +71,7 @@ class Controller_admin_users extends Controller_Template_Admin
 		}
 		$session->set('result',$result);
 		//Go back to the parent
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'users','action'=>'list')));
+		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'users','action'=>'list')));
 	}
 
 	
@@ -95,21 +95,21 @@ class Controller_admin_users extends Controller_Template_Admin
 					Model_Admin_UsersAdmin::login($result->data['id']);
 					Model_Admin_ActionDefsAdmin::searchForListeners(); // search for new ActionDefs
 					Model_Admin_PluginsAdmin::searchForListeners(); // search for new Plugins
-					Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'list')));
+					Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'list')));
 				}
 				else
 				{
-					Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'users','action'=>'Login')));	
+					Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'users','action'=>'Login')));	
 				}
 			}
 			else
 			{
-				Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'users','action'=>'Login')));	
+				Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'users','action'=>'Login')));	
 			}
 		}
 		else        
 		{
-			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'list')));	
+			Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'list')));	
 		}
 	}
 	
@@ -121,7 +121,7 @@ class Controller_admin_users extends Controller_Template_Admin
 	function action_dologout()
 	{
 		Model_Admin_UsersAdmin::logout();
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'users','action'=>'Login')));
+		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'users','action'=>'Login')));
 	}
 }
 ?>

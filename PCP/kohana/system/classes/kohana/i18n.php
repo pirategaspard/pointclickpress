@@ -12,13 +12,11 @@
  *     // With parameter replacement
  *     echo __('Hello, :user', array(':user' => $username));
  *
- * [!!] The __() function is declared in `SYSPATH/base.php`.
- *
  * @package    Kohana
  * @category   Base
  * @author     Kohana Team
- * @copyright  (c) 2008-2009 Kohana Team
- * @license    http://kohanaphp.com/license
+ * @copyright  (c) 2008-2011 Kohana Team
+ * @license    http://kohanaframework.org/license
  */
 class Kohana_I18n {
 
@@ -27,7 +25,14 @@ class Kohana_I18n {
 	 */
 	public static $lang = 'en-us';
 
-	// Cache of loaded languages
+	/**
+	 * @var  string  source language: en-us, es-es, zh-cn, etc
+	 */
+	public static $source = 'en-us';
+
+	/**
+	 * @var  array  cache of loaded languages
+	 */
 	protected static $_cache = array();
 
 	/**
@@ -130,3 +135,32 @@ class Kohana_I18n {
 	}
 
 } // End I18n
+
+if ( ! function_exists('__'))
+{
+	/**
+	 * Kohana translation/internationalization function. The PHP function
+	 * [strtr](http://php.net/strtr) is used for replacing parameters.
+	 *
+	 *    __('Welcome back, :user', array(':user' => $username));
+	 *
+	 * [!!] The target language is defined by [I18n::$lang].
+	 * 
+	 * @uses    I18n::get
+	 * @param   string  text to translate
+	 * @param   array   values to replace in the translated text
+	 * @param   string  source language
+	 * @return  string
+	 */
+	function __($string, array $values = NULL, $lang = 'en-us')
+	{
+		if ($lang !== I18n::$lang)
+		{
+			// The message and target languages are different
+			// Get the translation for this message
+			$string = I18n::get($string);
+		}
+
+		return empty($values) ? $string : strtr($string, $values);
+	}
+}

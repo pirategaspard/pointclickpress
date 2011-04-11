@@ -41,7 +41,7 @@ class Model_PCP_Actions
 		}
 		else
 		{
-			$action = new Model_Base_Action($args);
+			$action = new Model_Base_PCPAction($args);
 		}
 		return $action->load($args);
 	}
@@ -308,8 +308,9 @@ class Model_PCP_Actions
 		return $actions;		
 	}
 	
-	static function getSceneItemActions($item_locations)
+	static function getSceneItemActions($scene_id)
 	{
+		$item_locations = Items::getSceneGriditems($scene_id);
 		$actions = array();
 		if (isset($item_locations['griditems']))
 		{
@@ -411,10 +412,6 @@ class Model_PCP_Actions
 	static function doActions($actions)
 	{
 		$action_results = array();
-		// get session 
-		$session = Session::instance();
-		//get story_data from session. This is the info actions are allowed to manipulate
-		$story_data = $session->get('story_data',array());
 		foreach($actions as $action)
 		{
 			// 'action' is the class name			
@@ -423,17 +420,15 @@ class Model_PCP_Actions
 			$action_obj = new $class_name; 
 			if ($action_obj instanceof Interface_iPCPActionDef)
 			{
-				//Events::announceEvent($class_name.'_EVENT');
+				Events::announceEvent($class_name.'_EVENT');
 				// execute action. 
-				$action_results = array_merge($action_results,$action_obj->performAction(array('action_value'=>$action->action_value),$story_data,$class_name));
+				$action_results = array_merge($action_results,$action_obj->performAction(array('action_value'=>$action->action_value),$class_name));
 			}
 			else
 			{
 				throw new Kohana_Exception($class_name . ' is not of type Interface_iPCPActionDef.');
 			}
 		}
-		//update session
-		$session->set('story_data',$story_data); 
 		return $action_results;		
 	}
 	

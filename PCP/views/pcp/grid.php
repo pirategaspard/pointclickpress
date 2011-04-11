@@ -4,7 +4,7 @@
 	for($n=0;$n<$total;$n++)
 	{
 		// if there is an item for this cell
-		if (isset($items[$n]))
+		if (isset($items[$n]) && count($items[$n]) > 0)
 		{
 			// add item to scene
 			$cells.= '<div n="'.$n.'" >';

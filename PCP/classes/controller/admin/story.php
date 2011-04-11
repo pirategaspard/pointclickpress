@@ -8,7 +8,7 @@ Class Controller_admin_story extends Controller_Template_Admin
 		if (is_numeric($this->request->param('story_id')))
 		{
 			//redirect to edit story	
-			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'edit')));
+			Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'edit')));
 		}
 		else
 		{
@@ -33,7 +33,7 @@ Class Controller_admin_story extends Controller_Template_Admin
 		}
 		else
 		{	//redirect to add a new story with id 0			
-			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'edit')).'?story_id=0');	
+			Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'edit')).'?story_id=0');	
 		}		
 	}
 	
@@ -50,9 +50,9 @@ Class Controller_admin_story extends Controller_Template_Admin
 		$data['locations'] = $data['story']->locations; // needed to choose starting location
 		$data['grid_sizes'] = explode(',',SUPPORTED_GRID_SIZES);
 
-		$data['action_list'] = Request::factory('/admin/action/listSimple')->execute()->response;
-		$data['item_list'] = Request::factory('/admin/itemdef/listSimple')->execute()->response;	
-		$data['location_list'] = Request::factory('/admin/location/listSimple')->execute()->response;	
+		$data['action_list'] = Request::factory('/admin/action/listSimple')->execute()->body();
+		$data['item_list'] = Request::factory('/admin/itemdef/listSimple')->execute()->body();	
+		$data['location_list'] = Request::factory('/admin/location/listSimple')->execute()->body();	
 						
 		$data['story_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'story','action'=>'save')));
 		$data['assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?story_id='.$data['story']->id;
@@ -85,7 +85,7 @@ Class Controller_admin_story extends Controller_Template_Admin
 		}
 		$session->set('result',$result);
 		//redirect to edit the story just saved
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'edit')).'?story_id='.$session->get('story_id',0));
+		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'edit')).'?story_id='.$session->get('story_id',0));
 	}
 	
 	function action_assignImage()
@@ -103,7 +103,7 @@ Class Controller_admin_story extends Controller_Template_Admin
 			}
 			$session->set('result',$result);			
 		}
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'edit')).'?story_id='.$data['story_id']);
+		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'edit')).'?story_id='.$data['story_id']);
 	}
 	
 	function action_delete()
@@ -123,7 +123,7 @@ Class Controller_admin_story extends Controller_Template_Admin
 		}
 		$session->set('result',$result);	
 		//Go back to the parent
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'list')));
+		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'list')));
 	}
 
 }

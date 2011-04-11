@@ -10,103 +10,6 @@ class Model_PCP_PCP
 		return Model_PCP_Stories::getStoryInfo($args); // get a story object and all its locations
 	}
 	
-	/* get all stories available for the story list page 
-	static function getStories($args=array())
-	{	
-		$args['status'] = 'p'; // only get published stories 
-		return Model_Stories::getStories($args);		
-	}*/
-	
-	/* get all the information we need to render a scene 
-	static function getScene($args=array())
-	{	
-		$args['scene_value'] = DEFAULT_SCENE_VALUE;		
-		if (isset($args['location_id']))
-		{
-			$location = Model_locations::getlocation(array('id'=>$args['location_id']));	
-			$session = Session::instance();
-			$story_data = $session->get('story_data',array());
-			
-			/*
-				Switch for different scenes within location			 
-				If a there is a key set in the session story_data array then use that value
-				othewise use empty string
-						
-			if (isset($story_data[$location->slug]))
-			{
-				$args['scene_value'] = $story_data[$location->slug];
-			}
-			else
-			{
-				$args['scene_value'] = DEFAULT_SCENE_VALUE;
-			}
-		}
-		return Model_Scenes::getSceneBylocationId($args); 
-	}*/
-	/*
-	static function getSceneGridItemInfo($scene_id=0,$item_locations=array())
-	{
-		$griditemInfo = array();
-		if (isset($item_locations[$scene_id]))
-		{
-			$griditemInfo = $item_locations[$scene_id];
-		}
-		return $griditemInfo;
-	}
-	
-	static function getGriditemsCurrentItemStates($griditemsInfo=array(),$story_data=array())
-	{
-		$itemstates = array();
-		if (isset($griditemsInfo['griditems']))
-		{
-			foreach($griditemsInfo['griditems'] as $cell_id=>$griditemInfo)
-			{
-				if (isset($story_data[$griditemInfo['slug']]))
-				{
-					$itemstate_value = $story_data[$griditemInfo['slug']];
-				}
-				else
-				{
-					$itemstate_value = DEFAULT_ITEMSTATE_VALUE;
-				} 
-				$itemstates[$cell_id] = self::getGridItemCurrentItemState($griditemInfo['id'],$itemstate_value);
-				
-			}
-		}
-		return $itemstates;
-	}
-	
-	static function getGridItemCurrentItemState($griditem_id=0,$itemstate_value='')
-	{
-		return model_items::getGridItemCurrentItemState($griditem_id,$itemstate_value);
-	}*/
-	
-	/*
-	static function getSceneItemActions($item_locations)
-	{
-		$actions = array();
-		if (isset($item_locations['griditems']))
-		{
-			$griditems = $item_locations['griditems'];
-			foreach($griditems as $griditem)
-			{
-				$actions = array_merge(actionsAdmin::getItemDefActions(array('itemdef_id'=>$griditem['itemdef_id'])),$actions);
-				$actions = array_merge(actionsAdmin::getItemStateActions(array('itemstate_id'=>$griditem['itemstate_id'])),$actions);
-			}
-		}
-		return $actions;
-	}
-	
-	static function getGridItemActions($griditem_id=0,$scene_id=0)
-	{
-		$actions = array();
-		if (($griditem_id>0)&&($scene_id>0))
-		{
-			$actions = actionsAdmin::getGridItemActions(array('griditem_id'=>$griditem_id,'scene_id'=>$scene_id));
-		}
-		return $actions;
-	}*/
-	
 	/* 
 	  	a cell in a scene has been clicked, 
 	  	get the action attached to the cell(s) (if any) 
@@ -158,18 +61,6 @@ class Model_PCP_PCP
 		}
 		return $actions;
 	}
-
-	// action Facade functions 
-	/*
-		if an action is assigned to the cell this function 
-		interprets the cell action(s)
-	*/
-	/*
-	static function doActions($actions)
-	{
-		return Model_Actions::doActions($actions);		
-	}
-	*/
 	
 	static function doAction($action='',$action_value='',$type='action',$action_label='',$story_id=0)
 	{
@@ -180,29 +71,6 @@ class Model_PCP_PCP
 	{
 		return actionsAdmin::createAction($action,$action_value,$type,$action_label,$story_id);
 	}
-	/*
-	static function getCurrentlocationID()
-	{
-		$session = Session::instance();
-		$story_data = $session->get('story_data',array());
-		if (isset($story_data['location_id']))
-		{
-			$location_id = $story_data['location_id'];
-		}
-		else
-		{
-			$location_id = 0 ;
-		}		
-		return $location_id;
-	}*/
-	
-	/*
-	static function getLocation($location_id = 0)
-	{
-		$args = PCP::getArgs();
-		$args['id'] = $location_id;
-		return Model_locations::getlocation($args);
-	}*/
 	
 	static private function getArgs($args=array())
 	{
@@ -219,19 +87,7 @@ class Model_PCP_PCP
 		
 		return $args;
 	}
-	
-	/*
-	 * static function getJSActionDefs()
-	{	
-		return Model_Actions::getJSActionDefs();
-	}
-	
-	
-	static function getScreens()
-	{
-		return Model_Screens::getScreens();
-	}
-	* */
+
 
 }
 ?>

@@ -4,11 +4,10 @@
 define('EVENTTIMER','EVENTTIMER'); // our event name
 class action_eventtimer extends Model_Base_PCPActionDef
 {
-	
 	protected $label = 'Event Timer';
 	protected $description = 'Execute a timed click on a cell. Can be used to execute timed events';	
 
-	public function performAction($args=array(),&$story_data=array(),$hook_name='')
+	public function performAction($args=array(),$hook_name='')
 	{
 		$timer_data = explode(';',$args['action_value']);
 		$data = array();

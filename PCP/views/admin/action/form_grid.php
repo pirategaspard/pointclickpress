@@ -4,7 +4,7 @@
 	{ 
 ?>
 <fieldset class="ui-helper-reset ui-widget-content ui-corner-all">
-	<legend>Grid Event</legend>
+	<legend>Grid Action</legend>
 	<form method="post" action="<?php echo($grid_action_form_action); ?>">
 		<?php if (isset($story_id)){ ?><input type="hidden" name="story_id" value="<?php echo($story_id); ?>" /> <?php } ?>
 		<?php if (isset($location_id)){ ?><input type="hidden" name="location_id" value="<?php echo($location_id); ?>" /> <?php } ?>
@@ -14,7 +14,7 @@
 		<input type="hidden" name="action_type" value="<?php echo($action_type); ?>" />
 		<input type="hidden" name="id" value="<?php echo($action->id); ?>" />
 		Event Type:
-		<select id="action_type" name="event">
+		<select id="action_type" name="action">
 			<?php foreach($action_defs as $action_def)
 			{
 				$selected = '';
@@ -22,6 +22,7 @@
 				echo ('<option value="'.$action_def->getClass().'"'.$selected.' >'.$action_def->getLabel().'</option>');
 			} ?>
 		</select>
+		<?php Events::announceEvent(DISPLAY_POST_GRID_SELECT); ?>
 		<?php if(isset($locations)) { ?>
 		<label id="location_select" for="location_select">Scene location:
 		<select name="location_select" >

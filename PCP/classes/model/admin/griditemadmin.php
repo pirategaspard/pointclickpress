@@ -2,25 +2,59 @@
 
 class Model_Admin_GridItemAdmin extends Model_PCP_Items
 {									 
-	static function getItemDef($args=array())
-	{		
-		$args['item_type'] = ITEM_TYPE_DEF;
-		$args['id'] = $args['itemdef_id'];
-		return self::getItem($args);
-	}
-	
 	// Grid items go on the grid to compose a scene 
 	static function getGridItem($args=array())
 	{				
-		$args['item_type'] = ITEM_TYPE_GRID;
-		return self::getItem($args);
+		$item = new Model_GridItem($args);
+		return $item->load($args);
 	}
 	
 	// Grid items go on the grid to compose a scene 
 	static function getGridItems($args=array())
-	{				
-		$args['item_type'] = ITEM_TYPE_GRID;
-		return self::getItems($args);
+	{						 		
+		$items = array();
+		if ((isset($args['itemdef_id']))||(isset($args['scene_id'])))
+		{
+			// get all the Items in the db
+			$q = '	SELECT 	id.id as itemdef_id	
+							,id.title as itemdef_title						
+							,gi.id
+							,gi.cell_id
+							,gi.scene_id
+							,gi.title							
+					FROM grids_items gi
+					INNER JOIN scenes sc
+					ON gi.scene_id = sc.id
+					LEFT OUTER JOIN itemdefs id
+					ON gi.itemdef_id = id.id
+					WHERE 1 = 1';
+			if (isset($args['itemdef_id']))
+			{	
+					$q .= ' AND id.id = :itemdef_id';
+			}
+			if (isset($args['scene_id']))
+			{
+					$q .= ' AND sc.id = :scene_id';
+			}
+					$q .= ' ORDER BY gi.id DESC';
+			$query = DB::query(Database::SELECT,$q,TRUE);
+			
+			if (isset($args['itemdef_id']))
+			{				
+				$query->param(':itemdef_id',$args['itemdef_id']);
+			}
+			if (isset($args['scene_id']))
+			{
+				$query->param(':scene_id',$args['scene_id']);
+			}
+			$tempArray = $query->execute()->as_array();	
+						
+			foreach($tempArray as $a)
+			{		
+				$items[$a['cell_id']] = self::getGridItem()->init($a);
+			}
+		}
+		return $items;		
 	}
 	
 	static function getItemType($args=array())

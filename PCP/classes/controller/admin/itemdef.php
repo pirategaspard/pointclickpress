@@ -14,9 +14,9 @@ Class Controller_admin_itemdef extends Controller_Template_Admin
 		$data['itemdef_form'] =  View::factory('/admin/itemdef/form',$data)->render();		
 		$data['add_itemdef_link'] =  View::factory('/admin/itemdef/add',$data)->render();
 		$data['story'] = Model_Admin_StoriesAdmin::getStory(array('id'=>$data['story_id']));
-		$data['action_list'] = Request::factory('/admin/action/listSimple')->execute()->response;			
-		$data['itemstate_list'] = Request::factory('/admin/itemstate/listSimple')->execute()->response;
-		$data['iteminstances_list'] = Request::factory('/admin/griditem/listSimple')->execute()->response;
+		$data['action_list'] = Request::factory('/admin/action/listSimple')->execute()->body();			
+		$data['itemstate_list'] = Request::factory('/admin/itemstate/listSimple')->execute()->body();
+		$data['iteminstances_list'] = Request::factory('/admin/griditem/listSimple')->execute()->body();
 		$session->set('story_id',$data['story_id']);
 		
 		$this->template->breadcrumb .= View::factory('/admin/story/info',$data)->render();
@@ -65,7 +65,7 @@ Class Controller_admin_itemdef extends Controller_Template_Admin
 		}
 		$session->set('result',$result);
 		//redirect to edit the Item just saved
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'itemdef','action'=>'edit')).'?itemdef_id='.$result->data['id']);
+		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'itemdef','action'=>'edit')).'?itemdef_id='.$result->data['id']);
 	}
 	
 	function action_delete()
@@ -81,7 +81,7 @@ Class Controller_admin_itemdef extends Controller_Template_Admin
 		$session->set('result',$result);
 		$back_url = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';	
 		//Go back to the parent
-		Request::instance()->redirect($back_url);
+		Request::Current()->redirect($back_url);
 	}
 	
 	function action_listSimple()

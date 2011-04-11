@@ -6,11 +6,11 @@ class Model_Plugins
 	{
 		if (isset($args['plugin']))
 		{
-			$p = self::getPluginByClassName($args['plugin']);
+			$p = self::getByClassName($args['plugin']);
 		}
 		else if (isset($args['id']))
 		{
-			$p = self::getPluginByID($args['id']);
+			$p = self::getByID($args['id']);
 		}
 		else
 		{
