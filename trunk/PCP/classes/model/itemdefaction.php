@@ -5,8 +5,7 @@ class Model_ItemdefAction extends Model_Base_PCPAction
 	protected $itemdef_id = 0;
 	
 	public function __construct($args=array())
-	{
-		parent::__construct();					
+	{		
 		$this->init($args);		
 	}
 	

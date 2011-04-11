@@ -8,8 +8,7 @@ class Model_Base_PCPAction extends Model
 	protected $action_value = '';
 	
 	public function __construct($args=array())
-	{
-		parent::__construct();		
+	{		
 		$this->init($args);		
 	}
 	

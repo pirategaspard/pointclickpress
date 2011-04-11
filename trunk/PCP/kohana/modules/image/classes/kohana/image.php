@@ -10,7 +10,7 @@
  */
 abstract class Kohana_Image {
 
-	// Resizing contraints
+	// Resizing constraints
 	const NONE    = 0x01;
 	const WIDTH   = 0x02;
 	const HEIGHT  = 0x03;
@@ -74,6 +74,11 @@ abstract class Kohana_Image {
 	public $type;
 
 	/**
+	 * @var  string  mime type of the image
+	 */
+	public $mime;
+
+	/**
 	 * Loads information about the image. Will throw an exception if the image
 	 * does not exist or is not an image.
 	 *
@@ -99,7 +104,7 @@ abstract class Kohana_Image {
 		if (empty($file) OR empty($info))
 		{
 			throw new Kohana_Exception('Not an image or invalid image: :file',
-				array(':file' => Kohana::debug_path($file)));
+				array(':file' => Debug::path($file)));
 		}
 
 		// Store the image information
@@ -132,10 +137,10 @@ abstract class Kohana_Image {
 			if (is_object(Kohana::$log))
 			{
 				// Get the text of the exception
-				$error = Kohana::exception_text($e);
+				$error = Kohana_Exception::text($e);
 
 				// Add this exception to the log
-				Kohana::$log->add(Kohana::ERROR, $error);
+				Kohana::$log->add(Log::ERROR, $error);
 			}
 
 			// Showing any kind of error will be "inside" image data
@@ -175,20 +180,20 @@ abstract class Kohana_Image {
 			// Choose the master dimension automatically
 			$master = Image::AUTO;
 		}
-		// Image::WIDTH and Image::HEIGHT depricated. You can use it in old projects,
+		// Image::WIDTH and Image::HEIGHT deprecated. You can use it in old projects,
 		// but in new you must pass empty value for non-master dimension
 		elseif ($master == Image::WIDTH AND ! empty($width))
 		{
 			$master = Image::AUTO;
 
-			// Set empty height for backvard compatibility
+			// Set empty height for backward compatibility
 			$height = NULL;
 		}
 		elseif ($master == Image::HEIGHT AND ! empty($height))
 		{
 			$master = Image::AUTO;
 
-			// Set empty width for backvard compatibility
+			// Set empty width for backward compatibility
 			$width = NULL;
 		}
 
@@ -599,7 +604,7 @@ abstract class Kohana_Image {
 			if ( ! is_writable($file))
 			{
 				throw new Kohana_Exception('File must be writable: :file',
-					array(':file' => Kohana::debug_path($file)));
+					array(':file' => Debug::path($file)));
 			}
 		}
 		else
@@ -610,7 +615,7 @@ abstract class Kohana_Image {
 			if ( ! is_dir($directory) OR ! is_writable($directory))
 			{
 				throw new Kohana_Exception('Directory must be writable: :directory',
-					array(':directory' => Kohana::debug_path($directory)));
+					array(':directory' => Debug::path($directory)));
 			}
 		}
 

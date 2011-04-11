@@ -1,6 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 class Model_PCP_Items extends Model
 {
+	/*
 	static function getItem($args=array())
 	{
 		// if we have been passed a type, get that specific type of item, otherwise get a generic item	
@@ -51,94 +52,38 @@ class Model_PCP_Items extends Model
 					
 		return $items;
 	}
+	*/	
 	
-	// item definitions define an item by holding images and values for an item type 
-	static function getItemDef($args=array())
-	{		
-		$item = new Model_ItemDef($args);
-		return $item->load($args);
+	static function getStoryItems($args)
+	{
+		$items = array();
+		if (isset($args['story_id']))
+		{
+			// get all the itemdefs that were used as GridItems in the db
+			$q = '	SELECT 	DISTINCT id.id as itemdef_id	
+							,id.title as itemdef_title						
+					FROM grids_items gi
+					INNER JOIN scenes sc
+					ON gi.scene_id = sc.id
+					INNER JOIN itemdefs id
+					ON gi.itemdef_id = id.id
+					WHERE 1 = 1
+					ORDER BY gi.id DESC';
+			$tempArray = DB::query(Database::SELECT,$q,TRUE)
+							->execute()
+							->as_array();
+			foreach($tempArray as $a)
+			{		
+				$items[$a['itemdef_id']] = $a['itemdef_title'];
+			}
+		}
+		return $items;
 	}
 	
 	// Items can have more than one state
 	static function getItemState($args=array())
 	{		
-		$item = new Model_ItemState($args);
-		return $item->load($args);
-	}
-	
-	// Grid items go on the grid to compose a scene 
-	static function getGridItem($args=array())
-	{				
-		$item = new Model_GridItem($args);
-		return $item->load($args);
-	}
-	
-	static function getItemDefs($args)
-	{
-		$q = '	SELECT 	id.id
-						,id.title
-						,id.story_id
-				FROM itemdefs id
-				INNER JOIN stories s
-				ON id.story_id = s.id
-				WHERE s.id = :story_id';
-		$tempArray = DB::query(Database::SELECT,$q,TRUE)
-										->param(':story_id',$args['story_id'])
-										->execute()
-										->as_array();
-		$items = array();
-		foreach($tempArray as $a)
-		{		
-			$items[$a['id']] = self::getItemDef()->init($a);
-		}
-		return $items;
-	}
-	
-	static function getGridItems($args=array())
-	{						 		
-		$items = array();
-		if ((isset($args['itemdef_id']))||(isset($args['scene_id'])))
-		{
-			// get all the Items in the db
-			$q = '	SELECT 	id.id as itemdef_id	
-							,id.title as itemdef_title						
-							,gi.id
-							,gi.cell_id
-							,gi.scene_id
-							,gi.title							
-					FROM grids_items gi
-					INNER JOIN scenes sc
-					ON gi.scene_id = sc.id
-					LEFT OUTER JOIN itemdefs id
-					ON gi.itemdef_id = id.id
-					WHERE 1 = 1';
-			if (isset($args['itemdef_id']))
-			{	
-					$q .= ' AND id.id = :itemdef_id';
-			}
-			if (isset($args['scene_id']))
-			{
-					$q .= ' AND sc.id = :scene_id';
-			}
-					$q .= ' ORDER BY gi.id DESC';
-			$query = DB::query(Database::SELECT,$q,TRUE);
-			
-			if (isset($args['itemdef_id']))
-			{				
-				$query->param(':itemdef_id',$args['itemdef_id']);
-			}
-			if (isset($args['scene_id']))
-			{
-				$query->param(':scene_id',$args['scene_id']);
-			}
-			$tempArray = $query->execute()->as_array();	
-						
-			foreach($tempArray as $a)
-			{		
-				$items[$a['cell_id']] = self::getGridItem()->init($a);
-			}
-		}
-		return $items;		
+		return Model_PCP_Itemstates::getItemState($args);		
 	}
 	
 	static function getStoryItemInfo($args)
@@ -209,6 +154,7 @@ class Model_PCP_Items extends Model
 		return $itemstates; 
 	}
 	
+	/*
 	static function getSceneGridItemInfo($scene_id=0,$item_locations=array())
 	{
 		$griditemInfo = array();
@@ -217,10 +163,13 @@ class Model_PCP_Items extends Model
 			$griditemInfo = $item_locations[$scene_id];
 		}
 		return $griditemInfo;
-	}
+	}*/
 	
-	static function getGriditemsCurrentItemStates($griditemsInfo=array(),$story_data=array())
+	static function getSceneGriditems($scene_id=0)
 	{
+		$griditemsInfo = self::getSceneGridItemInfo($scene_id);
+		$story_data = Storydata::getStorydata();
+		
 		$itemstates = array();
 		if (isset($griditemsInfo['griditems']))
 		{
@@ -239,6 +188,117 @@ class Model_PCP_Items extends Model
 			}
 		}
 		return $itemstates;
+	}
+	
+	// gets story item info
+	static function getGriditemsInfo()
+	{
+		return Storydata::get('item_locations');		
+	}
+	
+	// sets storyiteminfo
+	static function setGriditemsInfo($Iteminfo=array())
+	{
+		Storydata::set('item_locations',$Iteminfo);
+	}
+	
+	// gets a specific scene's griditem info
+	static function getSceneGridItemInfo($scene_id=0)
+	{
+		$scenegriditems = array();
+		$iteminfo = self::getGriditemsInfo();		
+		if (isset($iteminfo[$scene_id]))
+		{
+			$scenegriditems = $iteminfo[$scene_id];
+		}
+		return $scenegriditems;
+	}
+	
+	// walks array to find griditem_id in storyiteminfo
+	static function searchGriditemById($griditem_id=0)
+	{
+		$foundlocation = array();
+		$foundlocation['scene_id'] = 0;
+		$foundlocation['cell_id'] = 0;		
+		$iteminfo = self::getGriditemsInfo();
+		foreach ($iteminfo as $scene_id=>$sceneitemInfo)
+		{
+			foreach ($sceneitemInfo as $cell)
+			{
+				foreach($cell as $item)
+				{										
+					if ($item['id'] == $griditem_id)
+					{						
+						$foundlocation['scene_id'] = $scene_id;
+						$foundlocation['cell_id'] = key($cell);
+					}
+				}
+			}
+		}
+		return $foundlocation;
+	}
+	
+	static function getGriditemBySceneIdAndCellId($scene_id=0,$cell_id)
+	{		
+		$item_info = array();
+		$sceneItemsInfo = self::getSceneGridItemInfo($scene_id);
+		if (isset($sceneItemsInfo['griditems'][$cell_id]))
+		{			
+			$item_info = $sceneItemsInfo['griditems'][$cell_id]; // get item out of item_locations array
+		}
+		return $item_info;
+	}
+	
+	static function removeGriditemBySceneIdAndCellId($scene_id=0,$cell_id)
+	{		
+		$griditemsInfo = self::getGriditemsInfo();
+		if (isset($griditemsInfo[$scene_id]['griditems'][$cell_id]))
+		{			
+			unset($griditemsInfo[$scene_id]['griditems'][$cell_id]); // remove item from array
+			self::setGriditemsInfo($griditemsInfo);
+		}
+	}
+	
+	/*
+	static function getGriditemInfo($griditem_id=0)
+	{
+		$foundlocation = searchGriditemInItemInfo($griditem_id);
+		if ($foundlocation['story_id'] != 0)
+		{
+			$iteminfo = self::getGriditemsInfo();
+			$item = $iteminfo[$foundlocation['story_id']]['griditems'][$foundlocation['cell_id']]
+		}
+		return $item;
+	}*/
+
+	// sets a grid item's itemstate_id based on a passed value. 
+	static function setGridItemState($griditem_id=0,$value='')
+	{
+		$foundlocation = self::searchGriditemById($griditem_id);
+		if ($foundlocation['story_id'] != 0)
+		{			
+			$itemstate = self::getGridItemCurrentItemState($griditem_id,$value);
+			$iteminfo = self::getGriditemsInfo();
+			$item = $iteminfo[$foundlocation['scene_id']]['griditems'][$foundlocation['cell_id']];
+			$item['itemstate_id'] = $itemstate[$griditem_id]->id;
+			$iteminfo[$foundlocation['scene_id']]['griditems'][$foundlocation['cell_id']] = $item;
+			self::setGriditemsInfo($iteminfo);
+			Storydata::set($item['slug'],$value);			
+		}
+	}
+	
+	// moves a grid item to a new scene_id
+	static function setGridItemLocation($griditem_id=0,$scene_id=0,$cell_id=1)
+	{
+		$foundlocation = self::searchGriditemById($griditem_id);
+		if ($foundlocation['scene_id'] != 0)
+		{						
+			$iteminfo = self::getGriditemsInfo();
+			$item = $iteminfo[$foundlocation['scene_id']]['griditems'][$foundlocation['cell_id']]; // get item
+			$iteminfo[$scene_id]['griditems'][$cell_id] = $item; // move item to new scene
+			unset($iteminfo[$foundlocation['scene_id']]['griditems'][$foundlocation['cell_id']]); // remove item from old location
+			self::setGriditemsInfo($iteminfo);		
+		}
 	}
 
 }

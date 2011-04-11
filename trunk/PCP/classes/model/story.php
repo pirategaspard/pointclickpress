@@ -21,7 +21,6 @@ class Model_Story extends Model
 	
 	public function __construct($args=array())
 	{
-		parent::__construct();		
 		$this->init($args);		
 	}
 	

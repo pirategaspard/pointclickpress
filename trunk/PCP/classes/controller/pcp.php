@@ -65,29 +65,27 @@ Class Controller_PCP extends Controller_Template_PCP
 			$story->setDimensions($session->get('screen_width'),$session->get('screen_height'));			
 			$session->set('story',$story);	
 			// Empty old story data 												
-			$story_data	= array();
+			Storydata::setStorydata();
 			// get inital item info 
 			$item_info = $story->initItems();
 			// set default item states
-			$story_data = $item_info['item_data']; // init story data with the item data 
+			Storydata::setStorydata($item_info['item_data']); // init story data with the item data 
 			// set item locations
-			$story_data['item_locations'] = $item_info['item_locations']; 
+			Storydata::set('item_locations',$item_info['item_locations']); 
 			// set first location
-			$story_data['location_id'] = $story->getFirstlocationId();
+			Storydata::set('location_id',$story->getFirstlocationId());
 			// set story id
-			$story_data['story_id'] = $story->id;
-			// set new story data into session 
-			$session->set('story_data',$story_data); 
+			Storydata::set('story_id',$story->id);
 			Events::announceEvent(POST_START_STORY);									
 			// put any story init actions into session
 			Model_PCP_Actions::doActions($story->getActions());			
 			// redirect to the first scene
-			Request::instance()->redirect(Route::get('default')->uri(array('action'=>'scene')));
+			Request::Current()->redirect(Route::get('default')->uri(array('action'=>'scene')));
 		}		
         else
         {
 			// redirect to the story list page
-			Request::instance()->redirect(Route::get('default')->uri(array('action'=>'list_stories')));
+			Request::Current()->redirect(Route::get('default')->uri(array('action'=>'list_stories')));
 		}
     }
     
@@ -104,26 +102,23 @@ Class Controller_PCP extends Controller_Template_PCP
 		// get story
 		$data['story'] = $session->get('story',NULL);																	
 		//get location from session (so that we can process any location actions)
-		$story_data = $session->get('story_data');
-		$location =  Model_PCP_Locations::getlocation(array('id'=>$story_data['location_id']));	
+		$location =  Model_PCP_Locations::getlocation(array('id'=>Storydata::get('location_id')));	
 		// put any location init actions into session
 		$results = array_merge($results,Actions::doActions($location->getActions()));
 		
 		// get the scene
-		$data['scene'] = Model_PCP_Scenes::getCurrentScene(array('location_id'=>Model_PCP_Locations::getCurrentlocationId()));//,'story'=>$data['story']));
-		$item_locations = Model_PCP_Items::getSceneGridItemInfo($data['scene']->id,$story_data['item_locations']);
-		$data['items'] = Model_PCP_Items::getGriditemsCurrentItemStates($item_locations,$story_data);
+		$data['scene'] = Model_PCP_Scenes::getCurrentScene(array('location_id'=>Model_PCP_Locations::getCurrentlocationId()));//,'story'=>$data['story']));		
+		$data['items'] = Model_PCP_Items::getSceneGriditems($data['scene']->id);
 		
 		// put any scene init actions into session
 		$results = array_merge($results,Actions::doActions($data['scene']->getActions()));	
 		// put any item actions into session
-		$results = array_merge($results,Actions::doActions(Model_PCP_Actions::getSceneItemActions($item_locations)));	
+		$results = array_merge($results,Actions::doActions(Model_PCP_Actions::getSceneItemActions($data['scene']->id)));	
 		
 		//put scene into session
 		$session->set('scene',$data['scene']);
 		//put scene id into story_data
-		$story_data['scene_id'] = $data['scene']->id;
-		$session->set('story_data',$story_data); 
+		Storydata::set('scene_id',$data['scene']->id);
 		
 		// if we have valid data show the scene
 		if (($data['story'] != NULL) && ($data['scene']->id > 0) && (strlen($data['scene']->filename) > 0))
@@ -145,9 +140,9 @@ Class Controller_PCP extends Controller_Template_PCP
         	Events::announceEvent(ERROR);
         
 			// redirect to the story list page
-		//	Request::instance()->redirect(Route::get('default')->uri(array('action'=>'list_stories')));
+		//	Request::Current()->redirect(Route::get('default')->uri(array('action'=>'list_stories')));
 			//debug
-			var_dump($_SESSION);
+			//var_dump($_SESSION);
 			if (($data['story'] == NULL))
 			{
 				echo ("<b>No Story Data</b>");				
@@ -167,43 +162,42 @@ Class Controller_PCP extends Controller_Template_PCP
   
     /* handles cell clicks */
     function action_cellClick()
-    {
-		// disable auto render	
-		$this->auto_render = FALSE;
+    {		
+		$this->simple_output();
 		// do plugins
     	Events::announceEvent(PRE_CELL_CLICK);
     	// get session
 		$session = Session::instance();
-		// get story data
-		$story_data = $session->get('story_data');
+		
 		// get the scene_id
 		$scene = $session->get('scene',NULL);
 		// get scene id & set scene id into story_data
-		$story_data['scene_id'] = ($scene != NULL)?$scene->id:0;
-			// get cell id that was clicked & set cell id into story_data
-    	$story_data['cell_id'] = (isset($_REQUEST['n']))?$_REQUEST['n']:0;
-    	// set item id to 0
-    	$story_data['griditem_id'] = 0;
-    	// update story data
-    	$session->set('story_data',$story_data);
+		$scene_id = ($scene != NULL)?$scene->id:0;
+		// get cell id that was clicked & set cell id into story_data
+    	$cell_id = (isset($_REQUEST['n']))?$_REQUEST['n']:0;
+    	
+    	Storydata::set('scene_id',$scene_id);
+    	Storydata::set('cell_id',$cell_id);    	    	    	
+    	Storydata::set('griditem_id',0); // set item id to 0 
+    	
     	// do the grid action (if any)
-    	$results = Actions::doActions(Actions::getCellActions(array('scene_id'=>$story_data['scene_id'],'cell_id'=>$story_data['cell_id'])));
+    	$results = Actions::doActions(Actions::getCellActions(array('scene_id'=>Storydata::get('scene_id'),'cell_id'=>Storydata::get('cell_id'))));
     	//get item location info
-		$item_locations = Items::getSceneGridItemInfo($story_data['scene_id'],$story_data['item_locations']);
+		$item_locations = Items::getSceneGridItemInfo(Storydata::get('scene_id'),Storydata::get('item_locations'));
     	// do plugins
     	Events::announceEvent(POST_CELL_CLICK);
- 
-    	if (Request::$is_ajax)
-    	{    		
+		
+    	if (Request::Current()->is_ajax())
+    	{    	
 			// display the results 	
-			echo json_encode($results);	
+			$this->template->content = json_encode($results);	
 			//(javascript will decide what to do next)	
-	}
-	else 
+		}
+		else 
     	{
     		// no javascript
     		// refresh the page no matter what. 
-			Request::instance()->redirect(Route::get('default')->uri(array('action'=>'scene')));
+			Request::Current()->redirect(Route::get('default')->uri(array('action'=>'scene')));
 		}
     }
 	
@@ -218,25 +212,26 @@ Class Controller_PCP extends Controller_Template_PCP
     	Events::announceEvent(PRE_CELL_CLICK);
     	// get session
 		$session = Session::instance();
-		// get story data
-    	$story_data = $session->get('story_data');
 		// get the scene_id
 		$scene = $session->get('scene',NULL);
 		// get scene id & set scene id into story_data
-		$story_data['scene_id'] = ($scene != NULL)?$scene->id:0;
-    	// get cell id that was clicked & set cell id into story_data
-    	$story_data['cell_id'] = (isset($_REQUEST['n']))?$_REQUEST['n']:0;	
+		$scene_id = ($scene != NULL)?$scene->id:0;
+		// get cell id that was clicked & set cell id into story_data
+    	$cell_id = (isset($_REQUEST['n']))?$_REQUEST['n']:0;
     	// get item id that was clicked & set item id into story_data
-    	$story_data['griditem_id'] = (isset($_REQUEST['i']))?$_REQUEST['i']:0;
-    	// update story data
-    	$session->set('story_data',$story_data);
+    	$griditem_id = (isset($_REQUEST['i']))?$_REQUEST['i']:0;
+    	
+    	Storydata::set('scene_id',$scene_id);
+    	Storydata::set('cell_id',$cell_id);    	    	    	
+    	Storydata::set('griditem_id',$griditem_id);
+    	
     	// do item action (if any)
-    	$results = Actions::doActions(Actions::getGridItemActions(array('griditem_id'=>$story_data['griditem_id'],'scene_id'=>$story_data['scene_id'])));
+    	$results = Actions::doActions(Actions::getGridItemActions(array('griditem_id'=>Storydata::get('griditem_id'),'scene_id'=>Storydata::get('scene_id'))));
 		// do plugins
 		Events::announceEvent(POST_CELL_CLICK);
 		Events::announceEvent(POST_ITEM_CLICK);
  
-    	if (Request::$is_ajax)
+    	if (Request::Current()->is_ajax())
     	{    		
 			// display the results 	
 			echo json_encode($results);	
@@ -246,7 +241,7 @@ Class Controller_PCP extends Controller_Template_PCP
     	{
     		// no javascript
     		// refresh the page no matter what. 
-			Request::instance()->redirect(Route::get('default')->uri(array('action'=>'scene')));
+			Request::Current()->redirect(Route::get('default')->uri(array('action'=>'scene')));
 		}
 	}
 	function action_screenSize()

@@ -1,50 +1,57 @@
-<?php defined('SYSPATH') or die('No direct access allowed.');
+<?php defined('SYSPATH') or die('No direct script access.');
 /**
  * URL helper class.
  *
  * @package    Kohana
  * @category   Helpers
  * @author     Kohana Team
- * @copyright  (c) 2007-2009 Kohana Team
- * @license    http://kohanaphp.com/license
+ * @copyright  (c) 2007-2011 Kohana Team
+ * @license    http://kohanaframework.org/license
  */
 class Kohana_URL {
 
 	/**
-	 * Gets the base URL to the application. To include the current protocol,
-	 * use TRUE. To specify a protocol, provide the protocol as a string.
+	 * Gets the base URL to the application.
+	 * To specify a protocol, provide the protocol as a string or request object.
 	 * If a protocol is used, a complete URL will be generated using the
 	 * `$_SERVER['HTTP_HOST']` variable.
 	 *
-	 *     // Absolute relative, no host or protocol
+	 *     // Absolute URL path with no host or protocol
 	 *     echo URL::base();
 	 *
-	 *     // Complete relative, with host and protocol
-	 *     echo URL::base(TRUE, TRUE);
+	 *     // Absolute URL path with host, https protocol and index.php if set
+	 *     echo URL::base('https', TRUE);
 	 *
-	 *     // Complete relative, with host and "https" protocol
-	 *     echo URL::base(TRUE, 'https');
+	 *     // Absolute URL path with host and protocol from $request
+	 *     echo URL::base($request);
 	 *
-	 * @param   boolean  add index file to URL?
-	 * @param   mixed    protocol string or boolean, add protocol and domain?
+	 * @param   mixed    $protocol Protocol string, [Request], or boolean
+	 * @param   boolean  $index    Add index file to URL?
 	 * @return  string
 	 * @uses    Kohana::$index_file
-	 * @uses    Request::$protocol
+	 * @uses    Request::protocol()
 	 */
-	public static function base($index = FALSE, $protocol = FALSE)
+	public static function base($protocol = NULL, $index = FALSE)
 	{
 		// Start with the configured base URL
 		$base_url = Kohana::$base_url;
 
 		if ($protocol === TRUE)
 		{
-			// Use the current protocol
-			$protocol = Request::$protocol;
+			// Use the initial request to get the protocol
+			$protocol = Request::$initial;
 		}
-		elseif ($protocol === FALSE AND $scheme = parse_url($base_url, PHP_URL_SCHEME))
+
+		if ($protocol instanceof Request)
+		{
+			// Use the current protocol
+			$protocol = $protocol->protocol();
+		}
+
+		if ( ! $protocol)
 		{
 			// Use the configured default protocol
-			$protocol = $scheme;
+			$protocol = parse_url($base_url, PHP_URL_SCHEME);
 		}
 
 		if ($index === TRUE AND ! empty(Kohana::$index_file))
@@ -55,6 +62,12 @@ class Kohana_URL {
 
 		if (is_string($protocol))
 		{
+			if ($port = parse_url($base_url, PHP_URL_PORT))
+			{
+				// Found a port, make it usable for the URL
+				$port = ':'.$port;
+			}
+
 			if ($domain = parse_url($base_url, PHP_URL_HOST))
 			{
 				// Remove everything but the path from the URL
@@ -62,12 +75,12 @@ class Kohana_URL {
 			}
 			else
 			{
-				// Attempt ot use HTPP_HOST and fallback to SERVER_NAME
+				// Attempt to use HTTP_HOST and fallback to SERVER_NAME
 				$domain = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME'];
 			}
 
 			// Add the protocol and domain to the base URL
-			$base_url = $protocol.'://'.$domain.$base_url;
+			$base_url = $protocol.'://'.$domain.$port.$base_url;
 		}
 
 		return $base_url;
@@ -78,12 +91,13 @@ class Kohana_URL {
 	 *
 	 *     echo URL::site('foo/bar');
 	 *
-	 * @param   string  site URI to convert
-	 * @param   mixed   protocol string or boolean, add protocol and domain?
+	 * @param   string  $uri        Site URI to convert
+	 * @param   mixed   $protocol   Protocol string or [Request] class to use protocol from
+	 * @param   boolean $index		Include the index_page in the URL
 	 * @return  string
 	 * @uses    URL::base
 	 */
-	public static function site($uri = '', $protocol = FALSE)
+	public static function site($uri = '', $protocol = NULL, $index = TRUE)
 	{
 		// Chop off possible scheme, host, port, user and pass parts
 		$path = preg_replace('~^[-a-z0-9+.]++://[^/]++/?~', '', trim($uri, '/'));
@@ -95,7 +109,7 @@ class Kohana_URL {
 		}
 
 		// Concat the URL
-		return URL::base(TRUE, $protocol).$path;
+		return URL::base($protocol, $index).$path;
 	}
 
 	/**
@@ -110,20 +124,24 @@ class Kohana_URL {
 	 *
 	 * [!!] Parameters with a NULL value are left out.
 	 *
-	 * @param   array   array of GET parameters
+	 * @param   array    $params   Array of GET parameters
+	 * @param   boolean  $use_get  Include current request GET parameters
 	 * @return  string
 	 */
-	public static function query(array $params = NULL)
+	public static function query(array $params = NULL, $use_get = TRUE)
 	{
-		if ($params === NULL)
+		if ($use_get)
 		{
-			// Use only the current parameters
-			$params = $_GET;
-		}
-		else
-		{
-			// Merge the current and new parameters
-			$params = array_merge($_GET, $params);
+			if ($params === NULL)
+			{
+				// Use only the current parameters
+				$params = $_GET;
+			}
+			else
+			{
+				// Merge the current and new parameters
+				$params = array_merge($_GET, $params);
+			}
 		}
 
 		if (empty($params))
@@ -132,10 +150,11 @@ class Kohana_URL {
 			return '';
 		}
 
+		// Note: http_build_query returns an empty string for a params array with only NULL values
 		$query = http_build_query($params, '', '&');
 
 		// Don't prepend '?' to an empty string
-		return ($query === '') ? '' : '?'.$query;
+		return ($query === '') ? '' : ('?'.$query);
 	}
 
 	/**
@@ -143,9 +162,9 @@ class Kohana_URL {
 	 *
 	 *     echo URL::title('My Blog Post'); // "my-blog-post"
 	 *
-	 * @param   string   phrase to convert
-	 * @param   string   word separator (any single character)
-	 * @param   boolean  transliterate to ASCII?
+	 * @param   string   $title       Phrase to convert
+	 * @param   string   $separator   Word separator (any single character)
+	 * @param   boolean  $ascii_only  Transliterate to ASCII?
 	 * @return  string
 	 * @uses    UTF8::transliterate_to_ascii
 	 */

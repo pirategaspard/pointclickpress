@@ -5,18 +5,18 @@
 	$var = (eval_value1 [>|<|<=|>=|==|!=] eval_value1 ) ? true_value1 : false_value 2;
  */
 
-class action_Ternary extends Model_Base_PCPActionDef
+class action_ternary extends Model_Base_PCPActionDef
 {	
 	protected $label = "Ternary 'If' statement";
 	protected $description = "Assign a variable using a ternary 'If' statement \$var = (eval_value1 [>|<|<=|>=|==|!=] eval_value1 ) ? true_value1 : false_value 2;" ;		
 	
 	private $story_data = array();
 	
-	public function performAction($args=array(),&$story_data=array(),$hook_name='')
+	public function performAction($args=array(),$hook_name='')
 	{		
 		$results = array();
 		$parsed = array(); // array of results
-		$this->story_data = $story_data;				
+		$this->story_data = StoryData::getStorydata();				
 		$expressions = $this->tokenize($args['action_value']); // explode on semi-colon if there is more than one statement here
 		foreach($expressions as $expression)
 		{						
@@ -31,17 +31,13 @@ class action_Ternary extends Model_Base_PCPActionDef
 				if ($this->isVariable($name))
 				{																											
 					$name = $this->getVariableName($name);	//remove any whitespace and strip $ from variable name so we can put it in session['story_data'][$var]																	
-					$parsed = array_merge($parsed,$this->assign($name,$value));
+					//$parsed = array_merge($parsed,$this->assign($name,$value));
+					$this->assign($name,$value);
 				}				
 			}			
 		}
-		if (count($parsed) > 0)
-		{
-			//update story_data
-			$story_data = array_merge($story_data,$parsed);		
-			// pass to the parent action to refresh the scene
-			$results = parent::performAction($args,$story_data);
-		}
+		// pass to the parent action to refresh the scene
+		$results = parent::performAction($args);
 		return $results;
 	}
 	
@@ -65,18 +61,20 @@ class action_Ternary extends Model_Base_PCPActionDef
 					$eval_values = $this->tokenize($if_statement[0],$operator);					
 					if (count($eval_values) == 2) 
 					{											
-						$eval_values[0] = $this->getValueFromArray($this->getVariableName($eval_values[0]),$this->story_data);
-						$eval_values[1] = $this->getValueFromArray($this->getVariableName($eval_values[1]),$this->story_data);
-						$values[0] = $this->getValueFromArray($this->getVariableName($values[0]),$this->story_data);
-						$values[1] = $this->getValueFromArray($this->getVariableName($values[1]),$this->story_data);		
+						$eval_values[0] = $this->getValueFromArray($this->getVariableName($eval_values[0]),Storydata::getStorydata());
+						$eval_values[1] = $this->getValueFromArray($this->getVariableName($eval_values[1]),Storydata::getStorydata());
+						$values[0] = $this->getValueFromArray($this->getVariableName($values[0]),Storydata::getStorydata());
+						$values[1] = $this->getValueFromArray($this->getVariableName($values[1]),Storydata::getStorydata());		
 						
 						if($this->evaluate($this->removeQuotes($eval_values[0]),$operator,$this->removeQuotes($eval_values[1])))
 						{
-							$parsed[$name] = $values[0];									
+							//$parsed[$name] = $values[0];									
+							Storydata::set($name,$values[0]);
 						}
 						else
 						{
-							$parsed[$name] = $values[1];
+							//$parsed[$name] = $values[1];
+							Storydata::set($name,$values[1]);
 						}										
 					}
 				}

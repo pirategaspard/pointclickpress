@@ -12,7 +12,6 @@ class Model_ItemState extends Model
 	
 	public function __construct($args=array())
 	{
-		parent::__construct( );		
 		$this->init($args);		
 	}
 	

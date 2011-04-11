@@ -16,7 +16,7 @@ class action_message extends Model_Base_PCPActionDef
 	protected $description = 'Displays a Message to the User';
 	protected $allowed_action_types = Array(ACTION_TYPE_NULL,ACTION_TYPE_STORY,ACTION_TYPE_LOCATION,ACTION_TYPE_SCENE,ACTION_TYPE_GRID,ACTION_TYPE_ITEMSTATE);
 	
-	public function performAction($args=array(),&$story_data=array(),$hook_name='')
+	public function performAction($args=array(),$hook_name='')
 	{
 		$action_data = $this->tokenize($args['action_value']);
 		$data = array();

@@ -15,8 +15,7 @@ class Model_Scene extends Model
 	protected $items = array();
 	
 	public function __construct($args=array())
-	{
-		parent::__construct();		
+	{	
 		$this->init($args);		
 	}
 	
@@ -66,7 +65,7 @@ class Model_Scene extends Model
 		if (isset($args['include_items']))
 		{				
 			$args['scene_id'] = $this->id;		
-			$this->items = Model_PCP_Items::getGridItems($args);
+			$this->items = Model_Admin_GridItemAdmin::getGridItems($args);
 		}
 		return $this;
 	}

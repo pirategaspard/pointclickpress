@@ -1,7 +1,7 @@
 <?php 
 
 	//var_dump($action_types); die();
-	if (isset($event) && (isset($action_defs)))
+	if (isset($action) && (isset($action_defs)))
 	{
 ?>
 	<fieldset class="ui-helper-reset ui-widget-content ui-corner-all">
@@ -14,19 +14,19 @@
 			<?php if (isset($griditem_id)){ ?><input type="hidden" name="griditem_id" value="<?php echo($griditem_id); ?>" /> <?php } ?>
 			<input type="hidden" name="back_url" value="<?php echo($back_url); ?>" />
 			<input type="hidden" name="action_type" value="<?php echo($action_type); ?>" />
-			<input type="hidden" name="id" value="<?php echo($event->id); ?>" />
+			<input type="hidden" name="id" value="<?php echo($action->id); ?>" />
 			Event Type:
 			<select id="action_type2" name="event">
 				<?php foreach($action_defs as $action_def)
 				{
 					$selected = '';
-					if ($event->event == $action_def->getClass()) $selected = ' selected="selected" ';
+					if ($action->action == $action_def->getClass()) $selected = ' selected="selected" ';
 					echo ('<option value="'.$action_def->getClass().'"'.$selected.' >'.$action_def->getLabel().'</option>');
 				} ?>
 			</select><br />
 			<div id="action_description2" class="action_description"></div>
 			<label id="action_value" for="action_value">Event Value:
-				<textarea rows="10" cols="50" name="action_value"><?php echo($event->action_value); ?></textarea>
+				<textarea rows="10" cols="50" name="action_value"><?php echo($action->action_value); ?></textarea>
 			</label>
 			<input type="submit" name="submit" value="Save" class="ui-widget ui-state-default ui-corner-all button save" />
 		</form>

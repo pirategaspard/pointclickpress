@@ -18,7 +18,7 @@ class plugin_debug extends Model_Base_PCPPlugin
 			$session = Session::instance();	
 								
 			/* Add what ever you want to dump out of session here */			
-			$story_data = $session->get('story_data',array());
+			$story_data = Storydata::getStorydata();
 			?>
 			<pre>
 				<?php var_dump($story_data);?>

@@ -11,8 +11,7 @@ class Model_GridItem extends Model
 	protected $story_id = 0;
 	
 	public function __construct($args=array())
-	{
-		parent::__construct();		
+	{	
 		$this->init($args);		
 	}
 	

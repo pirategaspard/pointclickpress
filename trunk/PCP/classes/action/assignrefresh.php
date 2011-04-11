@@ -15,11 +15,11 @@ class action_assignrefresh extends action_assign
 	
 	private $story_data = array();
 	
-	public function performAction($args=array(),&$story_data=array(),$hook_name='')
+	public function performAction($args=array(),$hook_name='')
 	{
-		$results = parent::performAction($args,$story_data);	
+		$results = parent::performAction($args);	
 		$refresh = new action_refresh;
-		$results = $refresh->performAction($args,$story_data);
+		$results = $refresh->performAction($args);
 		return $results;
 	}
 

@@ -39,12 +39,12 @@ Class Controller_admin_plugin extends Controller_Template_Admin
 		}
 		$session = Session::instance();	
 		$session->set('result',$result);
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'plugin','action'=>'list')));
+		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'plugin','action'=>'list')));
 	}
 	
 	function action_save()
 	{		
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'plugin','action'=>'list')));
+		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'plugin','action'=>'list')));
 	}
 	
 	function action_delete()
@@ -57,7 +57,7 @@ Class Controller_admin_plugin extends Controller_Template_Admin
 			// delete record
 			Model_Admin_PluginsAdmin::deleteByID($plugin[0]['id']);
 		}
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'plugin','action'=>'list')));
+		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'plugin','action'=>'list')));
 	}
 	
 }

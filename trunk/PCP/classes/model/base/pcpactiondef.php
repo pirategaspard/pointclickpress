@@ -21,7 +21,7 @@ class Model_Base_PCPActionDef extends Model_Base_PCPAdminItem implements Interfa
 		return $this->events;
 	}
 	
-	public function performAction($args=array(),&$story_data=array(),$hook_name='')
+	public function performAction($args=array(),$hook_name='')
 	{
 		// return message response
 		$response = new pcpresponse(NOP,array()); 
@@ -31,9 +31,7 @@ class Model_Base_PCPActionDef extends Model_Base_PCPAdminItem implements Interfa
 	// call action as event listener 
 	public function execute($hook_name='')
 	{
-		$session = Session::instance();
-		$storydata = $session->get('storydata',array());
-		$this->performAction(array(),$storydata,$hook_name);
+		$this->performAction(array(),$hook_name);
 	}
 	
 	/* Library functions for use in action objects */

@@ -19,7 +19,7 @@ class Model_Events
 	public static function announceEvent($event_name)
 	{	
 		$instance = self::instance();		
-		$classes = $instance->getListenerClasses($event_name);
+		$classes = $instance->getListenerClasses($event_name);		
 		foreach($classes as $class)
 		{
 			$c = new $class();
@@ -101,7 +101,7 @@ class Model_Events
 	
 	static function initalizeListenerClasses()
 	{
-		//self::registerAllListenerClasses();
+		self::registerAllListenerClasses();
 	}
 	
 	private static function getAllListenerClasses()

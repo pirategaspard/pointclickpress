@@ -26,7 +26,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		$data['assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?story_id='.$data['scene']->story_id.'&location_id='.$data['scene']->location_id.'&scene_id='.$session->get('scene_id');				
 		
 		/* scene actions */	
-		$data['action_list'] = Request::factory('/admin/action/listSimple')->execute()->response;
+		$data['action_list'] = Request::factory('/admin/action/listSimple')->execute()->body();
 		
 		/* scene */
 		$data['scene_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'save')));						
@@ -35,12 +35,12 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		if (strlen($data['scene']->filename) > 0)
 		{
 			// items
-			$data['grid_item_form'] = Request::factory('/admin/griditem/formgridSimple')->execute()->response;
-			$data['grid_items_list'] = Request::factory('/admin/griditem/listgridSimple')->execute()->response;
+			$data['grid_item_form'] = Request::factory('/admin/griditem/formgridSimple')->execute()->body();
+			$data['grid_items_list'] = Request::factory('/admin/griditem/listgridSimple')->execute()->body();
 			
 			// actions
-			$data['grid_action_form'] = Request::factory('/admin/action/formgridSimple')->execute()->response;
-			$data['grid_action_list'] = Request::factory('/admin/action/listgridSimple')->execute()->response;
+			$data['grid_action_form'] = Request::factory('/admin/action/formgridSimple')->execute()->body();
+			$data['grid_action_list'] = Request::factory('/admin/action/listgridSimple')->execute()->body();
 			
 			// grid
 			$data['grid'] = View::factory('/admin/scene/grid',$data)->render();
@@ -86,7 +86,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 						$result = new pcpresult(0,'Locations cannot have two scenes with the same scene value');	
 						$session->set('result',$result);
 						//redirect to edit screen
-						Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?scene_id='.$_POST['id']);
+						Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?scene_id='.$_POST['id']);
 					}
 				}				
 				//save Scene to db
@@ -101,12 +101,12 @@ Class Controller_admin_scene extends Controller_Template_Admin
 			$session->set('result',$result);
 			
 			//redirect to edit screen
-			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?scene_id='.$result->data['id']);
+			Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?scene_id='.$result->data['id']);
 		}
 		else
 		{
 			// We aren't saving anything, go back to the parent
-			Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'location','action'=>'edit')));
+			Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'location','action'=>'edit')));
 		}
 	}
 	
@@ -126,7 +126,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		}
 		$session->set('result',$result);
 		//Go back to the parent
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'location','action'=>'edit')));
+		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'location','action'=>'edit')));
 	}
 	
 	function action_assignImage()
@@ -145,7 +145,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 			}
 			$session->set('result',$result);			
 		}
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')));
+		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')));
 	}
 	
 	function action_assignItem()
@@ -168,7 +168,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 			}
 			$session->set('result',$result);			
 		}
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?tab=2&scene_id='.$_POST['scene_id']);
+		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?tab=2&scene_id='.$_POST['scene_id']);
 	}
 	function action_DeleteItem()
 	{		
@@ -190,7 +190,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 			}
 			$session->set('result',$result);			
 		}
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?scene_id='.$data['scene_id']);
+		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?scene_id='.$data['scene_id']);
 	}
 	
 	function action_listSimple()

@@ -75,7 +75,7 @@ Class Controller_admin_image extends Controller_Template_Admin
 				$session->set('image_id',$result->data['image_id']);
 			}	
 		}
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'image','action'=>'list')));	
+		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'image','action'=>'list')));	
 	}
 	
 	function action_delete()
@@ -95,7 +95,7 @@ Class Controller_admin_image extends Controller_Template_Admin
 		}
 		$session->set('result',$result);
 		//Go back to the parent
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'image','action'=>'list')));
+		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'image','action'=>'list')));
 	}
 }
 

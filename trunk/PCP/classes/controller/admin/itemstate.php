@@ -15,7 +15,7 @@ Class Controller_admin_itemstate extends Controller_Template_Admin
 		$data['itemstate_form'] =  View::factory('/admin/itemstate/form',$data)->render();		
 		$data['add_itemstate_link'] =  View::factory('/admin/itemstate/add',$data)->render();
 		$data['story'] = Model_Admin_StoriesAdmin::getStory(array('id'=>$data['itemdef']->story_id));
-		$data['action_list'] = Request::factory('/admin/action/listSimple')->execute()->response;
+		$data['action_list'] = Request::factory('/admin/action/listSimple')->execute()->body();
 		
 		$this->template->breadcrumb .= View::factory('/admin/story/info',$data)->render();
 		$this->template->breadcrumb .= View::factory('/admin/itemdef/info',$data)->render();
@@ -71,7 +71,7 @@ Class Controller_admin_itemstate extends Controller_Template_Admin
 		}
 		$session->set('result',$result);
 		//redirect to edit the Item just saved
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'itemstate','action'=>'edit')).'?itemstate_id='.$result->data['id']);
+		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'itemstate','action'=>'edit')).'?itemstate_id='.$result->data['id']);
 	}
 	
 	function action_delete()
@@ -87,7 +87,7 @@ Class Controller_admin_itemstate extends Controller_Template_Admin
 		$session->set('result',$result);
 		$back_url = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';	
 		//Go back to the parent
-		Request::instance()->redirect($back_url);
+		Request::Current()->redirect($back_url);
 	}
 	
 	function action_assignImage()
@@ -105,7 +105,7 @@ Class Controller_admin_itemstate extends Controller_Template_Admin
 			}
 			$session->set('result',$result);			
 		}
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'itemstate','action'=>'edit')).'?itemstate_id='.$data['itemstate_id']);
+		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'itemstate','action'=>'edit')).'?itemstate_id='.$data['itemstate_id']);
 	}
 
 	function action_listSimple()

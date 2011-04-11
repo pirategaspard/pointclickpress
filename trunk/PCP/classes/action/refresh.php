@@ -14,7 +14,7 @@ class action_refresh extends Model_Base_PCPActionDef
 	protected $description = 'Refreshes the scene';
 	protected $allowed_action_types = array(ACTION_TYPE_GRID,ACTION_TYPE_GRIDITEM);	
 	
-	public function performAction($args=array(),&$story_data=array(),$hook_name='')
+	public function performAction($args=array(),$hook_name='')
 	{
 		$results = array();
 	
@@ -24,21 +24,17 @@ class action_refresh extends Model_Base_PCPActionDef
 		$data['title'] = '';
 		$data['description'] = '';
 		// do event
-		Events::announceEvent(PRE_SCENE);		
+		Events::announceEvent(PRE_SCENE);	
 		// get session
 		$session = Session::instance();
-		// set story data 
-		$session->set('story_data',$story_data);						
 		// get story
 		$story = $session->get('story',NULL);
 		//get location 
-		$location = Model_PCP_Locations::getLocation(array('id'=>$story_data['location_id']));
+		$location = Model_PCP_Locations::getLocation(array('id'=>Storydata::get('location_id')));
 		// put any location init actions into session
 		$results = array_merge($results,Actions::doActions($location->getActions()));
 		
-		/*var_dump($location);
-		var_dump($results);
-		var_dump($location->getActions()); die(); */
+		//var_dump($story); die(); 
 		// get scene
 		$scene = Model_PCP_Scenes::getCurrentScene(array('location_id'=>Model_PCP_Locations::getCurrentlocationId()));
 		
@@ -49,21 +45,18 @@ class action_refresh extends Model_Base_PCPActionDef
 		if (($scene)&&($location)&&($story))
 		{
 			//put scene id into story_data
-			$story_data['scene_id'] = $scene->id;
-			//get item location info
-			$item_locations = Model_PCP_Items::getSceneGridItemInfo($scene->id,$story_data['item_locations']);
-			
+			Storydata::set('scene_id',$scene->id);
 			// populate response data 					
 			$data['filename'] = $scene->getPath($story->screen_size);
 			$data['preload_filename'] = $scene->getPath(THUMBNAIL_IMAGE_SIZE);
-			$data['items'] = $this->getItems($item_locations,$story_data,$story);
+			$data['items'] = $this->getItems($scene->id,$story);
 			$data['title'] = DEFAULT_PAGE_TITLE.$story->title.' : '.$scene->title;
 			$data['description'] = $scene->description;
 			
 			// put any scene init actions into session
 			$results = array_merge($results,Actions::doActions($scene->getActions()));		
 			// put any item actions into session
-			$results = array_merge($results,Actions::doActions(Actions::getSceneItemActions($item_locations)));
+			$results = array_merge($results,Actions::doActions(Actions::getSceneItemActions($scene->id)));
 		}
 		// set data back into session
 		$session->set('scene',$scene);
@@ -76,15 +69,18 @@ class action_refresh extends Model_Base_PCPActionDef
 		return $results;
 	}
 	
-	private function getItems($item_locations=array(),$story_data=array(),$story=null)
+	private function getItems($scene_id=0,$story=null)
 	{
 		$items = array();
-		$itemstates = Items::getGriditemsCurrentItemStates($item_locations,$story_data);
+		$itemstates = Items::getSceneGriditems($scene_id);
 		
 		foreach ($itemstates as $cell_id=>$itemstate)
 		{
-			$items[$cell_id] = array(	'id'=>key($itemstate),
+			if (count($itemstate) > 0)
+			{
+				$items[$cell_id] = array(	'id'=>key($itemstate),
 										'path'=>$story->getMediaPath().current($itemstate)->getPath($story->screen_size));
+			}
 		}
 		return $items;
 	}

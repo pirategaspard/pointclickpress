@@ -1,7 +1,36 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 class Model_Admin_ItemDefAdmin extends Model_PCP_Items
-{									 
+{		
+	
+	// item definitions define an item by holding images and values for an item type 
+	static function getItemDef($args=array())
+	{		
+		$item = new Model_ItemDef($args);
+		return $item->load($args);
+	}
+	
+	static function getItemDefs($args)
+	{
+		$q = '	SELECT 	id.id
+						,id.title
+						,id.story_id
+				FROM itemdefs id
+				INNER JOIN stories s
+				ON id.story_id = s.id
+				WHERE s.id = :story_id';
+		$tempArray = DB::query(Database::SELECT,$q,TRUE)
+										->param(':story_id',$args['story_id'])
+										->execute()
+										->as_array();
+		$items = array();
+		foreach($tempArray as $a)
+		{		
+			$items[$a['id']] = self::getItemDef()->init($a);
+		}
+		return $items;
+	}
+								 
 	static function getData()
 	{
 		$session = Session::instance();	

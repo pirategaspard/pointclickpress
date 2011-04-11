@@ -12,8 +12,8 @@ Class Controller_admin_item extends Controller_Template_Admin
 		$data['item_form'] =  View::factory('/admin/item/form',$data)->render();		
 		$data['add_item_link'] =  View::factory('/admin/item/add',$data)->render();
 		$data['story'] = PCPAdmin::getStory(array('story_id'=>$data['item']->story_id));
-		$data['action_list'] = Request::factory('/admin/action/listSimple')->execute()->response;			
-		$data['itemstate_list'] = Request::factory('/admin/itemstate/listSimple')->execute()->response;
+		$data['action_list'] = Request::factory('/admin/action/listSimple')->execute()->body();			
+		$data['itemstate_list'] = Request::factory('/admin/itemstate/listSimple')->execute()->body();
 		
 		$this->template->breadcrumb .= View::factory('/admin/story/info',$data)->render();
 		$this->template->breadcrumb .= View::factory('/admin/item/info',$data)->render();		
@@ -63,7 +63,7 @@ Class Controller_admin_item extends Controller_Template_Admin
 		}
 		$session->set('result',$result);
 		//redirect to edit the Item just saved
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'item','action'=>'edit')).'?item_id='.$result->data['id']);
+		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'item','action'=>'edit')).'?item_id='.$result->data['id']);
 	}
 	
 	function action_delete()
@@ -79,7 +79,7 @@ Class Controller_admin_item extends Controller_Template_Admin
 		$session->set('result',$result);
 		$back_url = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';	
 		//Go back to the parent
-		Request::instance()->redirect($back_url);
+		Request::Current()->redirect($back_url);
 	}
 	
 	function action_assignImage()
@@ -97,7 +97,7 @@ Class Controller_admin_item extends Controller_Template_Admin
 			}
 			$session->set('result',$result);			
 		}
-		Request::instance()->redirect(Route::get('admin')->uri(array('controller'=>'item','action'=>'edit')));
+		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'item','action'=>'edit')));
 	}
 	
 	function action_listSimple()
