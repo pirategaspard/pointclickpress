@@ -257,7 +257,7 @@ Class Controller_PCP extends Controller_Template_PCP
 	}
 	
 	// executes a function in a registered plugin class 
-	function action_plugin()
+/*	function action_plugin()
 	{
 		$this->simple_output();
 		// get plugin
@@ -278,7 +278,7 @@ Class Controller_PCP extends Controller_Template_PCP
 				$this->template->content = '';
 			}	
 		}
-	}
+	}*/
 	
 	// announce an event from the url
 	function action_announceEvent()

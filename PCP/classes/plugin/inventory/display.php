@@ -4,6 +4,7 @@
 <script>
 	$('#scene_link').attr('href','#'); // if they have javascript they don't need this link
 	$('#scene_link').click(function(){ tb_remove(); })
+	//TODO: turn inventory event links into ajax calls
 </script>
 <div id="inventory" >
 	<?php 		
