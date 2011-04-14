@@ -4,11 +4,12 @@
  */
 define('INVENTORY_DROPCURRENTITEM','INVENTORY_DROPCURRENTITEM');
 define('INVENTORY_SETCURRENTITEM','INVENTORY_SETCURRENTITEM');
+define('INVENTORY_DISPLAY','INVENTORY_DISPLAY');
 class plugin_inventory extends Model_Base_PCPPlugin
 {	
 	protected $label = 'Inventory'; // This is the label for this plugin
 	protected $description = 'Basic inventory plugin for PCP'; // This is the description of this plugin
-	protected $events = array(POST_START_STORY,CSS,ADMIN_JS,JS,DISPLAY_POST_SCENE,DISPLAY_POST_GRID_SELECT,INVENTORY_SETCURRENTITEM,INVENTORY_DROPCURRENTITEM); // This is an array of events to call this plugin from
+	protected $events = array(POST_START_STORY,CSS,ADMIN_JS,JS,DISPLAY_POST_SCENE,DISPLAY_POST_GRID_SELECT,INVENTORY_DISPLAY,INVENTORY_SETCURRENTITEM,INVENTORY_DROPCURRENTITEM); // This is an array of events to call this plugin from
 	
 	public function execute($event_name='')
 	{
@@ -44,6 +45,11 @@ class plugin_inventory extends Model_Base_PCPPlugin
 				include('inventory/gridselect.php');
 				break;
 			}	
+			case INVENTORY_DISPLAY:
+			{
+				self::display();
+				break;
+			}
 			case INVENTORY_SETCURRENTITEM:
 			{
 				self::setCurrentItem();
@@ -57,7 +63,7 @@ class plugin_inventory extends Model_Base_PCPPlugin
 		}	
 	}
 	
-	public function display()
+	static public function display()
 	{
 		include('inventory/display.php');
 	}
@@ -71,6 +77,12 @@ class plugin_inventory extends Model_Base_PCPPlugin
 	{
 		if (isset($_REQUEST['i']))
 		{
+			$curr_item_id = self::getCurrentItem();
+			if ($curr_item_id == $_REQUEST['i'])
+			{
+				// if we click on the item that is already current, unselect
+				$_REQUEST['i'] = 0;
+			}
 			$story_data = Storydata::set('current_item',$_REQUEST['i']);			
 			if (!Request::Current()->is_ajax())
 			{    		

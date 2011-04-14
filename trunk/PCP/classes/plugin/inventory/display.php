@@ -2,9 +2,25 @@
 <?php include('inventory.css') ?>
 <?php include('inventory.js.php') ?>
 <script>
-	$('#scene_link').attr('href','#'); // if they have javascript they don't need this link
-	$('#scene_link').click(function(){ tb_remove(); })
-	//TODO: turn inventory event links into ajax calls
+	// get objs
+	var backlink = $('#back_link');
+	var setcurritem = $('#setcurrentitem');
+	var dropcurritem = $('#dropcurrentitem');	
+	
+	// get urls
+	var setlink = setcurritem.attr('href');
+	var droplink = dropcurritem.attr('href');
+	
+	// remove links - if they have javascript they don't need these
+	backlink.attr('href','#');
+	setcurritem.attr('href','#');
+	dropcurritem.attr('href','#');
+	
+	// change functionality to be all 'ajaxy'
+	backlink.click(function(){ tb_remove(); })
+	setcurritem.click(function(){$.post(setlink, function(){ tb_remove(); }); });
+	dropcurritem.click(function(){$.post(droplink, function(){ tb_remove(); }); });
+	
 </script>
 <div id="inventory" >
 	<?php 		
@@ -18,10 +34,10 @@
 			foreach ($inventory_items as $item_info)
 			{
 				$item = current($item_info);
-				if (plugin_inventory::getCurrentItem() == $item['id']) {echo '<li style="border: solid 2px red">';}
-				else {echo '<li>';}
+				if (plugin_inventory::getCurrentItem() == $item['id']) {echo '<li class="active">';}
+				else {echo '<li class="nonactive">';}
 				$itemstate = Model_PCP_Items::getItemState($item['itemstate_id']);
-				echo '<a href="'.Kohana::$base_url.'announceEvent?event='.INVENTORY_SETCURRENTITEM.'&i='.$item['id'].'"><img src="'.$story->getMediaPath().$itemstate->getPath($story->screen_size).'" alt="'.$itemstate->title.'" title="'.$itemstate->title.'" /></a></li>';
+				echo '<a id="setcurrentitem" href="'.Kohana::$base_url.'announceEvent?event='.INVENTORY_SETCURRENTITEM.'&i='.$item['id'].'"><img src="'.$story->getMediaPath().$itemstate->getPath($story->screen_size).'" alt="'.$itemstate->title.'" title="'.$itemstate->title.'" /></a></li>';
 			}
 			/*
 			if ($story_data['current_item'] > 0)
@@ -31,7 +47,7 @@
 			echo '</ul>';
 			if (plugin_inventory::getCurrentItem() > 0)
 			{
-				echo '<a href="'.Kohana::$base_url.'announceEvent?event='.INVENTORY_DROPCURRENTITEM.'">Drop Item</a>';
+				echo '<a id="dropcurrentitem" href="'.Kohana::$base_url.'announceEvent?event='.INVENTORY_DROPCURRENTITEM.'">Drop Item</a>';
 			}
 		}
 		else
@@ -40,6 +56,6 @@
 		}
 	?>
 	<div style="clear:both;">
-		<a id="scene_link" href="<?php echo Kohana::$base_url ?>scene" class="ui-widget ui-state-default ui-corner-all button save">Back</a>
+		<a id="back_link" href="<?php echo Kohana::$base_url ?>scene" class="ui-widget ui-state-default ui-corner-all button save">Back</a>
 	</div>
 </div>
