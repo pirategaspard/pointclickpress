@@ -16,9 +16,10 @@ $(document).ready(function()
 		the ajax method below instead. otherwise page will refresh 
 		everytime user clicks on a cell
 	*/
-	$('#grid>a').removeAttr('href'); 	
+	var grid_a = $('#grid>a');
+	grid_a.removeAttr('href'); 	
 	// attach ajax listener to cell click
-	$('#grid>a').live('click',function(event) {
+	grid_a.live('click',function(event) {
 			/* 
 				On click send the number of the cell to the 
 				cellClick function in the PCP controller
@@ -32,7 +33,7 @@ $(document).ready(function()
 			//$.post('cellClick', {n: cell.attr('n')}, parseData);
 	});; 
 	
-	// attach ajax listener to  all grid items
+	// attach ajax listener to all grid cells
 	$('#grid>div>form').live('submit',function(event) {
 			/* 
 				On click send the number of the cell to the 
