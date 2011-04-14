@@ -17,10 +17,10 @@
 			foreach ($inventory_items as $item_info)
 			{
 				$item = current($item_info);
-				if (plugin_inventory::getCurrentItem() == $item['itemdef_id']) {echo '<li style="border: solid 2px red">';}
+				if (plugin_inventory::getCurrentItem() == $item['id']) {echo '<li style="border: solid 2px red">';}
 				else {echo '<li>';}
-				$item = Model_PCP_Items::getItemState($item['itemstate_id']);
-				echo '<a href="'.Kohana::$base_url.'plugin?plugin=plugin_inventory&f=setCurrentItem&i='.$item->itemdef_id.'"><img src="'.$story->getMediaPath().$item->getPath($story->screen_size).'" alt="'.$item->title.'" title="'.$item->title.'" /></a></li>';
+				$itemstate = Model_PCP_Items::getItemState($item['itemstate_id']);
+				echo '<a href="'.Kohana::$base_url.'announceEvent?event='.INVENTORY_SETCURRENTITEM.'&i='.$item['id'].'"><img src="'.$story->getMediaPath().$itemstate->getPath($story->screen_size).'" alt="'.$itemstate->title.'" title="'.$itemstate->title.'" /></a></li>';
 			}
 			/*
 			if ($story_data['current_item'] > 0)
@@ -28,6 +28,10 @@
 				echo '<li><a href="'.Kohana::$base_url.'plugin?plugin=plugin_inventory&f=setCurrentItem&i=0">Return Item To Inventory</li>';
 			}*/
 			echo '</ul>';
+			if (plugin_inventory::getCurrentItem() > 0)
+			{
+				echo '<a href="'.Kohana::$base_url.'announceEvent?event='.INVENTORY_DROPCURRENTITEM.'">Drop Item</a>';
+			}
 		}
 		else
 		{

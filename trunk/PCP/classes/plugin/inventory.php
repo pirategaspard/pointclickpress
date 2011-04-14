@@ -2,12 +2,13 @@
 /*
 	Basic Inventory plugin for PointClickPress
  */
-
+define('INVENTORY_DROPCURRENTITEM','INVENTORY_DROPCURRENTITEM');
+define('INVENTORY_SETCURRENTITEM','INVENTORY_SETCURRENTITEM');
 class plugin_inventory extends Model_Base_PCPPlugin
 {	
 	protected $label = 'Inventory'; // This is the label for this plugin
 	protected $description = 'Basic inventory plugin for PCP'; // This is the description of this plugin
-	protected $events = array(POST_START_STORY,CSS,ADMIN_JS,JS,DISPLAY_POST_SCENE,DISPLAY_POST_GRID_SELECT); // This is an array of events to call this plugin from
+	protected $events = array(POST_START_STORY,CSS,ADMIN_JS,JS,DISPLAY_POST_SCENE,DISPLAY_POST_GRID_SELECT,INVENTORY_SETCURRENTITEM,INVENTORY_DROPCURRENTITEM); // This is an array of events to call this plugin from
 	
 	public function execute($event_name='')
 	{
@@ -43,6 +44,16 @@ class plugin_inventory extends Model_Base_PCPPlugin
 				include('inventory/gridselect.php');
 				break;
 			}	
+			case INVENTORY_SETCURRENTITEM:
+			{
+				self::setCurrentItem();
+				break;
+			}
+			case INVENTORY_DROPCURRENTITEM:
+			{
+				self::dropCurrentItem();
+				break;
+			}
 		}	
 	}
 	
@@ -51,24 +62,45 @@ class plugin_inventory extends Model_Base_PCPPlugin
 		include('inventory/display.php');
 	}
 	
-	public function setCurrentItem()
-	{
-		if (isset($_REQUEST['i']))
-		{
-			$story_data = Storydata::set('current_item',$_REQUEST['i']);
-			Request::$current->redirect(Route::get('default')->uri(array('action'=>'scene')));
-		}
-	}
-	
 	static public function getCurrentItem()
 	{
 		return Storydata::get('current_item','');
 	}
 	
+	static public function setCurrentItem()
+	{
+		if (isset($_REQUEST['i']))
+		{
+			$story_data = Storydata::set('current_item',$_REQUEST['i']);			
+			if (!Request::Current()->is_ajax())
+			{    		
+				// no javascript
+				// refresh the page no matter what. 
+				Request::Current()->redirect(Route::get('default')->uri(array('action'=>'scene')));
+			}
+		}
+	}
+	
+	static public function dropCurrentItem()
+	{
+		$griditem_id = self::getCurrentItem();
+		$story_data = Storydata::getStorydata();
+		$s = Session::instance();
+		$cell_id = ($s->get('story')->grid_total()-1);
+		// put current item into the scene in the last cell
+		Items::setGridItemLocation($griditem_id,$story_data['scene_id'],$cell_id); 
+		if (!Request::Current()->is_ajax())
+		{    		
+			// no javascript
+			// refresh the page no matter what. 
+			Request::Current()->redirect(Route::get('default')->uri(array('action'=>'scene')));
+		}
+	}
+	
 	static public function getInventory()
 	{
 		$inventory_items = array();
-		$item_locations = Storydata::get('item_locations',array());
+		$item_locations = Items::getGriditemsInfo();
 		if(isset($item_locations['inventory']))
 		{
 			$inventory_items = $item_locations['inventory'];

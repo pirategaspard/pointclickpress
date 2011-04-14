@@ -193,7 +193,7 @@ class Model_PCP_Items extends Model
 	// gets story item info
 	static function getGriditemsInfo()
 	{
-		return Storydata::get('item_locations');		
+		return Storydata::get('item_locations',array());		
 	}
 	
 	// sets storyiteminfo
@@ -260,6 +260,17 @@ class Model_PCP_Items extends Model
 	}
 	
 	/*
+	static function setGriditemBySceneIdAndCellId($scene_id=0,$cell_id=0,$item_info=array())
+	{		
+		$griditemsInfo = self::getGriditemsInfo();
+		if (!isset($griditemsInfo[$scene_id]['griditems'][$cell_id]))
+		{			
+			$griditemsInfo[$scene_id]['griditems'][$cell_id] = $item_info;
+			self::setGriditemsInfo($griditemsInfo);
+		}
+	}*/
+	
+	/*
 	static function getGriditemInfo($griditem_id=0)
 	{
 		$foundlocation = searchGriditemInItemInfo($griditem_id);
@@ -290,14 +301,14 @@ class Model_PCP_Items extends Model
 	// moves a grid item to a new scene_id
 	static function setGridItemLocation($griditem_id=0,$scene_id=0,$cell_id=1)
 	{
-		$foundlocation = self::searchGriditemById($griditem_id);
-		if ($foundlocation['scene_id'] != 0)
+		$foundlocation = self::searchGriditemById($griditem_id);	
+		if ($foundlocation['scene_id'] != '0')
 		{						
 			$iteminfo = self::getGriditemsInfo();
 			$item = $iteminfo[$foundlocation['scene_id']]['griditems'][$foundlocation['cell_id']]; // get item
 			$iteminfo[$scene_id]['griditems'][$cell_id] = $item; // move item to new scene
 			unset($iteminfo[$foundlocation['scene_id']]['griditems'][$foundlocation['cell_id']]); // remove item from old location
-			self::setGriditemsInfo($iteminfo);		
+			self::setGriditemsInfo($iteminfo);	
 		}
 	}
 

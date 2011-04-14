@@ -278,7 +278,16 @@ Class Controller_PCP extends Controller_Template_PCP
 				$this->template->content = '';
 			}	
 		}
-		
+	}
+	
+	// announce an event from the url
+	function action_announceEvent()
+	{
+		$this->auto_render = FALSE;
+		if(strlen($_REQUEST['event']))
+		{
+			Events::announceEvent($_REQUEST['event']);
+		}
 	}
 }
 
