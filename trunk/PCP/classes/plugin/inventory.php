@@ -103,15 +103,13 @@ class plugin_inventory extends Model_Base_PCPPlugin
 		Items::setGridItemLocation($griditem_id,$story_data['scene_id'],$cell_id); 
 		if (Request::Current()->is_ajax())
 		{   
-			// 
+			// trigger item refresh
 			$act = new action_refreshitems();
-			$results = $act->performAction();
-			echo json_encode($results);
+			echo json_encode($act->performAction());
 		}
 		else
 		{ 		
-			// no javascript
-			// refresh the page no matter what. 
+			// no javascript - refresh the page no matter what. 
 			Request::Current()->redirect(Route::get('default')->uri(array('action'=>'scene')));
 		}
 	}
