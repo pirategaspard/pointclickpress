@@ -19,7 +19,7 @@
 	// change functionality to be all 'ajaxy'
 	backlink.click(function(){ tb_remove(); })
 	setcurritem.click(function(){$.post(setlink, function(){ tb_remove(); }); });
-	dropcurritem.click(function(){$.post(droplink, function(){ tb_remove(); }); });
+	dropcurritem.click(function(){$.getJSON(droplink, function(events){ $().REFRESH_ITEMS(events[0].data);  tb_remove(); }); });
 	
 </script>
 <div id="inventory" >
