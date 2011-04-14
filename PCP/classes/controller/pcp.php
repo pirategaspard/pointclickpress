@@ -195,18 +195,15 @@ Class Controller_PCP extends Controller_Template_PCP
 		}
 		else 
     	{
-    		// no javascript
-    		// refresh the page no matter what. 
+    		// no javascript - refresh the page no matter what. 
 			Request::Current()->redirect(Route::get('default')->uri(array('action'=>'scene')));
 		}
     }
 	
     /* handles cell clicks */
     function action_itemClick()
-    {
-		
-		// disable auto render	
-	    $this->auto_render = FALSE;
+    {		
+		$this->simple_output();
 	    // do plugins
 	    Events::announceEvent(PRE_ITEM_CLICK);
     	Events::announceEvent(PRE_CELL_CLICK);
@@ -234,13 +231,12 @@ Class Controller_PCP extends Controller_Template_PCP
     	if (Request::Current()->is_ajax())
     	{    		
 			// display the results 	
-			echo json_encode($results);	
+			$this->template->content = json_encode($results);	
 			//(javascript will decide what to do next)	
 		}
 		else 
     	{
-    		// no javascript
-    		// refresh the page no matter what. 
+    		// no javascript - refresh the page no matter what. 
 			Request::Current()->redirect(Route::get('default')->uri(array('action'=>'scene')));
 		}
 	}
