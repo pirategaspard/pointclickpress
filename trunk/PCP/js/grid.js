@@ -25,9 +25,9 @@ $(document).ready(function()
 				cellClick function in the PCP controller
 			*/
 			//event.preventDefault();
-			var grid = $('#grid');
-			grid.removeClass('pointing');
-			grid.addClass('waiting');
+			var scene = $('#scene');
+			scene.removeClass('pointing');
+			scene.addClass('waiting');
 			var cell = $(event.target);
 			$.getJSON('cellClick',{n: cell.attr('n')},parseData);
 			//$.post('cellClick', {n: cell.attr('n')}, parseData);
@@ -40,9 +40,9 @@ $(document).ready(function()
 				itemClick function in the PCP controller
 			*/
 			event.preventDefault();
-			var grid = $('#grid');
-			grid.removeClass('pointing');
-			grid.addClass('waiting');
+			var scene = $('#scene');
+			scene.removeClass('pointing');
+			scene.addClass('waiting');
 			var f = $(event.target);
 			$.getJSON('itemClick',{n: f.attr('n'),i: f.attr('i')},parseData);
 		});
@@ -50,8 +50,6 @@ $(document).ready(function()
 
 function parseData(events)
 {
-	var grid = $('#grid');
-	
 	// events contains array of pcpresponse objects. 
 	// events[i].function_name - name of plugin to execute
 	// events[i].data - data for plugin
@@ -72,6 +70,7 @@ function parseData(events)
 		}
 	}
 	// we are done with the request, go back to pointing
-	grid.removeClass('waiting');
-	grid.addClass('pointing');
+	var scene = $('#scene');
+	scene.removeClass('waiting');
+	scene.addClass('pointing');
 }
