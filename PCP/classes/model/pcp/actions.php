@@ -279,7 +279,6 @@ class Model_PCP_Actions
 		return $actions;		
 	}
 	
-	/* This function does not take into account items that were dropped in scenes other than their original scene */
 	static function getGridItemActions($args=array())
 	{				
 		$q = '	SELECT 	e.id,
@@ -294,12 +293,9 @@ class Model_PCP_Actions
 				INNER JOIN grids_items gi
 					ON (b.griditem_id = gi.id)					
 				 ORDER BY e.id DESC';
-				 
-				 /* AND gi.scene_id = :scene_id) */
 
 		$tempArray = DB::query(Database::SELECT,$q,TRUE)
 					->param(':griditem_id',$args['griditem_id'])
-					//->param(':scene_id',$args['scene_id'])
 					->execute()
 					->as_array();
 		$actions = array();
