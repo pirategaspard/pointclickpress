@@ -10,7 +10,7 @@ Class Controller_admin_griditem extends Controller_Template_Admin
 		$data['scene_id'] = (isset($data['scene_id']))?$data['scene_id']:$data['griditem']->scene_id;
 		$data['itemdef_id'] = (isset($data['itemdef_id']))?$data['itemdef_id']:$data['griditem']->itemdef_id;
 		$data['story_id'] = (isset($data['story_id']))?$data['story_id']:$data['griditem']->story_id;
-		$data['itemdef'] = Model_Admin_GriditemAdmin::getItemDef($data);		
+		$data['itemdef'] = Model_Admin_ItemDefAdmin::getItemDef($data);		
 		$data['story'] = Model_Admin_StoriesAdmin::getStory(array('story_id'=>$data['griditem']->story_id));
 		$data['action_list'] = Request::factory('/admin/action/listSimple')->execute()->body();			
 		$data['assign_itemdef_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'itemdef','action'=>'list'))).'?scene_id='.$data['griditem']->scene_id;
