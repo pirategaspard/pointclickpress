@@ -24,13 +24,9 @@ $(document).ready(function()
 				On click send the number of the cell to the 
 				cellClick function in the PCP controller
 			*/
-			//event.preventDefault();
-			var scene = $('#scene');
-			scene.removeClass('pointing');
-			scene.addClass('waiting');
+			$().wait_start();
 			var cell = $(event.target);
 			$.getJSON('cellClick',{n: cell.attr('n')},parseData);
-			//$.post('cellClick', {n: cell.attr('n')}, parseData);
 	});; 
 	
 	// attach ajax listener to all grid cells
@@ -40,9 +36,7 @@ $(document).ready(function()
 				itemClick function in the PCP controller
 			*/
 			event.preventDefault();
-			var scene = $('#scene');
-			scene.removeClass('pointing');
-			scene.addClass('waiting');
+			$().wait_start();
 			var f = $(event.target);
 			$.getJSON('itemClick',{n: f.attr('n'),i: f.attr('i')},parseData);
 		});
@@ -70,7 +64,24 @@ function parseData(events)
 		}
 	}
 	// we are done with the request, go back to pointing
-	var scene = $('#scene');
-	scene.removeClass('waiting');
-	scene.addClass('pointing');
+	$().wait_stop();
 }
+
+// these functions control the loading bar at the bottom of the scene
+(function( $ )
+{
+	$.fn.wait_start = function() 
+  	{ 
+		var scene = $('#scene');
+			scene.removeClass('pointing');
+			scene.addClass('waiting');
+	};
+	
+	$.fn.wait_stop = function() 
+  	{ 
+		var scene = $('#scene');
+			scene.removeClass('waiting');
+			scene.addClass('pointing');
+	};
+	  
+})( jQuery );

@@ -4,6 +4,7 @@
 {
 	$.fn.REFRESH = function(data) 
   	{  
+		
 		// clear any items in the cells in the grid
 		var itemcells = $('#grid').children('div');
 		itemcells.each(function(){
@@ -36,13 +37,15 @@
 			$(cells[n]).replaceWith('<div n='+n+'><form n='+n+' i='+data.items[n].id+' action="itemclick?n='+n+'" method="post" ><input type="image" src="'+data.items[n].path+'" name="i" value="'+data.items[n].id+'" /></form></div>');
 	  	}
 		// pre-load high res image and then swap background
+		$().wait_start();
 		var img = new Image();
 		$(img).load(function() 
-					{
-						$('#grid').css({backgroundImage:'url('+this.src+')'});
+					{						
+						$('#grid').css({backgroundImage:'url('+this.src+')'});						
 					}).attr('src', data.filename);
 			document.title = data.title;
 			/* $('#title').html(data.title); */
 			$('#description').html(data.description);	
+		$().wait_stop();
 	  };
 })( jQuery );
