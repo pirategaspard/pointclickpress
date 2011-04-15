@@ -17,6 +17,6 @@
 		}
 	}
 ?>	
-	<div id="grid" class='pointing'>
+	<div id="grid" >
 	<?php echo($cells); ?>		
 	</div>

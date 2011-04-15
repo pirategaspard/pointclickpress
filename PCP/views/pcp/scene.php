@@ -10,9 +10,10 @@
 				Events::announceEvent(DISPLAY_PRE_SCENE);
 			?>
 
-			<div id="scene">
+			<div id="scene" class='pointing'>
 				<!-- <h1 id="title"><?php //echo($scene->title); ?></h1> -->
 				<?php echo($grid); ?>
+				<div id='loadingzone'><img src='images/loadingAnimation.gif' /></div>
 				<p id="description"><?php echo($scene->description); ?></p>
 			</div>
 
