@@ -2,14 +2,14 @@
 /*
 	Basic Inventory plugin for PointClickPress
  */
-define('INVENTORY_DROPCURRENTITEM','INVENTORY_DROPCURRENTITEM');
-define('INVENTORY_SETCURRENTITEM','INVENTORY_SETCURRENTITEM');
+define('INVENTORY_DROP_SELECTED_ITEM','INVENTORY_DROP_SELECTED_ITEM');
+define('INVENTORY_SET_SELECTED_ITEM','INVENTORY_SET_SELECTED_ITEM');
 define('INVENTORY_DISPLAY','INVENTORY_DISPLAY');
 class plugin_inventory extends Model_Base_PCPPlugin
 {	
 	protected $label = 'Inventory'; // This is the label for this plugin
 	protected $description = 'Basic inventory plugin for PCP'; // This is the description of this plugin
-	protected $events = array(POST_START_STORY,CSS,ADMIN_JS,JS,DISPLAY_POST_SCENE,DISPLAY_POST_GRID_SELECT,INVENTORY_DISPLAY,INVENTORY_SETCURRENTITEM,INVENTORY_DROPCURRENTITEM); // This is an array of events to call this plugin from
+	protected $events = array(POST_START_STORY,CSS,ADMIN_JS,JS,DISPLAY_POST_SCENE,DISPLAY_POST_GRID_SELECT,INVENTORY_DISPLAY,INVENTORY_SET_SELECTED_ITEM,INVENTORY_DROP_SELECTED_ITEM); // This is an array of events to call this plugin from
 	
 	public function execute($event_name='')
 	{
@@ -50,14 +50,14 @@ class plugin_inventory extends Model_Base_PCPPlugin
 				self::display();
 				break;
 			}
-			case INVENTORY_SETCURRENTITEM:
+			case INVENTORY_SET_SELECTED_ITEM:
 			{
-				self::setCurrentItem();
+				self::setSelectedItem();
 				break;
 			}
-			case INVENTORY_DROPCURRENTITEM:
+			case INVENTORY_DROP_SELECTED_ITEM:
 			{
-				self::dropCurrentItem();
+				self::dropSelectedItem();
 				break;
 			}
 		}	
@@ -70,30 +70,34 @@ class plugin_inventory extends Model_Base_PCPPlugin
 	
 	static public function getCurrentItem()
 	{
-		return Storydata::get('current_item','');
+		return Storydata::get('current_item',0);
 	}
 	
-	static public function setCurrentItem()
+	static public function setCurrentItem($griditem_id=0)
+	{
+		$curr_item_id = self::getCurrentItem();
+		if ($curr_item_id == $griditem_id)
+		{
+			// if we click on the item that is already current, unselect
+			$griditem_id = 0;
+		}
+		$story_data = Storydata::set('current_item',$griditem_id);			
+	}
+	
+	static public function setSelectedItem()
 	{
 		if (isset($_REQUEST['i']))
 		{
-			$curr_item_id = self::getCurrentItem();
-			if ($curr_item_id == $_REQUEST['i'])
-			{
-				// if we click on the item that is already current, unselect
-				$_REQUEST['i'] = 0;
-			}
-			$story_data = Storydata::set('current_item',$_REQUEST['i']);			
+			self::setCurrentItem($_REQUEST['i']);		
 			if (!Request::Current()->is_ajax())
 			{    		
-				// no javascript
-				// refresh the page no matter what. 
+				// no javascript - refresh the page no matter what happened. 
 				Request::Current()->redirect(Route::get('default')->uri(array('action'=>'scene')));
 			}
 		}
 	}
 	
-	static public function dropCurrentItem()
+	static public function dropSelectedItem()
 	{
 		$griditem_id = self::getCurrentItem();
 		$story_data = Storydata::getStorydata();
@@ -101,6 +105,7 @@ class plugin_inventory extends Model_Base_PCPPlugin
 		$cell_id = ($s->get('story')->grid_total()-1);
 		// put current item into the scene in the last cell
 		Items::setGridItemLocation($griditem_id,$story_data['scene_id'],$cell_id); 
+		self::setCurrentItem(0); 
 		if (Request::Current()->is_ajax())
 		{   
 			// trigger item refresh
@@ -109,7 +114,7 @@ class plugin_inventory extends Model_Base_PCPPlugin
 		}
 		else
 		{ 		
-			// no javascript - refresh the page no matter what. 
+			// no javascript - refresh the page no matter what happened. 
 			Request::Current()->redirect(Route::get('default')->uri(array('action'=>'scene')));
 		}
 	}

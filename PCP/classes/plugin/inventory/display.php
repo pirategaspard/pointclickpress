@@ -37,7 +37,7 @@
 				if (plugin_inventory::getCurrentItem() == $item['id']) {echo '<li class="active">';}
 				else {echo '<li class="nonactive">';}
 				$itemstate = Model_PCP_Items::getItemState($item['itemstate_id']);
-				echo '<a id="setcurrentitem" href="'.Kohana::$base_url.'announceEvent?event='.INVENTORY_SETCURRENTITEM.'&i='.$item['id'].'"><img src="'.$story->getMediaPath().$itemstate->getPath($story->screen_size).'" alt="'.$itemstate->title.'" title="'.$itemstate->title.'" /></a></li>';
+				echo '<a id="setcurrentitem" href="'.Kohana::$base_url.'announceEvent?event='.INVENTORY_SET_SELECTED_ITEM.'&i='.$item['id'].'"><img src="'.$story->getMediaPath().$itemstate->getPath(THUMBNAIL_IMAGE_SIZE).'" alt="'.$itemstate->title.'" title="'.$itemstate->title.'" /></a></li>';
 			}
 			/*
 			if ($story_data['current_item'] > 0)
@@ -47,7 +47,7 @@
 			echo '</ul>';
 			if (plugin_inventory::getCurrentItem() > 0)
 			{
-				echo '<a id="dropcurrentitem" href="'.Kohana::$base_url.'announceEvent?event='.INVENTORY_DROPCURRENTITEM.'">Drop Item</a>';
+				echo '<a id="dropcurrentitem" href="'.Kohana::$base_url.'announceEvent?event='.INVENTORY_DROP_SELECTED_ITEM.'" class="ui-widget ui-state-default ui-corner-all button delete">Drop Selected Item</a>';
 			}
 		}
 		else
