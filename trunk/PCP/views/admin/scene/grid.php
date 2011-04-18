@@ -4,7 +4,7 @@
 		$cells = '';
 		$total = $story->grid_total();
 		$items = $scene->items; 
-		for($i=0;$i<$total;$i++)
+		for($i=1;$i<$total;$i++)
 		{
 			$cells.= '<b n="'.$i.'">';
 			if (isset($items[$i]))
