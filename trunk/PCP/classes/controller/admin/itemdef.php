@@ -18,6 +18,7 @@ Class Controller_admin_itemdef extends Controller_Template_Admin
 		$data['itemstate_list'] = Request::factory('/admin/itemstate/listSimple')->execute()->body();
 		$data['iteminstances_list'] = Request::factory('/admin/griditem/listSimple')->execute()->body();
 		$session->set('story_id',$data['story_id']);
+		$session->delete('itemstate_id'); // if id exits, delete it.
 		
 		$this->template->breadcrumb .= View::factory('/admin/story/info',$data)->render();
 		$this->template->breadcrumb .= View::factory('/admin/itemdef/info',$data)->render();		
