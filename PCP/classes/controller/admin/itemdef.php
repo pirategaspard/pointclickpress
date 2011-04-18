@@ -4,7 +4,7 @@ Class Controller_admin_itemdef extends Controller_Template_Admin
 
 	function action_edit()
 	{		
-		$session = Session::instance();	
+		$session = Session::instance('admin');	
 		$data = Model_Admin_ItemDefAdmin::getData();
 		$data['itemdef'] = Model_Admin_ItemDefAdmin::getItemDef($data);
 		$data['story_id'] = (isset($data['story_id']))?$data['story_id']:$data['itemdef']->story_id;
@@ -28,7 +28,7 @@ Class Controller_admin_itemdef extends Controller_Template_Admin
 
 	function action_list()
 	{	
-		$session = Session::instance();	
+		$session = Session::instance('admin');	
 		$data = Model_Admin_ItemDefAdmin::getData();
 		$data['story'] = Model_Admin_StoriesAdmin::getStory(array('story_id'=>$data['story_id'],'include_scenes'=>false,'include_locations'=>false,'include_actions'=>false));
 		$data['back_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')));
@@ -47,7 +47,7 @@ Class Controller_admin_itemdef extends Controller_Template_Admin
 	*/
 	function action_save()
 	{
-		$session = Session::instance();
+		$session = Session::instance('admin');
 		$session->delete('result');		
 		if(count($_POST) > 0)
 		{
@@ -71,7 +71,7 @@ Class Controller_admin_itemdef extends Controller_Template_Admin
 	
 	function action_delete()
 	{	
-		$session = Session::instance();	
+		$session = Session::instance('admin');	
 		$session->delete('result');
 		$result = Model_Admin_ItemDefAdmin::getItemDef()->init(array('id'=>$_REQUEST['itemdef_id']))->delete();
 		// Create User Message

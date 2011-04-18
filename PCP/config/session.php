@@ -2,12 +2,21 @@
 
 
 return array(
-	'native' => array(
+	'admin' => array(
 		'name' => 'PCP_admin',
+		'encrypted' => TRUE,
 		'lifetime' => 43200,
+		'group' => 'default',
+		'table' => 'sessions',
+		'columns' => array(
+			'session_id'  => 'session_id',
+			'last_active' => 'last_active',
+			'contents'    => 'contents'
+		),
+		'gc' => 500,
 	),
-	'database' => array(
-		'name' => 'PCP_database',
+	'PCP' => array(
+		'name' => 'PCP',
 		'encrypted' => TRUE,
 		'lifetime' => 43200,
 		'group' => 'default',

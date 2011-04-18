@@ -4,7 +4,7 @@ Class Controller_admin_griditem extends Controller_Template_Admin
 
 	function action_edit()
 	{		
-		$session = Session::instance();	
+		$session = Session::instance('admin');	
 		$data = Model_Admin_GriditemAdmin::getData();
 		$data['griditem'] = Model_Admin_GriditemAdmin::getGridItem($data);
 		$data['scene_id'] = (isset($data['scene_id']))?$data['scene_id']:$data['griditem']->scene_id;
@@ -26,7 +26,7 @@ Class Controller_admin_griditem extends Controller_Template_Admin
 
 	function action_list()
 	{	
-		$session = Session::instance();	
+		$session = Session::instance('admin');	
 		$data = Model_Admin_GriditemAdmin::getData();	
 		$data['story'] = Model_Admin_StoriesAdmin::getStory(array('story_id'=>$data['story_id'],'include_scenes'=>false,'include_locations'=>false,'include_actions'=>false));
 		$data['back_url'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')));
@@ -45,7 +45,7 @@ Class Controller_admin_griditem extends Controller_Template_Admin
 	*/
 	function action_save()
 	{
-		$session = Session::instance();
+		$session = Session::instance('admin');
 		$session->delete('result');		
 		if(count($_POST) > 0)
 		{
@@ -69,7 +69,7 @@ Class Controller_admin_griditem extends Controller_Template_Admin
 	
 	function action_delete()
 	{	
-		$session = Session::instance();	
+		$session = Session::instance('admin');	
 		$session->delete('result');
 		$data = Model_Admin_GriditemAdmin::getData();	
 		$result = Model_Admin_GriditemAdmin::getGridItem()->init($data)->delete();

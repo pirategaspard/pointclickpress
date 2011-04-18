@@ -8,7 +8,7 @@ Class Controller_Admin_Action extends Controller_Template_Admin
 	
 	function action_edit()
 	{				
-		$session = Session::instance();
+		$session = Session::instance('admin');
 		$data = Model_Admin_ActionsAdmin::getData();
 		/*	
 		if ($data['action_type'] == ACTION_TYPE_STORY)
@@ -42,7 +42,7 @@ Class Controller_Admin_Action extends Controller_Template_Admin
 	
 	function action_save()
 	{
-		$session = Session::instance();
+		$session = Session::instance('admin');
 		$session->delete('result');
 		if(count($_POST) > 0)
 		{
@@ -76,7 +76,7 @@ Class Controller_Admin_Action extends Controller_Template_Admin
 	
 	function action_delete()
 	{	
-		$session = Session::instance();
+		$session = Session::instance('admin');
 		$session->delete('result');
 		$back_url = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
 		$result = Model_Admin_ActionsAdmin::getAction()->init(array('id'=>$_REQUEST['action_id']))->delete();

@@ -33,7 +33,7 @@ class Model_Admin_ItemDefAdmin extends Model_PCP_Items
 								 
 	static function getData()
 	{
-		$session = Session::instance();	
+		$session = Session::instance('admin');	
 		$data = array();
 		//Model_Admin_PCPAdmin::clearArgs();
 		if (isset($_REQUEST['story_id']))

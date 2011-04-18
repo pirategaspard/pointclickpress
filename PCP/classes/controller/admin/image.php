@@ -8,7 +8,7 @@ Class Controller_admin_image extends Controller_Template_Admin
 	
 	function action_edit()
 	{		
-		$session = Session::instance();
+		$session = Session::instance('admin');
 		$data = Model_Admin_ImagesAdmin::getData();	
 		$data['image'] = Model_Admin_ImagesAdmin::getImage(array('id'=>$data['id']))->init($data);
 		if (strlen($data['image']->filename) > 0)
@@ -31,7 +31,7 @@ Class Controller_admin_image extends Controller_Template_Admin
 	
 	function action_list()
 	{	
-		$session = Session::instance();	
+		$session = Session::instance('admin');	
 		$data = Model_Admin_ImagesAdmin::getData();	
 		if (isset($data['scene_id']))
 		{			
@@ -64,7 +64,7 @@ Class Controller_admin_image extends Controller_Template_Admin
 	
 	function action_save()
 	{		
-		$session = Session::instance();
+		$session = Session::instance('admin');
 		$data = Model_Admin_ImagesAdmin::getData();	
 		$result = Model_Admin_ImagesAdmin::upload($data);
 		$session->set('result',$result);
@@ -80,7 +80,7 @@ Class Controller_admin_image extends Controller_Template_Admin
 	
 	function action_delete()
 	{	
-		$session = Session::instance();	
+		$session = Session::instance('admin');	
 		$session->delete('result');	
 		$data = Model_Admin_ImagesAdmin::getData();	
 		$result = Model_Admin_ImagesAdmin::getimage()->init($data)->delete();

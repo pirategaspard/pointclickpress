@@ -37,7 +37,7 @@ Class Controller_admin_plugin extends Controller_Template_Admin
 		{
 			$result = new pcpresult(false,'Could not load plugin');
 		}
-		$session = Session::instance();	
+		$session = Session::instance('admin');	
 		$session->set('result',$result);
 		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'plugin','action'=>'list')));
 	}

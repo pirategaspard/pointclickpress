@@ -28,7 +28,7 @@ class Controller_admin_users extends Controller_Template_Admin
 	
 	function action_save()
 	{
-		$session = Session::instance();
+		$session = Session::instance('admin');
 		$session->delete('result');
 		if(count($_POST) > 0)
 		{
@@ -57,7 +57,7 @@ class Controller_admin_users extends Controller_Template_Admin
 	
 	function action_delete()
 	{	
-		$session = Session::instance();	
+		$session = Session::instance('admin');	
 		$session->delete('result');
 		$result = Model_Admin_UsersAdmin::getUser()->init(array('id'=>$_REQUEST['user_id']))->delete();
 		// Create User Message

@@ -120,7 +120,7 @@ Kohana::modules(array(
 Cache::$default = CACHE_DRIVER;
 
 // default session
-Session::$default = 'database';
+Session::$default = 'PCP';
 
 // cookei salt
 Cookie::$salt = 'PCP';

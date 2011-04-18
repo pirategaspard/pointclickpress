@@ -9,7 +9,7 @@ class Model_Admin_StoriesAdmin extends Model_PCP_Stories
 {	
 	static function getData()
 	{
-		$session = Session::instance();	
+		$session = Session::instance('admin');	
 		$data['id'] = $data['story_id'] = $session->get('story_id',0);
 		Model_Admin_PCPAdmin::clearArgs();
 		if (isset($_REQUEST['story_id']))
