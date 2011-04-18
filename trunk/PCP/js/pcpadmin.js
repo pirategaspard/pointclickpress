@@ -40,7 +40,7 @@ $(document).ready(function() {
 
 		// for cells in cell_id list, add selected class
 		current_cells = $(this).val().split(','); // get the cell_id list			
-		for(i=0;i<current_cells.length;i++)			
+		for(i=0;i<=current_cells.length;i++)			
 		{				
 			$('b[n="'+current_cells[i]+'"]').addClass('selected');
 		}

@@ -1,7 +1,7 @@
 <?php
 	$total = $story->grid_total(); 
 	$cells = '';
-	for($n=1;$n<$total;$n++)
+	for($n=1;$n<=$total;$n++)
 	{
 		// if there is an item for this cell
 		if (isset($items[$n]) && count($items[$n]) > 0)
