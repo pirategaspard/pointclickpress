@@ -18,6 +18,7 @@ Class Controller_admin_location extends Controller_Template_Admin
 		$data['scenes'] = $data['location']->scenes;
 		$session->set('story_id',$data['story_id']); //This may have been derived from the location obj and other calls in the request may need it
 		$session->set('location_id',$data['location_id']); //This may have been derived from the location obj and other calls in the request may need it
+		$session->delete('scene_id'); // if scene_id exits, delete it.
 		// if there is only one scene in a location redirect to scene edit
 		/*
 		if (($data['location']->id > 0)&&(count($data['location']->scenes) == 1))

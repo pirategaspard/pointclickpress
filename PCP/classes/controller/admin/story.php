@@ -46,6 +46,7 @@ Class Controller_admin_story extends Controller_Template_Admin
 		$data = Model_Admin_StoriesAdmin::GetData();
 		$data['story'] = Model_Admin_StoriesAdmin::getStory(array('id'=>$data['story_id'],'include_locations'=>true));
 		$session->set('story_id',$data['story_id']);
+		$session->delete('location_id'); // if id exits, delete it.
 		
 		$data['locations'] = $data['story']->locations; // needed to choose starting location
 		$data['grid_sizes'] = explode(',',SUPPORTED_GRID_SIZES);
