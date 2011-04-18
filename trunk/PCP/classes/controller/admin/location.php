@@ -10,7 +10,7 @@ Class Controller_admin_location extends Controller_Template_Admin
 	
 	function action_edit()
 	{
-		$session = Session::instance();		
+		$session = Session::instance('admin');		
 		$data = Model_Admin_LocationsAdmin::getData();
 		$data['location'] = Model_Admin_LocationsAdmin::getLocation(array('id'=>$data['location_id'],'include_scenes'=>TRUE))->init($data);
 		$data['story_id'] = (isset($data['story_id']))?$data['story_id']:$data['location']->story_id;
@@ -51,7 +51,7 @@ Class Controller_admin_location extends Controller_Template_Admin
 	
 	function action_save()
 	{
-		$session = Session::instance();
+		$session = Session::instance('admin');
 		$session->delete('result');
 		if(count($_POST) > 0)
 		{
@@ -75,7 +75,7 @@ Class Controller_admin_location extends Controller_Template_Admin
 	
 	function action_delete()
 	{	
-		$session = Session::instance();
+		$session = Session::instance('admin');
 		$session->delete('result');	
 		$result = Model_Admin_LocationsAdmin::getlocation()->init(array('id'=>$_REQUEST['location_id']))->delete();
 		// Create User Message

@@ -22,7 +22,7 @@ class Model_Admin_PCPAdmin
 
 	static public function getArgs($args=array())
 	{
-		$session = Session::instance();		
+		$session = Session::instance('admin');		
 		if (isset($_REQUEST['story_id']))
 		{
 			$session->set('story_id',$_REQUEST['story_id']);
@@ -108,7 +108,7 @@ class Model_Admin_PCPAdmin
 	}
 	static function clearArgs()
 	{
-		$session = Session::instance();
+		$session = Session::instance('admin');
 		$session->delete('story_id');
 		$session->delete('location_id');
 		$session->delete('scene_id');

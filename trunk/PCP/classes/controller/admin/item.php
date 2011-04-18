@@ -4,7 +4,7 @@ Class Controller_admin_item extends Controller_Template_Admin
 
 	function action_edit()
 	{		
-		$session = Session::instance();	
+		$session = Session::instance('admin');	
 		$data['item'] = PCPAdmin::getItemDef();
 		$data['item_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'item','action'=>'save')));		
 		$data['item_assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?scene_id='.$session->get('scene_id').'&item_id='.$data['item']->id;			
@@ -23,7 +23,7 @@ Class Controller_admin_item extends Controller_Template_Admin
 
 	function action_list()
 	{	
-		$session = Session::instance();	
+		$session = Session::instance('admin');	
 		$data['story_id'] = $session->get('story_id');
 		$data['scene_id'] = $session->get('scene_id');	
 		$data['story'] = PCPAdmin::getStory(array('story_id'=>$data['story_id'],'include_scenes'=>false,'include_locations'=>false,'include_actions'=>false));
@@ -44,7 +44,7 @@ Class Controller_admin_item extends Controller_Template_Admin
 	*/
 	function action_save()
 	{
-		$session = Session::instance();
+		$session = Session::instance('admin');
 		$session->delete('result');		
 		if(count($_POST) > 0)
 		{
@@ -68,7 +68,7 @@ Class Controller_admin_item extends Controller_Template_Admin
 	
 	function action_delete()
 	{	
-		$session = Session::instance();	
+		$session = Session::instance('admin');	
 		$session->delete('result');
 		$result = PCPAdmin::getItemDef()->init(array('id'=>$_REQUEST['item_id']))->delete();
 		// Create User Message
@@ -84,7 +84,7 @@ Class Controller_admin_item extends Controller_Template_Admin
 	
 	function action_assignImage()
 	{		
-		$session = Session::instance();	
+		$session = Session::instance('admin');	
 		$session->delete('result');
 		PCPAdmin::getArgs();			
 		if ($session->get('item_id') && $session->get('image_id'))
@@ -124,7 +124,7 @@ Class Controller_admin_item extends Controller_Template_Admin
 		/* scene items */
 		if (1 == 1)
 		{
-			$session = Session::instance();
+			$session = Session::instance('admin');
 			$session->delete('image_id');			
 		}
 		$data['back_url'] = Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?scene_id='.$data['scene_id'];

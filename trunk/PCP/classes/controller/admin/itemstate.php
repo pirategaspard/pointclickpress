@@ -3,7 +3,7 @@ Class Controller_admin_itemstate extends Controller_Template_Admin
 {	
 	function action_edit()
 	{		
-		$session = Session::instance();	
+		$session = Session::instance('admin');	
 		$data = Model_Admin_ItemstateAdmin::getData();	
 		$data['itemstate'] = Model_Admin_ItemstateAdmin::getitemstate(array('id'=>$data['itemstate_id']));
 		$data['itemdef_id'] = (isset($data['itemdef_id']))?$data['itemdef_id']:$data['itemstate']->itemdef_id;
@@ -26,7 +26,7 @@ Class Controller_admin_itemstate extends Controller_Template_Admin
 
 	function action_list()
 	{	
-		$session = Session::instance();	
+		$session = Session::instance('admin');	
 		$data = Model_Admin_ItemstateAdmin::getData();	
 		$data['back_url'] = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
 		$data['itemstates'] = Model_Admin_ItemstateAdmin::getItemstates(array('itemdef_id'=>$session->get('itemdef_id')));
@@ -43,7 +43,7 @@ Class Controller_admin_itemstate extends Controller_Template_Admin
 	*/
 	function action_save()
 	{
-		$session = Session::instance();
+		$session = Session::instance('admin');
 		$session->delete('result');	
 		$data = Model_Admin_ItemstateAdmin::getData();		
 		if(count($_POST) > 0)
@@ -76,7 +76,7 @@ Class Controller_admin_itemstate extends Controller_Template_Admin
 	
 	function action_delete()
 	{	
-		$session = Session::instance();	
+		$session = Session::instance('admin');	
 		$session->delete('result');
 		$result = Model_Admin_ItemstateAdmin::getitemstate()->init(array('id'=>$_REQUEST['itemstate_id']))->delete();
 		// Create User Message
@@ -92,7 +92,7 @@ Class Controller_admin_itemstate extends Controller_Template_Admin
 	
 	function action_assignImage()
 	{		
-		$session = Session::instance();	
+		$session = Session::instance('admin');	
 		$session->delete('result');
 		$data = Model_Admin_ItemstateAdmin::getData();			
 		if (isset($data['itemstate_id']) && isset($data['image_id']))

@@ -83,7 +83,7 @@ class Model_Admin_ActionsAdmin extends Model_PCP_Actions
 	static function getActionType($args=array())
 	{
 		$type = '';	
-		$session = Session::instance();	
+		$session = Session::instance('admin');	
 		if (isset($args['story_id']))
 		{
 			$type = ACTION_TYPE_STORY;
@@ -117,7 +117,7 @@ class Model_Admin_ActionsAdmin extends Model_PCP_Actions
 	
 	static function getData()
 	{
-		$session = Session::instance();
+		$session = Session::instance('admin');
 		//Model_Admin_PCPAdmin::clearArgs();	
 		$data = array();
 		if (isset($_REQUEST['story_id']))

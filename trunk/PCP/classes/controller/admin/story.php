@@ -42,7 +42,7 @@ Class Controller_admin_story extends Controller_Template_Admin
 	*/
 	function action_edit()
 	{		
-		$session = Session::instance();
+		$session = Session::instance('admin');
 		$data = Model_Admin_StoriesAdmin::GetData();
 		$data['story'] = Model_Admin_StoriesAdmin::getStory(array('id'=>$data['story_id'],'include_locations'=>true));
 		$session->set('story_id',$data['story_id']);
@@ -69,7 +69,7 @@ Class Controller_admin_story extends Controller_Template_Admin
 	*/
 	function action_save()
 	{
-		$session = Session::instance();
+		$session = Session::instance('admin');
 		$session->delete('result');
 		if(count($_POST) > 0)
 		{
@@ -91,7 +91,7 @@ Class Controller_admin_story extends Controller_Template_Admin
 	
 	function action_assignImage()
 	{		
-		$session = Session::instance();	
+		$session = Session::instance('admin');	
 		$session->delete('result');
 		$data = Model_Admin_StoriesAdmin::GetData();			
 		if (isset($data['story_id']) && isset($data['image_id']))
@@ -109,7 +109,7 @@ Class Controller_admin_story extends Controller_Template_Admin
 	
 	function action_delete()
 	{	
-		$session = Session::instance();	
+		$session = Session::instance('admin');	
 		$session->delete('result');	
 		$data = Model_Admin_StoriesAdmin::GetData();
 		$result = Model_Admin_StoriesAdmin::getStory()->init(array('id'=>$data['story_id']))->delete();

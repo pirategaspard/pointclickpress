@@ -55,7 +55,7 @@ class Model_Admin_UsersAdmin
 	public static function login($id = 0)
 	{	
 		$loggedin = FALSE; 
-		$session = Session::instance();
+		$session = Session::instance('admin');
 		$user = self::getUser(array('id'=>$id));		
 		if (($user->id > 0) && ($session))
 		{
@@ -75,7 +75,7 @@ class Model_Admin_UsersAdmin
 		$results = FALSE;
 		if (self::isloggedin($id))
 		{
-			Session::instance()->destroy();		
+			Session::instance('admin')->destroy();		
 			$results = TRUE;
 		}
 		return $results;
@@ -84,7 +84,7 @@ class Model_Admin_UsersAdmin
 	public static function isloggedin()
 	{		
 		$results = FALSE;
-		$session = Session::instance();
+		$session = Session::instance('admin');
 		$id = $session->get(self::$session_key,0);
 		if ($id > 0)
 		{
@@ -147,7 +147,7 @@ class Model_Admin_UsersAdmin
 	
 	static function getData()
 	{
-		$session = Session::instance();	
+		$session = Session::instance('admin');	
 		Model_Admin_PCPAdmin::clearArgs();
 		if (isset($_REQUEST['user_id']))
 		{

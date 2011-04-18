@@ -9,7 +9,7 @@ class Model_Admin_ScenesAdmin extends Model_PCP_Scenes
 {
 	static function getData()
 	{
-		$session = Session::instance();	
+		$session = Session::instance('admin');	
 		$data = array();
 		$data['story_id'] = $session->get('story_id',0);
 		$data['location_id'] = $session->get('location_id',0);

@@ -4,7 +4,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 {
 	function action_edit()
 	{	
-		$session = Session::instance();
+		$session = Session::instance('admin');
 	
 		// if we have a new scene, reset the image_id to zero
 		$data = Model_Admin_ScenesAdmin::GetData();
@@ -59,7 +59,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 	
 	function action_save()
 	{
-		$session = Session::instance();
+		$session = Session::instance('admin');
 		$session->delete('result');			
 		if(count($_POST) > 0)
 		{
@@ -112,7 +112,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 	
 	function action_delete()
 	{	
-		$session = Session::instance();	
+		$session = Session::instance('admin');	
 		$session->delete('result');
 		$result = Model_Admin_ScenesAdmin::getScene()->init(array('id'=>$_REQUEST['scene_id']))->delete();
 		// Create User Message
@@ -131,7 +131,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 	
 	function action_assignImage()
 	{		
-		$session = Session::instance();	
+		$session = Session::instance('admin');	
 		$session->delete('result');
 		$data = Model_Admin_ScenesAdmin::getData();			
 		if (isset($data['scene_id']) && isset($data['image_id']))
@@ -150,7 +150,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 	
 	function action_assignItem()
 	{		
-		$session = Session::instance();	
+		$session = Session::instance('admin');	
 		$session->delete('result');
 		$data = Model_Admin_GridItemAdmin::getData();						
 		if (isset($data['scene_id']) && isset($data['itemdef_id']))
@@ -172,7 +172,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 	}
 	function action_DeleteItem()
 	{		
-		$session = Session::instance();	
+		$session = Session::instance('admin');	
 		$session->delete('result');
 		$data = Model_Admin_GridItemAdmin::getData();					
 		if (isset($data['scene_id']) && isset($data['griditem_id']))
