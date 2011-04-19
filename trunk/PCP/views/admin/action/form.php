@@ -43,9 +43,9 @@
 		echo ("action_descriptions2['".$action_def->getClass()."'] = '".htmlentities($action_def->getdescription(),ENT_QUOTES)."';\n "); 
 	}
 ?>
-	$('#action_type2').change(function() 
+	$('#action_select').change(function() 
 		{
 			$('#action_description2').html(action_descriptions2[$(this).val()]);		
 		});
-	$('#action_type').change();
+	$('#action_select').change();
 </script>

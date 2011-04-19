@@ -132,7 +132,7 @@ $(document).ready(function() {
 	}
 	
 	//when the page loads fire these events to set up the form (if it exists)
-	$('#action_type').change();
+	$('#action_select').change();
 	$('input[name=cell_ids]').focusout();
 	$('input[name=cell_id]').focusout();
 				
