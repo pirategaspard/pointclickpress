@@ -9,7 +9,7 @@ $(document).ready(function() {
 		
 	// action_link could be re-factored as a plugin and get this code out of here.
 	// when action type = 'action_link' hide the action_value field
-	$('#action_type').change(function() 
+	$('#action_select').change(function() 
 	{		
 		if ($(this).val() == 'action_link')
 		{	

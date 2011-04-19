@@ -24,6 +24,7 @@ class Model_Admin_EventsAdmin extends Model_events
 		$listenerClasses = array(); // array to hold any listenerClass classes we find
 		if (is_dir($dir))
 		{
+			// TODO: use Kohana::list_files(); here if possible
 			$files = scandir($dir);// get all the files in the listenerClass directory
 			foreach($files as $file)
 			{
