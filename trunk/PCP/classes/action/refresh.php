@@ -38,10 +38,7 @@ class action_refresh extends Model_Base_PCPActionDef
 		// get scene
 		$scene = Model_PCP_Scenes::getCurrentScene(array('location_id'=>Model_PCP_Locations::getCurrentlocationId()));
 		
-
-// var_dump($story_data['location_id']); die();
-
-// if we have valid data continue
+		// if we have valid data continue
 		if (($scene)&&($location)&&($story))
 		{
 			//put scene id into story_data

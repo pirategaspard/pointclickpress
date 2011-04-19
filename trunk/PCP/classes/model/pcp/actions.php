@@ -328,13 +328,13 @@ class Model_PCP_Actions
          */
         static function getCellActions($args=array())
         {
-                $actions = array();
-                if ((isset($args['scene_id']))&&(isset($args['cell_id'])))
-		{
-			$q = '  SELECT  e.id,
-                                                e.action,
-                                                e.action_label,
-                                                e.action_value
+        	$actions = array();
+        	if ((isset($args['scene_id']))&&(isset($args['cell_id'])))
+			{
+				$q = '  SELECT  e.id,
+                				e.action,
+                                e.action_label,
+                                e.action_value
                                 FROM cells c
                                 INNER JOIN grids_actions g
                                         ON g.grid_action_id = c.grid_action_id
@@ -347,16 +347,12 @@ class Model_PCP_Actions
                                                                 ->param(':scene_id',$args['scene_id'])
                                                                 ->param(':cell_id',$args['cell_id'])
                                                                 ->execute()
-                                                                ->as_array();
-
-	                if (count($actions_temp) > 0)
-        	        {
-                	        foreach($actions_temp as $action_temp)
-                        	{
-                                	$actions[] = self::getGridAction()->init($action_temp); 
-	                        }
-	                }
-		}
+                                                                ->as_array();					
+        	        foreach($actions_temp as $action_temp)
+                	{
+                        	$actions[] = self::getGridAction()->init($action_temp); 
+                    }                    
+				}
                 return $actions;
         }
 

@@ -16,7 +16,7 @@
 			<input type="hidden" name="action_type" value="<?php echo($action_type); ?>" />
 			<input type="hidden" name="id" value="<?php echo($action->id); ?>" />
 			Event Type:
-			<select id="action_type2" name="event">
+			<select id="action_select" name="action">
 				<?php foreach($action_defs as $action_def)
 				{
 					$selected = '';

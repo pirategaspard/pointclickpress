@@ -9,7 +9,7 @@ class action_link extends action_refresh
 	protected $description = 'Create a link to another scene location';
 	
 	public function performAction($args=array(),$hook_name='')
-	{
+	{					
 		/* 
 			update the location_id variable in session with 
 			the new location_id from the action_value field
