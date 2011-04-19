@@ -1,7 +1,4 @@
 <script>
-//$(document).ready(function() {
-	//$('#item_Select').hide();	
-//}
 // when action type = 'action_inventory_use' hide the action_value field
 	$('#action_select').change(function() 
 	{		
@@ -22,7 +19,7 @@
 	// when location select is changed update the 'action_value' field
 	$('select[name="item_Select"]').mouseout(function() 
 	{														
-		$('textarea[name=action_value]').val($('select[name="item_Select"]').val()+';TRIGGER_CELL_ID');			
+		$('textarea[name=action_value]').val($('select[name="item_Select"]').val()+',TRIGGER_CELL_ID');			
 	});
 	
 	

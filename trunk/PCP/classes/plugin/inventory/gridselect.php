@@ -1,6 +1,6 @@
 <?php 
-	$session = Session::Instance();
-	$items = Items::getStoryItems(array('story_id'=>$session->get('story_id')));
+	$session = Session::Instance('admin');
+	$items = Items::getStoryGridItems(array('story_id'=>$session->get('story_id')));
 ?>
 <label id="item_Select" for="location_select">Item:
 <select name="item_Select" >

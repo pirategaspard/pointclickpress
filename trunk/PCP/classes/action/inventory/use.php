@@ -17,12 +17,11 @@ class action_inventory_use extends Model_Base_PCPActionDef
 		$expressions = $this->tokenize($args['action_value']); // explode on semi-colon if there is more than one statement here
 		foreach ($expressions as $expression)
 		{
-			$this->tokenize($expression,',');
-			
-			if (count($expression)==2)
+			$use_item_statement = $this->tokenize($expression,',');
+			if (count($use_item_statement)==2)
 			{
-				$item_id = $expression[0];
-				$cell_to_click = $expression[1];			
+				$item_id = $use_item_statement[0];
+				$cell_to_click = $use_item_statement[1];		
 				if (plugin_inventory::getCurrentItem()==$item_id)
 				{
 					// if the current item in inventory matches the item id we trigger a cell click 
