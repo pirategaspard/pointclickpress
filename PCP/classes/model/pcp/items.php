@@ -1,59 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 class Model_PCP_Items extends Model
 {
-	/*
-	static function getItem($args=array())
-	{
-		// if we have been passed a type, get that specific type of item, otherwise get a generic item	
-		if (isset($args['item_type']))
-		{
-			// what kind of action are we getting? 
-			switch ($args['item_type'])
-			{	
-				case ITEM_TYPE_GRID:
-					unset($args['item_type']);					
-					$item = self::getGridItem($args);					
-				break;
-				case ITEM_TYPE_DEF:
-					unset($args['item_type']);
-					$item = self::getItemDef($args);
-				break;
-				default:
-					unset($args['item_type']);
-					$item = self::getItemDef($args);
-				break;
-			}
-		}
-		else
-		{
-			$item = self::getItemDef($args);
-		}				
-		return $item->load($args);
-	}
-	
-	static function getItems($args=array())
-	{
-		// if we have been passed a type, get that specific type of item, otherwise get a generic item	
-		if (!isset($args['item_type'])) {$args['item_type'] = ITEM_TYPE_NULL; }
-			
-			// what kind of action are we getting? 
-			switch ($args['item_type'])
-			{	
-				case ITEM_TYPE_GRID:				
-					$items = self::getGridItems($args);					
-				break;
-				case ITEM_TYPE_DEF:
-					$items = self::getItemDefs($args);
-				break;
-				default:
-					$items = array();
-				break;
-			}
-					
-		return $items;
-	}
-	*/	
-	
+
 	static function getStoryItems($args)
 	{
 		$items = array();
@@ -78,6 +26,35 @@ class Model_PCP_Items extends Model
 			}
 		}
 		return $items;
+	}
+	
+	// Grid items go on the grid to compose a scene 
+	static function getStoryGridItems($args=array())
+	{						 		
+		$items = array();
+		if (isset($args['story_id']))
+		{
+			// get all the itemdefs that were used as GridItems in the db
+			$q = '	SELECT 	gi.id
+							,gi.title
+							,id.id as itemdef_id	
+							,id.title as itemdef_title						
+					FROM grids_items gi
+					INNER JOIN scenes sc
+					ON gi.scene_id = sc.id
+					INNER JOIN itemdefs id
+					ON gi.itemdef_id = id.id
+					WHERE 1 = 1
+					ORDER BY gi.id DESC';
+			$tempArray = DB::query(Database::SELECT,$q,TRUE)
+							->execute()
+							->as_array();
+			foreach($tempArray as $a)
+			{		
+				$items[$a['id']] = $a['title'];
+			}
+		}
+		return $items;		
 	}
 	
 	// Items can have more than one state
