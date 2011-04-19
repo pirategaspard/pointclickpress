@@ -1,6 +1,6 @@
 <script>
 //$(document).ready(function() {
-	$('#item_Select').hide();
+	//$('#item_Select').hide();	
 //}
 // when action type = 'action_inventory_use' hide the action_value field
 	$('#action_select').change(function() 

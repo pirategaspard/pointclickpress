@@ -58,5 +58,5 @@
 	{
 		echo ("action_descriptions['".$action_def->getClass()."'] = '".htmlentities($action_def->getdescription(),ENT_QUOTES)."';\n "); 
 	}
-?>
+?>	
 </script>

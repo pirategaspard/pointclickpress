@@ -106,7 +106,7 @@ class Model_Base_PCPActionDef extends Model_Base_PCPAdminItem implements Interfa
 	// given "$myvariable" returns "myvariable"
 	static function getVariableName($var)
 	{
-		return preg_replace('[\$| ]','',$var);
+		return trim(preg_replace('[\$| ]','',$var));
 	}
 	
 	// given "$myvariable" returns "$session['data']['myvariable']"
@@ -163,7 +163,7 @@ class Model_Base_PCPActionDef extends Model_Base_PCPAdminItem implements Interfa
 	static function getOperator($expression)
 	{
 		$operator = null;
-		$operators = Actions::getOperators($expression);
+		$operators = self::getOperators($expression);
 		if (count($operators)>0)
 		{
 			$operator = $operators[0];

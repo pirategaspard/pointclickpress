@@ -17,16 +17,18 @@ class Model_PCP_Storydata
 	
 	static function set($key='',$value='')
 	{
+		$key = trim($key);
 		if (strlen($key)>0)
 		{	
 			$story_data = self::getStorydata();
-			$story_data[$key] = $value;
+			$story_data[trim($key)] = $value;
 			self::setStorydata($story_data);
 		}
 	}
 	
 	static function get($key='',$default='')	
 	{
+		$key = trim($key);
 		$results = $default;
 		if (strlen($key)>0)
 		{
