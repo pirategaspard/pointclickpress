@@ -162,9 +162,9 @@ Class Controller_PCP extends Controller_Template_PCP
   
     /* handles cell clicks */
     function action_cellClick()
-    {		
-		$this->simple_output();
-		// do plugins
+    {				
+	$this->simple_output();
+	// do plugins
     	Events::announceEvent(PRE_CELL_CLICK);
     	// get session
 		$session = Session::instance();
