@@ -106,13 +106,22 @@ class Model_Events
 	
 	private static function getAllListenerClasses()
 	{
+		$r = array();
 		$q = '	SELECT class,events
 				FROM actiondefs
 				UNION ALL
 				SELECT class,events
 				FROM plugins
 				WHERE status = 1'; // only active plugins
-		return DB::query(Database::SELECT,$q,TRUE)->execute()->as_array();
+		try
+		{
+			$r = DB::query(Database::SELECT,$q,TRUE)->execute()->as_array();
+		}
+		catch (Exception $e)
+		{
+			// silent fail		
+		}
+		return $r;
 	}
 	
 	private static function registerAllListenerClasses()
