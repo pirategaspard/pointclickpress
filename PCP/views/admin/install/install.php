@@ -12,7 +12,7 @@
 		$user_data['password2'] = $_POST['password'];
 		$user_data['email'] = 'admin@localhost';
 		$user_data['active'] = '1';
-		$results = UsersAdmin::create($user_data);
+		$results = Model_Admin_UsersAdmin::create($user_data);
 		
 		//var_dump($results); die();
 		

@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-Class Controller_admin_install extends Controller_Template_Admin
+Class Controller_admin_install extends Controller_Template_Install
 {
 	
 	function action_index()

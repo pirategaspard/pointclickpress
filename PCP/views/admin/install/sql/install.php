@@ -13,6 +13,9 @@
 	
 	foreach ($a as $q)
 	{
-		$results = DB::Query(NULL,$q,FALSE)->execute();
+		if (strlen(trim($q)) > 0)
+		{
+			$results = DB::Query(NULL,$q,FALSE)->execute();
+		}
 	}
 ?>
