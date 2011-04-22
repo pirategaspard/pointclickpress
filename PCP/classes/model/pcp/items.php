@@ -215,6 +215,30 @@ class Model_PCP_Items extends Model
 		return $foundlocation;
 	}
 	
+	// walks array to find griditem slug in storyiteminfo
+	static function searchGriditemBySlug($slug='')
+	{
+		$foundlocation = array();
+		$foundlocation['scene_id'] = 0;
+		$foundlocation['cell_id'] = 0;		
+		$iteminfo = self::getGriditemsInfo();
+		foreach ($iteminfo as $scene_id=>$sceneitemInfo)
+		{
+			foreach ($sceneitemInfo as $cell)
+			{
+				foreach($cell as $item)
+				{										
+					if ($item['slug'] == $slug)
+					{						
+						$foundlocation['scene_id'] = $scene_id;
+						$foundlocation['cell_id'] = key($cell);
+					}
+				}
+			}
+		}
+		return $foundlocation;
+	}
+	
 	static function getGriditemBySceneIdAndCellId($scene_id=0,$cell_id)
 	{		
 		$item_info = array();
@@ -233,6 +257,48 @@ class Model_PCP_Items extends Model
 		{			
 			unset($griditemsInfo[$scene_id]['griditems'][$cell_id]); // remove item from array
 			self::setGriditemsInfo($griditemsInfo);
+		}
+	}
+	
+	/* Use this to update griditems instead of storydata::set(). it keeps itemdata and storydata in sync */
+	static function setGriditemValue($slug='',$value='')
+	{
+		$foundlocation = self::searchGriditemBySlug($slug);						
+		if ($foundlocation['scene_id'] != '0')
+		{
+			$item_info = self::getGriditemBySceneIdAndCellId($foundlocation['scene_id'],$foundlocation['cell_id']);												
+			self::setGridItemState($item_info['id'],$value);
+			//StoryData::set($slug,$value);
+		}	
+	}
+
+	// sets a grid item's itemstate_id based on a passed value. 
+	static function setGridItemState($griditem_id=0,$value='')
+	{
+		$foundlocation = self::searchGriditemById($griditem_id);		
+		if ($foundlocation['scene_id'] != '0')
+		{			
+			$itemstate = self::getGridItemCurrentItemState($griditem_id,$value);			
+			$iteminfo = self::getGriditemsInfo();
+			$item = $iteminfo[$foundlocation['scene_id']]['griditems'][$foundlocation['cell_id']];
+			$item['itemstate_id'] = $itemstate[$griditem_id]->id;
+			$iteminfo[$foundlocation['scene_id']]['griditems'][$foundlocation['cell_id']] = $item;
+			self::setGriditemsInfo($iteminfo);
+			Storydata::set($item['slug'],$value);			
+		}
+	}
+	
+	// moves a grid item to a new scene_id
+	static function setGridItemLocation($griditem_id=0,$scene_id=0,$cell_id=1)
+	{
+		$foundlocation = self::searchGriditemById($griditem_id);	
+		if ($foundlocation['scene_id'] != '0')
+		{						
+			$iteminfo = self::getGriditemsInfo();
+			$item = $iteminfo[$foundlocation['scene_id']]['griditems'][$foundlocation['cell_id']]; // get item
+			$iteminfo[$scene_id]['griditems'][$cell_id] = $item; // move item to new scene
+			unset($iteminfo[$foundlocation['scene_id']]['griditems'][$foundlocation['cell_id']]); // remove item from old location
+			self::setGriditemsInfo($iteminfo);	
 		}
 	}
 	
@@ -258,36 +324,8 @@ class Model_PCP_Items extends Model
 		}
 		return $item;
 	}*/
-
-	// sets a grid item's itemstate_id based on a passed value. 
-	static function setGridItemState($griditem_id=0,$value='')
-	{
-		$foundlocation = self::searchGriditemById($griditem_id);
-		if ($foundlocation['story_id'] != 0)
-		{			
-			$itemstate = self::getGridItemCurrentItemState($griditem_id,$value);
-			$iteminfo = self::getGriditemsInfo();
-			$item = $iteminfo[$foundlocation['scene_id']]['griditems'][$foundlocation['cell_id']];
-			$item['itemstate_id'] = $itemstate[$griditem_id]->id;
-			$iteminfo[$foundlocation['scene_id']]['griditems'][$foundlocation['cell_id']] = $item;
-			self::setGriditemsInfo($iteminfo);
-			Storydata::set($item['slug'],$value);			
-		}
-	}
 	
-	// moves a grid item to a new scene_id
-	static function setGridItemLocation($griditem_id=0,$scene_id=0,$cell_id=1)
-	{
-		$foundlocation = self::searchGriditemById($griditem_id);	
-		if ($foundlocation['scene_id'] != '0')
-		{						
-			$iteminfo = self::getGriditemsInfo();
-			$item = $iteminfo[$foundlocation['scene_id']]['griditems'][$foundlocation['cell_id']]; // get item
-			$iteminfo[$scene_id]['griditems'][$cell_id] = $item; // move item to new scene
-			unset($iteminfo[$foundlocation['scene_id']]['griditems'][$foundlocation['cell_id']]); // remove item from old location
-			self::setGriditemsInfo($iteminfo);	
-		}
-	}
+	
 
 }
 ?>

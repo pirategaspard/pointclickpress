@@ -126,12 +126,12 @@ class Model_Admin_ActionDefsAdmin extends Model
 	
 	static function loadActionTypeActions($action_type=ACTION_TYPE_NULL)
 	{
-		$e = self::load();
+		$a = self::load();
 		$actionDefs = Array();
 		
 		if ($action_type != ACTION_TYPE_NULL)
 		{
-			foreach($e as $actionDef)
+			foreach($a as $actionDef)
 			{
 				if (count(array_intersect($actionDef->getAllowedActionTypes(),array($action_type))) > 0)
 				{
@@ -141,7 +141,7 @@ class Model_Admin_ActionDefsAdmin extends Model
 		}
 		else
 		{
-			$actionDefs = $e;
+			$actionDefs = $a;
 		}
 		return $actionDefs; // get php action classes 
 	}

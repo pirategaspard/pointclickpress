@@ -9,26 +9,7 @@ Class Controller_Admin_Action extends Controller_Template_Admin
 	function action_edit()
 	{				
 		$session = Session::instance('admin');
-		$data = Model_Admin_ActionsAdmin::getData();
-		/*	
-		if ($data['action_type'] == ACTION_TYPE_STORY)
-		{
-			$data['story'] = Model_Admin_StoriesAdmin::getStoryInfo(array('id'=>$session->get('story_id'),'include_locations'=>true,'include_scenes'=>false));
-			$data['story_id'] = $session->get('story_id');
-			$data['locations'] = $data['story']->locations;	
-		}
-		if ($data['action_type'] == ACTION_TYPE_LOCATION)
-		{
-			$data['story_id'] = $session->get('story_id');
-			$data['location_id'] = $session->get('location_id');
-		}
-		if ($data['action_type'] == ACTION_TYPE_SCENE)
-		{
-			$data['story_id'] = $session->get('story_id');
-			$data['location_id'] = $session->get('location_id');
-			$data['scene_id'] = $session->get('scene_id');
-		}
-		*/		
+		$data = Model_Admin_ActionsAdmin::getData();		
 		$data['action'] = Model_Admin_ActionsAdmin::getAction($data);
 		$data['action_defs'] = Model_Admin_ActionDefsAdmin::loadActionTypeActions($data['action_type']);
 		$data['back_url'] = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';

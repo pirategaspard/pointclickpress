@@ -11,6 +11,7 @@ class action_assignrefreshitems extends action_assign
 {	
 	protected $label = 'Assign value and item refresh';
 	protected $description = 'Assign a new value to a session variable then refresh any items. Example: $door_open = 1;';
+	protected $allowed_action_types = array(ACTION_TYPE_GRID,ACTION_TYPE_GRIDITEM);	
 	
 	private $story_data = array();
 	
