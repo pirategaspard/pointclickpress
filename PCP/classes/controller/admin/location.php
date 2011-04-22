@@ -12,7 +12,7 @@ Class Controller_admin_location extends Controller_Template_Admin
 	{
 		$session = Session::instance('admin');		
 		$data = Model_Admin_LocationsAdmin::getData();
-		$data['location'] = Model_Admin_LocationsAdmin::getLocation(array('id'=>$data['location_id'],'include_scenes'=>TRUE))->init($data);
+		$data['location'] = Model_Admin_LocationsAdmin::getLocation(array('id'=>$data['location_id'],'include_scenes'=>TRUE)); 
 		$data['story_id'] = (isset($data['story_id']))?$data['story_id']:$data['location']->story_id;
 		$data['story'] = Model_Admin_StoriesAdmin::getStory(array('id'=>$data['story_id']));
 		$data['scenes'] = $data['location']->scenes;
