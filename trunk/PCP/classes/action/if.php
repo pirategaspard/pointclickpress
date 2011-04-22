@@ -31,15 +31,15 @@ class action_if extends Model_Base_PCPActionDef
 					$if_statement = preg_replace('/\)/','',$if_statement);
 					$i = explode(',',$if_statement);	
 											
-					$var1 =  $this->getValueFromArray($this->getVariableName($i[0]),Storydata::getStorydata());
-					$operator = $this->removeQuotes($i[1]); //$this->getOperator($i[1]);
-					$var2 = $this->getValueFromArray($this->getVariableName($i[2]),Storydata::getStorydata());
+					$var1 =  $this->getValueFromArray($this->getVariableName(trim($i[0])),Storydata::getStorydata());
+					$operator = $this->removeQuotes(trim($i[1])); //$this->getOperator($i[1]);
+					$var2 = $this->getValueFromArray($this->getVariableName(trim($i[2])),Storydata::getStorydata());
 					$cell_to_click = trim($i[3]);
 																													
 					if($operator!=null)
 					{	
 						// finally evaluate						
-						if($this->evaluate($this->removeQuotes($var1),$operator,$this->removeQuotes($var2)))
+						if($this->evaluate($var1,$operator,$var2))
 						{
 							// if true: create a response for the event timer
 							$args = array('action_value'=>"0,$cell_to_click");

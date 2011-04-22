@@ -139,6 +139,7 @@ class Model_Base_PCPActionDef extends Model_Base_PCPAdminItem implements Interfa
 	// Useful for getting a value out of Story_data array if it exists as a variable. 
 	static function getValueFromArray($key,$thisArray)
 	{
+		$key = self::removeQuotes(trim($key));
 		if (isset($thisArray[$key]))
 		{
 			return $thisArray[$key];
@@ -162,6 +163,7 @@ class Model_Base_PCPActionDef extends Model_Base_PCPAdminItem implements Interfa
 	
 	static function getOperator($expression)
 	{
+		$expression = self::removeQuotes(trim($expression));
 		$operator = null;
 		$operators = self::getOperators($expression);
 		if (count($operators)>0)

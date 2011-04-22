@@ -11,7 +11,8 @@ class action_assignrefresh extends action_assign
 {	
 	
 	protected $label = 'Assign value and scene refresh'; 
-	protected $description = 'Assign a new value to a session variable then refresh the scene. Example: $door_open = 1;';	
+	protected $description = 'Assign a new value to a session variable then refresh the scene. Example: $door_open = 1;';
+	protected $allowed_action_types = array(ACTION_TYPE_GRID,ACTION_TYPE_GRIDITEM);		
 	
 	private $story_data = array();
 	

@@ -7,7 +7,8 @@
 class action_evalrefreshitems extends action_refreshitems
 {	
 	protected $label = "Eval w/ Item Refresh";
-	protected $description = "Execute arbitrary PHP code then refreshes items in scene. Use with caution." ;	
+	protected $description = "Execute arbitrary PHP code then refreshes items in scene. Use with caution." ;
+	protected $allowed_action_types = array(ACTION_TYPE_GRID,ACTION_TYPE_GRIDITEM);		
 	
 	public function performAction($args=array(),$hook_name='')
 	{							

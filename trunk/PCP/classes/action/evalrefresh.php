@@ -7,7 +7,8 @@
 class action_evalrefresh extends action_eval
 {	
 	protected $label = "Eval w/ Scene Refresh";
-	protected $description = "Execute arbitrary PHP code then refreshes the scene. Use with caution." ;		
+	protected $description = "Execute arbitrary PHP code then refreshes the scene. Use with caution." ;	
+	protected $allowed_action_types = array(ACTION_TYPE_GRID,ACTION_TYPE_GRIDITEM);		
 	
 	public function performAction($args=array(),$hook_name='')
 	{							

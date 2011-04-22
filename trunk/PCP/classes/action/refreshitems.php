@@ -9,7 +9,8 @@ class action_refreshitems extends Model_Base_PCPActionDef
 {	
 	
 	protected $label = 'Items Refresh';
-	protected $description = 'Refreshes Items in the scene';	
+	protected $description = 'Refreshes Items in the scene';
+	protected $allowed_action_types = array(ACTION_TYPE_GRID,ACTION_TYPE_GRIDITEM);		
 
 	public function performAction($args=array(),$hook_name='')
 	{
