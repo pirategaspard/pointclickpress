@@ -41,7 +41,7 @@ class Model_Admin_ImagesAdmin
 	}
 	
 	static function upload($args=array())
-	{
+	{		
 		// increase timeout so we can resize images
 		set_time_limit(240);
 		// Create the Upload and Media directories if they do not exist
@@ -103,7 +103,7 @@ class Model_Admin_ImagesAdmin
 							// so that it maintains the same relative size
 							$ThisImage = Image::factory($temp_file);
 							$width_reduction_percentage = ($ThisImage->width / DEFAULT_SCREEN_WIDTH);
-							$height_reduction_percentage = ($ThisImage->height / DEFAULT_SCREEN_HEIGHT);							
+							$height_reduction_percentage = ($ThisImage->height / DEFAULT_SCREEN_HEIGHT);						
 						}
 						else
 						{
@@ -253,7 +253,14 @@ class Model_Admin_ImagesAdmin
 		{
 			$data['id'] = $data['image_id'] = 0;
 		}
-		$data['type_id'] = self::getImageType($data);
+		if (isset($_REQUEST['type_id']))
+		{
+			$data['type_id'] = $_REQUEST['type_id'];			
+		}
+		else
+		{
+			$data['type_id'] = self::getImageType($data);
+		}
 		$data['url'] = self::getAddUrlArgs($data);
 		return $data;
 	}
