@@ -8,12 +8,12 @@ Class Controller_admin_scene extends Controller_Template_Admin
 	
 		// if we have a new scene, reset the image_id to zero
 		$data = Model_Admin_ScenesAdmin::GetData();
-		$data['scene'] = Model_Admin_ScenesAdmin::getScene(array('id'=>$data['scene_id'],'include_actions'=>false,'include_items'=>true))->init($data);
+		$data['scene'] = Model_Admin_ScenesAdmin::getScene(array('id'=>$data['scene_id'],'include_actions'=>false,'include_items'=>true));
 		$data['story_id'] = (isset($data['story_id']))?$data['story_id']:$data['scene']->story_id;
-		$data['story'] = Model_Admin_StoriesAdmin::getStoryInfo(array('id'=>$data['story_id'],'include_locations'=>true,'include_scenes'=>false));			
-		$data['location'] = $data['story']->locations[$data['scene']->location_id];				
+		$data['story'] = Model_Admin_StoriesAdmin::getStoryInfo(array('id'=>$data['story_id'],'include_locations'=>false,'include_scenes'=>false));			
+		$data['location'] = Model_Admin_LocationsAdmin::getLocation(array('id'=>$data['scene']->location_id));			
 		$data['story_id'] = $data['story']->id;
-		$data['location_id'] = $data['scene']->location_id;		
+		$data['location_id'] = $data['location']->id;		
 		$data['scene_id'] = $data['scene']->id;	
 		$session->set('story_id',$data['story_id']); // This may have been derived from scene obj and other calls may need to use it
 		$session->set('location_id',$data['location_id']);
