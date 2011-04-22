@@ -45,18 +45,19 @@ class Model_Admin_ImagesAdmin
 		// increase timeout so we can resize images
 		set_time_limit(240);
 		// Create the Upload and Media directories if they do not exist
-		dir::prep_directory(UPLOAD_PATH);
-		dir::prep_directory(MEDIA_PATH);
+		model_utils_dir::prep_directory(UPLOAD_PATH);
+		model_utils_dir::prep_directory(MEDIA_PATH);
 		
 		// Do we have a story id?
 		if (isset($_FILES)&&(isset($_POST['story_id']))&&($_POST['story_id'] > 0))
 		{
 			//set up image validation
-			$valid = Validate::factory($_FILES)->rules('filename',array(
-														'upload::valid'=>NULL, 
-														'upload::not_empty'=>array(), 
-														'upload::type'=>array(array('gif','jpg','jpeg','png')), 
-														'upload::size'=>array('3M')));
+			$valid = Validation::factory($_FILES)->rules('filename',array(
+														array('upload::valid',NULL), 
+														array('upload::not_empty',NULL),
+														array('upload::size',array(':value','3M')), 
+														array('upload::type',array(':value',array('gif','jpg','jpeg','png'))), 
+														));
 			//is our image file valid?
 			if ($valid->Check())
 			{
@@ -77,9 +78,9 @@ class Model_Admin_ImagesAdmin
 					// make a folders named story_id with a folder image_id inside it
 					// final path will be: /media/story_id/image_id/WxH/filename
 					$media_path = APPPATH.MEDIA_PATH.DIRECTORY_SEPARATOR.$_POST['story_id'].DIRECTORY_SEPARATOR;
-					dir::prep_directory($media_path);
+					model_utils_dir::prep_directory($media_path);
 					$media_path = $media_path.$image_id.DIRECTORY_SEPARATOR;
-					dir::prep_directory($media_path);
+					model_utils_dir::prep_directory($media_path);
 					
 					// upload original file from form 
 					$temp_file = upload::save($_FILES['filename'],$_FILES['filename']['name'],APPPATH.UPLOAD_PATH.DIRECTORY_SEPARATOR);																				
@@ -153,7 +154,7 @@ class Model_Admin_ImagesAdmin
 			$dest = $media_path.DIRECTORY_SEPARATOR.$screen_width.'x'.$screen_height.DIRECTORY_SEPARATOR;
 		}
 		//create directory to put image		
-		dir::prep_directory($dest);
+		model_utils_dir::prep_directory($dest);
 		// get image obj
 		$ThisImage = Image::factory($temp_file);							
 		// reduce size by a small percentage to assure that image will fit on screen properly;														
@@ -173,7 +174,7 @@ class Model_Admin_ImagesAdmin
 			$dest = $media_path.DIRECTORY_SEPARATOR.$screen_width.'x'.$screen_height.DIRECTORY_SEPARATOR;
 		}
 		//create directory to put image		
-		dir::prep_directory($dest);
+		model_utils_dir::prep_directory($dest);
 		// get image obj
 		$ThisImage = Image::factory($temp_file);							
 		// reduce image by a percentage determined by the default image size
