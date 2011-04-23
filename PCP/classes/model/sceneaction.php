@@ -32,7 +32,7 @@ class Model_SceneAction extends Model_Base_PCPAction
 							,se.scene_id
 					FROM actions e
 					INNER JOIN scenes_actions se
-					ON e.id = ce.action_id
+					ON e.id = se.action_id
 					WHERE e.id = :id';
 			$q_results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();																		
 			if (count($q_results) > 0 )
