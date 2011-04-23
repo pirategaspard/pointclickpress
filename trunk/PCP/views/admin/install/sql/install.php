@@ -1,7 +1,7 @@
 <?php
 	
 	// load install script
-	$sql_filename = 'pointclickpress.sql';
+	$sql_filename = __DIR__.'\pointclickpress.sql';
 	$f = fopen($sql_filename,"r+");
 	$sql_content = fread($f,filesize($sql_filename));
 

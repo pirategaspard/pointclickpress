@@ -2595,4 +2595,4 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=38 ;
 
 INSERT INTO `users` (`id`, `email`, `username`, `password`, `active`, `logins`, `last_ip_address`, `last_login`, `created`) VALUES
-(36, 'admin@localhost', 'admin', '2e80e939646125be46ab1da1b93e2c8745332648', 1, 0, '127.0.0.1', NULL, '2010-10-09 00:12:25'),
+(36, 'admin@localhost', 'admin', '2e80e939646125be46ab1da1b93e2c8745332648', 1, 0, '127.0.0.1', NULL, '2010-10-09 00:12:25');
