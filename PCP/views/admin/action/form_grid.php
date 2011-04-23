@@ -13,7 +13,7 @@
 		<input type="hidden" name="back_url" value="<?php echo($back_url); ?>" />
 		<input type="hidden" name="action_type" value="<?php echo($action_type); ?>" />
 		<input type="hidden" name="id" value="<?php echo($action->id); ?>" />
-		Event Type:
+		Action Type:
 		<select id="action_select" name="action">
 			<?php foreach($action_defs as $action_def)
 			{
@@ -23,6 +23,7 @@
 			} ?>
 		</select>
 		<?php Events::announceEvent(DISPLAY_POST_GRID_SELECT); ?>
+		<?php // TODO factor link code out into a plugin ?>
 		<?php if(isset($locations)) { ?>
 		<label id="location_select" for="location_select">Scene location:
 		<select name="location_select" >
@@ -36,7 +37,7 @@
 		</select>
 		</label>
 		<?php } ?>
-		<label id="action_value" for="action_value">Event Value:
+		<label id="action_value" for="action_value">Action Value:
 			<textarea rows="5" cols="70" name="action_value"><?php echo($action->action_value); ?></textarea>
 		</label>
 		<label id="cell_ids" for="cell_ids">Cell Id List:
