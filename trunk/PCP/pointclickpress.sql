@@ -2596,4 +2596,3 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 INSERT INTO `users` (`id`, `email`, `username`, `password`, `active`, `logins`, `last_ip_address`, `last_login`, `created`) VALUES
 (36, 'admin@localhost', 'admin', '2e80e939646125be46ab1da1b93e2c8745332648', 1, 0, '127.0.0.1', NULL, '2010-10-09 00:12:25'),
-(37, 'admin@localhost', 'pirategaspard', 'ecb62a5a0e7854fcb9c337156dcfa75cf063fead', 1, 0, '127.0.0.1', NULL, '2011-04-21 18:03:19');
