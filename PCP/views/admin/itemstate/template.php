@@ -4,11 +4,11 @@
 	{
 ?>
 	<div id="accordion" >
-		<h3 ><a href="#">Events</a></h3>
+		<!--<h3 ><a href="#">Events</a></h3>
 		<div style='display: none;' >
 			<?php
-				echo($action_list);
+				//echo($action_list);
 			?>
-		</div>
+		</div> -->
 	</div><!-- #accordion -->
 <?php } ?>
