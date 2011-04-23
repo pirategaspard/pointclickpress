@@ -15,7 +15,7 @@
 			<input type="hidden" name="back_url" value="<?php echo($back_url); ?>" />
 			<input type="hidden" name="action_type" value="<?php echo($action_type); ?>" />
 			<input type="hidden" name="id" value="<?php echo($action->id); ?>" />
-			Event Type:
+			Action Type:
 			<select id="action_select" name="action">
 				<?php foreach($action_defs as $action_def)
 				{
@@ -25,7 +25,7 @@
 				} ?>
 			</select><br />
 			<div id="action_description2" class="action_description"></div>
-			<label id="action_value" for="action_value">Event Value:
+			<label id="action_value" for="action_value">Action Value:
 				<textarea rows="10" cols="50" name="action_value"><?php echo($action->action_value); ?></textarea>
 			</label>
 			<input type="submit" name="submit" value="Save" class="ui-widget ui-state-default ui-corner-all button save" />

@@ -4,7 +4,7 @@
 	{
 ?>
 	<div id="accordion" >
-		<h3 ><a href="#">Events</a></h3>
+		<h3 ><a href="#">Actions</a></h3>
 		<div style='display: none;' >
 			<?php
 				echo($action_list);
@@ -21,7 +21,7 @@
 			
 			<div id="tabs">
 				<ul>
-			        <li><a href="#tab-1"><span>Grid Events</span></a></li>
+			        <li><a href="#tab-1"><span>Grid Actions</span></a></li>
 			        <li><a href="#tab-2"><span>Grid Items</span></a></li>
 			    </ul>
 			    <div id="tab-1" class="ui-tabs-hide">
