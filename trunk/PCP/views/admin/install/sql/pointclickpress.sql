@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `actions` (
   `action_label` varchar(255) NOT NULL,
   `action_value` text NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=207 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=210 ;
 
 INSERT INTO `actions` (`id`, `action`, `action_label`, `action_value`) VALUES
 (22, 'action_link', 'link', '21'),
@@ -93,8 +93,8 @@ INSERT INTO `actions` (`id`, `action`, `action_label`, `action_value`) VALUES
 (104, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''east'';'),
 (105, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''north'';'),
 (106, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''north'';'),
-(107, 'action_link', 'Link', '36'),
-(108, 'action_link', 'Link', '31'),
+(107, 'action_link', 'Link', '34'),
+(108, 'action_link', 'Link', '34'),
 (109, 'action_assign', 'Assign value', '$direction = ''west'';'),
 (110, 'action_assign', 'Assign value', '$direction = ''east'';'),
 (111, 'action_link', 'Link', '40'),
@@ -137,7 +137,7 @@ INSERT INTO `actions` (`id`, `action`, `action_label`, `action_value`) VALUES
 (159, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''east'';'),
 (160, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''west'';'),
 (161, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''east'';'),
-(162, 'action_eval', 'Eval', 'Storydata::set(''bucket'',''full'');\n$action_value = ''Your Bucket is now full of water'';\n$actions[] = Actions::createaction(''action_message'',$action_value);\nreturn Actions::doactions($actions);'),
+(162, 'action_eval', 'Eval', 'Items::setGriditemValue(''mybucket'',''full'');\n$action_value = ''Your Bucket is now full of water'';\n$actions[] = Actions::createaction(''action_message'',$action_value);\nreturn Actions::doactions($actions);'),
 (163, 'action_assignrefresh', 'Assign value and scene refresh', '$well = '''';'),
 (167, 'action_assign', 'Assign value', '$abc=1;'),
 (168, 'action_assign', 'Assign value', '$abc=1;'),
@@ -160,10 +160,13 @@ INSERT INTO `actions` (`id`, `action`, `action_label`, `action_value`) VALUES
 (199, 'action_if', 'If', 'if(array(\n              array($wellisfull_flag,''=='',''true'',900),\n              array($wellisfull_flag,''=='',''false'',901)\n            )\n   );'),
 (200, 'action_assignrefresh', 'Assign value and scene refresh', '$well = ''detail_full'';'),
 (201, 'action_assignrefresh', 'Assign value and scene refresh', '$well = ''detail'';'),
-(202, 'action_if', 'If', 'if(array(array(''bucket'',''=='',''full'',900),array(''bucket'',''!='',''full'',901)));'),
+(202, 'action_if', 'If', 'if(array(array(''$mybucket'',''=='',''full'',900),array(''$mybucket'',''!='',''full'',901)));'),
 (203, 'action_assignrefresh', 'Assign value and scene refresh', '$well = "detail_full";\n$wellisfull_flag = "true";'),
 (204, 'action_message', 'User Message', 'You fall into the well and break you neck!;'),
-(206, 'action_link', 'Link', '42');
+(206, 'action_link', 'Link', '42'),
+(207, 'action_assign', 'Assign value', '$direction = ''west'';'),
+(208, 'action_assign', 'Assign value', '$direction = ''east'';'),
+(209, 'action_eval', 'Eval', 'Items::setGriditemValue(''mybucket'',''empty'');');
 
 CREATE TABLE IF NOT EXISTS `cells` (
   `id` int(20) unsigned NOT NULL,
@@ -443,7 +446,6 @@ INSERT INTO `cells` (`id`, `scene_id`, `grid_action_id`) VALUES
 (18, 42, 161),
 (901, 42, 162),
 (9001, 42, 163),
-(900, 83, 154),
 (5, 45, 52),
 (4, 45, 52),
 (3, 45, 52),
@@ -564,20 +566,6 @@ INSERT INTO `cells` (`id`, `scene_id`, `grid_action_id`) VALUES
 (59, 61, 68),
 (39, 61, 68),
 (19, 61, 68),
-(100, 52, 100),
-(90, 52, 100),
-(80, 52, 100),
-(70, 52, 100),
-(60, 52, 100),
-(50, 52, 100),
-(40, 52, 100),
-(30, 52, 100),
-(91, 52, 99),
-(81, 52, 99),
-(71, 52, 99),
-(61, 52, 99),
-(51, 52, 99),
-(41, 52, 99),
 (99, 52, 74),
 (98, 52, 74),
 (97, 52, 74),
@@ -2022,9 +2010,71 @@ INSERT INTO `cells` (`id`, `scene_id`, `grid_action_id`) VALUES
 (25, 66, 156),
 (24, 66, 156),
 (23, 66, 156),
-(900, 66, 172),
 (901, 66, 173),
 (901, 66, 174),
+(901, 66, 175),
+(78, 65, 110),
+(77, 65, 110),
+(76, 65, 110),
+(75, 65, 110),
+(74, 65, 110),
+(68, 65, 110),
+(67, 65, 110),
+(66, 65, 110),
+(65, 65, 110),
+(64, 65, 110),
+(58, 65, 110),
+(57, 65, 110),
+(56, 65, 110),
+(55, 65, 110),
+(54, 65, 110),
+(48, 65, 110),
+(47, 65, 110),
+(46, 65, 110),
+(45, 65, 110),
+(44, 65, 110),
+(38, 65, 110),
+(37, 65, 110),
+(36, 65, 110),
+(35, 65, 110),
+(34, 65, 110),
+(28, 65, 110),
+(27, 65, 110),
+(26, 65, 110),
+(25, 65, 110),
+(24, 65, 110),
+(17, 65, 110),
+(16, 65, 110),
+(15, 65, 110),
+(100, 52, 100),
+(90, 52, 100),
+(80, 52, 100),
+(70, 52, 100),
+(60, 52, 100),
+(50, 52, 100),
+(40, 52, 100),
+(30, 52, 100),
+(100, 52, 176),
+(90, 52, 176),
+(80, 52, 176),
+(70, 52, 176),
+(60, 52, 176),
+(50, 52, 176),
+(40, 52, 176),
+(30, 52, 176),
+(91, 52, 99),
+(81, 52, 99),
+(71, 52, 99),
+(61, 52, 99),
+(51, 52, 99),
+(41, 52, 99),
+(91, 52, 177),
+(81, 52, 177),
+(71, 52, 177),
+(61, 52, 177),
+(51, 52, 177),
+(41, 52, 177),
+(900, 83, 154),
 (88, 66, 171),
 (87, 66, 171),
 (86, 66, 171),
@@ -2073,47 +2123,15 @@ INSERT INTO `cells` (`id`, `scene_id`, `grid_action_id`) VALUES
 (15, 66, 171),
 (14, 66, 171),
 (13, 66, 171),
-(901, 66, 175),
-(78, 65, 110),
-(77, 65, 110),
-(76, 65, 110),
-(75, 65, 110),
-(74, 65, 110),
-(68, 65, 110),
-(67, 65, 110),
-(66, 65, 110),
-(65, 65, 110),
-(64, 65, 110),
-(58, 65, 110),
-(57, 65, 110),
-(56, 65, 110),
-(55, 65, 110),
-(54, 65, 110),
-(48, 65, 110),
-(47, 65, 110),
-(46, 65, 110),
-(45, 65, 110),
-(44, 65, 110),
-(38, 65, 110),
-(37, 65, 110),
-(36, 65, 110),
-(35, 65, 110),
-(34, 65, 110),
-(28, 65, 110),
-(27, 65, 110),
-(26, 65, 110),
-(25, 65, 110),
-(24, 65, 110),
-(17, 65, 110),
-(16, 65, 110),
-(15, 65, 110);
+(900, 66, 172),
+(900, 66, 178);
 
 CREATE TABLE IF NOT EXISTS `grids_actions` (
   `grid_action_id` bigint(20) unsigned NOT NULL auto_increment,
   `scene_id` bigint(20) unsigned NOT NULL,
   `action_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY  (`grid_action_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=176 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=179 ;
 
 INSERT INTO `grids_actions` (`grid_action_id`, `scene_id`, `action_id`) VALUES
 (1, 22, 1),
@@ -2259,7 +2277,10 @@ INSERT INTO `grids_actions` (`grid_action_id`, `scene_id`, `action_id`) VALUES
 (172, 66, 203),
 (173, 66, 204),
 (174, 66, 205),
-(175, 66, 206);
+(175, 66, 206),
+(176, 52, 207),
+(177, 52, 208),
+(178, 66, 209);
 
 CREATE TABLE IF NOT EXISTS `grids_items` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
@@ -2274,7 +2295,7 @@ CREATE TABLE IF NOT EXISTS `grids_items` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 INSERT INTO `grids_items` (`id`, `itemdef_id`, `scene_id`, `cell_id`, `title`, `slug`) VALUES
-(4, 2, 49, 44, 'mybucket_too', 'mybucket_too');
+(4, 2, 49, 44, 'mybucket', 'mybucket');
 
 CREATE TABLE IF NOT EXISTS `grids_items_actions` (
   `griditem_id` bigint(20) unsigned NOT NULL,
@@ -2298,7 +2319,7 @@ CREATE TABLE IF NOT EXISTS `images` (
   `type_id` int(11) unsigned NOT NULL,
   `filename` varchar(255) character set latin1 NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=57 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=100 ;
 
 INSERT INTO `images` (`id`, `story_id`, `type_id`, `filename`) VALUES
 (14, 3, 1, 'DSC_0528.JPG'),
@@ -2338,7 +2359,8 @@ INSERT INTO `images` (`id`, `story_id`, `type_id`, `filename`) VALUES
 (50, 3, 1, 'DSC_0203.JPG'),
 (51, 3, 1, 'DSC_0233.JPG'),
 (55, 14, 1, 'IMG_20101007_192002-1.jpg'),
-(56, 14, 2, 'IMG_20101007_192002-1-1.jpg');
+(56, 14, 2, 'IMG_20101007_192002-1-1.jpg'),
+(93, 3, 2, 'bucket_full.png');
 
 CREATE TABLE IF NOT EXISTS `image_types` (
   `id` int(10) unsigned NOT NULL auto_increment,
@@ -2378,18 +2400,19 @@ CREATE TABLE IF NOT EXISTS `items_states` (
   `value` varchar(255) character set latin1 NOT NULL,
   `isdefaultstate` tinyint(4) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 INSERT INTO `items_states` (`id`, `itemdef_id`, `image_id`, `value`, `isdefaultstate`) VALUES
 (1, 1, 41, 'on_ground', 0),
 (2, 1, 0, 'taken', 0),
-(3, 2, 42, 'on_ground', 1),
+(3, 2, 42, 'empty', 1),
 (5, 4, 0, 'on', 0),
 (6, 4, 0, 'off', 0),
 (7, 0, 0, '', 0),
 (8, 0, 0, 'gj', 0),
 (9, 0, 0, 'bvvj', 1),
-(10, 6, 56, 'bvvj', 1);
+(10, 6, 56, 'bvvj', 1),
+(11, 2, 93, 'full', 0);
 
 CREATE TABLE IF NOT EXISTS `items_states_actions` (
   `itemstate_id` bigint(20) unsigned NOT NULL,
@@ -2569,7 +2592,5 @@ CREATE TABLE IF NOT EXISTS `users` (
   `last_login` datetime default NULL,
   `created` datetime default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=37 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=38 ;
 
-INSERT INTO `users` (`id`, `email`, `username`, `password`, `active`, `logins`, `last_ip_address`, `last_login`, `created`) VALUES
-(36, 'admin@localhost', 'admin', '2e80e939646125be46ab1da1b93e2c8745332648', 1, 0, '127.0.0.1', NULL, '2010-10-09 00:12:25');
