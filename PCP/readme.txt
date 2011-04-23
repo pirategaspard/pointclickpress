@@ -1,9 +1,9 @@
-2010-11-12
+2011-04-23
 PirateGaspard Presents:
 PointClickPress Alpha 5 release
 www.pointclickpress.org
 
-PointClickPress is an open source web app game engine for the creation of point and click style games built using Kohana, JQuery, and good ol’ HTML. 
+PointClickPress is an open source web app game engine for the creation of point and click style games built using Kohana, JQuery, PHP, and good ol’ HTML. 
 It allows you to create Interactive Stories that you can play in any browser and share with your friends!
 
 PointClickPress has been tested with:
