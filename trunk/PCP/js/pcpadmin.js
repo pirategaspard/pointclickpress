@@ -7,7 +7,7 @@
 // TODO: reorganize this file
 $(document).ready(function() {
 		
-	// action_link could be re-factored as a plugin and get this code out of here.
+	// TODO action_link could be re-factored as a plugin and get this code out of here.
 	// when action type = 'action_link' hide the action_value field
 	$('#action_select').change(function() 
 	{		
