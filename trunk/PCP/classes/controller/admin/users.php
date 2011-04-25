@@ -38,10 +38,10 @@ class Controller_admin_users extends Controller_Template_Admin
 			}
 			else
 			{
-				$result = UsersAdmin::create($_POST);
+				$result = Model_Admin_UsersAdmin::create($_POST);
 			}
 			unset($_POST);
-		}
+		} 
 		else
 		{
 			$result = new pcpresult(0,'unable to save user');
