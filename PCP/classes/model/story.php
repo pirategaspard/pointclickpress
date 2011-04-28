@@ -16,6 +16,7 @@ class Model_Story extends Model
 	protected $image_id = 0;
 	protected $filename = '';
 	protected $status = 'd';
+	protected $creator_user_id = 0;
 	protected $actions = array();
 	protected $locations = array();
 	
@@ -61,6 +62,10 @@ class Model_Story extends Model
 		{			
 			$this->status = $args['status'];							
 		}
+		if (isset($args['creator_user_id']))
+		{			
+			$this->creator_user_id = $args['creator_user_id'];							
+		}
 		if (isset($args['grid_x']))
 		{
 			$this->grid_x = $args['grid_x'];
@@ -103,6 +108,8 @@ class Model_Story extends Model
 							,i.filename
 							,s.grid_x
 							,s.grid_y
+							,s.creator_user_id
+							,s.created_date
 					FROM stories s
 					LEFT OUTER JOIN images i
 						ON s.image_id = i.id
@@ -133,7 +140,8 @@ class Model_Story extends Model
 							,image_id
 							,status
 							,grid_x
-							,grid_y)
+							,grid_y
+							,creator_user_id)
 						VALUES (
 							:title
 							,:author
@@ -143,6 +151,7 @@ class Model_Story extends Model
 							,:status						
 							,:grid_x
 							,:grid_y
+							,:creator_user_id
 							)';
 							
 				$q_results = DB::query(Database::INSERT,$q,TRUE)
@@ -154,6 +163,7 @@ class Model_Story extends Model
 									->param(':status',$this->status)
 									->param(':grid_x',$this->grid_x)
 									->param(':grid_y',$this->grid_y)
+									->param(':creator_user_id',$this->creator_user_id)
 									->execute();			
 				if ($q_results[1] > 0)
 				{

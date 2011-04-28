@@ -143,12 +143,18 @@ class Model_Admin_UsersAdmin
 		$salt_pre = 'a1B2c3';
 		$salt_post = 'X7y8Z9';		
 		return hash($method, $salt_pre.$str.$salt_post); 
+	}
+	
+	public static function getUserID()
+	{		
+		$results = FALSE;
+		$session = Session::instance('admin');
+		return $session->get(self::$session_key,0);
 	} 
 	
 	static function getData()
 	{
 		$session = Session::instance('admin');	
-		Model_Admin_PCPAdmin::clearArgs();
 		if (isset($_REQUEST['user_id']))
 		{
 			$data['id'] = $data['user_id'] = $_REQUEST['user_id'];			
