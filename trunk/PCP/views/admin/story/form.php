@@ -6,6 +6,7 @@
 	<legend>Interactive Story Information</legend>
 	<form action="<?php echo($story_form_action); ?>" method="post" >
 		<input type="hidden" name="id" value="<?php echo($story->id); ?>" >
+		<input type="hidden" name="creator_user_id" value="<?php echo($story->creator_user_id); ?>" >
 		<div class="form_block" >
 			<p>			
 				<label>Story Title:</label>
@@ -13,7 +14,7 @@
 			</p>
 			<p>			
 				<label>Story Author:</label>		
-				<input type="text" name="author" value="<?php echo($story->author); ?>" >
+				<input type="text" name="author" value="<?php if (strlen($story->author) > 0) {echo($story->author); } else {echo('Mr. Author'); } ?>" >
 			</p>
 			<p>				
 				<label>Story Description:</label>

@@ -28,6 +28,9 @@ class Model_Admin_StoriesAdmin extends Model_PCP_Stories
 		{
 			$data['image_id'] = $session->get('image_id');
 		}
+		$data['include_locations']= false;
+		$data['include_scenes']=false;
+		$data['user_id'] = $data['creator_user_id'] = model_admin_usersadmin::getUserId();
 		return $data;
 	}
 }

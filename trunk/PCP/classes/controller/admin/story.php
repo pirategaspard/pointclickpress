@@ -23,8 +23,8 @@ Class Controller_admin_story extends Controller_Template_Admin
 	{			
 		Model_Admin_ActionDefsAdmin::searchForListeners(); // search for new ActionDefs
 		Model_Admin_PluginsAdmin::searchForListeners(); // search for new Plugins
-		
-		$data['stories'] = Model_Admin_StoriesAdmin::getStories(array('include_locations'=>true,'include_scenes'=>true));
+		$data = Model_Admin_StoriesAdmin::GetData();
+		$data['stories'] = Model_Admin_StoriesAdmin::getStories($data);
 		if (count($data['stories']) > 0 )
 		{
 			$data['story_add'] = View::factory('/admin/story/add',$data)->render();
@@ -44,11 +44,12 @@ Class Controller_admin_story extends Controller_Template_Admin
 	{		
 		$session = Session::instance('admin');
 		$data = Model_Admin_StoriesAdmin::GetData();
-		$data['story'] = Model_Admin_StoriesAdmin::getStory(array('id'=>$data['story_id'],'include_locations'=>true));
+		//$data['story'] = Model_Admin_StoriesAdmin::getStory(array('id'=>$data['story_id'],'include_locations'=>true));
+		$data['story'] = Model_Admin_StoriesAdmin::getStory(array('id'=>$data['story_id'],'include_locations'=>true))->init($data);
 		$session->set('story_id',$data['story_id']);
 		$session->delete('location_id'); // if id exits, delete it.
 		
-		$data['locations'] = $data['story']->locations; // needed to choose starting location
+		$data['locations'] = Model_Admin_LocationsAdmin::getLocations(array($data['story_id'])); // needed to choose starting location
 		$data['grid_sizes'] = explode(',',SUPPORTED_GRID_SIZES);
 
 		$data['action_list'] = Request::factory('/admin/action/listSimple')->execute()->body();
