@@ -51,15 +51,12 @@ Class Controller_admin_plugin extends Controller_Template_Admin
 	{
 		$plugin = Model_Admin_PluginsAdmin::getByClassName(array('plugin'=>$_REQUEST['plugin']));
 		if(count($plugin) > 0)
-		{
-			// TODO: run un-install function in plugin
-			
+		{					
 			// delete record
 			Model_Admin_PluginsAdmin::deleteByID($plugin[0]['id']);
 		}
 		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'plugin','action'=>'list')));
 	}
-	
 }
 
 ?>

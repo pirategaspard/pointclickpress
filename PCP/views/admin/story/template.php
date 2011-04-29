@@ -16,6 +16,12 @@
 				echo($item_list);
 			?>
 		</div>
+		<h3><a href='#'>Plugins</a></h3>
+		<div style='display: none;' >
+			<?php
+				echo($plugin_list);
+			?>
+		</div>
 	</div><!-- #accordion -->
 <?php					
 		echo($location_list);
