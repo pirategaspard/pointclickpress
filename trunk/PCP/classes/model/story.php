@@ -113,12 +113,23 @@ class Model_Story extends Model
 					FROM stories s
 					LEFT OUTER JOIN images i
 						ON s.image_id = i.id
+					INNER JOIN users u 
+						ON 1 = 1
+						AND ((s.creator_user_id = u.id
+						AND u.id = :creator_user_id)
+						OR (s.creator_user_id = 0))
 					WHERE s.id = :id';
-			$results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();				
-							
+			$results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)
+															->param(':creator_user_id',$this->creator_user_id)
+															->execute()
+															->as_array();				
 			if (count($results) > 0 )
 			{
 				$this->init($results[0]);				
+			}
+			else
+			{
+				$this->init(array('id'=>0,'creator_user_id'=>0));
 			}
 		}
 		return $this;
@@ -266,6 +277,11 @@ class Model_Story extends Model
 	function getActions()
 	{
 		return Model_PCP_Actions::getStoryActions(array('story_id'=>$this->id));
+	}
+	
+	function setCreatorUserId($id)
+	{
+		$this->creator_user_id = $id; 
 	}
 }
 

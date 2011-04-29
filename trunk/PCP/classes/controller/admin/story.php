@@ -44,25 +44,38 @@ Class Controller_admin_story extends Controller_Template_Admin
 	{		
 		$session = Session::instance('admin');
 		$data = Model_Admin_StoriesAdmin::GetData();
-		//$data['story'] = Model_Admin_StoriesAdmin::getStory(array('id'=>$data['story_id'],'include_locations'=>true));
-		$data['story'] = Model_Admin_StoriesAdmin::getStory(array('id'=>$data['story_id'],'include_locations'=>true))->init($data);
-		$session->set('story_id',$data['story_id']);
-		$session->delete('location_id'); // if id exits, delete it.
-		
-		$data['locations'] = Model_Admin_LocationsAdmin::getLocations(array($data['story_id'])); // needed to choose starting location
-		$data['grid_sizes'] = explode(',',SUPPORTED_GRID_SIZES);
-
-		$data['action_list'] = Request::factory('/admin/action/listSimple')->execute()->body();
-		$data['item_list'] = Request::factory('/admin/itemdef/listSimple')->execute()->body();	
-		$data['location_list'] = Request::factory('/admin/location/listSimple')->execute()->body();	
-						
-		$data['story_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'story','action'=>'save')));
-		$data['assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?story_id='.$data['story']->id;
-		$data['story_form'] = View::factory('/admin/story/form',$data)->render();
-		
-		$this->template->breadcrumb .= View::factory('/admin/story/info',$data)->render();
-		$this->template->top_menu = View::factory('/admin/story/top_menu',$data)->render();
-		$this->template->content = View::factory('/admin/story/template',$data)->render();
+		$data['story'] = Model_Admin_StoriesAdmin::getStory(array('id'=>$data['story_id'],'creator_user_id'=>$data['creator_user_id']));
+		// check to make sure the correct user is accessing the correct story, or is creating a new story
+		if (($data['story']->creator_user_id > 0) && ($data['story']->creator_user_id != $data['user_id']) && ($data['story_id']!= 0))
+		{		
+			//redirect to add a new story with id 0			
+			Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'edit')).'?story_id=0');
+		}
+		else
+		{
+			if ($data['story']->id == 0)
+			{
+				$data['story']->setCreatorUserId($data['creator_user_id']);
+			}
+			
+			$session->set('story_id',$data['story_id']);
+			$session->delete('location_id'); // if id exits, delete it.
+			
+			$data['locations'] = Model_Admin_LocationsAdmin::getLocations(array($data['story_id'])); // needed to choose starting location
+			$data['grid_sizes'] = explode(',',SUPPORTED_GRID_SIZES);
+	
+			$data['action_list'] = Request::factory('/admin/action/listSimple')->execute()->body();
+			$data['item_list'] = Request::factory('/admin/itemdef/listSimple')->execute()->body();	
+			$data['location_list'] = Request::factory('/admin/location/listSimple')->execute()->body();	
+							
+			$data['story_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'story','action'=>'save')));
+			$data['assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?story_id='.$data['story']->id;
+			$data['story_form'] = View::factory('/admin/story/form',$data)->render();
+			
+			$this->template->breadcrumb .= View::factory('/admin/story/info',$data)->render();
+			$this->template->top_menu = View::factory('/admin/story/top_menu',$data)->render();
+			$this->template->content = View::factory('/admin/story/template',$data)->render();
+		}
 	}
 	
 	/*
