@@ -56,6 +56,7 @@ class Model_Admin_ItemDefAdmin extends Model_PCP_Items
 			$data['id'] = $data['itemdef_id'] = $_REQUEST['itemdef_id'];			
 		}
 		$data['item_type'] = ITEM_TYPE_DEF;
+		$data['user_id'] = $data['creator_user_id'] = model_admin_usersadmin::getUserId();
 		return $data;
 	}
 	

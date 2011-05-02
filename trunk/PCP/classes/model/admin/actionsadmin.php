@@ -176,6 +176,7 @@ class Model_Admin_ActionsAdmin extends Model_PCP_Actions
 		{
 			$data['id'] = $data['action_id'] = 0; 
 		}
+		$data['user_id'] = $data['creator_user_id'] = model_admin_usersadmin::getUserId();
 		$data['action_type'] = self::getActionType($data);
 		switch ($data['action_type'])
 		{	

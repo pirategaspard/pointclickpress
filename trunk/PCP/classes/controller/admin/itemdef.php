@@ -13,7 +13,7 @@ Class Controller_admin_itemdef extends Controller_Template_Admin
 		$data['back_url'] = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
 		$data['itemdef_form'] =  View::factory('/admin/itemdef/form',$data)->render();		
 		$data['add_itemdef_link'] =  View::factory('/admin/itemdef/add',$data)->render();
-		$data['story'] = Model_Admin_StoriesAdmin::getStory(array('id'=>$data['story_id']));
+		$data['story'] = Model_Admin_StoriesAdmin::getStory(array('id'=>$data['story_id'],'creator_user_id'=>$data['creator_user_id']));
 		$data['action_list'] = Request::factory('/admin/action/listSimple')->execute()->body();			
 		$data['itemstate_list'] = Request::factory('/admin/itemstate/listSimple')->execute()->body();
 		$data['iteminstances_list'] = Request::factory('/admin/griditem/listSimple')->execute()->body();

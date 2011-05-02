@@ -14,7 +14,8 @@ Class Controller_Template_Base extends Controller_Template
 	// Run anything that need to run before this.
 		parent::before();
 
-		Events::initalizeListenerClasses(); // initalize events engine
+		$data = Events::getData();
+		Events::initalizeListenerClasses($data); // initalize events engine
 		
 		if($this->auto_render)
 		{

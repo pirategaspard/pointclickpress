@@ -41,6 +41,7 @@ class Model_Admin_ItemstateAdmin extends Model_PCP_Itemstates
 			$data['image_id'] = $_REQUEST['image_id'];
 		}
 		$data['item_type'] = ACTION_TYPE_ITEMSTATE;
+		$data['user_id'] = $data['creator_user_id'] = model_admin_usersadmin::getUserId();
 		return $data;
 	}
 
