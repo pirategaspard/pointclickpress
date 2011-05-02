@@ -40,6 +40,7 @@ class Model_Admin_LocationsAdmin extends Model_PCP_Locations
 		{
 			$data['scene_id'] = $session->get('scene_id');
 		}
+		$data['user_id'] = $data['creator_user_id'] = model_admin_usersadmin::getUserId();
 		return $data;
 	}
 

@@ -92,18 +92,14 @@ class Model_PCP_Scenes
 		{
 			$location = Model_PCP_Locations::getLocation(array('id'=>$args['location_id']));	
 			$session = Session::instance();
-			$story_data = $session->get('story_data',array());
-			
 			/*
 				Switch for different scenes within location			 
 				If a there is a key set in the session story_data array then use that value
 				othewise use empty string
 			*/			
-			
-//var_dump($location->slug);die();
-			if (isset($story_data[$location->slug]))
+			if (StoryData::get($location->slug,0))
 			{
-				$args['scene_value'] = $story_data[$location->slug];
+				$args['scene_value'] = StoryData::get($location->slug);
 			}
 			else
 			{

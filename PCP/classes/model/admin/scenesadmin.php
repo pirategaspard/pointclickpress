@@ -46,6 +46,7 @@ class Model_Admin_ScenesAdmin extends Model_PCP_Scenes
 		{
 		//	$data['id'] = $data['scene_id'] =  0;
 		}
+		$data['user_id'] = $data['creator_user_id'] = model_admin_usersadmin::getUserId();
 		return $data;
 	}
 }

@@ -44,7 +44,7 @@ Class Controller_admin_story extends Controller_Template_Admin
 	{		
 		$session = Session::instance('admin');
 		$data = Model_Admin_StoriesAdmin::GetData();
-		$data['story'] = Model_Admin_StoriesAdmin::getStory(array('id'=>$data['story_id'],'creator_user_id'=>$data['creator_user_id']));
+		$data['story'] = Model_Admin_StoriesAdmin::getStory($data);
 		// check to make sure the correct user is accessing the correct story, or is creating a new story
 		if (($data['story']->creator_user_id > 0) && ($data['story']->creator_user_id != $data['user_id']) && ($data['story_id']!= 0))
 		{		
@@ -61,7 +61,7 @@ Class Controller_admin_story extends Controller_Template_Admin
 			$session->set('story_id',$data['story_id']);
 			$session->delete('location_id'); // if id exits, delete it.
 			
-			$data['locations'] = Model_Admin_LocationsAdmin::getLocations(array($data['story_id'])); // needed to choose starting location
+			$data['locations'] = Model_Admin_LocationsAdmin::getLocations($data); // needed to choose starting location
 			$data['grid_sizes'] = explode(',',SUPPORTED_GRID_SIZES);
 	
 			$data['action_list'] = Request::factory('/admin/action/listSimple')->execute()->body();
@@ -111,7 +111,7 @@ Class Controller_admin_story extends Controller_Template_Admin
 		$data = Model_Admin_StoriesAdmin::GetData();			
 		if (isset($data['story_id']) && isset($data['image_id']))
 		{
-			$story = Model_Admin_StoriesAdmin::getStory(array('id'=>$data['story_id']));
+			$story = Model_Admin_StoriesAdmin::getStory($data);
 			$result = $story->init(array('image_id'=>$data['image_id']))->save();
 			if ($result->success)
 			{

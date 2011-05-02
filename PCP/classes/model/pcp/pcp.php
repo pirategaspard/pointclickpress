@@ -11,6 +11,7 @@ class Model_PCP_PCP
 	}
 	
 	/* 
+		TODO: remove this.
 	  	a cell in a scene has been clicked, 
 	  	get the action attached to the cell(s) (if any) 
 	 */

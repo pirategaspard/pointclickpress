@@ -29,7 +29,7 @@ Class Controller_PCP extends Controller_Template_PCP
     	$session->set('screen_width',DEFAULT_SCREEN_WIDTH);
 		$session->set('screen_height',DEFAULT_SCREEN_HEIGHT);	
     
-		$data['story'] = Model_PCP_PCP::getStory();
+		$data['story'] = Model_PCP_PCP::getStory();		
 		$data['screens'] = Model_PCP_Screens::getScreens();
 		$this->template->scripts = array_merge($this->template->scripts,Model_PCP_Actions::getJSActionDefs());
 		$this->template->scripts[] = 'screen.js'; //get screen js to determine user's screen resolution
@@ -107,9 +107,9 @@ Class Controller_PCP extends Controller_Template_PCP
 		$results = array_merge($results,Actions::doActions($location->getActions()));
 		
 		// get the scene
-		$data['scene'] = Model_PCP_Scenes::getCurrentScene(array('location_id'=>Model_PCP_Locations::getCurrentlocationId()));//,'story'=>$data['story']));		
+		$data['scene'] = Model_PCP_Scenes::getCurrentScene(array('location_id'=>Model_PCP_Locations::getCurrentlocationId()));		
 		$data['items'] = Model_PCP_Items::getSceneGriditems($data['scene']->id);
-		
+
 		// put any scene init actions into session
 		$results = array_merge($results,Actions::doActions($data['scene']->getActions()));	
 		// put any item actions into session
@@ -142,7 +142,6 @@ Class Controller_PCP extends Controller_Template_PCP
 			// redirect to the story list page
 		//	Request::Current()->redirect(Route::get('default')->uri(array('action'=>'list_stories')));
 			//debug
-			//var_dump($_SESSION);
 			if (($data['story'] == NULL))
 			{
 				echo ("<b>No Story Data</b>");				

@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Model_PCP_StoryInfo extends Model_Story 
+class Model_PCP_StoryInfo extends Model_PCP_Story 
 {
 	protected $scene_width = DEFAULT_SCREEN_WIDTH;
 	protected $scene_height = DEFAULT_SCREEN_HEIGHT;

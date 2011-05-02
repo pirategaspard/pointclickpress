@@ -11,7 +11,7 @@ Class Controller_admin_griditem extends Controller_Template_Admin
 		$data['itemdef_id'] = (isset($data['itemdef_id']))?$data['itemdef_id']:$data['griditem']->itemdef_id;
 		$data['story_id'] = (isset($data['story_id']))?$data['story_id']:$data['griditem']->story_id;
 		$data['itemdef'] = Model_Admin_ItemDefAdmin::getItemDef(array('id'=>$data['itemdef_id']));		
-		$data['story'] = Model_Admin_StoriesAdmin::getStory(array('id'=>$data['story_id']));
+		$data['story'] = Model_Admin_StoriesAdmin::getStory(array('id'=>$data['story_id'],'creator_user_id'=>$data['creator_user_id']));
 		$data['action_list'] = Request::factory('/admin/action/listSimple')->execute()->body();			
 		$data['assign_itemdef_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'itemdef','action'=>'list'))).'?scene_id='.$data['griditem']->scene_id;
 		$data['item_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'griditem','action'=>'save')));

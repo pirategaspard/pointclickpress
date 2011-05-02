@@ -1,23 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 // for plugin Admin area
 class Model_Admin_EventsAdmin extends Model_events
-{	
-	static function registerAllListenerClasses()
-	{
-		$events_instance = Events::instance();
-		$listeners = self::getAllListenerClasses();
-		foreach ($listeners as $listener)
-		{		
-			// get array of events that this plugin will be executed on
-			$events = explode(',',$listener['events']); 
-			foreach($events as $event)
-			{									
-				$events_instance->addListener($event,$listener['class']);
-			}			
-		}
-		unset($listeners);
-	}
-	
+{		
 	// recursive search for listenerClass files
 	static function searchForListeners($dir='',$type='Interface_iPCPListener')
 	{

@@ -14,7 +14,7 @@ Class Controller_admin_itemstate extends Controller_Template_Admin
 		$data['back_url'] = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
 		$data['itemstate_form'] =  View::factory('/admin/itemstate/form',$data)->render();		
 		$data['add_itemstate_link'] =  View::factory('/admin/itemstate/add',$data)->render();
-		$data['story'] = Model_Admin_StoriesAdmin::getStory(array('id'=>$data['itemdef']->story_id));
+		$data['story'] = Model_Admin_StoriesAdmin::getStory(array('id'=>$data['itemdef']->story_id,'creator_user_id'=>$data['creator_user_id']));
 		$data['action_list'] = Request::factory('/admin/action/listSimple')->execute()->body();
 		
 		$this->template->breadcrumb .= View::factory('/admin/story/info',$data)->render();

@@ -106,16 +106,24 @@ class Model_Events
 	
 	private static function getAllListenerClasses()
 	{
+		$args = self::getData();
 		$r = array();
 		$q = '	SELECT class,events
 				FROM actiondefs
 				UNION ALL
 				SELECT class,events
-				FROM plugins
-				WHERE status = 1'; // only active plugins
+				FROM plugins p
+					INNER JOIN stories_plugins sp
+					ON p.id = sp.plugin_id
+					AND sp.status = 1
+					AND sp.story_id = :story_id
+				WHERE p.status = 1 ';		
 		try
 		{
-			$r = DB::query(Database::SELECT,$q,TRUE)->execute()->as_array();
+			$r = DB::query(Database::SELECT,$q,TRUE)
+											->param(':story_id',$args['story_id'])
+											->execute()
+											->as_array();
 		}
 		catch (Exception $e)
 		{
@@ -138,6 +146,17 @@ class Model_Events
 			}			
 		}
 		unset($listeners);
+	}
+	
+	static function getData()
+	{
+		$session = Session::instance('admin');	
+		$data['id'] = $data['story_id'] = $session->get('story_id',0);
+		if (isset($_REQUEST['story_id']))
+		{
+			$data['id'] = $data['story_id'] = $_REQUEST['story_id'];		
+		}		
+		return $data;
 	}
 }
 ?>

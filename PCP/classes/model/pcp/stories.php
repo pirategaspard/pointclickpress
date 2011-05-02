@@ -9,7 +9,7 @@ class Model_Pcp_Stories
 	static function getStory($args=array())
 	{
 		// get a single story object and populate it based on the arguments
-		$story = new Model_Story($args);
+		$story = new Model_PCP_Story($args);
 		$story->load($args);
 		return $story;		
 	}
@@ -26,27 +26,16 @@ class Model_Pcp_Stories
 	{				
 		// get all the stories in the db
 		$q = '	SELECT s.*
-				FROM stories s';
-		if (isset($args['user_id'])) 
-		{ 
-			$q .= ' INNER JOIN users u 
-						ON 1 = 1
-						AND ((s.creator_user_id = u.id
-						AND u.id = :user_id)
-						OR (s.creator_user_id = 0))'; // creator id of zero is so we can share the demo with everyone.
-		}  
-		$q	.=	' WHERE 1 = 1 ';
+				FROM stories s
+				WHERE s.status = "p" ';
 				
-		if (isset($args['story'])) $q .= ' AND s.id = :story'; //if we have a story id
-		if (isset($args['status'])) $q .= ' AND s.status = :status';		
+		if (isset($args['story'])) $q .= ' AND s.id = :story'; //if we have a story id		
 		
 		$q .= ' ORDER BY s.id DESC';
 		
 		$q = DB::query(Database::SELECT,$q,TRUE);
 		
-		if (isset($args['user_id']))	 $q->param(':user_id',$args['user_id']);
 		if (isset($args['story']))	 $q->param(':story',$args['story']->id);
-		if (isset($args['status']))	 $q->param(':status',$args['status']);
 								
 		$tempArray = $q->execute()->as_array();		
 		
