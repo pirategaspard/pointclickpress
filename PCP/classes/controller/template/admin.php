@@ -13,6 +13,7 @@ Class Controller_Template_Admin extends Controller_Template_Base
 	{
 	// Run anything that need ot run before this.
 		parent::before();
+		Model_Admin_EventsAdmin::initalizeListenerClasses(); // initalize events engine
 		
 		if ((Model_Admin_Usersadmin::isloggedin())||((strcasecmp(Request::Current()->action(),'login') == 0)||(strcasecmp(Request::Current()->action(),'dologin') == 0)||(strcasecmp(Request::Current()->controller(),'install') == 0)))
 		{

@@ -150,7 +150,7 @@ class Model_Events
 	
 	static function getData()
 	{
-		$session = Session::instance('admin');	
+		$session = Session::instance();	
 		$data['id'] = $data['story_id'] = $session->get('story_id',0);
 		if (isset($_REQUEST['story_id']))
 		{

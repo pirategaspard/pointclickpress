@@ -47,6 +47,17 @@ class Model_Admin_EventsAdmin extends Model_events
 		}
 		return $listenerClasses;
 	}
+	
+	static function getData()
+	{
+		$session = Session::instance('admin');	
+		$data['id'] = $data['story_id'] = $session->get('story_id',0);
+		if (isset($_REQUEST['story_id']))
+		{
+			$data['id'] = $data['story_id'] = $_REQUEST['story_id'];		
+		}		
+		return $data;
+	}
 }
 
 ?>
