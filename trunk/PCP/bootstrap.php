@@ -111,7 +111,7 @@ Kohana::modules(array(
 	'codebench'  => MODPATH.'codebench',  // Benchmarking tool
 	'database'   => MODPATH.'database',   // Database access
 	'image'      => MODPATH.'image',      // Image manipulation
-	'cache'      => MODPATH.'cache',      // Cache
+	'cache'      => MODPATH.'cache',      // Cache	
 	// 'orm'        => MODPATH.'orm',        // Object Relationship Mapping
 	// 'pagination' => MODPATH.'pagination', // Paging of results
 	));

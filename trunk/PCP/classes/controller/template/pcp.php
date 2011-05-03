@@ -2,9 +2,6 @@
 
 Class Controller_Template_PCP extends Controller_Template_Base
 {
-
-	public $template = 'templates/base';
-
 	/**
 	* Initialize properties before running the controller methods (actions),
 	* so they are available to our action.
@@ -13,6 +10,8 @@ Class Controller_Template_PCP extends Controller_Template_Base
 	{
 	// Run anything that need to run before this.
 		parent::before();
+		Model_PCP_Themes::setTheme(Model_PCP_Themes::getData());
+		$this->template = new View('templates/pcp');
 
 		if($this->auto_render)
 		{

@@ -2,9 +2,6 @@
 
 Class Controller_Template_Admin extends Controller_Template_Base
 {
-
-	public $template = 'templates/admin';
-
 	/**
 	* Initialize properties before running the controller methods (actions),
 	* so they are available to our action.
@@ -14,6 +11,7 @@ Class Controller_Template_Admin extends Controller_Template_Base
 	// Run anything that need ot run before this.
 		parent::before();
 		Model_Admin_EventsAdmin::initalizeListenerClasses(); // initalize events engine
+		$this->template = new View('templates/admin');
 		
 		if ((Model_Admin_Usersadmin::isloggedin())||((strcasecmp(Request::Current()->action(),'login') == 0)||(strcasecmp(Request::Current()->action(),'dologin') == 0)||(strcasecmp(Request::Current()->controller(),'install') == 0)))
 		{

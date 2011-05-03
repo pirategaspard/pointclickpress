@@ -41,6 +41,16 @@
 				} ?>
 			</select>			
 			<?php } ?>
+			<label id="theme_select" for="theme_select">Theme:</label>
+			<select name="theme" >
+				<option value="" >Select a theme</option>
+				<?php foreach($themes as $key=>$theme)
+				{
+					$selected = '';
+					if (strcmp($story->theme,$key)==0) $selected = ' selected="selected" ';
+					echo ('<option value="'.$key.'"'.$selected.' >'.$key.'</option>');
+				} ?>
+			</select>
 		</div>
 		<div class="form_block" >
 			<?php if ($story->id > 0) { ?>

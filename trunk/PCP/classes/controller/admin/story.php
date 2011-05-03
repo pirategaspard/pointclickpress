@@ -63,11 +63,12 @@ Class Controller_admin_story extends Controller_Template_Admin
 			
 			$data['locations'] = Model_Admin_LocationsAdmin::getLocations($data); // needed to choose starting location
 			$data['grid_sizes'] = explode(',',SUPPORTED_GRID_SIZES);
+			$data['themes'] = Model_Admin_ThemesAdmin::getThemes();	
 	
 			$data['action_list'] = Request::factory('/admin/action/listSimple')->execute()->body();
 			$data['item_list'] = Request::factory('/admin/itemdef/listSimple')->execute()->body();	
 			$data['location_list'] = Request::factory('/admin/location/listSimple')->execute()->body();
-			$data['plugin_list'] = Request::factory('/admin/storyplugin/liststoryplugins')->execute()->body();		
+			$data['plugin_list'] = Request::factory('/admin/storyplugin/liststoryplugins')->execute()->body();				
 							
 			$data['story_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'story','action'=>'save')));
 			$data['assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?story_id='.$data['story']->id;
