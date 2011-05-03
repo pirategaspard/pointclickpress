@@ -17,6 +17,6 @@
 			<div id="bottommenu"><?php echo $bottom_menu; ?></div>
 			<div id="footer"><?php echo $footer; ?></div>
 		</div>		
-		<?php foreach ($scripts as $script){ ?><script src="<?php echo(Kohana::$base_url.Kohana::Find_File('js',$script,'js')); ?>" ></script><?php print("\n"); } ?>
+		<?php foreach ($scripts as $script){ ?><script src="<?php echo(Kohana::$base_url.'js/'.$script); ?>" ></script><?php print("\n"); } ?>
 		<?php Events::announceEvent(JS); ?>
 </html>
