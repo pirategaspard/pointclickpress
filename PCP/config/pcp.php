@@ -60,6 +60,7 @@ $cache_driver = 'file';
 define('DEFAULT_PAGE_TITLE', $default_page_title); 
 define('UPLOAD_PATH', $upload_dir);
 define('MEDIA_PATH', $media_dir);
+define('THEMES_PATH', 'themes');
 define('IMAGE_QUALITY', $image_quality);
 define('SUPPORTED_SCREENS', $supported_screens);
 define('SUPPORTED_GRID_SIZES', $supported_grid_sizes);

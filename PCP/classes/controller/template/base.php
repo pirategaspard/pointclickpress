@@ -20,13 +20,13 @@ Class Controller_Template_Base extends Controller_Template
 			// Initialize empty values
 			$this->template->title = DEFAULT_PAGE_TITLE;
 			$this->template->scripts = array('jquery-1.4.2.min.js','jquery-ui-1.8.6.custom.min.js');
-			$this->template->styles = array('pcp.css','pcp-ui/jquery-ui-1.8.6.custom.css');
+			$this->template->styles = array('pcp-ui/jquery-ui-1.8.6.custom.css');
 			$this->template->head = array();
 			$this->template->header = '';
 			$this->template->top_menu = '';
 			$this->template->content = '';
 			$this->template->bottom_menu = '';
-			$this->template->footer = View::factory('pcp/footer')->render();
+			$this->template->footer = '';
 		}
 	}
 
