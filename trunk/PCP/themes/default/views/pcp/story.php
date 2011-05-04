@@ -21,4 +21,3 @@
 		</form>
 	</div>
 </div>
-<?php print_r (Kohana::modules()); ?>
