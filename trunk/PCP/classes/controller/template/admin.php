@@ -8,10 +8,10 @@ Class Controller_Template_Admin extends Controller_Template_Base
 	*/
 	public function before()
 	{
-	// Run anything that need ot run before this.
+		// Run anything that need ot run before this.
+		$this->template = 'templates/admin';
 		parent::before();
-		Model_Admin_EventsAdmin::initalizeListenerClasses(); // initalize events engine
-		$this->template = new View('templates/admin');
+		Model_Admin_EventsAdmin::initalizeListenerClasses(); // initalize events engine		
 		
 		if ((Model_Admin_Usersadmin::isloggedin())||((strcasecmp(Request::Current()->action(),'login') == 0)||(strcasecmp(Request::Current()->action(),'dologin') == 0)||(strcasecmp(Request::Current()->controller(),'install') == 0)))
 		{

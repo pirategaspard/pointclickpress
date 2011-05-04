@@ -21,7 +21,7 @@ class Model_Admin_Story extends Model_PCP_Story
 							,i.filename
 							,s.grid_x
 							,s.grid_y
-							,s.theme
+							,s.theme_name
 							,s.creator_user_id
 							,s.created_date
 					FROM stories s
@@ -66,7 +66,7 @@ class Model_Admin_Story extends Model_PCP_Story
 							,status
 							,grid_x
 							,grid_y
-							,theme
+							,theme_name
 							,creator_user_id)
 						VALUES (
 							:title
@@ -90,7 +90,7 @@ class Model_Admin_Story extends Model_PCP_Story
 									->param(':status',$this->status)
 									->param(':grid_x',$this->grid_x)
 									->param(':grid_y',$this->grid_y)
-									->param(':theme',$this->theme)
+									->param(':theme_name',$this->theme_name)
 									->param(':creator_user_id',$this->creator_user_id)
 									->execute();			
 				if ($q_results[1] > 0)
@@ -119,7 +119,7 @@ class Model_Admin_Story extends Model_PCP_Story
 							,status = :status
 							,grid_x = :grid_x
 							,grid_y = :grid_y
-							,theme = :theme
+							,theme_name = :theme_name
 						WHERE id = :id
 							AND creator_user_id = :creator_user_id';
 				$results->success = DB::query(Database::UPDATE,$q,TRUE)
@@ -131,7 +131,7 @@ class Model_Admin_Story extends Model_PCP_Story
 										->param(':status',$this->status)
 										->param(':grid_x',$this->grid_x)
 										->param(':grid_y',$this->grid_y)
-										->param(':theme',$this->theme)
+										->param(':theme_name',$this->theme_name)
 										->param(':id',$this->id)
 										->param(':creator_user_id',$this->creator_user_id)
 										->execute();														

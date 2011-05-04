@@ -1,9 +1,14 @@
 <?php 
-
 /*
 	default page title:
 */
 $default_page_title = 'PointClickPress - ';
+
+/*
+	default theme
+*/
+$default_theme_name = 'default';
+
 
 /* 
 	SUPPORTED_SCREENS is a comma seperated list of 
@@ -13,7 +18,6 @@ $default_page_title = 'PointClickPress - ';
 //$supported_screens = '480x320,640x480,800x480,800x600,1024x768'; // Basic standard VGA and some mobile
 //$supported_screens = '320x200,480x320,640x320,768x480,800x480,960x540,1024x576,1366x768'; // widescreen mobile (iphone,android,netbook) and HD TV
 $supported_screens = '480x320,800x480'; // Default sizes
-
 
 /* 
 	JPG image quality
@@ -38,6 +42,11 @@ $default_screen_size = '800x480'; // wide
 */
 $supported_grid_sizes = '10x10,20x20,40x40';
 
+/*
+	default cache driver
+*/
+$cache_driver = 'file';
+
 /* 
 	What is the name of the temporary storage space for uploaded files? 
 */
@@ -49,18 +58,19 @@ $upload_dir = 'uploads';
 */
 $media_dir = 'media';
 
-/*
-	default cache driver
+/* 
+	What is the name of the themes directory
 */
-$cache_driver = 'file';
+$themes_dir = 'themes';
 
 /* 
 	Define configuration constants
  */
-define('DEFAULT_PAGE_TITLE', $default_page_title); 
+define('DEFAULT_PAGE_TITLE', $default_page_title);
+define('DEFAULT_THEME_NAME', $default_theme_name);  
 define('UPLOAD_PATH', $upload_dir);
 define('MEDIA_PATH', $media_dir);
-define('THEMES_PATH', 'themes');
+define('THEMES_PATH', $themes_dir);
 define('IMAGE_QUALITY', $image_quality);
 define('SUPPORTED_SCREENS', $supported_screens);
 define('SUPPORTED_GRID_SIZES', $supported_grid_sizes);

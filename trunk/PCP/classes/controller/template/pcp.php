@@ -9,9 +9,9 @@ Class Controller_Template_PCP extends Controller_Template_Base
 	public function before()
 	{
 	// Run anything that need to run before this.
+		$this->template = 'templates/pcp';
 		parent::before();
 		Model_PCP_Themes::setTheme(Model_PCP_Themes::getData());
-		$this->template = new View('templates/pcp');
 
 		if($this->auto_render)
 		{
