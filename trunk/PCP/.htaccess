@@ -21,7 +21,7 @@
 	# - robots.txt
 	# - favicon.ico
 	# - Any file inside of the images/, js/, or css/ directories
-	RewriteCond $1 ^(index\.php|robots\.txt|favicon\.ico|images|js|css|media|uploads)
+	RewriteCond $1 ^(index\.php|robots\.txt|favicon\.ico|images|js|css|media|uploads|themes)
 
 	# No rewriting
 	RewriteRule ^(.*)$ - [PT,L]

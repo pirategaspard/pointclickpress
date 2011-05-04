@@ -32,14 +32,17 @@ class Model_PCP_Themes extends Model
 	{		
 		$found_files = array();
 		$path = APPPATH.$dir;
-		$files = scandir($path);
-		foreach ($files as $file)
+		if(is_dir($path))
 		{
-			$pathinfo = pathinfo($path.$file);
-			// if a file is php assume its a class 
-			if ((isset($pathinfo['extension']))&&(($pathinfo['extension']) == $type))
+			$files = scandir($path);
+			foreach ($files as $file)
 			{
-				$found_files[] = $dir.$file;		
+				$pathinfo = pathinfo($path.$file);
+				// if a file is php assume its a class 
+				if ((isset($pathinfo['extension']))&&(($pathinfo['extension']) == $type))
+				{
+					$found_files[] = $dir.$file;		
+				}
 			}
 		} 
 		return $found_files;
