@@ -4,6 +4,7 @@
 		<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
 		<meta http-equiv="Content-Language" content="en-us" />
 		<?php foreach ($styles as $style)	{ ?><link href="<?php echo(Kohana::$base_url.'css/'.$style); ?>" rel="stylesheet" type="text/css" ><?php } ?>
+		<?php foreach ($theme_styles as $style)	{ ?><link href="<?php echo(Kohana::$base_url.'themes/'.$theme_name.'/css/'.$style); ?>" rel="stylesheet" type="text/css" ><?php } ?>
 		<?php Events::announceEvent(CSS); ?>
 		<?php foreach ($head as $h)	{ echo("\n".$h); } ?>
 		<title><?php echo $title; ?></title>
@@ -18,5 +19,6 @@
 			<div id="footer"><?php echo $footer; ?></div>
 		</div>		
 		<?php foreach ($scripts as $script){ ?><script src="<?php echo(Kohana::$base_url.'js/'.$script); ?>" ></script><?php print("\n"); } ?>
+		<?php foreach ($theme_scripts as $script){ ?><script src="<?php echo(Kohana::$base_url.'themes/'.$theme_name.'/js/'.$script); ?>" ></script><?php print("\n"); } ?>
 		<?php Events::announceEvent(JS); ?>
 </html>

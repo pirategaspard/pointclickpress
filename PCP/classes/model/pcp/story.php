@@ -16,7 +16,7 @@ class Model_PCP_Story extends Model
 	protected $image_id = 0;
 	protected $filename = '';
 	protected $status = 'd';
-	protected $theme = 'default';
+	protected $theme_name = DEFAULT_THEME_NAME;
 	protected $creator_user_id = 0;
 	protected $actions = array();
 	protected $locations = array();
@@ -63,9 +63,9 @@ class Model_PCP_Story extends Model
 		{			
 			$this->status = $args['status'];							
 		}
-		if (isset($args['theme']))
+		if (isset($args['theme_name']))
 		{			
-			$this->theme = $args['theme'];							
+			$this->theme_name = $args['theme_name'];							
 		}
 		if (isset($args['creator_user_id']))
 		{			
@@ -113,7 +113,7 @@ class Model_PCP_Story extends Model
 							,i.filename
 							,s.grid_x
 							,s.grid_y
-							,s.theme
+							,s.theme_name
 							,s.creator_user_id
 							,s.created_date
 					FROM stories s

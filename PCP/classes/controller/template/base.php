@@ -19,8 +19,10 @@ Class Controller_Template_Base extends Controller_Template
 		{
 			// Initialize empty values
 			$this->template->title = DEFAULT_PAGE_TITLE;
-			$this->template->scripts = array('jquery-1.4.2.min.js','jquery-ui-1.8.6.custom.min.js');
 			$this->template->styles = array('pcp-ui/jquery-ui-1.8.6.custom.css');
+			$this->template->scripts = array('jquery-1.4.2.min.js','jquery-ui-1.8.6.custom.min.js');			
+			$this->template->theme_styles = array();
+			$this->template->theme_scripts = array();
 			$this->template->head = array();
 			$this->template->header = '';
 			$this->template->top_menu = '';

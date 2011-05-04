@@ -13,7 +13,7 @@ class Model_Admin_ThemesAdmin extends Model_PCP_Themes
 		$files = scandir(APPPATH.$dir);
 		foreach ($files as $file)
 		{
-			if(is_dir(APPPATH.$dir.DIRECTORY_SEPARATOR.$file) && ($file != '.') && ($file != '..'))
+			if(is_dir(APPPATH.$dir.DIRECTORY_SEPARATOR.$file) && (substr($file,0,1) != '.'))
 			{
 				$themes[$file] = APPPATH.$dir.DIRECTORY_SEPARATOR.$file.DIRECTORY_SEPARATOR;		
 			}
