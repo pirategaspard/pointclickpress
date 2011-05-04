@@ -18,6 +18,18 @@ class Model_PCP_Themes extends Model
 		Kohana::modules($m);
 	}
 	
+	static function getStyles()
+	{
+		$files = array();
+		return $files;
+	}
+	
+	static function getScripts()
+	{
+		$files = array();
+		return $files;
+	}
+	
 	static function getData()
 	{
 		$session = Session::instance();	
