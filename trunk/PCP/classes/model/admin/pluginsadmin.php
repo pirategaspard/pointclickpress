@@ -113,8 +113,17 @@ class Model_Admin_PluginsAdmin extends Model_Plugins
 	// recursive search for actiondef class files
 	private static function search()
 	{
-		$dir = 'classes/plugin/';
-		return Model_Admin_EventsAdmin::searchForListeners(APPPATH.$dir,'Interface_iPCPPlugin');	
+		$dir = 'plugins';
+		// search for plugin modules in the plugins directory		
+		$modules = model_Utils_ModuleHelper::searchDirectoryForModules($dir);
+		foreach ($modules as $module)
+		{
+			// save found module paths to the db so we can auto-load them in the future
+			model_Utils_ModuleHelper::saveModule($module);
+			// add matching paths to Kohana's module paths		
+			model_Utils_ModuleHelper::addModulePath($module);
+		}
+		return Model_Admin_EventsAdmin::searchForListeners($dir,'Interface_iPCPPlugin');	
 	}
 }
 ?>

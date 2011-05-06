@@ -3,7 +3,7 @@
 	This is the example plugin for PointClickPress
  */
 
-class plugin_column extends Model_Base_PCPPlugin
+class plugins_column extends Model_Base_PCPPlugin
 {
 	protected $label = 'columns'; // This is the label for this plugin
 	protected $description = 'This is the columns plugin'; // This is the description of this plugin

@@ -5,7 +5,7 @@
 define('INVENTORY_DROP_SELECTED_ITEM','INVENTORY_DROP_SELECTED_ITEM');
 define('INVENTORY_SET_SELECTED_ITEM','INVENTORY_SET_SELECTED_ITEM');
 define('INVENTORY_DISPLAY','INVENTORY_DISPLAY');
-class plugin_inventory extends Model_Base_PCPPlugin
+class plugins_inventory extends Model_Base_PCPPlugin
 {	
 	protected $label = 'Inventory'; // This is the label for this plugin
 	protected $description = 'Basic inventory plugin for PCP'; // This is the description of this plugin
@@ -22,32 +22,32 @@ class plugin_inventory extends Model_Base_PCPPlugin
 			}
 			case CSS:
 			{
-				include('inventory/css.php');
+				include(Kohana::find_file('plugins\inventory','css'));
 				break;
 			}
 			case JS:
 			{
-				include('inventory/js.php');
+				include(Kohana::find_file('plugins\inventory','js'));
 				break;
 			}	
 			case ADMIN_JS:
-			{
-				include('inventory/admin.js.php');
+			{		
+				include(Kohana::find_file('plugins\inventory','admin.js'));
 				break;
 			}
 			case DISPLAY_POST_SCENE:
 			{
-				include('inventory/link.php');
+				include(Kohana::find_file('plugins\inventory','link'));
 				break;
 			}
 			case DISPLAY_POST_GRID_SELECT:
 			{
-				include('inventory/gridselect.php');
+				include(Kohana::find_file('plugins\inventory','gridselect'));
 				break;
 			}	
 			case INVENTORY_DISPLAY:
 			{
-				self::display();
+				include(Kohana::find_file('plugins\inventory','display'));
 				break;
 			}
 			case INVENTORY_SET_SELECTED_ITEM:
@@ -61,11 +61,6 @@ class plugin_inventory extends Model_Base_PCPPlugin
 				break;
 			}
 		}	
-	}
-	
-	static public function display()
-	{
-		include('inventory/display.php');
 	}
 	
 	static public function getCurrentItem()

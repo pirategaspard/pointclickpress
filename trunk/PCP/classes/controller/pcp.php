@@ -94,6 +94,12 @@ Class Controller_PCP extends Controller_Template_PCP
     */
    	function action_scene()
     {    
+		
+	/*	var_dump(class_exists('action_inventory_use'));
+		var_dump(Kohana::list_files()); 
+		die(); */
+		
+		
 		$results = array();
 		
 	    Events::announceEvent(PRE_SCENE);	    

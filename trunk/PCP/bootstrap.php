@@ -108,7 +108,7 @@ Kohana::$config->attach(new Kohana_Config_File);
 */
 Kohana::modules(array(
 	// 'auth'       => MODPATH.'auth',       // Basic authentication
-	'codebench'  => MODPATH.'codebench',  // Benchmarking tool
+	// 'codebench'  => MODPATH.'codebench',  // Benchmarking tool
 	'database'   => MODPATH.'database',   // Database access
 	'image'      => MODPATH.'image',      // Image manipulation
 	'cache'      => MODPATH.'cache',      // Cache	

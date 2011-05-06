@@ -6,45 +6,32 @@ class Model_Admin_EventsAdmin extends Model_events
 	static function searchForListeners($dir='',$type='Interface_iPCPListener')
 	{
 		$listenerClasses = array(); // array to hold any listenerClass classes we find
-		if (is_dir($dir))
+		// get list of files from the cascading file system now that any module directories have been loaded
+		$files = Kohana::list_files('classes\\'.$dir);
+		foreach ($files as $class_name => $file)
 		{
-			// TODO: use Kohana::list_files(); here if possible
-			$files = scandir($dir);// get all the files in the listenerClass directory
-			foreach($files as $file)
+			$class_name = substr($class_name,strstr($class_name,'classes/')+strlen('classes/'));
+			$class_name = preg_replace('/\.php/','',$class_name);
+			$class_name = preg_replace('/[\/\\\]/','_',$class_name);
+			
+			ob_start(); // start output buffer otherwise class_exits will display the content of files that are not class files when it trys to autoload them
+			if (class_exists($class_name))
 			{
-				$pathinfo = pathinfo($dir.$file);
-				// if a file is php assume its a class 
-				if ((isset($pathinfo['extension']))&&(($pathinfo['extension']) == 'php'))
+				// test class to make sure it is an ipcplistenerClass and optionally something more specific
+				$listenerClass = new $class_name;				 
+				if (($listenerClass instanceof Interface_iPCPListener)&&($listenerClass instanceof $type))
 				{
-					// build class name from file path
-					$class_name = substr($pathinfo['dirname'],strstr($pathinfo['dirname'],APPPATH.'classes/')+strlen(APPPATH.'classes/'));
-					$class_name .= '/'.$pathinfo['filename'];
-					$class_name = preg_replace('/\//','_',$class_name);
-					
-					ob_start(); // start output buffer otherwise class_exits will display the content of files that are not class files when it trys to autoload them
-					if (class_exists($class_name))
-					{
-						// test class to make sure it is an ipcplistenerClass and optionally something more specific
-						$listenerClass = new $class_name;				 
-						if (($listenerClass instanceof Interface_iPCPListener)&&($listenerClass instanceof $type))
-						{
-							// add new listenerClass object to listenerClass array 
-							$listenerClasses[$class_name] = $listenerClass;
-						}
-						else
-						{
-							unset($listenerClass);
-						}
-					}
-					ob_end_clean(); // end output surpression
+					// add new listenerClass object to listenerClass array 
+					$listenerClasses[$class_name] = $listenerClass;
 				}
-				// if this file is actually a directory and not '.' or '..': recurse 
-				else if ((is_dir($dir.$file))&&(strlen($file) > 2))
+				else
 				{
-					$listenerClasses = array_merge($listenerClasses,self::searchForListeners($dir.$file.'/'));
+					//model_Utils_ModuleHelper::removeModulePath();
+					unset($listenerClass);
 				}
 			}
-		}
+			ob_end_clean(); // end output surpression		
+		}		
 		return $listenerClasses;
 	}
 	
