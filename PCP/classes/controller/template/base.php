@@ -13,6 +13,7 @@ Class Controller_Template_Base extends Controller_Template
 	{
 	// Run anything that need to run before this.
 		parent::before();
+		Model_Utils_ModuleHelper::loadModules(); // load Modules
 		Events::initalizeListenerClasses(); // initalize events engine
 		
 		if($this->auto_render)

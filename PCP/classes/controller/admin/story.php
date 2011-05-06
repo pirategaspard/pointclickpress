@@ -21,8 +21,9 @@ Class Controller_admin_story extends Controller_Template_Admin
 	*/
 	function action_list()
 	{			
-		Model_Admin_ActionDefsAdmin::searchForListeners(); // search for new ActionDefs
 		Model_Admin_PluginsAdmin::searchForListeners(); // search for new Plugins
+		Model_Admin_ActionDefsAdmin::searchForListeners(); // search for new ActionDefs
+				
 		$data = Model_Admin_StoriesAdmin::GetData();
 		$data['stories'] = Model_Admin_StoriesAdmin::getStories($data);
 		if (count($data['stories']) > 0 )

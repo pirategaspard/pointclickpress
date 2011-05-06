@@ -3,7 +3,7 @@
 	Removes and item from a scene and adds it to inventory
  */
 define('INVENTORY_ADD_ITEM','INVENTORY_ADD_ITEM');
-class action_inventory_add extends Model_Base_PCPActionDef
+class action_inventoryAdd extends Model_Base_PCPActionDef
 {	
 	protected $label = 'Add To Inventory'; 
 	protected $description = 'Add item to inventory';

@@ -3,7 +3,7 @@
 	This is the example plugin for PointClickPress
  */
 
-class plugin_helloworld extends Model_Base_PCPPlugin
+class plugins_helloworld extends Model_Base_PCPPlugin
 {
 	protected $label = 'helloworld'; // This is the label for this plugin
 	protected $description = 'This is the helloworld demonstration plugin'; // This is the description of this plugin
@@ -42,7 +42,7 @@ class plugin_helloworld extends Model_Base_PCPPlugin
 			case DISPLAY_POST_SCENE:
 			{
 				// Don't forget that you can include other files from here!
-				include('helloworld/index.htm');
+				include(Kohana::find_file('plugins\helloworld','index','htm'));
 				break;
 			}			
 		}

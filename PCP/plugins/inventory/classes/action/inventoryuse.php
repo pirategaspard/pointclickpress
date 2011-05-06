@@ -3,7 +3,7 @@
 	Removes and item from a scene and adds it to inventory
  */
 define('INVENTORY_USE_ITEM','INVENTORY_USE_ITEM');
-class action_inventory_use extends Model_Base_PCPActionDef
+class action_inventoryuse extends Model_Base_PCPActionDef
 {	
 	protected $label = 'Use Inventory Item'; 
 	protected $description = 'Use item from inventory. "item_id,cell_id_to_trigger"';
@@ -22,7 +22,7 @@ class action_inventory_use extends Model_Base_PCPActionDef
 			{
 				$item_id = $use_item_statement[0];
 				$cell_to_click = $use_item_statement[1];		
-				if (plugin_inventory::getCurrentItem()==$item_id)
+				if (plugins_inventory::getCurrentItem()==$item_id)
 				{
 					// if the current item in inventory matches the item id we trigger a cell click 
 					$args = array('action_value'=>"0,$cell_to_click;");

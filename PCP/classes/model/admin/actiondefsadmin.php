@@ -120,8 +120,8 @@ class Model_Admin_ActionDefsAdmin extends Model
 	// recursive search for actiondef class files
 	private static function search()
 	{
-		$dir = 'classes/action/';
-		return Model_Admin_EventsAdmin::searchForListeners(APPPATH.$dir,'Interface_iPCPActionDef');	
+		$dir = 'action';
+		return Model_Admin_EventsAdmin::searchForListeners($dir,'Interface_iPCPActionDef');	
 	}
 	
 	static function loadActionTypeActions($action_type=ACTION_TYPE_NULL)

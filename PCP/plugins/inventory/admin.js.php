@@ -2,7 +2,7 @@
 // when action type = 'action_inventory_use' hide the action_value field
 	$('#action_select').change(function() 
 	{		
-		if ($(this).val() == 'action_inventory_use')
+		if ($(this).val() == 'action_inventoryuse')
 		{	
 			$('#location_select').hide();		
 			$('#action_value').hide();			

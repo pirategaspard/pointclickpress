@@ -4,7 +4,7 @@
 	Basic debuging plugin for PointClickPress
  */
 
-class plugin_debug extends Model_Base_PCPPlugin
+class plugins_debug extends Model_Base_PCPPlugin
 {
 	protected $label = 'Debug'; // This is the label for this plugin
 	protected $description = 'Debug Plugin for PCP. Add "?debug" on the url to see debug information'; // This is the description of this plugin

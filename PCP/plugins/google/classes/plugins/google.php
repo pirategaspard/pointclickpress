@@ -3,7 +3,7 @@
 	This is the example plugin for PointClickPress
  */
 
-class plugin_google extends Model_Base_PCPPlugin
+class plugins_google extends Model_Base_PCPPlugin
 {
 	protected $label = 'Google integration'; // This is the label for this plugin
 	protected $description = 'This is the Google Integration plugin'; // This is the description of this plugin
@@ -19,17 +19,17 @@ class plugin_google extends Model_Base_PCPPlugin
 		{
 			case DISPLAY_COLUMN_LEFT:
 			{
-				include('google/adsense1.php');
+				include(Kohana::find_file('plugins\google','adsense1'));
 				break;
 			}
 			case DISPLAY_COLUMN_RIGHT:
 			{
-				include('google/adsense2.php');
+				include(Kohana::find_file('plugins\google','adsense2'));
 				break;
 			}	
 			case DISPLAY_FOOTER:
 			{
-				include('google/analytics.php');
+				include(Kohana::find_file('plugins\google','analytics'));
 				break;
 			}		
 		}	
