@@ -26,7 +26,8 @@ $(document).ready(function()
 			*/
 			$().wait_start();
 			var cell = $(event.target);
-			$.getJSON('cellClick',{n: cell.attr('n'),t: new Date().getTime()},parseData);
+			var t = new Date().getTime();
+			$.getJSON('cellClick',{n: cell.attr('n'), t: t},parseData);
 	});; 
 	
 	// attach ajax listener to all grid cells
@@ -38,7 +39,8 @@ $(document).ready(function()
 			event.preventDefault();
 			$().wait_start();
 			var f = $(event.target);
-			$.getJSON('itemClick',{n: f.attr('n'),i: f.attr('i'),t: new Date().getTime()},parseData);
+			var t = new Date().getTime();
+			$.getJSON('itemClick',{n: f.attr('n'),i: f.attr('i'),t: t},parseData);
 		});
 });
 
