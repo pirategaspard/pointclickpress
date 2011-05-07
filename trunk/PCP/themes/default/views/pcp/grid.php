@@ -7,7 +7,7 @@
 		if (isset($items[$n]) && count($items[$n]) > 0)
 		{
 			// add item to scene
-			$cells.= '<div n="'.$n.'" >';
+			$cells.= '<div n="'.$n.'" style="z-index: 6;" >';
 			$cells.= '<form n="'.$n.'" i="'.key($items[$n]).'" action="'.Kohana::$base_url.'itemclick?n='.$n.'" method="post" ><input type="image" src="'.$story->getMediaPath().current($items[$n])->getPath($story->screen_size).'" name="i" value="'.key($items[$n]).'" /></form>';
 			$cells.= '</div>';
 		}
