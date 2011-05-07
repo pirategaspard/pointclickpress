@@ -17,6 +17,7 @@ body { }
 #grid div form {position: absolute; z-index: 10;}
 #grid div form input {position: absolute; width:auto; height:auto; z-index: 10;}
 #grid a, #grid div {display:block; float: left; text-align: left; position: relative; z-index: 5; } 
+#grid div {z-index: 6; } 
 /* #grid a img, #grid div img {position: absolute; }*/ 
 
 
