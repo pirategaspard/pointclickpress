@@ -17,6 +17,6 @@
 		}
 	}
 ?>	
-	<div id="grid" >
-	<?php echo($cells); ?>		
-	</div>
+	
+<?php echo($cells); ?>		
+	
