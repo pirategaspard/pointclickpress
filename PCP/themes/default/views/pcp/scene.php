@@ -5,16 +5,18 @@
 				echo($scene_column_left);
 			?>
 		</td>
-		<td>
+		<td >
 			<?php 
 				Events::announceEvent(DISPLAY_PRE_SCENE);
 			?>
 
 			<div id="scene" class='pointing'>
 				<!-- <h1 id="title"><?php //echo($scene->title); ?></h1> -->
-				<?php echo($grid); ?>
+				<div id="grid" >					
+					<?php echo($grid); ?>
+					<p id="description"><?php echo($scene->description); ?></p>					
+				</div>				
 				<div id='loadingzone'><img src='images/loadingAnimation.gif' /></div>
-				<p id="description"><?php echo($scene->description); ?></p>
 			</div>
 
 			<?php 

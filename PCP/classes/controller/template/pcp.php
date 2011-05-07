@@ -20,7 +20,7 @@ Class Controller_Template_PCP extends Controller_Template_Base
 			// Initialize empty values
 			$this->template->title = DEFAULT_PAGE_TITLE;
 			$this->template->scripts = array('jquery-1.4.2.min.js','jquery-ui-1.8.6.custom.min.js');
-			$this->template->styles = array('pcp.css','pcp-ui/jquery-ui-1.8.6.custom.css');
+			$this->template->styles = array('pcp-ui/jquery-ui-1.8.6.custom.css');
 			$this->template->theme_styles = Model_PCP_Themes::getStyles($data);
 			$this->template->theme_scripts = Model_PCP_Themes::getScripts($data);
 			$this->template->head = array();
