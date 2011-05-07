@@ -131,7 +131,6 @@ Class Controller_PCP extends Controller_Template_PCP
 		{	
 			// Compose the scene 
 			$this->template->scripts = array_merge($this->template->scripts,Model_PCP_Actions::getJSActionDefs());			
-			$this->template->scripts[] = 'pcp.js'; //get grid js 
 			$this->template->head[] = View::factory('pcp/style',$data)->render();//get grid style
 			$this->template->title .= $data['story']->title.' : '.$data['scene']->title;
 			$this->template->top_menu = View::factory('pcp/scene_menu',$data)->render();  			
