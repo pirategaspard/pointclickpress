@@ -129,7 +129,7 @@ Class Controller_admin_story extends Controller_Template_Admin
 		$session = Session::instance('admin');	
 		$session->delete('result');	
 		$data = Model_Admin_StoriesAdmin::GetData();
-		$result = Model_Admin_StoriesAdmin::getStory()->init(array('id'=>$data['story_id']))->delete();
+		$result = Model_Admin_StoriesAdmin::getStory()->init($data)->delete();
 		// Create User Message
 		if ($result->success)
 		{
