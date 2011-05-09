@@ -9,25 +9,24 @@ CREATE TABLE IF NOT EXISTS `actiondefs` (
   `types` text NOT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `class` (`class`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=71 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=25 ;
 
 INSERT INTO `actiondefs` (`id`, `label`, `description`, `class`, `events`, `types`) VALUES
-(29, 'Items Refresh', 'Refreshes Items in the scene', 'action_assignrefreshitems', '', ',story,location,scene,grid,itemdef,itemstate,griditem'),
-(30, 'Assign value and scene refresh', 'Assign a new value to a session variable then refresh the scene. Example: $door_open = 1;', 'action_assignrefresh', '', 'grid,griditem'),
-(34, 'Event Timer', 'Execute a timed click on a cell. Can be used to execute timed events', 'action_eventtimer', '', ',story,location,scene,grid,itemdef,itemstate,griditem'),
-(35, 'Add To Inventory', 'Add item to inventory', 'action_inventory_add', '', 'griditem'),
-(36, 'Link', 'Create a link to another scene location', 'action_link', '', 'grid,griditem'),
-(37, 'User Message', 'Displays a Message to the User', 'action_message', '', ',story,location,scene,grid,itemstate'),
-(38, 'Items Refresh', 'Refreshes Items in the scene', 'action_refreshitems', '', ',story,location,scene,grid,itemdef,itemstate,griditem'),
-(39, 'Scene Refresh', 'Refreshes the scene', 'action_refresh', '', 'grid,griditem'),
-(57, 'Assign value', 'Assign a new value to a session variable. Example: $door_open = 1;', 'action_assign', 'ASSIGN', ',story,location,scene,grid,itemdef,itemstate,griditem'),
-(63, 'Eval', 'Execute arbitrary PHP code. Use with caution.', 'action_eval', '', ',story,location,scene,grid,itemdef,itemstate,griditem'),
-(64, 'Eval w/ Item Refresh', 'Execute arbitrary PHP code then refreshes items in scene. Use with caution.', 'action_evalrefreshitems', '', ',story,location,scene,grid,itemdef,itemstate,griditem'),
-(65, 'Eval w/ Scene Refresh', 'Execute arbitrary PHP code then refreshes the scene. Use with caution.', 'action_evalrefresh', '', ',story,location,scene,grid,itemdef,itemstate,griditem'),
-(66, 'Ternary ''If'' statement', 'Assign a variable using a ternary ''If'' statement $var = (eval_value1 [>|<|<=|>=|==|!=] eval_value1 ) ? true_value1 : false_value 2;', 'action_ternary', '', ',story,location,scene,grid,itemdef,itemstate,griditem'),
-(67, 'Ternary ''if'' and scene refresh', 'Assign a variable using a ternary ''If'' statement then refresh the scene $var = (eval_value1 [>|<|<=|>=|==|!=] eval_value1 ) ? true_value1 : false_value 2;', 'action_ternaryrefresh', '', ',story,location,scene,grid,itemdef,itemstate,griditem'),
-(69, 'Use Inventory Item', 'Use item from inventory. "item_id;cell_id_to_trigger"', 'action_inventory_use', 'INVENTORY_USE_ITEM', 'grid'),
-(70, 'If', 'Example: if(array(array($var,$operator,$var2,$cell_id_to_click),array($var,"<",$var2,901)))', 'action_if', '', ',story,location,scene,grid,itemdef,itemstate,griditem');
+(1, 'Assign value', 'Assign a new value to a session variable. Example: $door_open = 1;', 'action_assign', 'ASSIGN', ',story,location,scene,grid,itemdef,itemstate,griditem'),
+(2, 'Assign value and scene refresh', 'Assign a new value to a session variable then refresh the scene. Example: $door_open = 1;', 'action_assignrefresh', 'ASSIGN', 'grid,griditem'),
+(3, 'Assign value and item refresh', 'Assign a new value to a session variable then refresh any items. Example: $door_open = 1;', 'action_assignrefreshitems', 'ASSIGN', 'grid,griditem'),
+(4, 'Eval', 'Execute arbitrary PHP code. Use with caution.', 'action_eval', '', ',story,location,scene,grid,itemdef,itemstate,griditem'),
+(5, 'Eval w/ Scene Refresh', 'Execute arbitrary PHP code then refreshes the scene. Use with caution.', 'action_evalrefresh', '', 'grid,griditem'),
+(6, 'Eval w/ Item Refresh', 'Execute arbitrary PHP code then refreshes items in scene. Use with caution.', 'action_evalrefreshitems', '', 'grid,griditem'),
+(7, 'Event Timer', 'Execute a timed click on a cell. Can be used to execute timed events. usage: wait_time,cell_to_click', 'action_eventtimer', '', ',story,location,scene,grid,itemdef,itemstate,griditem'),
+(8, 'If', 'Example: if(array(array($var,$operator,$var2,$cell_id_to_click),array($var,"<",$var2,901)))', 'action_if', '', ',story,location,scene,grid,itemdef,itemstate,griditem'),
+(9, 'Link', 'Create a link to another scene location', 'action_link', '', 'grid,griditem'),
+(10, 'User Message', 'Displays a Message to the User', 'action_message', '', ',story,location,scene,grid,itemstate'),
+(11, 'Scene Refresh', 'Refreshes the scene', 'action_refresh', '', 'grid,griditem'),
+(12, 'Items Refresh', 'Refreshes Items in the scene', 'action_refreshitems', '', 'grid,griditem'),
+(13, 'Ternary ''If'' statement', 'Assign a variable using a ternary ''If'' statement $var = (eval_value1 [>|<|<=|>=|==|!=] eval_value1 ) ? true_value1 : false_value 2;', 'action_ternary', '', ',story,location,scene,grid,itemdef,itemstate,griditem'),
+(14, 'Ternary ''if'' and scene refresh', 'Assign a variable using a ternary ''If'' statement then refresh the scene $var = (eval_value1 [>|<|<=|>=|==|!=] eval_value1 ) ? true_value1 : false_value 2;', 'action_ternaryrefresh', '', 'grid,griditem'),
+(16, 'Use Inventory Item', 'Use item from inventory. "item_id,cell_id_to_trigger"', 'action_inventoryuse', 'INVENTORY_USE_ITEM', 'grid');
 
 CREATE TABLE IF NOT EXISTS `actions` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
@@ -35,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `actions` (
   `action_label` varchar(255) NOT NULL,
   `action_value` text NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=210 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=211 ;
 
 INSERT INTO `actions` (`id`, `action`, `action_label`, `action_value`) VALUES
 (22, 'action_link', 'link', '21'),
@@ -105,7 +104,7 @@ INSERT INTO `actions` (`id`, `action`, `action_label`, `action_value`) VALUES
 (117, 'action_assignrefresh', 'Assign value and scene refresh', '$well = '''';'),
 (118, 'action_evalrefresh', 'Eval w/ Scene Refresh', '/* alternate eval action which does the same as the if action */\n/*\nif (Storydata::get(''wellisfull_flag'') == ''true'')\n{ \n  StoryData::set(''well'',"detail_full");\n}\nelse\n{\n  StoryData::set(''well'',"detail");\n}\n*/'),
 (119, 'action_link', 'Link', '41'),
-(121, 'action_assign', 'Assign value', '$direction = ''north'';'),
+(121, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''north'';'),
 (124, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''north'';'),
 (125, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''east'';'),
 (126, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''west'';'),
@@ -139,23 +138,8 @@ INSERT INTO `actions` (`id`, `action`, `action_label`, `action_value`) VALUES
 (161, 'action_assignrefresh', 'Assign value and scene refresh', '$direction = ''east'';'),
 (162, 'action_eval', 'Eval', 'Items::setGriditemValue(''mybucket'',''full'');\n$action_value = ''Your Bucket is now full of water'';\n$actions[] = Actions::createaction(''action_message'',$action_value);\nreturn Actions::doactions($actions);'),
 (163, 'action_assignrefresh', 'Assign value and scene refresh', '$well = '''';'),
-(167, 'action_assign', 'Assign value', '$abc=1;'),
-(168, 'action_assign', 'Assign value', '$abc=1;'),
-(169, 'action_assign', 'Assign value', '$ssdfg=1;'),
-(170, 'action_assign', 'Assign value', ''),
-(172, 'action_assign', 'Assign value', '$test = 1;'),
-(173, 'action_assign', 'Assign value', '$test = 1;'),
-(176, 'action_assign', 'Assign value', '$blah = 2;'),
-(178, 'action_assign', 'Assign value', '$bsdfa = 1;'),
-(179, 'action_assign', 'Assign value', '$bsdfa = 1;'),
-(180, 'action_assign', 'Assign value', '$asgds  =2;'),
-(181, 'action_assign', 'Assign value', '$bdsa = 1;'),
-(184, 'action_assign', 'Assign value', '$afdfsdf = 2;'),
-(185, 'action_assign', 'Assign value', '$asfsd = 432;'),
-(188, 'action_inventory_inventory', 'Add To Inventory', ''),
-(190, 'action_inventory_add', 'Add To Inventory', ''),
-(191, 'action_inventory_add', 'Add To Inventory', ''),
-(195, 'action_inventory_use', 'Use Inventory Item', '4,900'),
+(190, 'action_inventoryAdd', 'Add To Inventory', ''),
+(191, 'action_inventoryAdd', 'Add To Inventory', ''),
 (196, 'action_message', 'User Message', 'The water is wet'),
 (199, 'action_if', 'If', 'if(array(\n              array($wellisfull_flag,''=='',''true'',900),\n              array($wellisfull_flag,''=='',''false'',901)\n            )\n   );'),
 (200, 'action_assignrefresh', 'Assign value and scene refresh', '$well = ''detail_full'';'),
@@ -1757,16 +1741,6 @@ INSERT INTO `cells` (`id`, `scene_id`, `grid_action_id`) VALUES
 (85, 61, 67),
 (82, 61, 67),
 (72, 61, 67),
-(81, 59, 114),
-(71, 59, 114),
-(61, 59, 114),
-(51, 59, 114),
-(41, 59, 114),
-(31, 59, 114),
-(21, 59, 114),
-(11, 59, 114),
-(1, 59, 114),
-(0, 59, 114),
 (98, 62, 106),
 (97, 62, 106),
 (96, 62, 106),
@@ -2124,14 +2098,25 @@ INSERT INTO `cells` (`id`, `scene_id`, `grid_action_id`) VALUES
 (14, 66, 171),
 (13, 66, 171),
 (900, 66, 172),
-(900, 66, 178);
+(900, 66, 178),
+(99, 86, 179),
+(81, 59, 114),
+(71, 59, 114),
+(61, 59, 114),
+(51, 59, 114),
+(41, 59, 114),
+(31, 59, 114),
+(21, 59, 114),
+(11, 59, 114),
+(1, 59, 114),
+(0, 59, 114);
 
 CREATE TABLE IF NOT EXISTS `grids_actions` (
   `grid_action_id` bigint(20) unsigned NOT NULL auto_increment,
   `scene_id` bigint(20) unsigned NOT NULL,
   `action_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY  (`grid_action_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=179 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=180 ;
 
 INSERT INTO `grids_actions` (`grid_action_id`, `scene_id`, `action_id`) VALUES
 (1, 22, 1),
@@ -2273,14 +2258,15 @@ INSERT INTO `grids_actions` (`grid_action_id`, `scene_id`, `action_id`) VALUES
 (168, 65, 199),
 (169, 65, 200),
 (170, 65, 201),
-(171, 66, 202),
+(171, 83, 202),
 (172, 66, 203),
 (173, 66, 204),
 (174, 66, 205),
 (175, 66, 206),
 (176, 52, 207),
 (177, 52, 208),
-(178, 66, 209);
+(178, 66, 209),
+(179, 86, 210);
 
 CREATE TABLE IF NOT EXISTS `grids_items` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
@@ -2292,10 +2278,11 @@ CREATE TABLE IF NOT EXISTS `grids_items` (
   PRIMARY KEY  (`id`),
   KEY `item_id` (`itemdef_id`),
   KEY `scene_id` (`scene_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 INSERT INTO `grids_items` (`id`, `itemdef_id`, `scene_id`, `cell_id`, `title`, `slug`) VALUES
-(4, 2, 49, 44, 'mybucket', 'mybucket');
+(4, 2, 49, 44, 'mybucket', 'mybucket'),
+(5, 7, 86, 65, 'bcc', 'bcc');
 
 CREATE TABLE IF NOT EXISTS `grids_items_actions` (
   `griditem_id` bigint(20) unsigned NOT NULL,
@@ -2319,7 +2306,7 @@ CREATE TABLE IF NOT EXISTS `images` (
   `type_id` int(11) unsigned NOT NULL,
   `filename` varchar(255) character set latin1 NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=100 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=95 ;
 
 INSERT INTO `images` (`id`, `story_id`, `type_id`, `filename`) VALUES
 (14, 3, 1, 'DSC_0528.JPG'),
@@ -2360,7 +2347,8 @@ INSERT INTO `images` (`id`, `story_id`, `type_id`, `filename`) VALUES
 (51, 3, 1, 'DSC_0233.JPG'),
 (55, 14, 1, 'IMG_20101007_192002-1.jpg'),
 (56, 14, 2, 'IMG_20101007_192002-1-1.jpg'),
-(93, 3, 2, 'bucket_full.png');
+(93, 3, 2, 'bucket_full.png'),
+(94, 8, 1, '01_with_goatee.jpg');
 
 CREATE TABLE IF NOT EXISTS `image_types` (
   `id` int(10) unsigned NOT NULL auto_increment,
@@ -2377,11 +2365,12 @@ CREATE TABLE IF NOT EXISTS `itemdefs` (
   `title` varchar(255) NOT NULL,
   `story_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 INSERT INTO `itemdefs` (`id`, `title`, `story_id`) VALUES
 (2, 'bucket', 3),
-(6, 'yuyyuyuyuyetu', 14);
+(6, 'yuyyuyuyuyetu', 14),
+(7, 'bvbvc', 8);
 
 CREATE TABLE IF NOT EXISTS `items_defs_actions` (
   `itemdef_id` bigint(20) unsigned NOT NULL,
@@ -2400,7 +2389,7 @@ CREATE TABLE IF NOT EXISTS `items_states` (
   `value` varchar(255) character set latin1 NOT NULL,
   `isdefaultstate` tinyint(4) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 INSERT INTO `items_states` (`id`, `itemdef_id`, `image_id`, `value`, `isdefaultstate`) VALUES
 (1, 1, 41, 'on_ground', 0),
@@ -2412,7 +2401,8 @@ INSERT INTO `items_states` (`id`, `itemdef_id`, `image_id`, `value`, `isdefaults
 (8, 0, 0, 'gj', 0),
 (9, 0, 0, 'bvvj', 1),
 (10, 6, 56, 'bvvj', 1),
-(11, 2, 93, 'full', 0);
+(11, 2, 93, 'full', 0),
+(12, 7, 0, 'ghsfdgfdgfd', 0);
 
 CREATE TABLE IF NOT EXISTS `items_states_actions` (
   `itemstate_id` bigint(20) unsigned NOT NULL,
@@ -2432,7 +2422,7 @@ CREATE TABLE IF NOT EXISTS `locations` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
   `title` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=44 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=48 ;
 
 INSERT INTO `locations` (`story_id`, `id`, `title`) VALUES
 (3, 30, 'Stairs'),
@@ -2445,7 +2435,10 @@ INSERT INTO `locations` (`story_id`, `id`, `title`) VALUES
 (3, 40, 'Well'),
 (3, 41, 'Poison Ivy Field2'),
 (3, 42, 'Death'),
-(3, 43, 'River');
+(3, 43, 'River'),
+(0, 44, 'aasdf'),
+(0, 45, 'blah'),
+(0, 46, 'blah');
 
 CREATE TABLE IF NOT EXISTS `locations_actions` (
   `location_id` bigint(20) unsigned NOT NULL,
@@ -2466,23 +2459,36 @@ INSERT INTO `locations_actions` (`location_id`, `action_id`) VALUES
 (43, 144),
 (30, 193);
 
+CREATE TABLE IF NOT EXISTS `modules` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `dir` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+
+INSERT INTO `modules` (`id`, `dir`) VALUES
+(1, 'plugins\\column'),
+(2, 'plugins\\debug'),
+(3, 'plugins\\google'),
+(4, 'plugins\\helloworld'),
+(5, 'plugins\\inventory');
+
 CREATE TABLE IF NOT EXISTS `plugins` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
-  `label` varchar(255) character set latin1 NOT NULL,
-  `description` text character set latin1 NOT NULL,
-  `class` varchar(255) character set latin1 NOT NULL,
-  `events` text character set latin1 NOT NULL,
-  `status` char(1) character set latin1 NOT NULL,
+  `label` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `class` varchar(255) NOT NULL,
+  `events` text NOT NULL,
+  `status` char(1) NOT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `class` (`class`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=89 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 INSERT INTO `plugins` (`id`, `label`, `description`, `class`, `events`, `status`) VALUES
-(76, 'columns', 'This is the columns plugin', 'plugin_column', 'display_column_left,display_column_right', '0'),
-(77, 'Debug', 'Debug Plugin for PCP. Add "?debug" on the url to see debug information', 'plugin_debug', 'display_post_scene,error', '1'),
-(78, 'Google integration', 'This is the Google Integration plugin', 'plugin_google', 'display_column_left,display_column_right,display_footer', '0'),
-(79, 'helloworld', 'This is the helloworld demonstration plugin', 'plugin_helloworld', 'post_start_story,display_pre_scene,display_post_scene', '0'),
-(88, 'Inventory', 'Basic inventory plugin for PCP', 'plugin_inventory', 'post_start_story,css,admin_js,js,display_post_scene,display_post_grid_select,INVENTORY_DISPLAY,INVENTORY_SET_SELECTED_ITEM,INVENTORY_DROP_SELECTED_ITEM', '1');
+(1, 'columns', 'This is the columns plugin', 'plugins_column', 'display_column_left,display_column_right', '0'),
+(2, 'Debug', 'Debug Plugin for PCP. Add "?debug" on the url to see debug information', 'plugins_debug', 'display_post_scene,error', '1'),
+(3, 'Google integration', 'This is the Google Integration plugin', 'plugins_google', 'display_column_left,display_column_right,display_footer', '0'),
+(4, 'helloworld', 'This is the helloworld demonstration plugin', 'plugins_helloworld', 'post_start_story,display_pre_scene,display_post_scene', '0'),
+(5, 'Inventory', 'Basic inventory plugin for PCP', 'plugins_inventory', 'post_start_story,css,admin_js,js,display_post_scene,display_post_grid_select,INVENTORY_DISPLAY,INVENTORY_SET_SELECTED_ITEM,INVENTORY_DROP_SELECTED_ITEM', '1');
 
 CREATE TABLE IF NOT EXISTS `scenes` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
@@ -2494,7 +2500,7 @@ CREATE TABLE IF NOT EXISTS `scenes` (
   `value` varchar(255) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `scene_value` (`value`,`location_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=85 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=87 ;
 
 INSERT INTO `scenes` (`id`, `story_id`, `location_id`, `title`, `description`, `image_id`, `value`) VALUES
 (42, 3, 30, 'Stairs', 'You see some old stairs. Dare you go down them?', 14, ''),
@@ -2529,7 +2535,8 @@ INSERT INTO `scenes` (`id`, `story_id`, `location_id`, `title`, `description`, `
 (81, 3, 43, 'River', '', 49, 'north'),
 (82, 3, 43, 'River', '', 47, 'west'),
 (83, 3, 43, 'River', 'the river is low', 48, 'detail'),
-(84, 3, 40, 'Well', 'The well is full of water', 51, 'detail_full');
+(84, 3, 40, 'Well', 'The well is full of water', 51, 'detail_full'),
+(85, 0, 46, 'blah', 'asdfdsf', 0, '');
 
 CREATE TABLE IF NOT EXISTS `scenes_actions` (
   `scene_id` bigint(20) unsigned NOT NULL,
@@ -2552,6 +2559,20 @@ CREATE TABLE IF NOT EXISTS `sessions` (
   KEY `last_active` (`last_active`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+INSERT INTO `sessions` (`session_id`, `last_active`, `contents`) VALUES
+('4dc70215aaf7b1-37686275', 1304887835, 'OEBqfSmJ2D4WjPW8RrDKIbGAsZ6WVD6JNUgt2/O8vDMjODzkKWPJKBMIvtJOtFTbrRLJheCJzKNLzke0eepKbbSGQhXXUBqsY9wMCEtg1W1Xp5WmhvRugMN0nIdEAddx/YBKTfOHoROCk21+PvOQ7LSt9CtW/3PYSFsnhUSdEzkr7J4yzNGY++odRdygHLy5eBBUKCozMia6PWTr6DHTWpXEVyeiYnQK2B270jfgO84tP9tfzG1DIfk7DHNuGqOby6x0pf+9uV5oarzDxF6JV5cZH9GUZ20vfZHdzdT970Rj9FSJp3EGHaU4Q0dYE0N8Sv11TJN1687N4XdWwbme11wsRGogxtqXiTSRkMRkmH3IFn4Vzy4AZ4hi7vEcFS9u4QYohTgVaSiXQs+11CZ8WUh6ejKBP/6VZiw8sm4QAWgHPjNfMsTHqHk8pBfcWfmFGNI37/LGTyE4txGuJthNTxWomcuCrqh8enHN2qR930VGlqfmMlGadOAJVGIHcwYCP/swkPDlbVcnR87Ht+v/i4R6RfF/qIhP2/xp/GsRXED7ihfU3cONXL/ldb63Xlf+pVQgFCMUa6s='),
+('4dc7f86f3d69c7-67776886', 1304960790, '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'),
+('4dc55c43837df2-85948845', 1304802172, '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'),
+('4dc7fe4af27203-50061723', 1304952703, 'pfUH6JesMN3BkZaVjq5i2eNTjCaD/hin+Pbn/NsLqOeAG/epteB2txo4oWi4u8dVW9IMO989gUVjVfrC2PXMar4TgCDPPRtPB/8CufAJQW0rnvPvq4TnOEPOGt9F8RchbElavDiD7QccNwb5v+A5CfqnyNQnSb62STsq5zxfro/TrkStb9ATkQ0f9AxRm4E0DHsAt3C9toiHBX7cmyW01UN3'),
+('4dc53ed9726741-59688209', 1304779778, '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'),
+('4dc538803e6811-19568586', 1304780153, 'rWG1pwFVNYIwYkV7gu/rufi9hL6Exqxxf60/dPrluVa3+pZAaa0rJYlSVhAB+nJcv7nmPg4kmECYAEZEF9McSxBqBkyAdjbNgOrBfsQUuIqzDNDSPIfAS0aBLbqsaYl5orvjHcUCw3Ea6empwVhUDWiUzNkUSKaxQ2yC+g7allOH5cyNEj5SBUseVIzFe0R+7pJ+Ig7rnGRhPD6rtuoMUUgmvZbp8WwePV7dJRymVhmJKvyRZQRuaQf2t1NTEIJrZyOQP3GSbJ9NzdvFqXbndOHUiciEA1exYNfUaLpFhDWM4Z5qLMHNJQeRK5IM7eE='),
+('4dc3d92de6dfa5-91641428', 1304801877, '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'),
+('4dc3d932572045-74111094', 1304720853, 'pYcB8IAiyDS3V6AVkY2PurB2UnNaXOCPGBZMe8Lo4180eTUfc+GtZQt/2RXguMxPkyaym2P4DbIqFjZ1aHfbFvbtF4AT2Oltmo8/NvxlW1G7w9n4e5pLDInwEQG1LdxaMkF6ir8GD3utDndZ5jsWScZa78XJcxprHZpdBKYGE2J1D+uwKOIiYZtDQV2LXQHw+6sZpinPvOFBarVJHPgTpaPCfNwmHL0U/lHV/FE1H/9SadDK8mWTHvcwtbZNVLAqETXv4kVDey1mWYeGoQF6zMvtXbUrclNSUpaxWgj9/ZIqPfHIVgvOgYBCODIB8fM='),
+('4dc2dfee72fd26-69266079', 1304626499, 'm3S4RZEkH0txcvIFo2hcOaXXEc5U3D9MQuGzQ7M8OjPBiovUVsbX/UDWIaPvNikJId2xpF0J'),
+('4dc2dffb0e2898-47344381', 1304626499, 'QdPHEqFUBxlLVRW0ptwYq8VJ5Qowj6hfKxeaGp9dqqem9IRCzyLxlTpn5uEJPO7jVGlkcBlWgLWnhkTMNDOkiGu86wyvvVV9swX71RZdtuxxXmo2rdZl'),
+('4dc81f62cac528-66271200', 1304965288, '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'),
+('4dc82fcf59cfb8-31507795', 1304965288, 'MVbxmQ67bBcnG9WRw9o2MVcngKzkdpx9utwrIXWC8owu3cOQZEw79U4uuA1z3CyLOg4MGhvKm4ZWlnnU0SLFnawbGzKDgY3ofboBplFpu8SW02sVcW9aXg74McUa4mK1MD2gYIk6fNqS8+7f5NV8N8y2BZN5hfRF0QZjWM460onYxk8SF7b/fBHYNlP6pJZyjuOwb+g53HOOi3IHxXoVRU8abF3v5jxK3RmxWlTbqjJ33o1xTPV/l3DAiSAWpLvEVrtWv9uqP8jng2zK');
+
 CREATE TABLE IF NOT EXISTS `stories` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
   `title` varchar(255) NOT NULL,
@@ -2562,12 +2583,15 @@ CREATE TABLE IF NOT EXISTS `stories` (
   `status` char(1) NOT NULL,
   `grid_x` smallint(5) unsigned NOT NULL,
   `grid_y` smallint(5) unsigned NOT NULL,
-  `create_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `theme_name` varchar(255) NOT NULL,
+  `created_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `creator_user_id` bigint(20) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
-INSERT INTO `stories` (`id`, `title`, `author`, `description`, `first_location_id`, `image_id`, `status`, `grid_x`, `grid_y`, `create_date`) VALUES
-(3, 'River Path Demo', 'Dan Gaspar', 'Explore the old equipment by the river', 30, 14, 'p', 10, 10, '2010-10-07 18:04:34');
+INSERT INTO `stories` (`id`, `title`, `author`, `description`, `first_location_id`, `image_id`, `status`, `grid_x`, `grid_y`, `theme_name`, `created_date`, `creator_user_id`) VALUES
+(3, 'River Path Demo', 'Dan Gaspar', 'Explore the old equipment by the river', 30, 14, 'p', 10, 10, 'default', '2010-10-07 18:04:34', 0),
+(7, 'sd', 'asfd', 'asfdasfdasfd', NULL, 0, 'd', 10, 10, '', '2011-04-28 15:21:27', 38);
 
 CREATE TABLE IF NOT EXISTS `stories_actions` (
   `story_id` bigint(20) unsigned NOT NULL,
@@ -2581,6 +2605,30 @@ INSERT INTO `stories_actions` (`story_id`, `action_id`) VALUES
 (5, 120),
 (3, 192);
 
+CREATE TABLE IF NOT EXISTS `stories_plugins` (
+  `storyplugin_id` bigint(20) NOT NULL auto_increment,
+  `story_id` bigint(20) NOT NULL,
+  `plugin_id` bigint(20) NOT NULL,
+  `status` char(1) NOT NULL,
+  PRIMARY KEY  (`storyplugin_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+
+INSERT INTO `stories_plugins` (`storyplugin_id`, `story_id`, `plugin_id`, `status`) VALUES
+(1, 3, 3, '0'),
+(2, 3, 1, '0'),
+(3, 3, 2, '1'),
+(4, 3, 4, '0'),
+(5, 3, 5, '1'),
+(6, 8, 4, '1');
+
+CREATE TABLE IF NOT EXISTS `stories_users` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `story_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `email` varchar(127) NOT NULL,
@@ -2592,7 +2640,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `last_login` datetime default NULL,
   `created` datetime default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=38 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=40 ;
 
 INSERT INTO `users` (`id`, `email`, `username`, `password`, `active`, `logins`, `last_ip_address`, `last_login`, `created`) VALUES
-(36, 'admin@localhost', 'admin', '2e80e939646125be46ab1da1b93e2c8745332648', 1, 0, '127.0.0.1', NULL, '2010-10-09 00:12:25');
+(39, '', 'admin', '2e80e939646125be46ab1da1b93e2c8745332648', 1, 0, '127.0.0.1', NULL, '2011-04-25 21:45:06');
