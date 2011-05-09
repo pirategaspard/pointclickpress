@@ -10,13 +10,13 @@
 		if (div.length == 0)
 		{		
 			// if message div doesn't exist, create it
-			$('#description').before('<div id="message"></div>');
+			$('#description').before('<p id="message"></p>');
 			div = $('#message');
 		}
 
 		// add message to message div
-		div.html(data.message);
-		//div.append('<p id="'+t+'">'+data.message+'</p>');
+		div.html('<span id="'+t+'">'+data.message+'</span>');
+		//div.append('<span id="'+t+'">'+data.message+'</span>');
 		
 		// get wait time
 		if (data.wait_time)
