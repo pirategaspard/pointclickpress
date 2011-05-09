@@ -6,11 +6,13 @@
   	{  
 		
 		// clear any items in the cells in the grid
-		var itemcells = $('#grid').children('div');
-		itemcells.each(function(){
-			var obj = $(this)
+		var itemcells = $('#grid').children('div.item');
+		itemcells.each(resetCell(this));		
+		function resetCell(i)
+		{
+			var obj = $(i)
 			obj.replaceWith('<a n="'+obj.attr('n')+'"></a>');
-		});
+		}
 		    		   	
 	  	// Attempt to load a low res image before fetching the highres 
 	  	if($.browser.msie && parseFloat($.browser.version) < 9)
