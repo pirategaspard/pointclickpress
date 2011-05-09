@@ -4,8 +4,8 @@
 {
 	$.fn.MESSAGE = function(data) 
 	{  		
-		t = new Date().getTime();
-		div = $('#message');
+		var t = new Date().getTime();
+		var div = $('#message');
 		// if message div doesn't exist, create it			
 		if (div.length == 0)
 		{		
