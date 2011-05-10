@@ -91,7 +91,7 @@ if (!defined('__DIR__')) {
 } 
 //automatically create the base_url
 $app_path = '/'.substr(strrchr(__DIR__,DIRECTORY_SEPARATOR),1).'/';
-Kohana::init(array('base_url' => $app_path,'index_file' => '','profile'=>true));
+Kohana::init(array('base_url' => $app_path,'index_file' => '','profile'=>false));
 
 /*
 	Attach the file write to logging. Multiple writers are supported.
