@@ -64,9 +64,12 @@
 			dropcurritem.attr('href','#');
 			
 			// change functionality to be all 'ajaxy'
-			if (backlink) {  backlink.click(function(){ tb_remove(); }) }
-			setcurritem.click(function(){$.post(setlink, function(){ $('#setcurrentitem').parent().toggleClass('active').toggleClass('notactive');  }); }); /* $(this).parent()*/ 
-			dropcurritem.click(function(){$.getJSON(droplink, function(events){ $().REFRESH_ITEMS(events[0].data);  tb_remove(); }); });
+			if (backlink) {  backlink.click(function(){  }) }
+			setcurritem.click(function(){$.post(setlink, function(){ var p  = $('#setcurrentitem').parent()
+																		p.toggleClass('active');
+																		p.toggleClass('notactive');  }); 
+												});  
+			dropcurritem.click(function(){$.getJSON(droplink, function(events){ $().REFRESH_ITEMS(events[0].data);   }); });
 			
 		</script>
 	</body>
