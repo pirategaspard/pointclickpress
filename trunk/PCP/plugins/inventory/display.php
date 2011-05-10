@@ -6,8 +6,7 @@
 			include(Kohana::find_file('plugins\inventory','inventory','css'));
 			include(Kohana::find_file('plugins\inventory','inventory.js'));	
 		?>
-		<script src="/PCP/js/jquery-1.4.2.min.js" ></script>
-		<script src="/PCP/js/jquery-ui-1.8.6.custom.min.js" ></script>	
+
 	</head>
 	<body>
 		<div id="inventory" >
