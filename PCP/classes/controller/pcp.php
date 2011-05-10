@@ -149,16 +149,11 @@ Class Controller_PCP extends Controller_Template_PCP
 			//debug
 			if (($data['story'] == NULL))
 			{
-				echo ("<b>No Story Data</b>");				
+				echo ("<p><b>No Story Data</b></p>");				
 			}
 			if (($data['scene']->id <= 0) )
 			{
-				echo ("<b>No Scene id</b>");				
-			}
-			if ( (strlen($data['scene']->filename) <= 0))
-			{
-				echo ("<b>No Filename</b>");			
-			//	var_dump($data['scene']);
+				echo ("<p><b>No Scene id</b></p>");				
 			}	
 		}
 		Events::announceEvent(POST_SCENE);	
@@ -193,9 +188,8 @@ Class Controller_PCP extends Controller_Template_PCP
 		
     	if (Request::Current()->is_ajax())
     	{    	
-			// display the results 	
-			$this->template->content = json_encode($results);	
-			//(javascript will decide what to do next)	
+			// display the results (javascript will decide what to do next)	
+			$this->template->content = json_encode($results);				
 		}
 		else 
     	{
@@ -234,9 +228,8 @@ Class Controller_PCP extends Controller_Template_PCP
  
     	if (Request::Current()->is_ajax())
     	{    		
-			// display the results 	
+			// display the results (javascript will decide what to do next)	
 			$this->template->content = json_encode($results);	
-			//(javascript will decide what to do next)	
 		}
 		else 
     	{
@@ -255,30 +248,6 @@ Class Controller_PCP extends Controller_Template_PCP
 			$session->set('screen_height',$_POST['h']);
 		}
 	}
-	
-	// executes a function in a registered plugin class 
-/*	function action_plugin()
-	{
-		$this->simple_output();
-		// get plugin
-		$plugin = Plugins::getPlugin(array('plugin'=>$_REQUEST['plugin']));
-		if(count($plugin) > 0)
-		{
-			// get class
-			$p = new $plugin[0]['class'];
-			// if method exists, execute
-			if (method_exists($p,$_REQUEST['f']))
-			{
-				// execute function
-				$this->template->content = $p->$_REQUEST['f']();
-			}
-			else
-			{
-				// fail silently
-				$this->template->content = '';
-			}	
-		}
-	}*/
 	
 	// announce an event from the url
 	function action_announceEvent()
