@@ -6,7 +6,7 @@
 			include(Kohana::find_file('plugins\inventory','inventory','css'));
 			include(Kohana::find_file('plugins\inventory','inventory.js'));	
 		?>
-
+		
 	</head>
 	<body>
 		<div id="inventory" >
@@ -22,9 +22,9 @@
 					{
 						$item = current($item_info);
 						if (plugins_inventory::getCurrentItem() == $item['id']) {echo '<li class="active">';}
-						else {echo '<li class="nonactive">';}				
+						else {echo '<li >';}				
 						$itemstate = Model_PCP_Items::getItemState(array('id'=>$item['itemstate_id']));
-						echo '<a id="setcurrentitem" href="'.Kohana::$base_url.'announceEvent?event='.INVENTORY_SET_SELECTED_ITEM.'&i='.$item['id'].'"><img src="'.$story->getMediaPath().$itemstate->getPath(THUMBNAIL_IMAGE_SIZE).'" alt="'.$itemstate->title.'" title="'.$itemstate->title.'" /></a></li>';
+						echo '<a id="setcurrentitem" class="inventory_item" href="'.Kohana::$base_url.'announceEvent?event='.INVENTORY_SET_SELECTED_ITEM.'&i='.$item['id'].'"><img src="'.$story->getMediaPath().$itemstate->getPath(THUMBNAIL_IMAGE_SIZE).'" alt="'.$itemstate->title.'" title="'.$itemstate->title.'" /></a></li>';
 					}
 					/*
 					if ($story_data['current_item'] > 0)
@@ -46,6 +46,7 @@
 				<a id="back_link" href="<?php echo Kohana::$base_url ?>scene" class="ui-widget ui-state-default ui-corner-all button save">Back</a>
 			</div>
 		</div>
+		
 		<script >
 		
 			// get objs
@@ -64,16 +65,23 @@
 			
 			// change functionality to be all 'ajaxy'
 			if (backlink) {  backlink.click(function(){  }) }
-			setcurritem.click(function(){$.post(setlink, toggleItemSelected());	});  
+			setcurritem.click(function(){$.post(setlink)});  
 			dropcurritem.click(function(){$.getJSON(droplink, function(events){ $().REFRESH_ITEMS(events[0].data);   }); });
 			
+			$('.inventory_item').click(function()
+			{
+				//$('.active').removeClass('active');
+				$(this).parent().toggleClass('active');
+			});
 			
-			function toggleItemSelected()
-			{ 
-				var p  = $('#setcurrentitem').parent()
-				p.toggleClass('active');
-				p.toggleClass('notactive');  
-			}			
+						
 		</script>
 	</body>
 </html>
+
+<?php /* 
+
+<script src="/PCP/js/jquery-1.4.2.min.js" ></script>
+		<script src="/PCP/js/jquery-ui-1.8.6.custom.min.js" ></script>
+
+*/?>
