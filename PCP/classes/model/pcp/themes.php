@@ -20,12 +20,22 @@ class Model_PCP_Themes extends Model
 	
 	static function getStyles($args=array())
 	{
-		return self::findFiles(THEMES_PATH.'/'.$args['theme_name'].'/css/','css');
+		$found_files = self::findFiles(THEMES_PATH.'/'.$args['theme_name'].'/css/','css');
+		if (!isset($found_files['pcp.css']))
+		{
+			$found_files['pcp.css'] = self::find_file('css','pcp','css');			
+		}	
+		return $found_files;
 	}
 	
 	static function getScripts($args=array())
-	{
-		return self::findFiles(THEMES_PATH.'/'.$args['theme_name'].'/js/','js');
+	{				
+		$found_files = self::findFiles(THEMES_PATH.'/'.$args['theme_name'].'/js/','js');
+		if (!isset($found_files['pcp.js']))
+		{
+			$found_files['pcp.js'] = self::find_file('js','pcp','js');			
+		}
+		return $found_files;	
 	}
 	
 	static private function findFiles($dir='',$type='')
@@ -41,11 +51,21 @@ class Model_PCP_Themes extends Model
 				// if a file is php assume its a class 
 				if ((isset($pathinfo['extension']))&&(($pathinfo['extension']) == $type))
 				{
-					$found_files[] = $dir.$file;		
+					$found_files[$file] = $dir.$file;		
 				}
 			}
-		} 
+		} 						
 		return $found_files;
+	}
+	
+	static private function find_file($dir='',$name='',$type='')
+	{
+		$file = Kohana::find_file($dir,$name,$type);
+		if($file)
+		{
+			$file = str_replace('\\','/',str_replace(APPPATH,'',$file));
+		}
+		return $file;
 	}
 	
 	static function getData()
