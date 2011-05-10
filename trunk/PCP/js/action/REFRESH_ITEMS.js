@@ -6,12 +6,14 @@
   	{    		
 		// clear any items in the cells in the grid
 		var itemcells = $('#grid').children('div.item');
-		itemcells.each(resetCell(this));		
-		function resetCell(i)
-		{
-			var obj = $(i)
-			obj.replaceWith('<a n="'+obj.attr('n')+'"></a>');
-		}
+		itemcells.each(	function resetCell(i)
+						{
+							var obj = $(this)
+							if (obj)
+							{
+								obj.replaceWith('<a n="'+obj.attr('n')+'"></a>');
+							}
+						});
 	  		  	
 	  	// show items
 	  	var cells = $('#grid').children('a');

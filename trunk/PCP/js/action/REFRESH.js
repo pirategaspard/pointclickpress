@@ -6,13 +6,15 @@
   	{  
 		
 		// clear any items in the cells in the grid
-		var itemcells = $('#grid').children('div.item');
-		itemcells.each(resetCell(this));		
-		function resetCell(i)
-		{
-			var obj = $(i)
-			obj.replaceWith('<a n="'+obj.attr('n')+'"></a>');
-		}
+		var itemcells = $('#grid').children('div');
+		itemcells.each(	function resetCell(i)
+						{
+							var obj = $(this)
+							if (obj)
+							{
+								obj.replaceWith('<a n="'+obj.attr('n')+'"></a>');
+							}
+						});
 		    		   	
 	  	// Attempt to load a low res image before fetching the highres 
 	  	if($.browser.msie && parseFloat($.browser.version) < 9)
@@ -36,7 +38,7 @@
 	  	var cells = $('#grid').children('a');
 	  	for(var n in data.items)
 		{
-			$(cells[n]).replaceWith('<div n='+n+'><form n='+n+' i='+data.items[n].id+' action="itemclick?n='+n+'" method="post" ><input type="image" src="'+data.items[n].path+'" name="i" value="'+data.items[n].id+'" /></form></div>');
+			$(cells[n]).replaceWith('<div class="item" n='+n+'><form n='+n+' i='+data.items[n].id+' action="itemclick?n='+n+'" method="post" ><input type="image" src="'+data.items[n].path+'" name="i" value="'+data.items[n].id+'" /></form></div>');
 	  	}
 		// pre-load high res image and then swap background
 		$().wait_start();
