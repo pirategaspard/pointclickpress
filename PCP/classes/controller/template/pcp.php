@@ -8,9 +8,18 @@ Class Controller_Template_PCP extends Controller_Template_Base
 	*/
 	public function before()
 	{
-		// Run anything that need to run before this.		
-		$data = Model_PCP_Themes::getData();
-		Model_PCP_Themes::setTheme($data);		
+		// Run anything that need to run before this.
+		if (strcasecmp(Request::Current()->action(),'scene') == 0) //|| (strcasecmp(Request::Current()->action(),'story') == 0)) 
+		{	
+			// if we are displaying a scene use the theme
+			$data = Model_PCP_Themes::getData();
+		}
+		else
+		{
+			// otherwise always use the default theme
+			$data = array('theme_name'=>'default');
+		}
+		Model_PCP_Themes::setTheme($data);	
 		$this->template = 'templates/pcp';
 		parent::before();
 		
