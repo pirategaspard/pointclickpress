@@ -47,7 +47,14 @@
 					}).attr('src', data.filename);
 			document.title = data.title;
 			/* $('#title').html(data.title); */
-			$('#description').html(data.description);	
+			if (data.description.length > 0)
+			{
+				$('#description').html(data.description).show();
+			}
+			else
+			{
+				$('#description').hide();
+			}	
 		$().wait_stop();
 	  };
 })( jQuery );
