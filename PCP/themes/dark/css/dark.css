@@ -1,1 +1,1 @@
-/* simple dark theme */* { margin:0; padding:0; color: white; }body {background-color: black }a.button:hover  {border: white 1px solid;}.save:hover, .play{ border: white 1px solid;}#content *{ color: #312E25; }
+/* simple dark theme */* { margin:0; padding:0; color: white; }body {background-color: black }#content_layout a.button {color: black}#content_layout a.button:hover  {border: white 1px solid;}.save:hover, .play{ border: white 1px solid;}#content *{ color: #312E25; }

@@ -64,12 +64,16 @@
 			
 			// change functionality to be all 'ajaxy'
 			if (backlink) {  backlink.click(function(){  }) }
-			setcurritem.click(function(){$.post(setlink, function(){ var p  = $('#setcurrentitem').parent()
-																		p.toggleClass('active');
-																		p.toggleClass('notactive');  }); 
-												});  
+			setcurritem.click(function(){$.post(setlink, toggleItemSelected());	});  
 			dropcurritem.click(function(){$.getJSON(droplink, function(events){ $().REFRESH_ITEMS(events[0].data);   }); });
 			
+			
+			function toggleItemSelected()
+			{ 
+				var p  = $('#setcurrentitem').parent()
+				p.toggleClass('active');
+				p.toggleClass('notactive');  
+			}			
 		</script>
 	</body>
 </html>
