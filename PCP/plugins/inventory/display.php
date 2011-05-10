@@ -64,7 +64,7 @@
 			dropcurritem.attr('href','#');
 			
 			// change functionality to be all 'ajaxy'
-			if (backlink) {  backlink.click(function(){  }) }
+			if (backlink) {  backlink.click(function(){ tb_remove(); }) }
 			setcurritem.click(function(){$.post(setlink)});  
 			dropcurritem.click(function(){$.getJSON(droplink, function(events){ $().REFRESH_ITEMS(events[0].data);   }); });
 			
