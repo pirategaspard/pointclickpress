@@ -22,32 +22,32 @@ class plugins_inventory extends Model_Base_PCPPlugin
 			}
 			case CSS:
 			{
-				include(Kohana::find_file('plugins\inventory','css'));
+				include(Kohana::find_file('plugins'.DIRECTORY_SEPARATOR.'inventory','css'));
 				break;
 			}
 			case JS:
 			{
-				include(Kohana::find_file('plugins\inventory','js'));
+				include(Kohana::find_file('plugins'.DIRECTORY_SEPARATOR.'inventory','js'));
 				break;
 			}	
 			case ADMIN_JS:
 			{		
-				include(Kohana::find_file('plugins\inventory','admin.js'));
+				include(Kohana::find_file('plugins'.DIRECTORY_SEPARATOR.'inventory','admin.js'));
 				break;
 			}
 			case DISPLAY_POST_SCENE:
 			{
-				include(Kohana::find_file('plugins\inventory','link'));
+				include(Kohana::find_file('plugins'.DIRECTORY_SEPARATOR.'inventory','link'));
 				break;
 			}
 			case DISPLAY_POST_GRID_SELECT:
 			{
-				include(Kohana::find_file('plugins\inventory','gridselect'));
+				include(Kohana::find_file('plugins'.DIRECTORY_SEPARATOR.'inventory','gridselect'));
 				break;
 			}	
 			case INVENTORY_DISPLAY:
 			{
-				include(Kohana::find_file('plugins\inventory','display'));
+				include(Kohana::find_file('plugins'.DIRECTORY_SEPARATOR.'inventory','display'));
 				break;
 			}
 			case INVENTORY_SET_SELECTED_ITEM:
