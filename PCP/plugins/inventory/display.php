@@ -2,9 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 	<head>
 		<?php	 
-			include(Kohana::find_file('plugins\inventory','css'));
-			include(Kohana::find_file('plugins\inventory','inventory','css'));
-			include(Kohana::find_file('plugins\inventory','inventory.js'));	
+			include(Kohana::find_file('plugins'.DIRECTORY_SEPARATOR.'inventory','css'));
+			include(Kohana::find_file('plugins'.DIRECTORY_SEPARATOR.'inventory','inventory','css'));
+			include(Kohana::find_file('plugins'.DIRECTORY_SEPARATOR.'inventory','inventory.js'));	
 		?>
 		
 	</head>
