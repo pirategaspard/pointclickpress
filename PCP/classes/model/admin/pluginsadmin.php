@@ -114,7 +114,7 @@ class Model_Admin_PluginsAdmin extends Model_Plugins
 	private static function search()
 	{
 		$dir = 'plugins';
-		// search for plugin modules in the plugins directory		
+		// search for plugin modules in the plugins directory		 
 		$modules = model_Utils_ModuleHelper::searchDirectoryForModules($dir);
 		foreach ($modules as $module)
 		{

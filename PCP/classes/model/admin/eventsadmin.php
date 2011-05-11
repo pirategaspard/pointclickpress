@@ -7,7 +7,7 @@ class Model_Admin_EventsAdmin extends Model_events
 	{
 		$listenerClasses = array(); // array to hold any listenerClass classes we find
 		// get list of files from the cascading file system now that any module directories have been loaded
-		$files = Kohana::list_files('classes\\'.$dir);
+		$files = Kohana::list_files('classes'.DIRECTORY_SEPARATOR.$dir);
 		foreach ($files as $class_name => $file)
 		{
 			$class_name = substr($class_name,strstr($class_name,'classes/')+strlen('classes/'));
