@@ -2,6 +2,9 @@
 
 Class Controller_Template_Admin extends Controller_Template_Base
 {
+	public $auth_required = 'admin';
+	public $secure_actions = array();
+	
 	/**
 	* Initialize properties before running the controller methods (actions),
 	* so they are available to our action.
@@ -13,8 +16,8 @@ Class Controller_Template_Admin extends Controller_Template_Base
 		parent::before();
 		Model_Admin_EventsAdmin::initalizeListenerClasses(); // initalize events engine		
 		
-		if ((Model_Admin_Usersadmin::isloggedin())||((strcasecmp(Request::Current()->action(),'login') == 0)||(strcasecmp(Request::Current()->action(),'dologin') == 0)||(strcasecmp(Request::Current()->controller(),'install') == 0)))
-		{
+	/*	if ((Model_Admin_Usersadmin::isloggedin())||((strcasecmp(Request::Current()->action(),'login') == 0)||(strcasecmp(Request::Current()->action(),'dologin') == 0)||(strcasecmp(Request::Current()->controller(),'install') == 0)))
+		{*/
 			if($this->auto_render)
 			{
 				// Initialize values
@@ -26,12 +29,12 @@ Class Controller_Template_Admin extends Controller_Template_Base
 				$this->template->messages = '';
 				$this->template->footer = View::factory('admin/footer')->render();
 			}
-		}
-		else
+	}
+	/*	else
 		{	//redirect to login			
 			Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'users','action'=>'Login')));	
-		}
-	}
+		 } 
+ 	} */
 
 	/**
 	* Fill in default values for our properties before rendering the output.

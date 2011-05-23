@@ -4,19 +4,21 @@
 */
 $default_page_title = 'PointClickPress - ';
 
+/* 
+	
+*/
+$admin_email_address = 'Admin@pointclickpress.org';
+
 /*
 	default theme
 */
 $default_theme_name = 'default';
-
 
 /* 
 	SUPPORTED_SCREENS is a comma seperated list of 
 	screen dimensions such as '640x480,800x600,'
 	must be lowest to highest 
 */
-//$supported_screens = '480x320,640x480,800x480,800x600,1024x768'; // Basic standard VGA and some mobile
-//$supported_screens = '320x200,480x320,640x320,768x480,800x480,960x540,1024x576,1366x768'; // widescreen mobile (iphone,android,netbook) and HD TV
 $supported_screens = '480x320,800x480'; // Default sizes
 
 /* 
@@ -83,6 +85,7 @@ $defaults = explode('x',$thumbnail_size);
 define('THUMBNAIL_IMAGE_SIZE', $thumbnail_size);
 define('THUMBNAIL_IMAGE_WIDTH', $defaults[0]);
 define('THUMBNAIL_IMAGE_HEIGHT', $defaults[1]);
+define('ADMIN_EMAIL_ADDRESS', $admin_email_address);
 
 define('DEFAULT_VALUE', '');
 define('DEFAULT_ITEMSTATE_VALUE', DEFAULT_VALUE);

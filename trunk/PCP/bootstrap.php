@@ -107,13 +107,15 @@ Kohana::$config->attach(new Kohana_Config_File);
 	Enable modules. Modules are referenced by a relative or absolute path.
 */
 Kohana::modules(array(
-	// 'auth'       => MODPATH.'auth',       // Basic authentication
+	'user'       => MODPATH.'authadmin',       // front and back end user admin
+	'auth'       => MODPATH.'auth',       // Basic authentication
 	// 'codebench'  => MODPATH.'codebench',  // Benchmarking tool
 	'database'   => MODPATH.'database',   // Database access
 	'image'      => MODPATH.'image',      // Image manipulation
 	'cache'      => MODPATH.'cache',      // Cache	
-	// 'orm'        => MODPATH.'orm',        // Object Relationship Mapping
-	// 'pagination' => MODPATH.'pagination', // Paging of results
+	'orm'        => MODPATH.'orm',        // Object Relationship Mapping
+	'pagination' => MODPATH.'pagination', // Paging of results
+	//'email' => MODPATH.'email', // email
 	));
 
 // update cache driver
@@ -122,17 +124,38 @@ Cache::$default = CACHE_DRIVER;
 // default session
 Session::$default = 'PCP';
 
-// cookei salt
+// cookie salt
 Cookie::$salt = 'PCP';
 
-// Route for Admin Area
+// Route for User Area
+Route::set('user', 'user(/<action>(/<id>))')
+  ->defaults(array(    
+    'controller' => 'user',
+  ));
+
+// Route for Admin User Area
+Route::set('adminuser', 'admin/user(/<action>(/<id>))')
+  ->defaults(array(    
+    'controller' => 'admin_user',
+    'action'     => 'index',
+  ));
+
+  // Route for Admin User Area
+Route::set('admin_user', 'admin_user(/<action>(/<id>))')
+  ->defaults(array(    
+    'controller' => 'admin_user',
+    'action'     => 'index',
+  ));
+
+
+// Route for PCP Admin Area
 Route::set('admin', 'admin(/<controller>(/<action>(/<id>)))')
   ->defaults(array(    
 	'directory'  => 'admin',
     'controller' => 'story',
     'action'     => 'list',
   ));
-  
+
 // Route for Public Facing site
 Route::set('default', '(<action>)')
 	->defaults(array(
