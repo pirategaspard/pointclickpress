@@ -8,7 +8,7 @@
  * @version 1.0
  */
 
-class Controller_Useradmin_Admin_User extends Controller_App {
+class Controller_Useradmin_Admin_User extends Controller_Useradmin_Admin_User {
 
    /**
     * @var string Filename of the template file.

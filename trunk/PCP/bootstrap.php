@@ -107,7 +107,7 @@ Kohana::$config->attach(new Kohana_Config_File);
 	Enable modules. Modules are referenced by a relative or absolute path.
 */
 Kohana::modules(array(
-	'user'       => MODPATH.'authadmin',       // front and back end user admin
+	'user'       => MODPATH.'authadmincustom',       // front and back end user admin
 	'auth'       => MODPATH.'auth',       // Basic authentication
 	// 'codebench'  => MODPATH.'codebench',  // Benchmarking tool
 	'database'   => MODPATH.'database',   // Database access
@@ -132,21 +132,21 @@ Route::set('user', 'user(/<action>(/<id>))')
   ->defaults(array(    
     'controller' => 'user',
   ));
-
+/*
 // Route for Admin User Area
 Route::set('adminuser', 'admin/user(/<action>(/<id>))')
   ->defaults(array(    
-    'controller' => 'admin_user',
+    'controller' => 'admin/user',
     'action'     => 'index',
   ));
 
   // Route for Admin User Area
 Route::set('admin_user', 'admin_user(/<action>(/<id>))')
   ->defaults(array(    
-    'controller' => 'admin_user',
+    'controller' => 'admin/user',
     'action'     => 'index',
   ));
-
+*/
 
 // Route for PCP Admin Area
 Route::set('admin', 'admin(/<controller>(/<action>(/<id>)))')
