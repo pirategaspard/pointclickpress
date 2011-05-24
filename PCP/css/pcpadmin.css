@@ -3,8 +3,11 @@ body { }
 fieldset {display: block; padding: 10px 2px;}
 legend {font-size:1.2em;}
 #container {margin: 0 auto; width:80%;}
-#header {display: block; padding: 5px; height: 15px;} /*height: 30px; */
+#header {display: block; padding: 5px; height: 15px; background-color: green;} /*height: 30px; */
 #header .menu {float: right;}
+#header h1 {color: white; font-style: normal; font-weight: bold; letter-spacing: -1px; line-height: 1.2em; text-shadow: 1px 1px 2px black; text-transform: none; font-size: 100%; float: left;}
+
+
 #topmenu {}
 #content {}
 #content td {padding: 4px 2px;}
@@ -30,6 +33,7 @@ legend {font-size:1.2em;}
 .menu {}
 ul.menu {display: inline;}
 ul.menu li {display: inline; padding: 0 10px;} 
+ul.menu li a {color: white;}
 
 a.button {padding: 2px 10px; margin: 5px 10px; text-decoration: none; }
 a.button:hover  {background: none; background-color: green; color: white !important; border: black 1px solid;}

@@ -24,7 +24,7 @@ Class Controller_Template_Admin extends Controller_Template_Base
 				$this->template->title = DEFAULT_PAGE_TITLE.' Admin';
 				$this->template->scripts = array('jquery-1.4.2.min.js','jquery-ui-1.8.6.custom.min.js','thickbox-compressed.js','pcpadmin.js');
 				$this->template->styles = array('pcp-ui/jquery-ui-1.8.6.custom.css','thickbox.css','pcpadmin.css');
-				$this->template->header = View::factory('/admin/header')->render();	;
+				$this->template->header = View::factory('/admin/header')->render();
 				$this->template->breadcrumb = '';
 				$this->template->messages = '';
 				$this->template->footer = View::factory('admin/footer')->render();

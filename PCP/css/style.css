@@ -4,7 +4,7 @@ html{color:#000;background:#FFF;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pr
 /* Global styles: body, paragraphs, lists etc */
 
 html {
-   background-color: #E5E5E5;
+   /*background-color: #E5E5E5;*/
 }
 body {
    font-family: Arial,Helvetica,Sans-serif;
@@ -36,7 +36,7 @@ p {
 /* Menus */
 
    /** Nice looking "new" menu style. **/
-   ul.menu {
+#navigation  ul.menu {
       background:none repeat scroll 0 0 #356AA0;
       border-bottom:2px solid #204061;
       border-top:2px solid #356AA0;
@@ -49,26 +49,26 @@ p {
       padding:0;
    }
 
-   ul.menu li{
+#navigation ul.menu li{
       float:left;
       margin:0;
    }
 
-   ul.menu li a {
+#navigation   ul.menu li a {
       color:#FFFFFF;
       display:block;
-      line-height:40px;
+      line-height:20px;
       padding:0 20px;
       text-decoration:none;
    }
 
-   ul.menu li.active a, ul.menu li a:hover {
+#navigation ul.menu li.active a,#navigation ul.menu li a:hover {
       background:none repeat scroll 0 0 #3D7BBB;
       border-bottom:2px solid #356AA0;
    }
 
    /** Nice looking "new" submenu style. **/
-   ul.submenu {
+#navigation   ul.submenu {
       background:none repeat scroll 0 0 #333333;
       border-bottom:2px solid #000000;
       border-top:2px solid #333333;
@@ -80,12 +80,12 @@ p {
       padding:0;
    }
 
-   ul.submenu li{
+#navigation   ul.submenu li{
       float:left;
       margin:0;
    }
 
-   ul.submenu li a {
+#navigation   ul.submenu li a {
       color:#FFFFFF;
       display:block;
       line-height:25px;
@@ -93,7 +93,7 @@ p {
       text-decoration:none;
    }
 
-   ul.submenu li a:hover {
+#navigation   ul.submenu li a:hover {
       background:none repeat scroll 0 0 #555555;
       border-bottom:2px solid #444444;
    }
@@ -258,26 +258,26 @@ div.error {
    padding-left: 20px;
 }
 
-ul.menu {
+#navigation ul.menu {
      background-color: #f4f4f4;
   background-image: url("../images/menubar-background.png");
   background-repeat: repeat-x;
   border: 0px none;
 }
-   ul.menu li a {
+#navigation   ul.menu li a {
       color: black;
       font-weight: normal;
    }
 
-   ul.menu li.active a, ul.menu li a:hover {
+#navigation   ul.menu li.active a,#navigation ul.menu li a:hover {
       background:none repeat scroll 0 0 #EAEAEA;
       border-bottom: 0px none;
    }
    
 
 #header h1 {
-   padding: 15px 0;
-   font-size: 32px;
+   /*padding: 15px 0;
+   font-size: 32px;*/
    font-style: normal;
    font-weight: bold;
    text-transform: none;
@@ -408,7 +408,7 @@ a { -moz-outline: none; }
    margin-bottom: 20px;
 }
 
-.block .content {
+.content {
    padding: 0 15px 15px;
 }
 .block h1 {

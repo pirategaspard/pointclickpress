@@ -1,4 +1,4 @@
-<div class="block">
+<div class="ui-helper-reset ui-widget-content ui-corner-all">
    <h1><?php echo __('Password reset'); ?></h1>
    <div class="content">
 <?php

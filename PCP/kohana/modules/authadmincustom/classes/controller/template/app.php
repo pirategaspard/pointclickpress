@@ -108,7 +108,8 @@ class Controller_Template_App extends Controller {
          
          // Initialize empty values
          // Page title
-         $this->template->title   = '';
+         $this->template->title   = DEFAULT_PAGE_TITLE.' Admin';
+         $this->template->header = View::factory('/admin/header')->render();
          // Page content
          $this->template->content = '';
          // Styles in header
@@ -122,168 +123,7 @@ class Controller_Template_App extends Controller {
          // next, it is expected that $this->template->content is set e.g. by rendering a view into it.
      }
    }
-   
-      /**
-    * View: Login form.
-    */
-   public function action_login() {
-      // ajax login
-      if($this->request->is_ajax() && isset($_REQUEST['username'], $_REQUEST['password'])) {
-         $this->auto_render = false;
-         $this->request->headers('Content-Type', 'application/json');
-         if(Auth::instance()->logged_in() != 0) {
-            $this->response->status(200);
-            $this->template->content = $this->request->body('{ "success": "true" }');
-            return;
-         }
-         else if( Auth::instance()->login($_REQUEST['username'], $_REQUEST['password']) )
-         {
-            $this->response->status(200);
-            $this->template->content = $this->request->body('{ "success": "true" }');
-            return;
-         }
-         $this->response->status(500);
-         $this->template->content = $this->request->body('{ "success": "false" }');
-         return;
-      } else {
-         // set the template title (see Controller_App for implementation)
-         $this->template->title = __('Login');
-         // If user already signed-in
-         if(Auth::instance()->logged_in() != 0){
-            // redirect to the user account
-            $this->request->redirect('user/profile');
-         }
-         $view = View::factory('user/login');
-         // If there is a post and $_POST is not empty
-         if ($_REQUEST && isset($_REQUEST['username'], $_REQUEST['password'])) {
 
-            // Check Auth if the post data validates using the rules setup in the user model
-            if ( Auth::instance()->login($_REQUEST['username'], $_REQUEST['password']) ) {
-               // redirect to the user account
-               $this->request->redirect('user/profile');
-               return;
-            } else {
-               $view->set('username', $_REQUEST['username']);
-               // Get errors for display in view
-               $validation = Validation::factory($_REQUEST)
-                  ->rule('username', 'not_empty')
-                  ->rule('username', 'min_length', array(':value', 1))
-                  ->rule('username', 'max_length', array(':value', 127))
-                  ->rule('password', 'not_empty');             
-               if ($validation->check()) {
-                  $validation->error('password', 'invalid');
-               }
-               $view->set('errors', $validation->errors('login'));  
-            }
-         }
-         // allow setting the username as a get param
-         if(isset($_GET['username'])) {
-            $view->set('username', Security::xss_clean($_GET['username']));
-         }
-         $providers = Kohana::config('useradmin.providers');
-         $view->set('facebook_enabled', isset($providers['facebook']) ? $providers['facebook'] : false);
-         $this->template->content = $view;
-      }
-   }
-
-   /**
-    * Log the user out.
-    */
-   public function action_logout() {
-      // Sign out the user
-      Auth::instance()->logout();
-
-      // redirect to the user account and then the signin page if logout worked as expected
-      $this->request->redirect('user/profile');
-   }
-
-   /**
-    * A basic implementation of the "Forgot password" functionality
-    */
-   public function action_forgot() {
-      // Password reset must be enabled in config/useradmin.php
-      if(!Kohana::config('useradmin')->email) {
-         Message::add('error', 'Password reset via email is not enabled. Please contact the site administrator to reset your password.');
-         $this->request->redirect('user/register');
-      }
-      // set the template title (see Controller_App for implementation)
-      $this->template->title = __('Forgot password');
-      if(isset($_POST['reset_email'])) {
-         $user = ORM::factory('user')->where('email', '=', $_POST['reset_email'])->find();
-         // admin passwords cannot be reset by email
-         if (is_numeric($user->id) && ($user->username != 'admin')) {
-            // send an email with the account reset token
-            $user->reset_token = $user->generate_password(32);
-            $user->save();
-
-            $message = "You have requested a password reset. You can reset password to your account by visiting the page at:\n\n"
-            .":reset_token_link\n\n"
-            ."If the above link is not clickable, please visit the following page:\n"
-            .":reset_link\n\n"
-            ."and copy/paste the following Reset Token: :reset_token\nYour user account name is: :username\n";
-
-            $mailer = Email::connect();
-            // Create complex Swift_Message object stored in $message
-            // MUST PASS ALL PARAMS AS REFS
-            $subject = __('Account password reset');
-            $to = $_POST['reset_email'];
-            $from = Kohana::config('useradmin')->email_address;
-            $body =  __($message, array(
-                ':reset_token_link' => URL::site('user/reset?reset_token='.$user->reset_token.'&reset_email='.$_POST['reset_email'], TRUE),
-                ':reset_link' => URL::site('user/reset', TRUE),
-                ':reset_token' => $user->reset_token,
-                ':username' => $user->username
-            ));
-            $message_swift = Swift_Message::newInstance($subject, $body)
-                    ->setFrom($from)
-                    ->setTo($to);
-            if($mailer->send($message_swift)) {
-               Message::add('success', __('Password reset email sent.'));
-               $this->request->redirect('admin/user/login');
-            } else {
-               Message::add('failure', __('Could not send email.'));
-            }
-         } else if ($user->username == 'admin') {
-            Message::add('error', __('Admin account password cannot be reset via email.'));
-         } else {
-            Message::add('error', __('User account could not be found.'));
-         }
-      }
-     $this->template->content = View::factory('user/reset/forgot');
-   }
-
-   /**
-    * A basic version of "reset password" functionality.
-    */
-  function action_reset() {
-      // Password reset must be enabled in config/useradmin.php
-      if(!Kohana::config('useradmin')->email) {
-         Message::add('error', 'Password reset via email is not enabled. Please contact the site administrator to reset your password.');
-         $this->request->redirect('user/register');
-      }
-      // set the template title (see Controller_App for implementation)
-      $this->template->title = __('Reset password');
-      if(isset($_REQUEST['reset_token']) && isset($_REQUEST['reset_email'])) {
-         // make sure that the reset_token has exactly 32 characters (not doing that would allow resets with token length 0)
-         if( (strlen($_REQUEST['reset_token']) == 32) && (strlen(trim($_REQUEST['reset_email'])) > 1) ) {
-            $user = ORM::factory('user')->where('email', '=', $_REQUEST['reset_email'])->and_where('reset_token', '=', $_REQUEST['reset_token'])->find();
-            // The admin password cannot be reset by email
-            if ($user->username == 'admin') {
-               Message::add('failure', __('The admin password cannot be reset by email.'));
-            } else if (is_numeric($user->id) && ($user->reset_token == $_REQUEST['reset_token'])) {
-               $password = $user->generate_password();
-               $user->password = $password;
-// This field does not exist in the default config:
-//               $user->failed_login_count = 0;
-               $user->save();
-               Message::add('success', __('Password reset.'));
-               Message::add('success', '<p>'.__('Your password has been reset to: ":password".', array(':password' => $password)).'</p><p>'.__('Please log in below.').'</p>');
-               $this->request->redirect('user/login?username='.$user->username);
-            }
-        }
-     }
-     $this->template->content = View::factory('user/reset/reset');
-  }
 
    /**
     * The after() method is called after your controller action.
@@ -293,7 +133,7 @@ class Controller_Template_App extends Controller {
     */
    public function after() {
       if ($this->auto_render === TRUE) {         
-         $styles = array( 'css/style.css' => 'screen');
+         $styles = array( 'css/style.css' => 'screen', 'css/pcpadmin.css' => 'screen', 'css/pcp-ui/jquery-ui-1.8.6.custom.css' => 'screen');
          $scripts = array();
 
          $this->template->styles = array_merge( $this->template->styles, $styles );
