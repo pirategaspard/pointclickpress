@@ -342,10 +342,9 @@ a { -moz-outline: none; }
   -webkit-border-top-left-radius: 9px;
   -moz-border-radius-topright: 9px;
   -webkit-border-top-right-radius: 9px;
-  background-color: #f2f1ee;
-  border-bottom: none;
-  border-bottom-width: 5px;
-  background-image: url("../images/boxbar-background.png");
+  border-bottom: 1px solid #DFD9C3;
+  /* background-color: #f2f1ee;
+  background-image: url("../images/boxbar-background.png"); */
   font-size: 13px;
 }
 
