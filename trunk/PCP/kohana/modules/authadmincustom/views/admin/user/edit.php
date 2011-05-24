@@ -14,7 +14,7 @@ echo $form->open('admin/user/edit/'.$id);
 <?php
   echo $form->hidden('id', $id);
 ?>
-<div class="block">
+<div class="ui-helper-reset ui-widget-content ui-corner-all">
 <h1><?php echo __('Edit/add user') ?></h1>
    <div class="content">
 <ul>

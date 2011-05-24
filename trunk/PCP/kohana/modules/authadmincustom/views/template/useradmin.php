@@ -8,8 +8,10 @@
    <link rel="shortcut icon" href="<?php echo Kohana::$base_url ?>/favicon.ico" type="image/x-icon" />
 </head>
 <body>
-   <div id="page">
-      <div id="header"><h1>Useradmin for Kohana</h1></div>
+   <div id="container">
+      <div id="header">				
+		<?php echo $header; ?>
+	</div>
       <div id="navigation">
          <ul class="menu">
 
@@ -31,7 +33,7 @@
     <?php
      // output messages
      if(Message::count() > 0) {
-       echo '<div class="block">';
+       echo '<div class="ui-helper-reset ui-widget-content ui-corner-all">';
        echo '<div class="content" style="padding: 10px 15px;">';
        echo Message::output();
        echo '</div></div>';

@@ -5,7 +5,7 @@
  * @package default
  */
 ?>
-<div class="block">
+<div class="ui-helper-reset ui-widget-content ui-corner-all">
 <div class="submenu">
    <ul>
       <li><?php echo Html::anchor('admin/user/edit', __('Add new user'))?></li>

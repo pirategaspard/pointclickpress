@@ -12,7 +12,7 @@ $form->info_class = 'info block';
 
 ?>
 <div id="box">
-   <div class="block">
+   <div class="ui-helper-reset ui-widget-content ui-corner-all">
       <h1><?php echo __('Login'); ?></h1>
       <div class="content">
 <?php

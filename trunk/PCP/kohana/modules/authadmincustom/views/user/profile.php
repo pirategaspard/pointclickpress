@@ -1,5 +1,5 @@
 
-<div class="block">
+<div class="ui-helper-reset ui-widget-content ui-corner-all">
    <div class="submenu">
       <ul>
          <li><?php echo Html::anchor('user/profile_edit', __('Edit profile')); ?></li>
