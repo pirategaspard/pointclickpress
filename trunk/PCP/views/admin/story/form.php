@@ -3,7 +3,7 @@
 	<?php if (isset($story)&& ($story->id > 0)) { ?>
 		<a href="<?php echo(Url::site(Route::get('default')->uri(array('action'=>'story'))).'?story_id='.$story->id); ?>" target="_blank" class="ui-widget ui-state-default ui-corner-all button play">Play</a><br />
 	<?php } ?>
-	<legend>Interactive Story Information</legend>
+	<legend>Story Information</legend>
 	<form action="<?php echo($story_form_action); ?>" method="post" >
 		<input type="hidden" name="id" value="<?php echo($story->id); ?>" >
 		<input type="hidden" name="creator_user_id" value="<?php echo($story->creator_user_id); ?>" >
