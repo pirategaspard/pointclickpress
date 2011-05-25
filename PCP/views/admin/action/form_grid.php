@@ -23,20 +23,6 @@
 			} ?>
 		</select>
 		<?php Events::announceEvent(DISPLAY_POST_GRID_SELECT); ?>
-		<?php // TODO factor link code out into a plugin ?>
-		<?php if(isset($locations)) { ?>
-		<label id="location_select" for="location_select">Scene location:
-		<select name="location_select" >
-			<option >Select a Scene location</option>
-			<?php foreach($locations as $location)
-			{
-				$selected = '';
-				if ($action->action_value == $location->id) $selected = ' selected="selected" ';
-				echo ('<option value="'.$location->id.'"'.$selected.' >'.$location->title.'</option>');
-			} ?>
-		</select>
-		</label>
-		<?php } ?>
 		<label id="action_value" for="action_value">Action Value:
 			<textarea rows="5" cols="70" name="action_value"><?php echo($action->action_value); ?></textarea>
 		</label>

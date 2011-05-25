@@ -6,30 +6,6 @@
  */
 // TODO: reorganize this file
 $(document).ready(function() {
-		
-	// TODO action_link could be re-factored as a plugin and get this code out of here.
-	// when action type = 'action_link' hide the action_value field
-	$('#action_select').change(function() 
-	{		
-		if ($(this).val() == 'action_link')
-		{	
-			$('#location_select').show();		
-			$('#action_value').hide();			
-		}
-		else
-		{
-			$('#location_select').hide();
-			$('#action_value').show();
-		}
-		
-		$('#action_description').html(action_descriptions[$(this).val()]);		
-	});
-	
-	// when location select is changed update the 'action_value' field
-	$('select[name="location_select"]').mouseout(function() 
-	{														
-		$('textarea[name=action_value]').val($('select[name="location_select"]').val());			
-	});
 	
 	// change grid color based on cell_id list
 	$('input[name=cell_ids]').focusout(function() 
@@ -132,7 +108,6 @@ $(document).ready(function() {
 	}
 	
 	//when the page loads fire these events to set up the form (if it exists)
-	$('#action_select').change();
 	$('input[name=cell_ids]').focusout();
 	$('input[name=cell_id]').focusout();
 				
