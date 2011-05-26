@@ -2,7 +2,7 @@
 
 Class Controller_Template_Admin extends Controller_Template_Base
 {
-	public $auth_required = 'admin';
+	public $auth_required = 'login';
 	public $secure_actions = array();
 	
 	/**

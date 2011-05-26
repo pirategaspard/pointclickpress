@@ -50,6 +50,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 			$data['grid'] = '';
 		}
 		
+		$this->template->scripts[] = 'gridadmin.js'; 
 		$this->template->breadcrumb .= View::factory('/admin/story/info',$data)->render();
 		$this->template->breadcrumb .= View::factory('/admin/location/info',$data)->render();
 		$this->template->breadcrumb .= View::factory('/admin/scene/info',$data)->render();
