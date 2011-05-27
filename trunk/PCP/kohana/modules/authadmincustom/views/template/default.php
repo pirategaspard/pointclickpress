@@ -39,5 +39,6 @@
 <?php echo View::factory('profiler/stats');
 ?>
 </div>
+<div id="footer"><?php echo $footer; ?></div>
 </body>
 </html>

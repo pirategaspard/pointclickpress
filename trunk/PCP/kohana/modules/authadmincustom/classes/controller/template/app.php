@@ -109,7 +109,7 @@ class Controller_Template_App extends Controller {
          // Initialize empty values
          // Page title
          $this->template->title   = DEFAULT_PAGE_TITLE.' Admin';
-         $this->template->header = View::factory('/admin/header')->render();
+         $this->template->header = View::factory('admin/header')->render();
          // Page content
          $this->template->content = '';
          // Styles in header
@@ -120,6 +120,7 @@ class Controller_Template_App extends Controller {
          $this->template->controllerName = $this->request->controller();
          // ActionName will contain the name of the Action in the Template
          $this->template->actionName = $this->request->action();
+		 $this->template->footer = View::factory('admin/footer')->render();
          // next, it is expected that $this->template->content is set e.g. by rendering a view into it.
      }
    }
