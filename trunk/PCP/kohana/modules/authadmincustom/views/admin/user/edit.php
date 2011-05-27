@@ -1,3 +1,4 @@
+<?php if(Auth::instance()->logged_in('admin')) {  ?>
 <?php
 
 $form = new Appform();
@@ -53,3 +54,4 @@ echo $form->close();
 ?>
    </div>
 </div>
+<?php } ?>

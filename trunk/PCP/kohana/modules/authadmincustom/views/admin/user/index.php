@@ -5,6 +5,7 @@
  * @package default
  */
 ?>
+<?php if(Auth::instance()->logged_in('admin')) {  ?>
 <div class="ui-helper-reset ui-widget-content ui-corner-all">
 <div class="submenu">
    <ul>
@@ -65,3 +66,4 @@ echo $paging->render();
 ?>
 </div>
 </div>
+<?php } ?>

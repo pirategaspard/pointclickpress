@@ -18,14 +18,16 @@
              <?php
              $session = Session::instance();
 
-             if (Auth::instance()->logged_in()){
-                echo '<li>'.Html::anchor('admin/user', 'User admin').'</li>';
+           /*  if (Auth::instance()->logged_in()){
+				 if(Auth::instance()->logged_in('admin')) { 
+					echo '<li>'.Html::anchor('admin/user', 'User admin').'</li>';
+				}
                 echo '<li>'.Html::anchor('user/profile', 'My profile').'</li>';
                 echo '<li>'.Html::anchor('user/logout', 'Log out').'</li>';
              } else {
                 echo '<li>'.Html::anchor('user/register', 'Register').'</li>';
                 echo '<li>'.Html::anchor('user/login', 'Log in').'</li>';
-             }
+             }*/
            ?>
          </ul>
       </div>

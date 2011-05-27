@@ -1,3 +1,4 @@
+<?php if(Auth::instance()->logged_in('admin')) {  ?>
 <div class="ui-helper-reset ui-widget-content ui-corner-all">
    <h1>Delete user?</h1>
    <div class="content">
@@ -21,3 +22,4 @@ echo Form::close();
    </div>
 </div>
 
+<?php } ?>
