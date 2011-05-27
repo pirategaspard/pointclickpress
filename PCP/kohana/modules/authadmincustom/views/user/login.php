@@ -27,31 +27,36 @@ echo '</ul>';
 echo $form->submit(NULL, __('Login'));
 echo '<small> '.Html::anchor('user/forgot', __('Forgot your password?')).'<br></small>';
 echo $form->close();
-echo '</td><td width="5" style="border-right: 1px solid #DDD;">&nbsp;</td><td><td style="padding-left: 2px; vertical-align: top;">';
+echo '</td>';
+if (Kohana::config('useradmin')->allow_registration) 
+{
+	echo '<td width="5" style="border-right: 1px solid #DDD;">&nbsp;</td><td><td style="padding-left: 2px; vertical-align: top;">';
 
-echo '<ul>';
-echo '<li style="height: 61px">'.__('Don\'t have an account?').' '.Html::anchor('user/register', __('Register a new account')).'.</li>';
-$options = array_filter(Kohana::config('useradmin.providers'));
-if(!empty($options)) {
-   echo '<li style="padding-bottom: 8px;"><label>'.__('To register / log in using another account, please click your provider').':</label></li>';
-   echo '<li>';
-   if(isset($options['facebook']) && $options['facebook']) {
-      echo '<a class="login_provider" style="background: #FFF url('.Kohana::$base_url.'/images/facebook.png) no-repeat center center" href="'.URL::site('/user/provider/facebook').'"></a>';
-   }
-   if(isset($options['twitter']) && $options['twitter']) {
-      echo '<a class="login_provider" style="background: #FFF url('.Kohana::$base_url.'/images/twitter.png) no-repeat center center" href="'.URL::site('/user/provider/twitter').'"></a>';
-   }
-   if(isset($options['google']) && $options['google']) {
-      echo '<a class="login_provider" style="background: #FFF url('.Kohana::$base_url.'/images/google.gif) no-repeat center center" href="'.URL::site('/user/provider/google').'"></a>';
-   }
-   if(isset($options['yahoo']) && $options['yahoo']) {
-      echo '<a class="login_provider" style="background: #FFF url('.Kohana::$base_url.'/images/yahoo.gif) no-repeat center center" href="'.URL::site('/user/provider/yahoo').'"></a>';
-   }
-   echo '<br style="clear: both;">
-   </li>';
+	echo '<ul>';
+	echo '<li style="height: 61px">'.__('Don\'t have an account?').' '.Html::anchor('user/register', __('Register a new account')).'.</li>';
+	$options = array_filter(Kohana::config('useradmin.providers'));
+	if(!empty($options)) {
+	   echo '<li style="padding-bottom: 8px;"><label>'.__('To register / log in using another account, please click your provider').':</label></li>';
+	   echo '<li>';
+	   if(isset($options['facebook']) && $options['facebook']) {
+		  echo '<a class="login_provider" style="background: #FFF url('.Kohana::$base_url.'/images/facebook.png) no-repeat center center" href="'.URL::site('/user/provider/facebook').'"></a>';
+	   }
+	   if(isset($options['twitter']) && $options['twitter']) {
+		  echo '<a class="login_provider" style="background: #FFF url('.Kohana::$base_url.'/images/twitter.png) no-repeat center center" href="'.URL::site('/user/provider/twitter').'"></a>';
+	   }
+	   if(isset($options['google']) && $options['google']) {
+		  echo '<a class="login_provider" style="background: #FFF url('.Kohana::$base_url.'/images/google.gif) no-repeat center center" href="'.URL::site('/user/provider/google').'"></a>';
+	   }
+	   if(isset($options['yahoo']) && $options['yahoo']) {
+		  echo '<a class="login_provider" style="background: #FFF url('.Kohana::$base_url.'/images/yahoo.gif) no-repeat center center" href="'.URL::site('/user/provider/yahoo').'"></a>';
+	   }
+	   echo '<br style="clear: both;">
+	   </li>';
+	}
+	echo '</ul>';
+	echo '</td>';
 }
-echo '</ul>';
-echo '</td></tr></table>';
+echo '</tr></table>';
 ?>
       </div>
    </div>
