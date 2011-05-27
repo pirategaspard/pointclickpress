@@ -33,7 +33,7 @@ Class Controller_Template_PCP extends Controller_Template_Base
 			$this->template->theme_styles = Model_PCP_Themes::getStyles($data);
 			$this->template->theme_scripts = Model_PCP_Themes::getScripts($data);
 			$this->template->head = array();
-			$this->template->header = '';
+			$this->template->header = View::factory('pcp/header')->render();
 			$this->template->top_menu = '';
 			$this->template->content = '';
 			$this->template->bottom_menu = '';
