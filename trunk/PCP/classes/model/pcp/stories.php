@@ -25,8 +25,22 @@ class Model_Pcp_Stories
 	static function getStories($args=array())
 	{				
 		// get all the stories in the db
-		$q = '	SELECT s.*
+		$q = '	SELECT s.id
+						,s.title
+						,s.author
+						,s.description
+						,s.first_location_id
+						,s.image_id
+						,s.status
+						,i.filename
+						,s.grid_x
+						,s.grid_y
+						,s.theme_name
+						,s.creator_user_id
+						,s.created_date
 				FROM stories s
+				LEFT OUTER JOIN images i
+						ON s.image_id = i.id
 				WHERE s.status = "p" ';
 				
 		if (isset($args['story'])) $q .= ' AND s.id = :story'; //if we have a story id		
