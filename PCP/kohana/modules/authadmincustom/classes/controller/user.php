@@ -203,6 +203,10 @@ class Controller_User extends Controller_Template_App {
 			}
 			$this->template->content = $view;
 		}
+		else
+		{
+			$this->request->redirect('user/login');
+		}
 	}
 
    /**
