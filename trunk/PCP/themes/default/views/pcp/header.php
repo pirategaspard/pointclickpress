@@ -1,12 +1,10 @@
 <h1>PointClickPress</h1>
-<?php if(Auth::instance()->logged_in()) {  ?>
-<ul class="menu">
-	<li><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'story','action'=>'list')))); ?>">Story Authoring</a></li>
-	<?php if(Auth::instance()->logged_in('admin')) {  ?>
-		<li><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'plugin','action'=>'list')))); ?>">Plugin Admin</a></li>
-		<li><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'user','action'=>'list')))); ?>">User Admin</a></li>
+<ul class="menu">	
+	<?php if(Auth::instance()->logged_in()) {  ?>
+		<li><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'story','action'=>'list')))); ?>">Authoring</a></li>
+		<li><a href="<?php echo(Url::site(Route::get('user')->uri(array('controller'=>'user','action'=>'logout')))); ?>">Logout</a></li>
+	<?php }else { ?>
+	<li><a href="<?php echo(Url::site(Route::get('user')->uri(array('controller'=>'user','action'=>'login')))); ?>">Login</a></li>
 	<?php } ?>
-	<li><a href="<?php echo(Url::site(Route::get('user')->uri(array('controller'=>'user','action'=>'profile')))); ?>">My Profile</a></li>
-	<li><a href="<?php echo(Url::site(Route::get('user')->uri(array('controller'=>'user','action'=>'logout')))); ?>">Logout</a></li>
 </ul>
-<?php } ?>
+
