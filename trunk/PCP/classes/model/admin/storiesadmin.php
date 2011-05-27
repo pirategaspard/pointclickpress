@@ -24,9 +24,8 @@ class Model_Admin_StoriesAdmin extends Model_PCP_Stories
 				FROM stories s 
 		 		INNER JOIN users u 
 						ON 1 = 1
-						AND ((s.creator_user_id = u.id
-						AND u.id = :user_id)
-						OR (s.creator_user_id = 0))'; // creator id of zero is so we can share the demo with everyone.
+						AND (s.creator_user_id = u.id
+						AND u.id = :user_id)'; // creator id of zero is so we can share the demo with everyone.
 		$q	.=	' WHERE 1 = 1 ';
 				
 		if (isset($args['story'])) $q .= ' AND s.id = :story'; //if we have a story id
@@ -77,7 +76,9 @@ class Model_Admin_StoriesAdmin extends Model_PCP_Stories
 		}
 		$data['include_locations']= false;
 		$data['include_scenes']=false;
-		$data['user_id'] = $data['creator_user_id'] = model_admin_usersadmin::getUserId();
+		$user = Auth::instance()->get_user();
+		$data['user_id'] = $data['creator_user_id'] = $user->id;
+		$data['author'] = $user->username;
 		return $data;
 	}
 }

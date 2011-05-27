@@ -13,7 +13,7 @@ class Model_Admin_Story extends Model_PCP_Story
 		{
 			$q = '	SELECT 	s.id
 							,s.title
-							,s.author
+							,u.username AS author
 							,s.description
 							,s.first_location_id
 							,s.image_id
@@ -28,10 +28,8 @@ class Model_Admin_Story extends Model_PCP_Story
 					LEFT OUTER JOIN images i
 						ON s.image_id = i.id
 					INNER JOIN users u 
-						ON 1 = 1
-						AND ((s.creator_user_id = u.id
-						AND u.id = :creator_user_id)
-						OR (s.creator_user_id = 0))
+						ON s.creator_user_id = u.id
+						AND u.id = :creator_user_id
 					WHERE s.id = :id';
 			$results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)
 															->param(':creator_user_id',$this->creator_user_id)
@@ -43,7 +41,7 @@ class Model_Admin_Story extends Model_PCP_Story
 			}
 			else
 			{
-				$this->init(array('id'=>0,'creator_user_id'=>0));
+				$this->init(array('id'=>0,'creator_user_id'=>0,'author'=>$this->author));
 			}
 		}
 		return $this;
