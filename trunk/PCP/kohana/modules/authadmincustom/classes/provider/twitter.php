@@ -18,8 +18,8 @@ class Provider_Twitter extends Provider_OAuth {
    public function verify() {
       // create token
       $request_token = OAuth_Token::factory('request', array(
-         'token' => Session::instance()->get('oauth_token'),
-         'secret' => Session::instance()->get('oauth_token_secret'),
+         'token' => Session::instance('admin')->get('oauth_token'),
+         'secret' => Session::instance('admin')->get('oauth_token_secret'),
       ));
 
 		// Store the verifier in the token

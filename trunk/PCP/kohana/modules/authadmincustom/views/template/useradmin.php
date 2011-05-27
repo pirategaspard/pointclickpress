@@ -16,7 +16,7 @@
          <ul class="menu">
 
              <?php
-             $session = Session::instance();
+             $session = Session::instance('admin');
 
            /*  if (Auth::instance()->logged_in()){
 				 if(Auth::instance()->logged_in('admin')) { 
