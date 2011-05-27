@@ -48,7 +48,7 @@ return array(
         * - You need the extra table from schema.sql for storing 3rd party identifiers
         * - You must have LightOpenID in /vendors/lightopenid/openid.php (bundled in the repo)
         */
-       'google' => true,
+       'google' => false,
        /**
         * Toggle Yahoo support: if set, users can log in using their Yahoo account.
         *
@@ -56,8 +56,11 @@ return array(
         * - You need the extra table from schema.sql for storing 3rd party identifiers
         * - You must have LightOpenID in /vendors/lightopenid/openid.php (bundled in the repo)
         */
-       'yahoo' => true,
+       'yahoo' => false,
     ),
+    /*
+     * */
+     'allow_registration' => false,
     /**
      * Toggle email support: if set, then users (except admins) can reset user accounts via email.
      * They will be sent an email with a reset token, which they enter, then their password will be reset to a new random password.

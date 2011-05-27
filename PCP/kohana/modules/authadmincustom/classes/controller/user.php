@@ -136,70 +136,74 @@ class Controller_User extends Controller_Template_App {
 
    }
 
-   /**
-    * Register a new user.
-    */
-   public function action_register() {
-      // Load reCaptcha if needed
-      if(Kohana::config('useradmin')->captcha) {
-         include Kohana::find_file('vendor', 'recaptcha/recaptchalib');
-         $recaptcha_config = Kohana::config('recaptcha');
-         $recaptcha_error = null;
-      }
-      // set the template title (see Controller_App for implementation)
-      $this->template->title = __('User registration');
-      // If user already signed-in
-      if(Auth::instance()->logged_in() != false){
-         // redirect to the user account
-         $this->request->redirect('user/profile');
-      }
-      // Load the view
-      $view = View::factory('user/register');
-      // If there is a post and $_POST is not empty
-      if ($_POST) {
-         // optional checks (e.g. reCaptcha or some other additional check)
-         $optional_checks = true;
-         // if configured to use captcha, check the reCaptcha result
-         if(Kohana::config('useradmin')->captcha) {
-            $recaptcha_resp = recaptcha_check_answer($recaptcha_config['privatekey'],
-                                           $_SERVER['REMOTE_ADDR'],
-                                           $_POST['recaptcha_challenge_field'],
-                                           $_POST['recaptcha_response_field']);
-            if(!$recaptcha_resp->is_valid) {
-               $optional_checks = false;
-               $recaptcha_error = $recaptcha_resp->error;
-               Message::add('error', __('The captcha text is incorrect, please try again.'));
-            }
-         }
+	/**
+	* Register a new user.
+	*/
+	public function action_register() 
+	{
+		if (Kohana::config('useradmin')->allow_registration)
+		{
+			// Load reCaptcha if needed
+			if(Kohana::config('useradmin')->captcha) {
+			 include Kohana::find_file('vendor', 'recaptcha/recaptchalib');
+			 $recaptcha_config = Kohana::config('recaptcha');
+			 $recaptcha_error = null;
+			}
+			// set the template title (see Controller_App for implementation)
+			$this->template->title = __('User registration');
+			// If user already signed-in
+			if(Auth::instance()->logged_in() != false){
+			 // redirect to the user account
+			 $this->request->redirect('user/profile');
+			}
+			// Load the view
+			$view = View::factory('user/register');
+			// If there is a post and $_POST is not empty
+			if ($_POST) {
+			 // optional checks (e.g. reCaptcha or some other additional check)
+			 $optional_checks = true;
+			 // if configured to use captcha, check the reCaptcha result
+			 if(Kohana::config('useradmin')->captcha) {
+				$recaptcha_resp = recaptcha_check_answer($recaptcha_config['privatekey'],
+											   $_SERVER['REMOTE_ADDR'],
+											   $_POST['recaptcha_challenge_field'],
+											   $_POST['recaptcha_response_field']);
+				if(!$recaptcha_resp->is_valid) {
+				   $optional_checks = false;
+				   $recaptcha_error = $recaptcha_resp->error;
+				   Message::add('error', __('The captcha text is incorrect, please try again.'));
+				}
+			 }
 
-         try {
-            if( ! $optional_checks ) {
-               throw new ORM_Validation_Exception("Invalid option checks");
-            }
-            Auth::instance()->register( $_POST, TRUE );
+			 try {
+				if( ! $optional_checks ) {
+				   throw new ORM_Validation_Exception("Invalid option checks");
+				}
+				Auth::instance()->register( $_POST, TRUE );
 
-            // sign the user in
-            Auth::instance()->login($_POST['username'], $_POST['password']);
-            // redirect to the user account
-            $this->request->redirect('user/profile');
-         } catch (ORM_Validation_Exception $e) {
-            // Get errors for display in view
-            // Note how the first param is the path to the message file (e.g. /messages/register.php)
-            $errors = $e->errors('register');
-            // Move external errors to main array, for post helper compatibility
-            $errors = array_merge($errors, (isset($errors['_external']) ? $errors['_external'] : array()));
-            $view->set('errors', $errors);
-            // Pass on the old form values
-            $_POST['password'] = $_POST['password_confirm'] = '';
-            $view->set('defaults', $_POST);
-         }
-      }
-      if(Kohana::config('useradmin')->captcha) {
-         $view->set('captcha_enabled', true);
-         $view->set('recaptcha_html', recaptcha_get_html($recaptcha_config['publickey'], $recaptcha_error));
-      }
-      $this->template->content = $view;
-   }
+				// sign the user in
+				Auth::instance()->login($_POST['username'], $_POST['password']);
+				// redirect to the user account
+				$this->request->redirect('user/profile');
+			 } catch (ORM_Validation_Exception $e) {
+				// Get errors for display in view
+				// Note how the first param is the path to the message file (e.g. /messages/register.php)
+				$errors = $e->errors('register');
+				// Move external errors to main array, for post helper compatibility
+				$errors = array_merge($errors, (isset($errors['_external']) ? $errors['_external'] : array()));
+				$view->set('errors', $errors);
+				// Pass on the old form values
+				$_POST['password'] = $_POST['password_confirm'] = '';
+				$view->set('defaults', $_POST);
+			 }
+			}
+			if(Kohana::config('useradmin')->captcha) {
+			 $view->set('captcha_enabled', true);
+			 $view->set('recaptcha_html', recaptcha_get_html($recaptcha_config['publickey'], $recaptcha_error));
+			}
+			$this->template->content = $view;
+		}
+	}
 
    /**
     * Close the current user's account.
