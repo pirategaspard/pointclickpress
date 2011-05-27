@@ -14,7 +14,7 @@
 			</p>
 			<p>			
 				<label>Story Author:</label>		
-				<input type="text" name="author" value="<?php if (strlen($story->author) > 0) {echo($story->author); } else {echo('Mr. Author'); } ?>" >
+				<input type="text" name="author" readonly="readonly" value="<?php if (strlen($story->author) > 0) {echo($story->author); } else {echo('Mr. Author'); } ?>" >
 			</p>
 			<p>				
 				<label>Story Description:</label>
