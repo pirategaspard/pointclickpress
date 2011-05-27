@@ -16,9 +16,9 @@
          <ul class="menu">
 
              <?php
-             $session = Session::instance('admin');
+             /*$session = Session::instance('admin');
 
-           /*  if (Auth::instance()->logged_in()){
+             if (Auth::instance()->logged_in()){
 				 if(Auth::instance()->logged_in('admin')) { 
 					echo '<li>'.Html::anchor('admin/user', 'User admin').'</li>';
 				}
@@ -28,6 +28,7 @@
                 echo '<li>'.Html::anchor('user/register', 'Register').'</li>';
                 echo '<li>'.Html::anchor('user/login', 'Log in').'</li>';
              }*/
+             echo '<li>'.Html::anchor('/', 'Back to the Story List').'</li>';
            ?>
          </ul>
       </div>
@@ -43,7 +44,7 @@
      echo $content ?>
    </div>
 </div>
-   
+   <div id="footer"><?php echo $footer; ?></div>
 <?php 
 // echo '<div id="kohana-profiler">'.View::factory('profiler/stats').'</div>';
 ?>
