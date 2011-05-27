@@ -14,7 +14,7 @@
          <ul class="menu">
 
              <?php
-             $session = Session::instance();
+             $session = Session::instance('admin');
 
              if (Auth::instance()->logged_in()){
                 echo '<li>'.Html::anchor('admin/user', 'User admin').'</li>';

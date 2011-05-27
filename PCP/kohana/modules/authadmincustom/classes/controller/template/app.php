@@ -76,14 +76,14 @@ class Controller_Template_App extends Controller {
       // 1) when you make errors in your code.
       // 2) when the session expires!
       try {
-         $this->session = Session::instance();
+         $this->session = Session::instance('admin');
       } catch(ErrorException $e) {
          session_destroy();
       }
       // Execute parent::before first
       parent::before();
       // Open session
-      $this->session = Session::instance();
+      $this->session = Session::instance('admin');
 
       // Check user auth and role
       $action_name = Request::current()->action();

@@ -44,8 +44,8 @@ abstract class Provider_OAuth extends Provider {
 		// Get a request token for the consumer
 		$request_token = $this->provider->request_token($this->consumer);
 
-      Session::instance()->set('oauth_token', $request_token->token);
-      Session::instance()->set('oauth_token_secret', $request_token->secret);
+      Session::instance('admin')->set('oauth_token', $request_token->token);
+      Session::instance('admin')->set('oauth_token_secret', $request_token->secret);
 
 		// Redirect to the twitter login page
       return $this->provider->authorize_url($request_token);
