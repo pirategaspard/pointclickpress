@@ -9,7 +9,7 @@ class plugins_inventory extends Model_Base_PCPPlugin
 {	
 	protected $label = 'Inventory'; // This is the label for this plugin
 	protected $description = 'Basic inventory plugin for PCP'; // This is the description of this plugin
-	protected $events = array(POST_START_STORY,CSS,ADMIN_JS,JS,DISPLAY_POST_SCENE,DISPLAY_POST_GRID_SELECT,INVENTORY_DISPLAY,INVENTORY_SET_SELECTED_ITEM,INVENTORY_DROP_SELECTED_ITEM); // This is an array of events to call this plugin from
+	protected $events = array(POST_START_STORY,CSS,ADMIN_JS,JS,POST_SCENE_BOTTOM_MENU,DISPLAY_POST_GRID_SELECT,INVENTORY_DISPLAY,INVENTORY_SET_SELECTED_ITEM,INVENTORY_DROP_SELECTED_ITEM); // This is an array of events to call this plugin from
 	
 	public function execute($event_name='')
 	{
@@ -35,7 +35,7 @@ class plugins_inventory extends Model_Base_PCPPlugin
 				include(Kohana::find_file('plugins'.DIRECTORY_SEPARATOR.'inventory','admin.js'));
 				break;
 			}
-			case DISPLAY_POST_SCENE:
+			case POST_SCENE_BOTTOM_MENU:
 			{
 				include(Kohana::find_file('plugins'.DIRECTORY_SEPARATOR.'inventory','link'));
 				break;

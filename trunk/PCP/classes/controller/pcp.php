@@ -34,7 +34,8 @@ Class Controller_PCP extends Controller_Template_PCP
 		$this->template->scripts = array_merge($this->template->scripts,Model_PCP_Actions::getJSActionDefs());
 		$this->template->scripts[] = 'screen.js'; //get screen js to determine user's screen resolution
 		$this->template->title .= $data['story']->title;
-		$this->template->top_menu = View::factory('pcp/story_menu',$data)->render(); 
+		$this->template->top_menu = View::factory('pcp/story_top_menu',$data)->render(); 
+		$this->template->bottom_menu = View::factory('pcp/story_bottom_menu',$data)->render(); 
         $this->template->content = View::factory('pcp/story',$data)->render();
     }
       
@@ -126,7 +127,8 @@ Class Controller_PCP extends Controller_Template_PCP
 			$this->template->scripts = array_merge($this->template->scripts,Model_PCP_Actions::getJSActionDefs());			
 			$this->template->head[] = View::factory('pcp/style',$data)->render();//get grid style
 			$this->template->title .= $data['story']->title.' : '.$data['scene']->title;
-			$this->template->top_menu = View::factory('pcp/scene_menu',$data)->render();  			
+			$this->template->top_menu = View::factory('pcp/scene_top_menu',$data)->render();  	
+			$this->template->bottom_menu = View::factory('pcp/scene_bottom_menu',$data)->render(); 		
 			$data['grid'] = View::factory('pcp/grid',$data)->render(); //get grid
 			// render the scene
 			$data['scene_column_left'] = View::factory('pcp/scene_column_left',$data)->render();	

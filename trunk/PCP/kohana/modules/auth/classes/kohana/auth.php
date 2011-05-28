@@ -54,7 +54,7 @@ abstract class Kohana_Auth {
 		// Save the config in the object
 		$this->_config = $config;
 
-		$this->_session = Session::instance();
+		$this->_session = Session::instance('admin');
 	}
 
 	abstract protected function _login($username, $password, $remember);
