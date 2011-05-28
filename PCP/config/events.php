@@ -4,12 +4,18 @@ define('ERROR', 'error');
 define('CSS', 'css');
 define('HEAD', 'head');
 define('JS', 'js');
+
 define('DISPLAY_COLUMN_LEFT', 'display_column_left');
 define('DISPLAY_COLUMN_RIGHT', 'display_column_right');
 define('DISPLAY_FOOTER', 'display_footer');
 define('DISPLAY_PRE_SCENE', 'display_pre_scene');
 define('DISPLAY_POST_SCENE', 'display_post_scene');
 define('DISPLAY_POST_GRID_SELECT','display_post_grid_select');
+
+define('POST_SCENE_TOP_MENU','post_scene_top_menu');
+define('POST_SCENE_BOTTOM_MENU','post_scene_bottom_menu');
+define('POST_STORY_TOP_MENU','post_story_top_menu');
+define('POST_STORY_BOTTOM_MENU','post_story_bottom_menu');
 
 define('PRE_START_STORY', 'pre_start_story');
 define('POST_START_STORY', 'post_start_story');

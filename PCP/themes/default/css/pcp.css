@@ -3,12 +3,14 @@
 body { }
 #container {margin: 0 auto;  width:100%;}/* width:80%; */
 
-#header {display: block; padding: 5px; height: 15px; background-color: #459E00;} /*height: 30px; */
+#header {display: block; padding: 5px; height: 10px; background-color: #459E00;} /*height: 30px; */
 #header .menu {float: right;}
-#header h1 {color: white; font-style: normal; font-weight: bold; letter-spacing: -1px; line-height: 1.2em; text-shadow: 1px 1px 2px black; text-transform: none; font-size: 100%; float: left;}
-#header ul.menu li a {font-family: Arial,sans-serif; font-size: 15px; text-decoration: none;}
+#header h1 {color: white; font-style: normal; font-weight: bold; letter-spacing: -1px; position: relative; top: -5px; text-shadow: 1px 1px 2px black; text-transform: none; font-size: 100%; float: left;}
+#header ul.menu li a {font-family: Arial,sans-serif; font-size: 15px; text-decoration: none; position: relative; top: -5px; }
 
-#topmenu, #bottommenu {margin: 10px; text-align: center; position: absolute; top: 0px; left: 0px;}
+#topmenu, #bottommenu {margin: 10px; padding:5px;  }
+#topmenu {text-align: center; position: absolute; top: 20px; left: 0px;}
+#bottommenu {position: relative; width: 100%; left: 0px; text-align: left;}
 #leftcolumn, #rightcolumn {}
 #content {margin: 0 auto;  width:100%;}
 #content_layout {margin: 0 auto; width: 100%; }
@@ -27,16 +29,15 @@ body { }
 #grid div form input {position: absolute; width:auto; height:auto; z-index: 10;}
 #grid a, #grid div {display:block; float: left; text-align: left; position: relative; z-index: 5; } 
 #grid div {z-index: 6; } 
-/* #grid a img, #grid div img {position: absolute; }*/ 
 
-#stories {width: 80%; margin: 0 auto;}
-#stories h1 {font-size: 100%;}
+h1, h3{font-size: 100%;}
+#stories, #story_info {width: 80%; margin: 0 auto;}
 #stories table tr td {height: 80px; padding: 4px 2px;}
 
 #description, #message { margin: 0 auto; font-size: 1.1em;}
 #footer {clear: both; position: relative; text-align: center; margin: 20px auto; font-size: .7em;}
 
-#story_info {margin: 0 auto; text-align: center;}
+#story_info {text-align: center;}
 
 .menu {}
 ul.menu {display: inline;}
