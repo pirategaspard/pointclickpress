@@ -26,11 +26,6 @@
 						$itemstate = Model_PCP_Items::getItemState(array('id'=>$item['itemstate_id']));
 						echo '<a id="setcurrentitem" class="inventory_item" href="'.Kohana::$base_url.'announceEvent?event='.INVENTORY_SET_SELECTED_ITEM.'&i='.$item['id'].'"><img src="'.$story->getMediaPath().$itemstate->getPath(THUMBNAIL_IMAGE_SIZE).'" alt="'.$itemstate->title.'" title="'.$itemstate->title.'" /></a></li>';
 					}
-					/*
-					if ($story_data['current_item'] > 0)
-					{
-						echo '<li><a href="'.Kohana::$base_url.'plugin?plugin=plugins_inventory&f=setCurrentItem&i=0">Return Item To Inventory</li>';
-					}*/
 					echo '</ul>';
 					if (plugins_inventory::getCurrentItem() > 0)
 					{

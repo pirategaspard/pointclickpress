@@ -68,7 +68,7 @@ class Model_Admin_StorypluginsAdmin extends Model
 		{
 			$data['status'] = $_REQUEST['status'];	
 		}
-		$data['user_id'] = $data['creator_user_id'] = model_admin_usersadmin::getUserId();
+		$data['user_id'] = $data['creator_user_id'] = Auth::instance()->get_user()->id;
 		return $data;
 	}
 }
