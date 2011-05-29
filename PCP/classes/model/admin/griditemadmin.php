@@ -108,7 +108,7 @@ class Model_Admin_GridItemAdmin extends Model_PCP_Items
 			$data['id'] = $data['griditem_id'] = $_REQUEST['griditem_id'];		
 		}
 		$data['item_type'] = self::getItemType($data);
-		$data['user_id'] = $data['creator_user_id'] = model_admin_usersadmin::getUserId();
+		$data['user_id'] = $data['creator_user_id'] = Auth::instance()->get_user()->id;
 		return $data;
 	}
 }

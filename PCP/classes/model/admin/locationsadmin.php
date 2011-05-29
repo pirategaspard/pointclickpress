@@ -40,8 +40,7 @@ class Model_Admin_LocationsAdmin extends Model_PCP_Locations
 		{
 			$data['scene_id'] = $session->get('scene_id');
 		}
-		$user = Auth::instance()->get_user();
-		$data['user_id'] = $data['creator_user_id'] = $user->id;
+		$data['user_id'] = $data['creator_user_id'] = Auth::instance()->get_user()->id;
 		return $data;
 	}
 
