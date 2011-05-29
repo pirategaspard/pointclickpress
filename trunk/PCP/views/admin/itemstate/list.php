@@ -23,7 +23,8 @@
 			<td></td>
 			<?php } ?>
 			<td><?php echo ($itemstate->value); ?></td>	
-			<td><?php echo ($itemstate->isdefaultstate); ?></td>		
+			<td ><?php if($itemstate->isdefaultstate) {echo '<span style="margin: 0 auto; text-align: center;" class="ui-icon ui-icon-check"></span>';} else {echo '<span style="margin: 0 auto; text-align: center;" class="ui-icon ui-icon-closethick
+"></span>';}  ?></td>		
 			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'itemstate','action'=>'edit'))).'?'.$add_id.'&itemstate_id='.$itemstate->id); ?>" class="ui-widget ui-state-default ui-corner-all button" >Edit</a></td>
 			<td>&nbsp;&nbsp;</td>
 			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'itemstate','action'=>'delete'))).'?'.$add_id.'&itemstate_id='.$itemstate->id); ?>" class="ui-widget ui-state-default ui-corner-all button delete" >Delete</a></td>
