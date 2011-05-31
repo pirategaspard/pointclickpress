@@ -28,7 +28,7 @@
                 echo '<li>'.Html::anchor('user/register', 'Register').'</li>';
                 echo '<li>'.Html::anchor('user/login', 'Log in').'</li>';
              }*/
-             echo '<li>'.Html::anchor('/', 'Back to the Story List').'</li>';
+             echo '<li>'.Html::anchor('/', 'Story List').'</li>';
            ?>
          </ul>
       </div>
