@@ -19,10 +19,10 @@ class Model_Events
 	public static function announceEvent($event_name)
 	{	
 		$instance = self::instance();		
-		$classes = $instance->getListenerClasses($event_name);		
+		$classes = $instance->getListenerClasses($event_name);						
 		foreach($classes as $class)
 		{
-			$c = new $class();
+			$c = new $class();			
 			if ($c instanceof Interface_iPCPListener)
 			{ 
 				$c->execute($event_name);
@@ -127,7 +127,7 @@ class Model_Events
 		}
 		catch (Exception $e)
 		{
-			// silent fail		
+					
 		}
 		return $r;
 	}
@@ -147,7 +147,7 @@ class Model_Events
 		}
 		unset($listeners);
 	}
-	
+/*	
 	static function getData()
 	{
 		$session = Session::instance();	
@@ -158,5 +158,6 @@ class Model_Events
 		}		
 		return $data;
 	}
+	*/
 }
 ?>

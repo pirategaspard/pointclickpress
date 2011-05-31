@@ -74,7 +74,6 @@ class Model_Admin_GridItemAdmin extends Model_PCP_Items
 	static function getData()
 	{
 		$session = Session::instance('admin');	
-		//Model_Admin_PCPAdmin::clearArgs();
 		if (isset($_REQUEST['story_id']))
 		{
 			$data['story_id'] = $_REQUEST['story_id'];	

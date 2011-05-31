@@ -35,6 +35,57 @@ class Model_Admin_EventsAdmin extends Model_events
 		return $listenerClasses;
 	}
 	
+	static function initalizeListenerClasses()
+	{
+		self::registerAllListenerClasses();
+	}
+	
+	private static function getAllListenerClasses()
+	{
+		$args = self::getData();
+		$r = array();
+		$q = '	SELECT class,events
+				FROM actiondefs
+				UNION ALL
+				SELECT class,events
+				FROM plugins p
+					INNER JOIN stories_plugins sp
+					ON p.id = sp.plugin_id
+					AND sp.status = 1
+					AND sp.story_id = :story_id
+				WHERE p.status = 1 ';		
+		try
+		{
+			$r = DB::query(Database::SELECT,$q,TRUE)
+											->param(':story_id',$args['story_id'])
+											->execute()
+											->as_array();
+			$l = new Model_Utils_SimpleLog(APPPATH.'logs');
+			$l->addMessage('Loaded '.count($r).' listeners for story: '.$args['story_id']);
+		}
+		catch (Exception $e)
+		{
+					
+		}
+		return $r;
+	}
+	
+	private static function registerAllListenerClasses()
+	{
+		$instance = self::instance();
+		$listeners = self::getAllListenerClasses();
+		foreach ($listeners as $listener)
+		{		
+			// get array of events that this plugin will be executed on
+			$events = explode(',',$listener['events']); 
+			foreach($events as $event)
+			{									
+				$instance->addListener($event,$listener['class']);
+			}			
+		}
+		unset($listeners);
+	}
+	
 	static function getData()
 	{
 		$session = Session::instance('admin');	

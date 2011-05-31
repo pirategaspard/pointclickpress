@@ -22,6 +22,7 @@ Class Controller_Template_PCP extends Controller_Template_Base
 		Model_PCP_Themes::setTheme($data);	
 		$this->template = 'templates/pcp';
 		parent::before();
+		Events::initalizeListenerClasses(); // initalize events engine
 		
 
 		if($this->auto_render)

@@ -1,17 +1,19 @@
 <script>
 $(document).ready(function() 
-{
+{		
 	// when action type = 'action_link' hide the action_value field
 	$('#action_select').change(function() 
 	{		
 		if ($(this).val() == 'action_link')
 		{	
-			$('#location_select').val($('textarea[name=action_value]').val()).attr("selected","selected");
+			$('#location_select').val($('textarea[name=action_value]').val());
+			$('#location_select option[value='+$('#location_select').val()+']').attr('selected','selected');
 			$('#location_select').show();			
+			$('#location_select').change();
 			$('#action_value').hide();			
 		}
 		else
-		{
+		{			
 			$('#location_select').hide();
 			$('#action_value').show();
 		}
