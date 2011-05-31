@@ -29,25 +29,28 @@ class action_if extends Model_Base_PCPActionDef
 				foreach($a as $if_statement)
 				{
 					$if_statement = preg_replace('/\)/','',$if_statement);
-					$i = explode(',',$if_statement);	
-											
-					$var1 =  $this->getValueFromArray($this->getVariableName(trim($i[0])),Storydata::getStorydata());
-					$operator = $this->removeQuotes(trim($i[1])); //$this->getOperator($i[1]);
-					$var2 = $this->getValueFromArray($this->getVariableName(trim($i[2])),Storydata::getStorydata());
-					$cell_to_click = trim($i[3]);
-																													
-					if($operator!=null)
-					{	
-						// finally evaluate						
-						if($this->evaluate($var1,$operator,$var2))
-						{
-							// if true: create a response for the event timer
-							$args = array('action_value'=>"0,$cell_to_click");
-							$t = new Action_eventtimer();
-							$results2 = $t->performAction($args);
-							$results = array_merge($results,$results2);								
-							break;
-						}						
+					$i = explode(',',$if_statement);
+						
+					if (count($i) == 4)
+					{						
+						$var1 =  $this->getValueFromArray($this->getVariableName(trim($i[0])),Storydata::getStorydata());
+						$operator = $this->removeQuotes(trim($i[1])); //$this->getOperator($i[1]);
+						$var2 = $this->getValueFromArray($this->getVariableName(trim($i[2])),Storydata::getStorydata());
+						$cell_to_click = trim($i[3]);
+																																			
+						if($operator!=null)
+						{	
+							// finally evaluate						
+							if($this->evaluate($var1,$operator,$var2))
+							{
+								// if true: create a response for the event timer
+								$args = array('action_value'=>"0,$cell_to_click");
+								$t = new Action_eventtimer();
+								$results2 = $t->performAction($args);
+								$results = array_merge($results,$results2);								
+								break;
+							}						
+						}
 					}
 				}							
 			}			
@@ -60,7 +63,7 @@ class action_if extends Model_Base_PCPActionDef
 	}
 	
 	public function evaluate($var1,$operator,$var2)
-	{	
+	{					
 		switch (trim($operator))
 		{			
 			case 'strcmp': // kinda cheating on this one ;)
