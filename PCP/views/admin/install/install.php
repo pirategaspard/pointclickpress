@@ -7,16 +7,22 @@
 		include("sql/install.php");		
 		
 		// create first user		
-		$user_data['username'] = $_POST['username'];
-		$user_data['password'] = $_POST['password'];
-		$user_data['password2'] = $_POST['password'];
-		$user_data['email'] = 'admin@localhost';
-		$user_data['active'] = '1';
-		$results = Model_Admin_UsersAdmin::create($user_data);
+		$_POST['roles'] = 'login,admin';
+		try 
+		{
+			Auth::instance()->register( $_POST, TRUE );
+			Auth::instance()->login($_POST['username'], $_POST['password']);
+		} 
+		catch (ORM_Validation_Exception $e) 
+		{
+			$errors = $e->errors('register');
+			$errors = array_merge($errors, (isset($errors['_external']) ? $errors['_external'] : array()));
+			$_POST['password'] = $_POST['password_confirm'] = '';
+		}
 		
 		// Done!
 		echo '<h3>Done!</h3>';
-		echo '<a href="'.Kohana::$base_url.'admin/" >Log in</a>';
+		echo '<a href="'.Kohana::$base_url.'admin/" >Go To Admin</a>';
 	}
 	else
 	{
@@ -31,8 +37,10 @@
 	<fieldset class="ui-helper-reset ui-widget-content ui-corner-all login" >
 		<h3>Please Create An Admin User:</h3>	
 		<form method="post">		
-			Username: <input type="text" name="username" value="" />
-			Passsword: <input type="password" name="password" value="" />
+			Username: <input type="text" name="username" value="" /><br />
+			Email Address: <input type="text" name="email" value="" /><br />
+			Password: <input type="password" name="password" value="" /><br />
+			Re-type Password: <input type="password" name="password_confirm" value="" /><br />
 			<input type="submit" name="install" value="install" class="ui-widget ui-state-default ui-corner-all button login"  />
 		</form>
 	</fieldset>
