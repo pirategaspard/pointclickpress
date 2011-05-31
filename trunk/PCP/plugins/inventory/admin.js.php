@@ -4,9 +4,12 @@
 	{		
 		if ($(this).val() == 'action_inventoryuse')
 		{	
-			$('#location_select').hide();		
-			$('#action_value').hide();			
-			$('#item_Select').show();
+			$('#location_select').hide();			
+			var obj = $('#item_Select'); 
+			obj.val($('textarea[name=action_value]').val().split(',')[0]);
+			$('#item_Select option[value='+obj.val()+']').attr('selected','selected');
+			obj.show();			
+			obj.change();								
 		}
 		else
 		{
