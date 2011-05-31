@@ -15,7 +15,7 @@ body { }
 #content {margin: 0 auto;  width:100%;}
 #content_layout {margin: 0 auto; } /* width: 100%;*/
 #scene {text-align: center; width: auto; height: auto; }
-#scene #loadingzone {position: absolute; top: 1px; left: 0px; height: 13px; width: 100%; margin: 0 auto; text-align: center; z-index: 100;} 
+#scene #loadingzone {position: absolute; top: 23px; left: 0px; height: 13px; width: 100%; margin: 0 auto; text-align: center; z-index: 100;} 
 #scene.pointing #loadingzone {display:none;}
 #scene.waiting #loadingzone {display:block;}
 

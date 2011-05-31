@@ -75,7 +75,7 @@ class Model_Admin_Story extends Model_PCP_Story
 							,:status						
 							,:grid_x
 							,:grid_y
-							,:theme
+							,:theme_name
 							,:creator_user_id
 							)';
 							

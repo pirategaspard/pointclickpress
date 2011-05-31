@@ -115,6 +115,7 @@ Kohana::modules(array(
 	'cache'      => MODPATH.'cache',      // Cache	
 	'orm'        => MODPATH.'orm',        // Object Relationship Mapping
 	'pagination' => MODPATH.'pagination', // Paging of results
+	'formatting' => MODPATH.'formatting', // formatting 
 	//'email' => MODPATH.'email', // email
 	));
 

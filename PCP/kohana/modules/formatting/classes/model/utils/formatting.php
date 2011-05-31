@@ -3,41 +3,63 @@
 class Model_Utils_Formatting
 {
 
-	/* Based on sanitize_title_with_dashes function from WP */
 	static function createSlug($thisString)
 	{
-		$thisString = strip_tags($thisString);
-		// Preserve escaped octets.
-		$thisString = preg_replace('|%([a-fA-F0-9][a-fA-F0-9])|', '---$1---', $thisString);
-		// Remove percent signs that are not part of an octet.
-		$thisString = str_replace('%', '', $thisString);
-		// Restore octets.
-		$thisString = preg_replace('|---([a-fA-F0-9][a-fA-F0-9])---|', '%$1', $thisString);
+		return self::sanitize_title_with_dashes($thisString);
+	}
 
-		$thisString = formatting::remove_accents($thisString);
-		if (formatting::seems_utf8($thisString))
+	/**
+	 * Sanitizes title, replacing whitespace with dashes.
+	 *
+	 * Limits the output to alphanumeric characters, underscore (_) and dash (-).
+	 * Whitespace becomes a dash.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param string $title The title to be sanitized.
+	 * @return string The sanitized title.
+	 */
+	static function sanitize_title_with_dashes($title)
+	{
+		$title = strip_tags($title);
+		// Preserve escaped octets.
+		$title = preg_replace('|%([a-fA-F0-9][a-fA-F0-9])|', '---$1---', $title);
+		// Remove percent signs that are not part of an octet.
+		$title = str_replace('%', '', $title);
+		// Restore octets.
+		$title = preg_replace('|---([a-fA-F0-9][a-fA-F0-9])---|', '%$1', $title);
+
+		$title = formatting::remove_accents($title);
+		if (formatting::seems_utf8($title))
 		{
 			if (function_exists('mb_strtolower'))
 			{
-				$thisString = mb_strtolower($thisString, 'UTF-8');
+				$title = mb_strtolower($title, 'UTF-8');
 			}
-			$thisString = formatting::utf8_uri_encode($thisString, 200);
+			$title = formatting::utf8_uri_encode($title, 200);
 		}
 
-		$thisString = strtolower($thisString);
-		$thisString = preg_replace('/&.+?;/', '', $thisString); // kill entities
-		$thisString = str_replace('.', '-', $thisString);
-		$thisString = preg_replace('/[^%a-z0-9 _-]/', '', $thisString);
-		$thisString = preg_replace('/\s+/', '_', $thisString);
-		$thisString = preg_replace('|-+|', '_', $thisString);
-		$thisString = trim($thisString, '_');
+		$title = strtolower($title);
+		$title = preg_replace('/&.+?;/', '', $title); // kill entities
+		$title = str_replace('.', '-', $title);
+		$title = preg_replace('/[^%a-z0-9 _-]/', '', $title);
+		$title = preg_replace('/\s+/', '_', $title);
+		$title = preg_replace('|-+|', '_', $title);
+		$title = trim($title, '_');
 
-		return $thisString;
+		return $title;
 	}
 	
-	/*
-		remove_accents function from WP
-	*/
+	/**
+	 * Converts all accent characters to ASCII characters.
+	 *
+	 * If there are no accent characters, then the string given is just returned.
+	 *
+	 * @since 1.2.1
+	 *
+	 * @param string $string Text that might have accent characters
+	 * @return string Filtered string with replaced "nice" characters.
+	 */
 	static function remove_accents($string)
 	{
 		if ( !preg_match('/[\x80-\xff]/', $string) )
@@ -173,9 +195,18 @@ class Model_Utils_Formatting
 		return $string;
 	}
 	
-	/*
-		seems_utf8 function from WP
-	*/
+	/**
+	 * Checks to see if a string is utf8 encoded.
+	 *
+	 * NOTE: This function checks for 5-Byte sequences, UTF8
+	 *       has Bytes Sequences with a maximum length of 4.
+	 *
+	 * @author bmorel at ssi dot fr (modified)
+	 * @since 1.2.1
+	 *
+	 * @param string $str The string to be checked
+	 * @return bool True if $str fits a UTF-8 model, false otherwise.
+	 */
 	static function seems_utf8($str)
 	{
 		$length = strlen($str);
@@ -200,6 +231,15 @@ class Model_Utils_Formatting
 		return true;
 	}
 	
+	/**
+	 * Encode the Unicode values to be used in the URI.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param string $utf8_string
+	 * @param int $length Max length of the string
+	 * @return string String with Unicode encoded for URI.
+	 */
 	static function utf8_uri_encode( $utf8_string, $length = 0 ) 
 	{
 		$unicode = '';
