@@ -11,5 +11,10 @@ class Model_Utils_SimpleLog extends Kohana_Log_File {
 		$ms[] = $m;
 		parent::write($ms);
 	}
+	
+	/*	
+		$logger = new Model_Utils_SimpleLog(APPPATH.'logs');
+		$logger->addMessage('HI');	
+	*/
 
 } 

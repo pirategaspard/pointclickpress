@@ -23,21 +23,9 @@ Class Controller_Template_Base extends Controller_Template
 	*/
 	public function before()
 	{		
-		try 
-		{
-			$this->session = Session::instance();
-		} catch(ErrorException $e) 
-		{
-			session_destroy();
-		}		
-		
 		// Run anything that need to run before this.
 		parent::before();
 		Model_Utils_ModuleHelper::loadModules(); // load Modules
-		Events::initalizeListenerClasses(); // initalize events engine
-		
-		// Open session
-		$this->session = Session::instance();
 
 		// Check user auth and role
 		$action_name = Request::current()->action();
