@@ -6,7 +6,8 @@ $(document).ready(function()
 	{		
 		if ($(this).val() == 'action_link')
 		{	
-			$('#location_select').show();		
+			$('#location_select').val($('textarea[name=action_value]').val()).attr("selected","selected");
+			$('#location_select').show();			
 			$('#action_value').hide();			
 		}
 		else

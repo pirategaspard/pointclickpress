@@ -20,7 +20,6 @@
 	$('select[name="item_Select"]').mouseout(function() 
 	{														
 		$('textarea[name=action_value]').val($('select[name="item_Select"]').val()+',TRIGGER_CELL_ID');			
-	});
-	
+	});	
 	
 </script>
