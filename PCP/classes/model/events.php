@@ -147,7 +147,7 @@ class Model_Events
 		}
 		unset($listeners);
 	}
-/*	
+
 	static function getData()
 	{
 		$session = Session::instance();	
@@ -158,6 +158,6 @@ class Model_Events
 		}		
 		return $data;
 	}
-	*/
+
 }
 ?>
