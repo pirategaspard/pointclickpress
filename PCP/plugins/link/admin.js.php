@@ -6,10 +6,11 @@ $(document).ready(function()
 	{		
 		if ($(this).val() == 'action_link')
 		{	
-			$('#location_select').val($('textarea[name=action_value]').val());
-			$('#location_select option[value='+$('#location_select').val()+']').attr('selected','selected');
-			$('#location_select').show();			
-			$('#location_select').change();
+			var obj = $('#location_select'); 
+			obj.val($('textarea[name=action_value]').val());
+			$('#location_select option[value='+obj.val()+']').attr('selected','selected');
+			obj.show();			
+			obj.change();
 			$('#action_value').hide();			
 		}
 		else
