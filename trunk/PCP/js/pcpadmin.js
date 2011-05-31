@@ -50,10 +50,6 @@ $(document).ready(function()
 		}
 	}
 	
-	//when the page loads fire these events to set up the form (if it exists)
-	$('input[name=cell_ids]').focusout();
-	$('input[name=cell_id]').focusout();
-				
 	// jQuery UI init
     $("#accordion").accordion({ collapsible: true, active: false, animated: false }); //autoHeight: true
     $("#tabs").tabs();

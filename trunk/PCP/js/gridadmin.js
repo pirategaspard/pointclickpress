@@ -57,6 +57,10 @@ $(document).ready(function() {
 		grid_cell_id_list.focusout(); // focus on cell_ids input field so that the grid will update
 	});
 	
+	//when the page loads fire these events to set up the form 
+	$('input[name=cell_ids]').focusout();
+	$('input[name=cell_id]').focusout();
+	
 	function findCell(cell_id,cell_ids)
 	{
 		aCells = cell_ids.split(',');
