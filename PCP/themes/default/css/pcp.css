@@ -24,7 +24,7 @@ body { }
 #message {position: absolute; top: 40%; height: auto; width: 100%; padding: 10px; }
 #message span {border: 2px black solid; padding: 5px;  background-color: white; *filter:alpha(opacity=80); opacity:0.8;} 
 
-#grid {position: relative; margin: 0 auto; width:80%; overflow: hidden; } /*  background-color: white; } */
+#grid {position: relative; margin: 0 auto; width:80%; overflow: hidden; } 
 #grid div form {position: absolute; z-index: 10;}
 #grid div form input {position: absolute; width:auto; height:auto; z-index: 10;}
 #grid a, #grid div {display:block; float: left; text-align: left; position: relative; z-index: 5; } 

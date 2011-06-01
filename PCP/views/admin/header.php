@@ -6,6 +6,8 @@
 		<li><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'plugin','action'=>'list')))); ?>">Plugin Admin</a></li>
 		<li><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'user','action'=>'list')))); ?>">User Admin</a></li>
 	<?php } ?>
+	
+	<li></li>
 	<li><a href="<?php echo(Url::site(Route::get('user')->uri(array('controller'=>'user','action'=>'profile')))); ?>">My Profile</a></li>
 	<li><a href="<?php echo(Url::site(Route::get('user')->uri(array('controller'=>'user','action'=>'logout')))); ?>">Logout</a></li>
 </ul>

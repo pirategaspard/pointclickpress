@@ -76,7 +76,6 @@ Class Controller_Template_Base extends Controller_Template
 	{
 		$this->template = new View('templates/simple');
 	}
-
 }
 
 ?>

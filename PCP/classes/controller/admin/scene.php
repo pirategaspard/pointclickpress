@@ -54,7 +54,6 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		$this->template->breadcrumb .= View::factory('/admin/story/info',$data)->render();
 		$this->template->breadcrumb .= View::factory('/admin/location/info',$data)->render();
 		$this->template->breadcrumb .= View::factory('/admin/scene/info',$data)->render();
-		$this->template->top_menu = View::factory('/admin/scene/top_menu',$data)->render();
 		$this->template->content = View::factory('/admin/scene/template',$data)->render();
 	}
 	

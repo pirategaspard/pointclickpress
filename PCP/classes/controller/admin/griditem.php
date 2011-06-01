@@ -19,8 +19,7 @@ Class Controller_admin_griditem extends Controller_Template_Admin
 		
 		$this->template->breadcrumb .= View::factory('/admin/story/info',$data)->render();
 		$this->template->breadcrumb .= View::factory('/admin/itemdef/info',$data)->render();
-		$this->template->breadcrumb .= View::factory('/admin/item/info',$data)->render();		
-		$this->template->top_menu = View::factory('/admin/item/top_menu',$data)->render();						
+		$this->template->breadcrumb .= View::factory('/admin/item/info',$data)->render();						
 		$this->template->content = View::factory('/admin/item/template',$data)->render();
 	}
 
@@ -36,7 +35,6 @@ Class Controller_admin_griditem extends Controller_Template_Admin
 		
 		$this->template->header = '';
 		$this->template->breadcrumb .= View::factory('/admin/story/info',$data)->render();
-		$this->template->top_menu = View::factory('/admin/item/top_menu',$data)->render();
 		$this->template->content = View::factory('/admin/item/list',$data)->render();
 	}
 
