@@ -15,9 +15,10 @@ Class Controller_Admin_Action extends Controller_Template_Admin
 		$data['back_url'] = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
 		$data['action_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'action','action'=>'save')));
 		
-		$this->template->header = '' ;
+		$this->template->header = $this->template->top_menu; // move the top menu into the header to save space
+		$this->template->footer = '' ;
+		$this->template->top_menu = '' ;
 		$this->template->scripts = array() ;
-		$this->template->top_menu = View::factory('/admin/action/top_menu',$data)->render();
 		$this->template->content = View::factory('/admin/action/form',$data)->render();
 	}
 	

@@ -24,8 +24,7 @@ Class Controller_admin_image extends Controller_Template_Admin
 		$data['image_form'] =  View::factory('/admin/image/form',$data)->render();		
 		$data['add_image_link'] =  View::factory('/admin/image/add',$data)->render();
 
-		$this->template->header = '' ;
-		$this->template->top_menu = View::factory('/admin/image/top_menu',$data)->render();						
+		$this->template->header = '' ;					
 		$this->template->content = View::factory('/admin/image/template',$data)->render();
 	}
 	
@@ -56,9 +55,9 @@ Class Controller_admin_image extends Controller_Template_Admin
 		//var_dump($data); die();
 		$data['add_image_link'] =  View::factory('/admin/image/add',$data)->render();
 		$data['images'] = Model_Admin_ImagesAdmin::getImages(array('story_id'=>$data['story_id'],'type_id'=>$data['type_id']));
-		$this->template->header = '' ;
+		$this->template->header = $this->template->top_menu; // move the top menu into the header to save space 
 		$this->template->footer = '' ;
-		$this->template->top_menu = View::factory('/admin/image/top_menu',$data)->render();
+		$this->template->top_menu = '' ;
 		$this->template->content = View::factory('/admin/image/list',$data)->render();
 	}
 	

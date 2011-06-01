@@ -21,8 +21,7 @@ Class Controller_admin_itemdef extends Controller_Template_Admin
 		$session->delete('itemstate_id'); // if id exits, delete it.
 		
 		$this->template->breadcrumb .= View::factory('/admin/story/info',$data)->render();
-		$this->template->breadcrumb .= View::factory('/admin/itemdef/info',$data)->render();		
-		$this->template->top_menu = View::factory('/admin/itemdef/top_menu',$data)->render();						
+		$this->template->breadcrumb .= View::factory('/admin/itemdef/info',$data)->render();							
 		$this->template->content = View::factory('/admin/itemdef/template',$data)->render();
 	}
 
@@ -38,7 +37,6 @@ Class Controller_admin_itemdef extends Controller_Template_Admin
 		
 		$this->template->header = '';
 		$this->template->breadcrumb .= View::factory('/admin/story/info',$data)->render();
-		$this->template->top_menu = View::factory('/admin/itemdef/top_menu',$data)->render();
 		$this->template->content = View::factory('/admin/itemdef/list',$data)->render();
 	}
 

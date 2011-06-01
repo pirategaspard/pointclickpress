@@ -29,7 +29,6 @@ Class Controller_admin_story extends Controller_Template_Admin
 		if (count($data['stories']) > 0 )
 		{
 			$data['story_add'] = View::factory('/admin/story/add',$data)->render();
-			$this->template->top_menu = View::factory('/admin/story/top_menu',$data)->render();
 			$this->template->content = View::factory('/admin/story/list',$data)->render();
 		}
 		else
@@ -74,9 +73,8 @@ Class Controller_admin_story extends Controller_Template_Admin
 			$data['story_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'story','action'=>'save')));
 			$data['assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?story_id='.$data['story']->id;
 			$data['story_form'] = View::factory('/admin/story/form',$data)->render();
-			
+						
 			$this->template->breadcrumb .= View::factory('/admin/story/info',$data)->render();
-			$this->template->top_menu = View::factory('/admin/story/top_menu',$data)->render();
 			$this->template->content = View::factory('/admin/story/template',$data)->render();
 		}
 	}

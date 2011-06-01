@@ -7,12 +7,15 @@ legend {font-size:1.2em;}
 #header .menu {float: right;}
 #header h1 {color: white; font-style: normal; font-weight: bold; letter-spacing: -1px; line-height: 1.2em; text-shadow: 1px 1px 2px black; text-transform: none; font-size: 100%; float: left;}
 #header ul.menu li a {font-family: Arial,sans-serif; font-size: 15px; text-decoration: none;}
-#breadcrumb {padding: 1px}
+#breadcrumb {float: left; padding: 1px}
 #breadcrumb a {color: black; font-weight: bold; text-decoration: none; font-size: 0.9em; }
 #breadcrumb a:hover {color: #459E00}
 
-#topmenu {}
-#content {}
+#topmenu {float: right; background-color: #459E00; min-width: 20%}
+#topmenu ul.menu {float: right;}
+#topmenu ul.menu li a {text-decoration: none; font-weight: bold;}
+
+#content {clear: both;}
 #content td {padding: 4px 2px;}
 #scene { text-align: center; margin: 0 auto;}
 #grid {margin: 10px auto; width:80%; }

@@ -19,8 +19,7 @@ Class Controller_admin_itemstate extends Controller_Template_Admin
 		
 		$this->template->breadcrumb .= View::factory('/admin/story/info',$data)->render();
 		$this->template->breadcrumb .= View::factory('/admin/itemdef/info',$data)->render();
-		$this->template->breadcrumb .= View::factory('/admin/itemstate/info',$data)->render();		
-		$this->template->top_menu = View::factory('/admin/itemstate/top_menu',$data)->render();						
+		$this->template->breadcrumb .= View::factory('/admin/itemstate/info',$data)->render();							
 		$this->template->content = View::factory('/admin/itemstate/template',$data)->render();
 	}
 
@@ -34,7 +33,6 @@ Class Controller_admin_itemstate extends Controller_Template_Admin
 		$data['add_itemstate_link'] =  View::factory('/admin/itemstate/add',$data)->render();
 		
 		$this->template->header = '';
-		$this->template->top_menu = View::factory('/admin/itemstate/top_menu',$data)->render();
 		$this->template->content = View::factory('/admin/itemstate/list',$data)->render();
 	}
 
