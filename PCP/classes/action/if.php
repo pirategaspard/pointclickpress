@@ -36,7 +36,7 @@ class action_if extends Model_Base_PCPActionDef
 						$var1 =  $this->getValueFromArray($this->getVariableName(trim($i[0])),Storydata::getStorydata());
 						$operator = $this->removeQuotes(trim($i[1])); //$this->getOperator($i[1]);
 						$var2 = $this->getValueFromArray($this->getVariableName(trim($i[2])),Storydata::getStorydata());
-						$cell_to_click = trim($i[3]);
+						$cell_to_click = $this->removeQuotes(trim($i[3]));
 																																			
 						if($operator!=null)
 						{	
