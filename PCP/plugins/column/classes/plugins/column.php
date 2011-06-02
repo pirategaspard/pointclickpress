@@ -8,6 +8,7 @@ class plugins_column extends Model_Base_PCPPlugin
 	protected $label = 'columns'; // This is the label for this plugin
 	protected $description = 'This is the columns plugin'; // This is the description of this plugin
 	protected $events = array(DISPLAY_COLUMN_LEFT,DISPLAY_COLUMN_RIGHT); // This is an array of events to call this plugin from
+	protected $system = 1;
 		
 	public function execute($event_name='')
 	{						
