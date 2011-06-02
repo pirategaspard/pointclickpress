@@ -27,6 +27,7 @@ class Model_Admin_StorypluginsAdmin extends Model
 				LEFT OUTER JOIN stories_plugins sp
 					ON p.id = sp.plugin_id
 					AND sp.story_id = :story_id 
+				WHERE p.system = 0 
 				ORDER BY p.id DESC';
 		
 		$q = DB::query(Database::SELECT,$q,TRUE)->param(':story_id',$args['story_id']);

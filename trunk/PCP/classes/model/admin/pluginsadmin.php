@@ -56,14 +56,15 @@ class Model_Admin_PluginsAdmin extends Model_Plugins
 	static function insert($class) 
 	{
 		$q = '	INSERT INTO plugins
-				(label,description,class,events,status)
+				(label,description,class,events,status,system)
 				VALUES
 				(
 					:label,
 					:description,
 					:class,
 					:events,
-					:status
+					:status,
+					:system
 				)';
 		$q_results = DB::query(Database::INSERT,$q,TRUE)
 											->param(':label',$class->getLabel())
@@ -71,6 +72,7 @@ class Model_Admin_PluginsAdmin extends Model_Plugins
 											->param(':class',$class->getClass())
 											->param(':events',implode(',',$class->getEvents()))
 											->param(':status',0)
+											->param(':system',$class->getSystemStatus())
 											->execute();
 		return true;
 	}
