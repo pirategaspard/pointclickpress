@@ -17,20 +17,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		$data['scene_id'] = $data['scene']->id;	
 		$session->set('story_id',$data['story_id']); // This may have been derived from scene obj and other calls may need to use it
 		$session->set('location_id',$data['location_id']);
-		$session->set('scene_id',$data['scene_id']);
-				
-		// set the scene title equal to the parent location title if the scene title is empty, else set it to itself
-		$data['scene']->setTitle((strlen($data['scene']->title)>0) ? $data['scene']->title : $data['location']->title); //if (strlen($data['scene']->title)==0) $data['scene']->setTitle($data['location']->title);
-		// set the story size 
-		$data['story']->setDimensions(DEFAULT_SCREEN_WIDTH,DEFAULT_SCREEN_HEIGHT);
-		$data['assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?story_id='.$data['scene']->story_id.'&location_id='.$data['scene']->location_id.'&scene_id='.$session->get('scene_id');				
-		
-		/* scene actions */	
-		$data['action_list'] = Request::factory('/admin/action/listSimple')->execute()->body();
-		
-		/* scene */
-		$data['scene_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'save')));						
-		$data['scene_form'] = View::factory('/admin/scene/form',$data)->render();
+		$session->set('scene_id',$data['scene_id']);						
 						
 		if (strlen($data['scene']->filename) > 0)
 		{
@@ -49,6 +36,20 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		{
 			$data['grid'] = '';
 		}
+		
+		unset($_REQUEST['griditem_id']); // unset this if it exists so that griditem actions will not populate the scene actions list 
+		// set the scene title equal to the parent location title if the scene title is empty, else set it to itself
+		$data['scene']->setTitle((strlen($data['scene']->title)>0) ? $data['scene']->title : $data['location']->title); //if (strlen($data['scene']->title)==0) $data['scene']->setTitle($data['location']->title);
+		// set the story size 
+		$data['story']->setDimensions(DEFAULT_SCREEN_WIDTH,DEFAULT_SCREEN_HEIGHT);
+		$data['assign_image_link'] = Url::site(Route::get('admin')->uri(array('controller'=>'image','action'=>'list'))).'?story_id='.$data['scene']->story_id.'&location_id='.$data['scene']->location_id.'&scene_id='.$session->get('scene_id');				
+		
+		/* scene actions */	
+		$data['action_list'] = Request::factory('/admin/action/listSimple')->execute()->body();
+		
+		/* scene */
+		$data['scene_form_action'] = Url::site(Route::get('admin')->uri(array('controller'=>'scene','action'=>'save')));						
+		$data['scene_form'] = View::factory('/admin/scene/form',$data)->render();
 		
 		$this->template->scripts[] = 'gridadmin.js'; 
 		$this->template->breadcrumb .= View::factory('/admin/story/info',$data)->render();
