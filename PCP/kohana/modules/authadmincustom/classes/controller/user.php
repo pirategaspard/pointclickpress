@@ -184,7 +184,7 @@ class Controller_User extends Controller_Template_App {
 				// sign the user in
 				Auth::instance()->login($_POST['username'], $_POST['password']);
 				// redirect to the user account
-				$this->request->redirect('user/profile');
+				$this->request->redirect('admin');
 			 } catch (ORM_Validation_Exception $e) {
 				// Get errors for display in view
 				// Note how the first param is the path to the message file (e.g. /messages/register.php)
