@@ -5,9 +5,10 @@
 
 class plugins_link extends Model_Base_PCPPlugin
 {	
-	protected $label = 'link'; // This is the label for this plugin
-	protected $description = 'link to another location'; // This is the description of this plugin
+	protected $label = 'Link'; // This is the label for this plugin
+	protected $description = 'Link to another location'; // This is the description of this plugin
 	protected $events = array(ADMIN_JS,DISPLAY_POST_GRID_SELECT); // This is an array of events to call this plugin from
+	protected $system = 1;
 	
 	public function execute($event_name='')
 	{
