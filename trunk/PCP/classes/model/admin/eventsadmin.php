@@ -44,8 +44,16 @@ class Model_Admin_EventsAdmin extends Model_events
 	{
 		$args = self::getData();
 		$r = array();
+		// select all registered actiondefs
+		// select all plugins that are active for the system
+		// select all plugins that are active for the current story	
 		$q = '	SELECT class,events
 				FROM actiondefs
+				UNION ALL
+				SELECT class,events
+				FROM plugins p
+				WHERE p.status = 1 
+					AND p.system = 1 
 				UNION ALL
 				SELECT class,events
 				FROM plugins p
