@@ -5,6 +5,8 @@ define('CSS', 'css');
 define('HEAD', 'head');
 define('JS', 'js');
 
+define('PCP_REQUEST_START', 'pcp_request_start');
+
 define('DISPLAY_COLUMN_LEFT', 'display_column_left');
 define('DISPLAY_COLUMN_RIGHT', 'display_column_right');
 define('DISPLAY_FOOTER', 'display_footer');
@@ -32,6 +34,7 @@ define('POST_ITEM_CLICK', 'post_itemClick');
 define('ADMIN_CSS', 'admin_css');
 define('ADMIN_HEAD', 'admin_head');
 define('ADMIN_JS', 'admin_js');
+define('ADMIN_REQUEST_START', 'admin_request_start');
 
 
 

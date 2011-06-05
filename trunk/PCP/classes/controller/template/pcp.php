@@ -23,6 +23,7 @@ Class Controller_Template_PCP extends Controller_Template_Base
 		$this->template = 'templates/pcp';
 		parent::before();
 		Events::initalizeListenerClasses(); // initalize events engine
+		Events::announceEvent(PCP_REQUEST_START);
 		
 
 		if($this->auto_render)

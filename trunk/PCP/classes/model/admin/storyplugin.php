@@ -12,6 +12,7 @@ class Model_Admin_StoryPlugin extends Model
 	protected $status = 0;
 	protected $label = '';
 	protected $description = '';
+	protected $class_name = '';
 	
 	public function __construct($args=array())
 	{
@@ -44,6 +45,10 @@ class Model_Admin_StoryPlugin extends Model
 		{
 			$this->description = $args['description'];
 		}
+		if (isset($args['class_name']))
+		{
+			$this->class_name = $args['class_name'];
+		}
 		return $this;
 	}
 	
@@ -55,6 +60,7 @@ class Model_Admin_StoryPlugin extends Model
 							,sp.story_id
 							,sp.plugin_id
 							,sp.status
+							,p.class as class_name
 					FROM stories_plugins sp
 					INNER JOIN plugins p
 						ON sp.plugin_id = p.id
