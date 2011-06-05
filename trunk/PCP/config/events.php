@@ -11,6 +11,9 @@ define('DISPLAY_FOOTER', 'display_footer');
 define('DISPLAY_PRE_SCENE', 'display_pre_scene');
 define('DISPLAY_POST_SCENE', 'display_post_scene');
 define('DISPLAY_POST_GRID_SELECT','display_post_grid_select');
+define('DISPLAY_PRE_STORIES_LIST','display_pre_stories_list');
+define('DISPLAY_PRE_NEW_STORY','display_pre_new_story');
+define('DISPLAY_PRE_LOGIN_FORM','display_pre_login_form');
 
 define('POST_SCENE_TOP_MENU','post_scene_top_menu');
 define('POST_SCENE_BOTTOM_MENU','post_scene_bottom_menu');

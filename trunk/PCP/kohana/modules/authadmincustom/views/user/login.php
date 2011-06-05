@@ -10,6 +10,7 @@ if(isset($username)) {
 $form->error_class = 'error block';
 $form->info_class = 'info block';
 
+Events::announceEvent(DISPLAY_PRE_LOGIN_FORM);
 ?>
 <div id="box">
    <div class="ui-helper-reset ui-widget-content ui-corner-all">
@@ -39,16 +40,16 @@ $form->info_class = 'info block';
 			   echo '<li style="padding-bottom: 8px;"><label>'.__('To register / log in using another account, please click your provider').':</label></li>';
 			   echo '<li>';
 			   if(isset($options['facebook']) && $options['facebook']) {
-				  echo '<a class="login_provider" style="background: #FFF url('.Kohana::$base_url.'/images/facebook.png) no-repeat center center" href="'.URL::site('/user/provider/facebook').'"></a>';
+				  echo '<a class="login_provider" style="background: #FFF url('.Kohana::$base_url.'images/facebook.png) no-repeat center center" href="'.URL::site('/user/provider/facebook').'"></a>';
 			   }
 			   if(isset($options['twitter']) && $options['twitter']) {
-				  echo '<a class="login_provider" style="background: #FFF url('.Kohana::$base_url.'/images/twitter.png) no-repeat center center" href="'.URL::site('/user/provider/twitter').'"></a>';
+				  echo '<a class="login_provider" style="background: #FFF url('.Kohana::$base_url.'images/twitter.png) no-repeat center center" href="'.URL::site('/user/provider/twitter').'"></a>';
 			   }
 			   if(isset($options['google']) && $options['google']) {
-				  echo '<a class="login_provider" style="background: #FFF url('.Kohana::$base_url.'/images/google.gif) no-repeat center center" href="'.URL::site('/user/provider/google').'"></a>';
+				  echo '<a class="login_provider" style="background: #FFF url('.Kohana::$base_url.'images/google.gif) no-repeat center center" href="'.URL::site('/user/provider/google').'"></a>';
 			   }
 			   if(isset($options['yahoo']) && $options['yahoo']) {
-				  echo '<a class="login_provider" style="background: #FFF url('.Kohana::$base_url.'/images/yahoo.gif) no-repeat center center" href="'.URL::site('/user/provider/yahoo').'"></a>';
+				  echo '<a class="login_provider" style="background: #FFF url('.Kohana::$base_url.'images/yahoo.gif) no-repeat center center" href="'.URL::site('/user/provider/yahoo').'"></a>';
 			   }
 			   echo '<br style="clear: both;">
 			   </li>';

@@ -1,4 +1,10 @@
-<?php if (isset($story)) { ?>
+<?php if (isset($story)) { 
+
+	if ($story->id == 0)
+	{
+		Events::announceEvent(DISPLAY_PRE_NEW_STORY);
+	}
+?>
 <fieldset class="ui-helper-reset ui-widget-content ui-corner-all">
 	<?php if (isset($story)&& ($story->id > 0)) { ?>
 		<a href="<?php echo(Url::site(Route::get('default')->uri(array('action'=>'story'))).'?story_id='.$story->id); ?>" target="_blank" class="ui-widget ui-state-default ui-corner-all button play">Play</a><br />
