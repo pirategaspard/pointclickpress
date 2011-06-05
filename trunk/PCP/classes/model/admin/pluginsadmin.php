@@ -108,7 +108,8 @@ class Model_Admin_PluginsAdmin extends Model_Plugins
 	static function load() 
 	{
 		$q = '	SELECT *
-				FROM plugins';
+				FROM plugins
+				ORDER BY class ASC';
 		return DB::query(Database::SELECT,$q,TRUE)->execute()->as_array();		
 	}	
 	
