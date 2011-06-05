@@ -1,4 +1,7 @@
 <?php /*var_dump($stories); die(); */?>
+<?php
+	Events::announceEvent(DISPLAY_PRE_STORIES_LIST);
+?>
 <div id="stories" >
 	<h1>Interactive Stories</h1>
 	<fieldset class="ui-helper-reset ui-widget-content ui-corner-all">
