@@ -5,6 +5,9 @@ Class Controller_admin_plugin extends Controller_Template_Admin
 	
 	function action_list()
 	{		
+		Model_Admin_PluginsAdmin::searchForListeners(); // search for new Plugins
+		Model_Admin_ActionDefsAdmin::searchForListeners(); // search for new ActionDefs
+		
 		$data['plugins'] = Model_Admin_PluginsAdmin::load();
 		$data['add'] = '';//View::factory('/admin/story/add',$data)->render();
 		$this->template->top_menu = View::factory('/admin/plugin/top_menu',$data)->render();
