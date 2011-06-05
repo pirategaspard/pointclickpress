@@ -31,6 +31,7 @@ define('POST_CELL_CLICK', 'post_cellClick');
 define('PRE_ITEM_CLICK', 'pre_itemClick');
 define('POST_ITEM_CLICK', 'post_itemClick');
 
+define('ADMIN_DISPLAY_PRE_STORIES_LIST','admin_display_pre_stories_list');
 define('ADMIN_CSS', 'admin_css');
 define('ADMIN_HEAD', 'admin_head');
 define('ADMIN_JS', 'admin_js');
