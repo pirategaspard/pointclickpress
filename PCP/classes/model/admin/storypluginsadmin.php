@@ -17,6 +17,7 @@ class Model_Admin_StorypluginsAdmin extends Model
 		$q = '	SELECT 	p.label
 						,p.description
 						,p.id AS plugin_id
+						,p.class as class_name
 						,IFNULL(sp.storyplugin_id,0) AS storyplugin_id
 						,CASE
 							WHEN p.status = 0 THEN 0

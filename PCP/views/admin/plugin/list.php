@@ -8,6 +8,7 @@
 			<td>Status</td>
 			<td>Name</td>
 			<td>Description</td>
+			<td></td>
 			<td>System-wide plugin</td>
 			<td></td>
 			<td></td>
@@ -15,10 +16,11 @@
 		</tr>
 		<?php foreach ($plugins as $plugin) { ?>
 		<tr>
-			<td><?php echo ($plugin['status'])?'Active':'Inactive'; ?></td>
+			<td><?php echo ($plugin['status'])?'X':''; ?></td>
 			<td><h4><?php echo ($plugin['label']); ?></h4></td>
 			<!-- <td><?php echo (substr($plugin['description'],0,25).'...'); ?></td> -->
-			<td><?php echo ($plugin['description']); ?></td>	
+			<td><?php echo ($plugin['description']); ?></td>
+			<td><a href="http://pointclickpress.org/wiki/index.php?title=<?php echo ($plugin['class']); ?>" target="_blank" />Help</a></td>	
 			<td ><?php if($plugin['system']) {echo '<span style="margin: 0 auto; text-align: center;" class="ui-icon ui-icon-check"></span>';} else {echo '';}  ?></td>			
 			<td><a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'plugin','action'=>'edit'))).'?plugin='.$plugin['class']); ?>" class="ui-widget ui-state-default ui-corner-all button" ><?php echo ($plugin['status'])?'De-activate':'Activate'; ?></a></td>
 			<td>&nbsp;&nbsp;</td>
