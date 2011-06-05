@@ -10,10 +10,10 @@ $(document).ready(function() {
 		//reset grid to have no selected cells
 		var cells = $('#grid').children('b'); //get the cells that are selected
 		cells.removeClass('selected'); 
-		cells.addClass('not_selected');
+		cells.addClass('not_selected');				
 
 		// for cells in cell_id list, add selected class
-		current_cells = $(this).val().split(','); // get the cell_id list			
+		current_cells = $(this).val().split(','); // get the cell_id list		
 		for(i=0;i<=current_cells.length;i++)			
 		{				
 			$('b[n="'+current_cells[i]+'"]').addClass('selected');
@@ -60,6 +60,14 @@ $(document).ready(function() {
 	//when the page loads fire these events to set up the form 
 	$('input[name=cell_ids]').focusout();
 	$('input[name=cell_id]').focusout();
+	$('#action_select').change();
+	$('#action_select2').change();
+	
+	$('#action_select').change(function() 
+		{
+			$('#action_description').html(action_descriptions[$(this).val()] + ' <a href="http://pointclickpress.org/wiki/index.php?title='+$(this).val()+'" target="_blank">Help</a>');		
+		})
+	
 	
 	function findCell(cell_id,cell_ids)
 	{
