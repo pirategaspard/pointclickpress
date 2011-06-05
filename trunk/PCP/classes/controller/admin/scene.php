@@ -10,7 +10,8 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		$data = Model_Admin_ScenesAdmin::GetData();
 		$data['scene'] = Model_Admin_ScenesAdmin::getScene(array('id'=>$data['scene_id'],'include_actions'=>false,'include_items'=>true))->init($data);
 		$data['story_id'] = (isset($data['story_id']))?$data['story_id']:$data['scene']->story_id;
-		$data['story'] = Model_Admin_StoriesAdmin::getStoryInfo(array('id'=>$data['story_id'],'creator_user_id'=>$data['creator_user_id']));			
+		$data['story'] = Model_Admin_StoriesAdmin::getStoryInfo(array('id'=>$data['story_id'],'creator_user_id'=>$data['creator_user_id']));
+		$data['story']->setDimensions();			
 		$data['location'] = Model_Admin_LocationsAdmin::getLocation(array('id'=>$data['scene']->location_id));			
 		$data['story_id'] = $data['story']->id;
 		$data['location_id'] = $data['location']->id;		
