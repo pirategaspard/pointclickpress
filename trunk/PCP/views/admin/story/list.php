@@ -1,6 +1,7 @@
 <?php 
 	if (isset($stories))
 	{	
+		Events::announceEvent(ADMIN_DISPLAY_PRE_STORIES_LIST);
 ?>
 		<fieldset class="ui-helper-reset ui-widget-content ui-corner-all">
 			<?php if (isset($story_add)) echo('<span class="add">'.$story_add."</span>"); ?>
