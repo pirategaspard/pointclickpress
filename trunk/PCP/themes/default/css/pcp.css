@@ -13,7 +13,7 @@ body { }
 #bottommenu {position: relative; width: 100%; left: 0px; text-align: left;}
 #leftcolumn, #rightcolumn {}
 #content {margin: 0 auto;  width:100%;}
-#content_layout {margin: 0 auto; } /* width: 100%;*/
+#content_layout {margin: 0 auto; width: 80%;} /* width: 100%;*/
 #scene {text-align: center; width: auto; height: auto; }
 #scene #loadingzone {position: absolute; top: 23px; left: 0px; height: 13px; width: 100%; margin: 0 auto; text-align: center; z-index: 100;} 
 #scene.pointing #loadingzone {display:none;}
@@ -21,8 +21,9 @@ body { }
 
 #description, #message {display: block; overflow: auto; z-index: 1; text-align: center; }
 #description {position: absolute; left: 0px;  bottom: 0px; width: 100%;  height: auto; background-color: white; filter:alpha(opacity=70); opacity:0.7;}
-#message {position: absolute; top: 40%; height: auto; width: 100%; padding: 10px; }
-#message span {border: 2px black solid; padding: 5px;  background-color: white; *filter:alpha(opacity=80); opacity:0.8;} 
+
+#message {position: absolute; top: 40%; height: auto; width: 97%; padding: 10px; }
+#message span {display: block; border: 2px black solid; padding: 5px; height: auto; background-color: white; *filter:alpha(opacity=80); opacity:0.8;} 
 
 #grid {position: relative; margin: 0 auto; width:80%; overflow: hidden; } 
 #grid div form {position: absolute; z-index: 10;}
@@ -36,6 +37,8 @@ h1, h3{font-size: 100%;}
 
 #description, #message { margin: 0 auto; font-size: 1.1em;}
 #footer {clear: both; position: relative; text-align: center; margin: 20px auto; font-size: .7em;}
+#footer ul.menu li a {text-decoration: none; color: black; }
+#footer ul.menu li a:hover {color: green}
 
 #story_info {text-align: center;}
 
