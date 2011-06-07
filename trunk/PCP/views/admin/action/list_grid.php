@@ -19,9 +19,9 @@
 			<td><?php echo ($action->id); ?></td>
 			<td><?php echo ($action->action_label); ?></td>
 			<td><?php 
-					if (strlen($action->action_value) > 15 )
+					if (strlen($action->action_value) > 100 )
 					{
-						echo (substr($action->action_value,0,15).'...');
+						echo (substr($action->action_value,0,100).'...');
 					}
 					else
 					{
