@@ -1,6 +1,6 @@
 <?php 
 
-	//var_dump($action_types); die();
+	//var_dump($action); die();
 	if (isset($action) && (isset($action_defs)))
 	{
 ?>
@@ -20,7 +20,7 @@
 				<?php foreach($action_defs as $action_def)
 				{
 					$selected = '';
-					if ($action->action == $action_def->getClass()) $selected = ' selected="selected" ';
+					if (strcasecmp($action->action,$action_def->getClass())==0) $selected = ' selected="selected" ';
 					echo ('<option value="'.$action_def->getClass().'"'.$selected.' >'.$action_def->getLabel().'</option>');
 				} ?>
 			</select><br />
@@ -45,7 +45,6 @@
 ?>
 	$('#action_select2').change(function() 
 		{
-			$('#action_description2').html(action_descriptions2[$(this).val()]);		
-		});
-	$('#action_select').change();
+			$('#action_description2').html(action_descriptions2[$(this).val()] + ' <a href="http://pointclickpress.org/wiki/index.php?title='+$(this).val()+'" target="_blank">Help</a>');		
+		});	
 </script>
