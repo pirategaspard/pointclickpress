@@ -11,7 +11,7 @@
 		<div class="form_block" >
 			<p>	
 				<label>Title: </label><input type="text" name="title" value="<?php print($location->title); ?>" >
-				<label>Slug: </label><?php print($location->slug); ?>
+				<label>Value: </label><?php print($location->slug); ?>
 			</p>
 		</div>
 		<div class="form_block" >

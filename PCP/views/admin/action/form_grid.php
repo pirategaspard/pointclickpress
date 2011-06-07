@@ -18,7 +18,7 @@
 			<?php foreach($action_defs as $action_def)
 			{
 				$selected = '';
-				if ($action->action == $action_def->getClass()) $selected = ' selected="selected" ';
+				if (strcasecmp($action->action,$action_def->getClass())==0) $selected = ' selected="selected" ';
 				echo ('<option value="'.$action_def->getClass().'"'.$selected.' >'.$action_def->getLabel().'</option>');
 			} ?>
 		</select>
