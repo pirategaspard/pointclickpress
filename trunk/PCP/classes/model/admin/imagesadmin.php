@@ -44,103 +44,123 @@ class Model_Admin_ImagesAdmin
 	{		
 		// increase timeout so we can resize images
 		set_time_limit(240);
+		ini_set('memory_limit', '256M');
 		// Create the Upload and Media directories if they do not exist
 		model_utils_dir::prep_directory(UPLOAD_PATH);
 		model_utils_dir::prep_directory(MEDIA_PATH);
 		
-		// Do we have a story id?
-		if (isset($_FILES)&&(isset($_POST['story_id']))&&($_POST['story_id'] > 0))
+		try
 		{
-			//set up image validation
-			$valid = Validation::factory($_FILES)->rules('filename',array(
-														array('upload::valid',NULL), 
-														array('upload::not_empty',NULL),
-														array('upload::size',array(':value','3M')), 
-														array('upload::type',array(':value',array('gif','jpg','jpeg','png'))), 
-														));
-			//is our image file valid?
-			if ($valid->Check())
+			// Do we have a story id?
+			if (isset($_FILES)&&(isset($_POST['story_id']))&&($_POST['story_id'] > 0))
 			{
-				// get original file name 
-				$filename = $_FILES['filename']['name'];
-					 
-				// remove original extension and create alternate file type. JPG always seems to be smallest 
-				//$filename = substr($filename,0,strpos($filename,'.')).'.png'; 
-					
-				//save filename to db & get image_id
-				$results = self::getImage(array('story_id'=>$_POST['story_id'],'filename'=>$filename,'type_id'=>$args['type_id']))->save();
-				//did we save to the db ok?
-				if ($results->success)
+				//set up image validation
+				$valid = Validation::factory($_FILES)->rules('filename',array(
+															array('upload::valid',NULL), 
+															array('upload::not_empty',NULL),
+															array('upload::size',array(':value','3M')), 
+															array('upload::type',array(':value',array('gif','jpg','jpeg','png'))), 
+															));				
+				//is our image file valid?
+				if ($valid->Check())
 				{
-					//get image Id from results
-					$image_id = $results->data['id'];
-					
-					// make a folders named story_id with a folder image_id inside it
-					// final path will be: /media/story_id/image_id/WxH/filename
-					$media_path = APPPATH.MEDIA_PATH.DIRECTORY_SEPARATOR.$_POST['story_id'].DIRECTORY_SEPARATOR;
-					model_utils_dir::prep_directory($media_path);
-					$media_path = $media_path.$image_id.DIRECTORY_SEPARATOR;
-					model_utils_dir::prep_directory($media_path);
-					
-					// upload original file from form 
-					$temp_file = upload::save($_FILES['filename'],$_FILES['filename']['name'],APPPATH.UPLOAD_PATH.DIRECTORY_SEPARATOR);																				
-					
-					// save default image 
-					$dest = $media_path.DIRECTORY_SEPARATOR.'default'.DIRECTORY_SEPARATOR;
-					$success = self::saveImage($temp_file,DEFAULT_SCREEN_WIDTH,DEFAULT_SCREEN_HEIGHT,$media_path,$filename,0,$dest);
-					// save thumbnail
-					$success = self::saveImage($temp_file,THUMBNAIL_IMAGE_WIDTH,THUMBNAIL_IMAGE_HEIGHT,$media_path,$filename);
-					  
-																										
-					// did we resize & save the file to the upload dir ok?
-					if ($success)
+					// get original file name 
+					$filename = $_FILES['filename']['name'];
+						 
+					// remove original extension and create alternate file type. JPG always seems to be smallest 
+					//$filename = substr($filename,0,strpos($filename,'.')).'.png'; 
+						
+					//save filename to db & get image_id
+					$results = self::getImage(array('story_id'=>$_POST['story_id'],'filename'=>$filename,'type_id'=>$args['type_id']))->save();
+					//did we save to the db ok?					
+					if ($results->success)
 					{
-						// determine reduction percentage
-						if ($args['type_id'] == 2)
+						//get image Id from results
+						$image_id = $results->data['id'];
+						
+						// make a folders named story_id with a folder image_id inside it
+						// final path will be: /media/story_id/image_id/WxH/filename
+						$media_path = APPPATH.MEDIA_PATH.DIRECTORY_SEPARATOR.$_POST['story_id'].DIRECTORY_SEPARATOR;
+						model_utils_dir::prep_directory($media_path);
+						$media_path = $media_path.$image_id.DIRECTORY_SEPARATOR;
+						model_utils_dir::prep_directory($media_path);
+						
+						// upload original file from form 
+						$temp_file = upload::save($_FILES['filename'],$_FILES['filename']['name'],APPPATH.UPLOAD_PATH.DIRECTORY_SEPARATOR);																				
+						
+						// save default image 
+						$dest = $media_path.DIRECTORY_SEPARATOR.'default'.DIRECTORY_SEPARATOR;
+						$success = self::saveImage($temp_file,DEFAULT_SCREEN_WIDTH,DEFAULT_SCREEN_HEIGHT,$media_path,$filename,0,$dest);
+						// save thumbnail
+						$success = self::saveImage($temp_file,THUMBNAIL_IMAGE_WIDTH,THUMBNAIL_IMAGE_HEIGHT,$media_path,$filename);
+						  
+																											
+						// did we resize & save the file to the upload dir ok?
+						if ($success)
 						{
-							// if this is a item image
-							// reduce image by a percentage determined by the default image size
-							// so that it maintains the same relative size
-							$ThisImage = Image::factory($temp_file);
-							$width_reduction_percentage = ($ThisImage->width / DEFAULT_SCREEN_WIDTH);
-							$height_reduction_percentage = ($ThisImage->height / DEFAULT_SCREEN_HEIGHT);						
-						}
-						else
-						{
-							$reduction_percentage = SCENE_IMAGE_REDUCTION_PERCENT * 0.01; 
-						}
-																							
-						//get array of Supported screens and add in the thumbnail size 
-						$SCREENS = Model_PCP_Screens::getScreens();													
-						// for each supported screen create image and save 	
-						foreach($SCREENS as $screen)
-						{
+							// determine reduction percentage
 							if ($args['type_id'] == 2)
 							{
-								$success = self::saveitemstate($temp_file,$screen['w'],$screen['h'],$media_path,$filename,$width_reduction_percentage,$height_reduction_percentage);
+								// if this is a item image
+								// reduce image by a percentage determined by the default image size
+								// so that it maintains the same relative size
+								$ThisImage = Image::factory($temp_file);
+								$width_reduction_percentage = ($ThisImage->width / DEFAULT_SCREEN_WIDTH);
+								$height_reduction_percentage = ($ThisImage->height / DEFAULT_SCREEN_HEIGHT);						
 							}
 							else
 							{
-								$success = self::saveImage($temp_file,$screen['w'],$screen['h'],$media_path,$filename,$reduction_percentage);
+								$reduction_percentage = SCENE_IMAGE_REDUCTION_PERCENT * 0.01; 
 							}
+																								
+							//get array of Supported screens and add in the thumbnail size 
+							$SCREENS = Model_PCP_Screens::getScreens();													
+							// for each supported screen create image and save 	
+							foreach($SCREENS as $screen)
+							{
+								if ($args['type_id'] == 2)
+								{
+									$success = self::saveitemstate($temp_file,$screen['w'],$screen['h'],$media_path,$filename,$width_reduction_percentage,$height_reduction_percentage);
+								}
+								else
+								{
+									$success = self::saveImage($temp_file,$screen['w'],$screen['h'],$media_path,$filename,$reduction_percentage);
+								}
+								if (!$success)
+								{
+									Kohana::$log->add(Log::ERROR, 'Image file was not saved to disk');
+								}
+							}
+							unlink($temp_file); // delete original upload file when done
 						}
+						else
+						{
+							Kohana::$log->add(Log::ERROR, 'Image file was not saved to upload directory');
+						}					
+						$results = new pcpresult($success,'',array('filename'=>$filename,'path'=>UPLOAD_PATH.DIRECTORY_SEPARATOR,'image_id'=>$image_id));
 					}
-					
-					$results = new pcpresult($success,'',array('filename'=>$filename,'path'=>UPLOAD_PATH.DIRECTORY_SEPARATOR,'image_id'=>$image_id));
+					else
+					{			
+						$results = new pcpresult(0,'Image file was not saved to db');
+						Kohana::$log->add(Log::ERROR, 'Image file was not saved to db');
+					}
 				}
 				else
 				{			
-					$results = new pcpresult(0,'File was not saved to db');
+					$results = new pcpresult(0,'',array('errors'=>$valid->errors()));
+					Kohana::$log->add(Log::ERROR, 'Image did not pass validation');
 				}
 			}
 			else
 			{			
-				$results = new pcpresult(0,'',array('errors'=>$valid->errors()));
+				$results = new pcpresult(0,'No files and/or no story ID');
+				Kohana::$log->add(Log::ERROR, 'No files and/or no story ID');
 			}
 		}
-		else
+		catch (Exception $e)
 		{			
-			$results = new pcpresult(0,'No files and/or no story ID');
+			$error = Kohana_Exception::text($e);// Get the text of the exception			
+			Kohana::$log->add(Log::ERROR, $error);// Add this exception to the log
 		}
 		return $results;
 	}			
