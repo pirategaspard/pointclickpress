@@ -11,7 +11,7 @@
 		<input type="hidden" name="id" value="<?php echo($itemdef->id); ?>" />
 		<label>Title:</label>
 		<input type="text" name="title" value="<?php echo($itemdef->title); ?>" >		
-		slug: <?php echo($itemdef->slug); ?>
+		Value: <?php echo($itemdef->slug); ?>
 		<input id="button_submit" type="submit" name="submit" value="submit" class="ui-widget ui-state-default ui-corner-all button save" />
 	</form>
 </fieldset>
