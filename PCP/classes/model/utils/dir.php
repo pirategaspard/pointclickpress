@@ -38,7 +38,7 @@ class Model_Utils_Dir
 	public static function remove_directory($path)
 	{
 		try
-		{
+		{ 
 			// Constructs a new directory iterator from a path
 			$dir = new DirectoryIterator($path);
 
@@ -74,7 +74,7 @@ class Model_Utils_Dir
 		catch (Exception $e)
 		{
 			throw new Kohana_Exception('Could not remove :path directory',
-				array(':path' => Kohana::debug_path($path)));
+				array(':path' => $path));
 		}
 	}
 
