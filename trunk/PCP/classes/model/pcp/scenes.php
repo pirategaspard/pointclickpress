@@ -28,7 +28,7 @@ class Model_PCP_Scenes
 		if (isset($args['location_id'])) $q .= ' AND c.id = :location_id'; //if we have a location id
 		if (isset($args['story_id'])) $q .= ' AND s.id = :story_id'; //if we have a story id
 		
-		$q .= ' ORDER BY sc.id ASC';
+		$q .= ' ORDER BY sc.title ASC';
 		
 		$q = DB::query(Database::SELECT,$q,TRUE);
 		

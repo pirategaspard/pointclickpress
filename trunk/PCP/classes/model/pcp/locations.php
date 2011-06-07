@@ -25,7 +25,7 @@ class Model_PCP_Locations
 		if (isset($args['location'])) $q .= ' AND c.id = :location'; //if we have a location
 		if (isset($args['story_id'])) $q .= ' AND s.id = :story_id'; //if we have a story id
 		
-		$q .= ' ORDER BY c.id ASC';
+		$q .= ' ORDER BY c.title ASC';
 		
 		$q = DB::query(Database::SELECT,$q,TRUE);
 		

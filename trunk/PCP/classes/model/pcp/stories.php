@@ -45,7 +45,7 @@ class Model_Pcp_Stories
 				
 		if (isset($args['story'])) $q .= ' AND s.id = :story'; //if we have a story id		
 		
-		$q .= ' ORDER BY s.id DESC';
+		$q .= ' ORDER BY s.title ASC';
 		
 		$q = DB::query(Database::SELECT,$q,TRUE);
 		
