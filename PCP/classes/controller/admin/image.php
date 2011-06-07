@@ -82,6 +82,15 @@ Class Controller_admin_image extends Controller_Template_Admin
 		$session = Session::instance('admin');	
 		$session->delete('result');	
 		$data = Model_Admin_ImagesAdmin::getData();	
+		try
+		{
+			$dir = APPPATH.MEDIA_PATH.DIRECTORY_SEPARATOR.$data['story_id'].DIRECTORY_SEPARATOR.$data['image_id'].DIRECTORY_SEPARATOR;
+			model_utils_dir::remove_directory($dir); // delete images
+		}
+		catch (Exception $e)
+		{
+			Kohana::$log->add(Log::ERROR, 'Unable to Delete '.$dir);
+		}
 		$result = Model_Admin_ImagesAdmin::getimage()->init($data)->delete();
 		// Create User Message
 		if ($result->success)
