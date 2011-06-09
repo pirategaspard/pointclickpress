@@ -20,7 +20,7 @@
 	  	for(var n in data.items)
 		{
 			//$(cells[n]).html('<img src="'+data.items[n]+'" />');
-			$(cells[n-1]).replaceWith('<div class="item" n='+n+'><form n='+n+' i='+data.items[n].id+' action="itemclick?n='+n+'&i='+data.items[n].id+'" method="post" ><input type="image" src="'+data.items[n].path+'" name="i" value="'+data.items[n].id+'" /></form></div>');
+			$(cells[n]).replaceWith('<div class="item" n='+n+'><form n='+n+' i='+data.items[n].id+' action="itemclick?n='+n+'&i='+data.items[n].id+'" method="post" ><input type="image" src="'+data.items[n].path+'" name="i" value="'+data.items[n].id+'" /></form></div>');
 	  	}
 	};	
 })( jQuery );
