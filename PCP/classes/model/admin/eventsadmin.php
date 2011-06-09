@@ -10,7 +10,7 @@ class Model_Admin_EventsAdmin extends Model_events
 		$files = Kohana::list_files('classes'.DIRECTORY_SEPARATOR.$dir);
 		foreach ($files as $class_name => $file)
 		{
-			$class_name = substr($class_name,strstr($class_name,'classes/')+strlen('classes/'));
+			$class_name = substr($class_name,stristr($class_name,'classes'.DIRECTORY_SEPARATOR)+strlen('classes'.DIRECTORY_SEPARATOR));
 			$class_name = preg_replace('/\.php/','',$class_name);
 			$class_name = preg_replace('/[\/\\\]/','_',$class_name);
 			
@@ -67,13 +67,12 @@ class Model_Admin_EventsAdmin extends Model_events
 			$r = DB::query(Database::SELECT,$q,TRUE)
 											->param(':story_id',$args['story_id'])
 											->execute()
-											->as_array();
-			$l = new Model_Utils_SimpleLog(APPPATH.'logs');
-			$l->addMessage('Loaded '.count($r).' listeners for story: '.$args['story_id']);
+											->as_array();			
 		}
 		catch (Exception $e)
-		{
-					
+		{			
+			$error = Kohana_Exception::text($e);// Get the text of the exception			
+			Kohana::$log->add(Log::ERROR, $error);// Add this exception to the log
 		}
 		return $r;
 	}

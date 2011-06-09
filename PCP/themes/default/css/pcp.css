@@ -19,7 +19,7 @@ body { }
 #scene.pointing #loadingzone {display:none;}
 #scene.waiting #loadingzone {display:block;}
 
-#description, #message {display: block; overflow: auto; z-index: 1; text-align: center; }
+#description, #message {display: block; overflow: auto; z-index: 100; text-align: center; }
 #description {position: absolute; left: 0px;  bottom: 0px; width: 100%;  height: auto; background-color: white; filter:alpha(opacity=70); opacity:0.7;}
 
 #message {position: absolute; top: 40%; height: auto; width: 97%; padding: 10px; }
@@ -34,6 +34,8 @@ body { }
 h1, h3{font-size: 100%;}
 #stories, #story_info {width: 80%; margin: 0 auto;}
 #stories table tr td {height: 80px; padding: 4px 2px;}
+#story_info h1 {font-size: 1.5em;}
+#options {padding: 10px;}
 
 #description, #message { margin: 0 auto; font-size: 1.1em;}
 #footer {clear: both; position: relative; text-align: center; margin: 20px auto; font-size: .7em;}

@@ -29,6 +29,8 @@ legend {font-size:1.2em;}
 
 #bottommenu {}
 #footer {clear: both; position: relative; text-align: center; margin: 20px auto; font-size: .7em;}
+#footer ul.menu li a {text-decoration: none; color: black; }
+#footer ul.menu li a:hover {color: green}
 
 .action_description {border: solid 1px black; min-height: 10px; width: 400px; padding: 5px; margin: 10px 0px;}
 .form_block {padding: 5px; float: left; min-width: 30%;}

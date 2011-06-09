@@ -20,17 +20,17 @@ class plugins_google extends Model_Base_PCPPlugin
 		{
 			case DISPLAY_COLUMN_LEFT:
 			{
-				include(Kohana::find_file('plugins\google','adsense1'));
+				include(Kohana::find_file('plugins'.DIRECTORY_SEPARATOR.'google','adsense1'));
 				break;
 			}
 			case DISPLAY_COLUMN_RIGHT:
 			{
-				include(Kohana::find_file('plugins\google','adsense2'));
+				include(Kohana::find_file('plugins'.DIRECTORY_SEPARATOR.'google','adsense2'));
 				break;
 			}	
 			case DISPLAY_FOOTER:
 			{
-				include(Kohana::find_file('plugins\google','analytics'));
+				include(Kohana::find_file('plugins'.DIRECTORY_SEPARATOR.'google','analytics'));
 				break;
 			}		
 		}	
