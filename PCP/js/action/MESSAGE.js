@@ -32,6 +32,9 @@
 		// clear message after waiting			
 		setTimeout(function(){div.html('');},wait_time);
 		//setTimeout(function(){$('#'+t).remove();},wait_time);
+		
+		//clear on click
+		div.click(function(){div.html('');});
 				
 	};
 })( jQuery );
