@@ -30,7 +30,7 @@ class action_assign extends Model_Base_PCPActionDef
 			{
 				$name = trim($temp[0]);
 				$value = trim($temp[1]);	
-				// make sure the left side has a valid variable name;
+				// make sure the left side has a valid variable name;				
 				if ($this->isVariable($name))
 				{					
 					$name = $this->getVariableName($name);	//remove any whitespace and strip $ from variable name so we can put it in session['story_data'][$var]		
@@ -45,8 +45,8 @@ class action_assign extends Model_Base_PCPActionDef
 	}
 	
 	public function assign($name,$value)
-	{
-		$parsed = array(); // array of results								
+	{					
+		$parsed = array(); // array of results							
 		if ($this->isVariableOrNumeric($value))
 		{
 			/* 
@@ -55,8 +55,6 @@ class action_assign extends Model_Base_PCPActionDef
 				1; or $var;
 			*/
 			//echo (' simple assignment: ');					
-			//echo($this->getValueFromArray($this->getVariableName($value),$this->story_data));
-			//$parsed[$name] = $this->getValueFromArray($this->getVariableName($value),$this->story_data);
 			Storydata::set($name,$this->getValueFromArray($this->getVariableName($value),StoryData::getStorydata()));
 		}
 		else if ($this->isString($value))
@@ -67,7 +65,6 @@ class action_assign extends Model_Base_PCPActionDef
 				1; or $var;
 			*/
 			//echo (' simple assignment: '.preg_replace('/[\'"]/','',$value));
-			//$parsed[$name] = $this->removeQuotes($value);	
 			Storydata::set($name,$this->removeQuotes($value));
 		}
 		else if(preg_match('/((\$[a-zA-Z\'\[\]0-9]+)|([0-9]+))\s*([\+\-\*\/])\s*((\$[a-zA-Z\'\[\]0-9]+)|([0-9]+))/',$value))
@@ -84,7 +81,6 @@ class action_assign extends Model_Base_PCPActionDef
 			{
 				$math_values[0] = $this->getValueFromArray($this->getVariableName($math_values[0]),StoryData::getStorydata());
 				$math_values[1] = $this->getValueFromArray($this->getVariableName($math_values[1]),StoryData::getStorydata());
-				//$parsed[$name] = $this->doBasicMath($math_values[0],$operator,$math_values[1]);	
 				Storydata::set($name,$this->doBasicMath($math_values[0],$operator,$math_values[1]));
 			}
 		}	

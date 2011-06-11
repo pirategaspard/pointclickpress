@@ -70,8 +70,9 @@ class Model_Admin_Cell extends Model
 		}
 		else
 		{
+			Kohana::$log->add(Log::ERROR, 'Error Inserting Record in file'.__FILE__);
 			throw new Kohana_Exception('Error Inserting Record in file: :file',
-					array(':file' => Kohana::debug_path(__FILE__)));
+					array(':file' => __FILE__));
 		}
 		$results->data = array('id'=>$this->id);
 		return $results;

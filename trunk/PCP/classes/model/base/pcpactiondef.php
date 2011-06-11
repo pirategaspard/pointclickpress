@@ -58,7 +58,7 @@ class Model_Base_PCPActionDef extends Model_Base_PCPAdminItem implements Interfa
 	
 	static function isVariableOrNumeric($var)
 	{
-		if (preg_match('/^((\$[a-zA-Z\'\[\]0-9]+)|([0-9]+))$/',$var))
+		if (self::isVariable($var)||self::isNumeric($var))
 		{
 			return 1;
 		}
@@ -70,7 +70,7 @@ class Model_Base_PCPActionDef extends Model_Base_PCPAdminItem implements Interfa
 	
 	static function isVariableOrNumericOrString($var)
 	{
-		if (preg_match('/^((\$[a-zA-Z\'\[\]0-9]+)|([0-9]+)|(\'\w.*\'+)|("\w.*"+))$/',$var))
+		if (self::isVariable($var)||self::isNumeric($var)||self::isString($var))
 		{
 			return 1;
 		}

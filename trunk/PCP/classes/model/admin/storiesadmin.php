@@ -31,7 +31,7 @@ class Model_Admin_StoriesAdmin extends Model_PCP_Stories
 		if (isset($args['story'])) $q .= ' AND s.id = :story'; //if we have a story id
 		if (isset($args['status'])) $q .= ' AND s.status = :status';		
 		
-		$q .= ' ORDER BY s.id DESC';
+		$q .= ' ORDER BY s.title ASC';
 		
 		$q = DB::query(Database::SELECT,$q,TRUE);
 		
@@ -41,16 +41,16 @@ class Model_Admin_StoriesAdmin extends Model_PCP_Stories
 								
 		$tempArray = $q->execute()->as_array();		
 		
-		$stories = array();
+		$objs = array();
 		foreach($tempArray as $a)
 		{
 			if(isset($args['include_locations'])) $a['include_locations'] = $args['include_locations'];
 			if(isset($args['include_scenes'])) $a['include_scenes'] = $args['include_scenes'];
 			if(isset($args['include_actions'])) $a['include_actions'] = $args['include_actions'];
 			
-			$stories[$a['id']] = self::getStory()->init($a);
+			$objs[$a['id']] = self::getStory()->init($a);
 		}
-		return $stories;		
+		return $objs;		
 	}
 	
 	static function getData()

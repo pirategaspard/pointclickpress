@@ -88,8 +88,9 @@ class Model_GridAction extends Model_Base_PCPAction
 			}
 			else
 			{
+				Kohana::$log->add(Log::ERROR, 'Error Inserting Record in file'.__FILE__);
 				throw new Kohana_Exception('Error Inserting Record in file: :file',
-					array(':file' => Kohana::debug_path(__FILE__)));
+					array(':file' => __FILE__));
 			}
 		}
 		elseif ($this->id > 0)

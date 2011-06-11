@@ -90,8 +90,9 @@ class Model_ItemDef extends Model
 			}
 			else
 			{
+				Kohana::$log->add(Log::ERROR, 'Error Inserting Record in file'.__FILE__);
 				throw new Kohana_Exception('Error Inserting Record in file: :file',
-					array(':file' => Kohana::debug_path(__FILE__)));
+					array(':file' => __FILE__));
 			}
 		}
 		elseif ($this->id > 0)
@@ -109,10 +110,9 @@ class Model_ItemDef extends Model
 			}
 			catch( Database_Exception $e )
 			{
-				var_dump($q); //die();
-				var_dump($this);
-				throw new Kohana_Exception('Error Updating Record in file: :file - ',
-					array(':file' => Kohana::debug_path(__FILE__)));
+				Kohana::$log->add(Log::ERROR, 'Error Updating Record in file'.__FILE__);
+				throw new Kohana_Exception('Error Updating Record in file: :file ',
+					array(':file' => __FILE__));
 			}
 		}
 		$results->data = array('id'=>$this->id);
