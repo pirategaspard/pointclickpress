@@ -144,11 +144,11 @@ Class Controller_PCP extends Controller_Template_PCP
 			//debug
 			if (($data['story'] == NULL))
 			{
-				echo ("<p><b>No Story Data</b></p>");				
+				echo ("<p><b>No Story Data</b><br />This story id probably doesn't exist</p>");				
 			}
 			if (($data['scene']->id <= 0) )
 			{
-				echo ("<p><b>No Scene id</b></p>");				
+				echo ("<p><b>No Scene id</b><br /> Did you set your starting scene? Otherwise this is usually caused because there is no scene with the value you asked for in this location.</p>");				
 			}	
 		}
 		Events::announceEvent(POST_SCENE);	
