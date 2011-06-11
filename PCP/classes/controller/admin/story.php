@@ -85,8 +85,15 @@ Class Controller_admin_story extends Controller_Template_Admin
 		$session->delete('result');
 		if(count($_POST) > 0)
 		{
-			$result = Model_Admin_StoriesAdmin::getStory()->init($_POST)->save();
-			$session->set('story_id',$result->data['id']);			
+			try
+			{
+				$result = Model_Admin_StoriesAdmin::getStory()->init($_POST)->save();
+				$session->set('story_id',$result->data['id']);
+			}
+			catch (Exception $e)
+			{
+				Kohana::$log->add(Log::ERROR, 'Unable to Save Story');
+			}			
 		}
 		else
 		{
@@ -108,8 +115,15 @@ Class Controller_admin_story extends Controller_Template_Admin
 		$data = Model_Admin_StoriesAdmin::GetData();			
 		if (isset($data['story_id']) && isset($data['image_id']))
 		{
-			$story = Model_Admin_StoriesAdmin::getStory($data);
-			$result = $story->init(array('image_id'=>$data['image_id']))->save();
+			try
+			{
+				$story = Model_Admin_StoriesAdmin::getStory($data);
+				$result = $story->init(array('image_id'=>$data['image_id']))->save();
+			}
+			catch (Exception $e)
+			{
+				Kohana::$log->add(Log::ERROR, 'Unable to Assign Image to Story');
+			}
 			if ($result->success)
 			{
 				$result->message = "Image Assigned";
@@ -124,7 +138,14 @@ Class Controller_admin_story extends Controller_Template_Admin
 		$session = Session::instance('admin');	
 		$session->delete('result');	
 		$data = Model_Admin_StoriesAdmin::GetData();
-		$result = Model_Admin_StoriesAdmin::getStory()->init($data)->delete();
+		try
+		{
+			$result = Model_Admin_StoriesAdmin::getStory()->init($data)->delete();
+		}
+		catch (Exception $e)
+		{
+			Kohana::$log->add(Log::ERROR, 'Unable to Delete Story');
+		}
 		// Create User Message
 		if ($result->success)
 		{

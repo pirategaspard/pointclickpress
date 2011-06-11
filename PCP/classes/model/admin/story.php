@@ -136,8 +136,9 @@ class Model_Admin_Story extends Model_PCP_Story
 			}
 			catch( Database_Exception $e )
 			{
+				Kohana::$log->add(Log::ERROR, 'Error Updating Record in file'.__FILE__);
 				throw new Kohana_Exception('Error Updating Record in file: :file '.$e->getMessage(),
-					array(':file' => Kohana::debug_path(__FILE__)));
+					array(':file' => __FILE__));
 			}
 		}
 		$results->data = array('id'=>$this->id);

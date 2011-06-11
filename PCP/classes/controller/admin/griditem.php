@@ -47,8 +47,15 @@ Class Controller_admin_griditem extends Controller_Template_Admin
 		$session->delete('result');		
 		if(count($_POST) > 0)
 		{
-			$result = Model_Admin_GriditemAdmin::getGridItem()->init($_POST)->save();
-			$session->set('item_id',$result->data['id']);			
+			try
+			{
+				$result = Model_Admin_GriditemAdmin::getGridItem()->init($_POST)->save();
+				$session->set('item_id',$result->data['id']);
+			}
+			catch (Exception $e)
+			{
+				Kohana::$log->add(Log::ERROR, 'Unable to Save Griditem');
+			}			
 		}
 		else
 		{
@@ -68,10 +75,17 @@ Class Controller_admin_griditem extends Controller_Template_Admin
 	function action_delete()
 	{	
 		$session = Session::instance('admin');	
-		$session->delete('result');
-		$data = Model_Admin_GriditemAdmin::getData();	
-		$result = Model_Admin_GriditemAdmin::getGridItem()->init($data)->delete();
-		// Create User Message
+		$session->delete('result');		
+		$data = Model_Admin_GriditemAdmin::getData();
+		try
+		{	
+			$result = Model_Admin_GriditemAdmin::getGridItem()->init($data)->delete();
+		}
+		catch (Exception $e)
+		{
+			Kohana::$log->add(Log::ERROR, 'Unable to Delete Griditem');
+		}
+	// Create User Message
 		if ($result->success)
 		{
 			$result->message = "Item Deleted";

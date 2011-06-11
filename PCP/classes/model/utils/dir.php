@@ -24,14 +24,15 @@ class Model_Utils_Dir
 			}
 			else
 			{
+				Kohana::$log->add(Log::ERROR, $path.' is a file in '. __FILE__);
 				throw new Kohana_Exception(':path is a file',
-				array(':path' => Kohana::debug_path($path)));
+				array(':path' => $path));
 			}
 /*		}
 		catch (Exception $e)
 		{
 			throw new Kohana_Exception('Could not create :path directory',
-			array(':path' => Kohana::debug_path($path)));
+			array(':path' => $path));
 		} */
 	}
 	

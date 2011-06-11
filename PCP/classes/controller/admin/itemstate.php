@@ -49,8 +49,15 @@ Class Controller_admin_itemstate extends Controller_Template_Admin
 			$itemstate = Model_Admin_ItemstateAdmin::getItemStateByItemId($_POST['itemdef_id'],$_POST['value']);													
 			if ((count($itemstate) == 0) || (isset($itemstate[$_POST['id']])))
 			{
-				$result = Model_Admin_ItemstateAdmin::getitemstate()->init($_POST)->save();
-				$session->set('itemstate_id',$result->data['id']);
+				try
+				{
+					$result = Model_Admin_ItemstateAdmin::getitemstate()->init($_POST)->save();
+					$session->set('itemstate_id',$result->data['id']);
+				}
+				catch (Exception $e)
+				{
+					Kohana::$log->add(Log::ERROR, 'Unable to Save ItemState');
+				}
 			}
 			else
 			{
@@ -76,7 +83,14 @@ Class Controller_admin_itemstate extends Controller_Template_Admin
 	{	
 		$session = Session::instance('admin');	
 		$session->delete('result');
-		$result = Model_Admin_ItemstateAdmin::getitemstate()->init(array('id'=>$_REQUEST['itemstate_id']))->delete();
+		try
+		{
+			$result = Model_Admin_ItemstateAdmin::getitemstate()->init(array('id'=>$_REQUEST['itemstate_id']))->delete();
+		}
+		catch (Exception $e)
+		{
+			Kohana::$log->add(Log::ERROR, 'Unable to Delete ItemState');
+		}
 		// Create User Message
 		if ($result->success)
 		{
@@ -95,8 +109,15 @@ Class Controller_admin_itemstate extends Controller_Template_Admin
 		$data = Model_Admin_ItemstateAdmin::getData();			
 		if (isset($data['itemstate_id']) && isset($data['image_id']))
 		{
-			$itemstate = Model_Admin_ItemstateAdmin::getItemstate(array('id'=>$data['itemstate_id']));
-			$result = $itemstate->init(array('image_id'=>$data['image_id']))->save();
+			try
+			{
+				$itemstate = Model_Admin_ItemstateAdmin::getItemstate(array('id'=>$data['itemstate_id']));
+				$result = $itemstate->init(array('image_id'=>$data['image_id']))->save();
+			}
+			catch (Exception $e)
+			{
+				Kohana::$log->add(Log::ERROR, 'Unable to Assign Image to ItemState');
+			}
 			if ($result->success)
 			{
 				$result->message = "Image Assigned";

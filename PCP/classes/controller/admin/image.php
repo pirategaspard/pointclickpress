@@ -67,8 +67,15 @@ Class Controller_admin_image extends Controller_Template_Admin
 	{		
 		$session = Session::instance('admin');
 		$data = Model_Admin_ImagesAdmin::getData();	
-		$result = Model_Admin_ImagesAdmin::upload($data);
-		$session->set('result',$result);
+		try
+		{
+			$result = Model_Admin_ImagesAdmin::upload($data);
+			$session->set('result',$result);
+		}
+		catch (Exception $e)
+		{
+			Kohana::$log->add(Log::ERROR, 'Unable to Upload Image');
+		}
 		if ($result->success)
 		{			
 			if ($session->get('scene_id'))

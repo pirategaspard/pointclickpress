@@ -28,15 +28,23 @@ Class Controller_Admin_Action extends Controller_Template_Admin
 		$session->delete('result');
 		if(count($_POST) > 0)
 		{
+			
 			if (isset($_POST['cell_ids']))
 			{
 				$_POST['cells'] = explode(',',$_POST['cell_ids']);
 			}
 			// get action label by creating action obj
 			$myaction = new $_POST['action'];
-			$_POST['action_label'] = $myaction->getLabel();
-			//save action
-			$result = Model_Admin_ActionsAdmin::getAction($_POST)->load()->init($_POST)->save();		
+			$_POST['action_label'] = $myaction->getLabel();			
+			try
+			{
+				//save action
+				$result = Model_Admin_ActionsAdmin::getAction($_POST)->load()->init($_POST)->save();
+			}
+			catch (Exception $e)
+			{
+				Kohana::$log->add(Log::ERROR, 'Unable to Save Action');
+			}		
 		}
 		else
 		{
@@ -61,7 +69,14 @@ Class Controller_Admin_Action extends Controller_Template_Admin
 		$session = Session::instance('admin');
 		$session->delete('result');
 		$back_url = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
-		$result = Model_Admin_ActionsAdmin::getAction()->init(array('id'=>$_REQUEST['action_id']))->delete();
+		try
+		{
+			$result = Model_Admin_ActionsAdmin::getAction()->init(array('id'=>$_REQUEST['action_id']))->delete();
+		}
+		catch (Exception $e)
+		{
+			Kohana::$log->add(Log::ERROR, 'Unable to Delete Action');
+		}
 		// Create User Message
 		if ($result->success)
 		{

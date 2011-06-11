@@ -49,8 +49,15 @@ Class Controller_admin_itemdef extends Controller_Template_Admin
 		$session->delete('result');		
 		if(count($_POST) > 0)
 		{
-			$result = Model_Admin_ItemDefAdmin::getItemDef()->init($_POST)->save();
-			$session->set('itemdef_id',$result->data['id']);			
+			try
+			{
+				$result = Model_Admin_ItemDefAdmin::getItemDef()->init($_POST)->save();
+				$session->set('itemdef_id',$result->data['id']);
+			}
+			catch (Exception $e)
+			{
+				Kohana::$log->add(Log::ERROR, 'Unable to Save ItemDefinition');
+			}			
 		}
 		else
 		{
@@ -71,7 +78,14 @@ Class Controller_admin_itemdef extends Controller_Template_Admin
 	{	
 		$session = Session::instance('admin');	
 		$session->delete('result');
-		$result = Model_Admin_ItemDefAdmin::getItemDef()->init(array('id'=>$_REQUEST['itemdef_id']))->delete();
+		try
+		{
+			$result = Model_Admin_ItemDefAdmin::getItemDef()->init(array('id'=>$_REQUEST['itemdef_id']))->delete();
+		}
+		catch (Exception $e)
+		{
+			Kohana::$log->add(Log::ERROR, 'Unable to Delete ItemDefinition');
+		}
 		// Create User Message
 		if ($result->success)
 		{
