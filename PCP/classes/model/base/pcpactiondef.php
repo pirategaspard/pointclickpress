@@ -154,7 +154,7 @@ class Model_Base_PCPActionDef extends Model_Base_PCPAdminItem implements Interfa
 	static function getOperators($expression)
 	{
 		$operators = array();
-		if (preg_match('/strcmp|[===|<=|>=|<>|!=|==|<|>|+|-|\/|*|%]/',$expression, $ops))
+		if (preg_match('/strcmp|===|<=|>=|<>|!=|==|<|>|\+|-|\/|\*|%/',$expression, $ops))
 		{
 			$operators = $ops;
 		}

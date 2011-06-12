@@ -65,17 +65,15 @@ class action_ternary extends Model_Base_PCPActionDef
 						$eval_values[1] = $this->getValueFromArray($this->getVariableName($eval_values[1]),Storydata::getStorydata());
 						$values[0] = $this->getValueFromArray($this->getVariableName($values[0]),Storydata::getStorydata());
 						$values[1] = $this->getValueFromArray($this->getVariableName($values[1]),Storydata::getStorydata());		
-						
+																								
 						if($this->evaluate($this->removeQuotes($eval_values[0]),$operator,$this->removeQuotes($eval_values[1])))
-						{
-							//$parsed[$name] = $values[0];									
+						{									
 							Storydata::set($name,$values[0]);
 						}
 						else
 						{
-							//$parsed[$name] = $values[1];
 							Storydata::set($name,$values[1]);
-						}										
+						}															
 					}
 				}
 			}
@@ -84,7 +82,7 @@ class action_ternary extends Model_Base_PCPActionDef
 	}
 			
 	public function evaluate($var1,$operator,$var2)
-	{			
+	{							
 		switch ($operator)
 		{			
 			case 'strcmp': // kinda cheating on this one ;)
@@ -109,7 +107,7 @@ class action_ternary extends Model_Base_PCPActionDef
 			case '<>':
 				return ($var1 <> $var2); 
 			break;
-			case '!=':
+			case '!=':		
 				return ($var1 != $var2);  
 			break;
 			case '==':
@@ -121,6 +119,8 @@ class action_ternary extends Model_Base_PCPActionDef
 			case '>':
 				return ($var1 > $var2);  
 			break;
+			default:
+				return false;
 		}
 	}
 }
