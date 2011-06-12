@@ -13,15 +13,10 @@ class plugins_points extends Model_Base_PCPPlugin
 	{
 		switch($event_name)
 		{
-			case 'ACTION_REFRESH_EVENT':
-			{		
-				//include(Kohana::find_file('plugins'.DIRECTORY_SEPARATOR.'link','admin.js'));
-				echo '<p id="points">'.Storydata::get('_plugin_points',0).'</p>';
-				break;
-			}
 			case POST_SCENE_BOTTOM_MENU:
 			{
-				echo '<p id="points">'.Storydata::get('_plugin_points',0).'</p>';
+				//include(Kohana::find_file('plugins'.DIRECTORY_SEPARATOR.'link','admin.js'));
+				echo '<div id="points"><span>Points: '.Storydata::get('_plugin_points',0).'</span></div>';
 				break;
 			}
 			case POST_START_STORY:
