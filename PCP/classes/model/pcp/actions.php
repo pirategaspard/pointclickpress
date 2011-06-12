@@ -322,39 +322,39 @@ class Model_PCP_Actions
 		return $actions;
 	}
 
-		/*
-                a cell in a scene has been clicked,
-                get the action attached to the cell(s) (if any)
-         */
-        static function getCellActions($args=array())
-        {
-        	$actions = array();
-        	if ((isset($args['scene_id']))&&(isset($args['cell_id'])))
-			{
-				$q = '  SELECT  e.id,
-                				e.action,
-                                e.action_label,
-                                e.action_value
-                                FROM cells c
-                                INNER JOIN grids_actions g
-                                        ON g.grid_action_id = c.grid_action_id
-                                INNER JOIN actions e
-                                        ON e.id = g.action_id
-                                WHERE   c.id = :cell_id
-                                        AND c.scene_id = :scene_id
-                                ORDER BY e.id DESC';
-                	$actions_temp = DB::query(Database::SELECT,$q,TRUE)
-                                                                ->param(':scene_id',$args['scene_id'])
-                                                                ->param(':cell_id',$args['cell_id'])
-                                                                ->execute()
-                                                                ->as_array();					
-        	        foreach($actions_temp as $action_temp)
-                	{
-                        	$actions[] = self::getGridAction()->init($action_temp); 
-                    }                    
-				}
-                return $actions;
-        }
+	/*
+            a cell in a scene has been clicked,
+            get the action attached to the cell(s) (if any)
+     */
+    static function getCellActions($args=array())
+    {
+    	$actions = array();
+    	if ((isset($args['scene_id']))&&(isset($args['cell_id'])))
+		{
+			$q = '  SELECT  e.id,
+            				e.action,
+                            e.action_label,
+                            e.action_value
+                            FROM cells c
+                            INNER JOIN grids_actions g
+                                    ON g.grid_action_id = c.grid_action_id
+                            INNER JOIN actions e
+                                    ON e.id = g.action_id
+                            WHERE   c.id = :cell_id
+                                    AND c.scene_id = :scene_id
+                            ORDER BY e.id DESC';
+            	$actions_temp = DB::query(Database::SELECT,$q,TRUE)
+                                                            ->param(':scene_id',$args['scene_id'])
+                                                            ->param(':cell_id',$args['cell_id'])
+                                                            ->execute()
+                                                            ->as_array();					
+    	        foreach($actions_temp as $action_temp)
+            	{
+                    	$actions[] = self::getGridAction()->init($action_temp); 
+                }                    
+			}
+            return $actions;
+    }
 
 
 	
@@ -414,7 +414,7 @@ class Model_PCP_Actions
 			$action_obj = new $class_name; 
 			if ($action_obj instanceof Interface_iPCPActionDef)
 			{
-				Events::announceEvent($class_name.'_EVENT');
+				Events::announceEvent(strtoupper($class_name).'_EVENT'); // annouce action as an event so other actions/plugins can listen for this.
 				// execute action. 
 				$action_results = array_merge($action_results,$action_obj->performAction(array('action_value'=>$action->action_value),$class_name));
 			}

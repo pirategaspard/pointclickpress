@@ -124,5 +124,11 @@ Class Controller_Admin_Action extends Controller_Template_Admin
 		$data['action_type'] = ACTION_TYPE_GRID;
 		$this->template->content = View::factory('/admin/action/form_grid',$data)->render(); //inline form
 	}
+	
+	function action_reloadActiondefs()
+	{
+		Model_Admin_ActiondefsAdmin::reloadActiondefs();
+		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'plugin','action'=>'list')));
+	}
 }
 ?>

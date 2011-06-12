@@ -1,6 +1,7 @@
 <?php 
 	//var_dump($plugins);
 ?>
+<a href="<?php echo(Url::site(Route::get('admin')->uri(array('controller'=>'action','action'=>'reloadActiondefs')))); ?>">Reload All Action Definitions</a>
 <fieldset class="ui-helper-reset ui-widget-content ui-corner-all">
 	<legend>Installed Plugins</legend>
 	<table>
