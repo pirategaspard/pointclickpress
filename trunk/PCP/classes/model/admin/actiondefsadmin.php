@@ -176,6 +176,17 @@ class Model_Admin_ActionDefsAdmin extends Model
 		Cache::instance()->set('js_action_defs',$JSActionDefs);
 		return $JSActionDefs; 
 	}
+
+	static function reloadActiondefs()
+	{
+		self::emptyActiondefs();
+		self::searchForListeners(); // search for new ActionDefs		
+	}
 	
+	static function emptyActiondefs()
+	{
+		$q = 'TRUNCATE actiondefs';
+		DB::query(Database::DELETE,$q,TRUE)->execute();
+	}
 }
 ?>
