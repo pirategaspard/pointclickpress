@@ -34,6 +34,7 @@ body { }
 h1, h3{font-size: 100%;}
 #stories, #story_info {width: 80%; margin: 0 auto;}
 #stories table tr td {height: 80px; padding: 4px 2px;}
+#stories a:hover {color: green;}
 #story_info h1 {font-size: 1.5em;}
 #options {padding: 10px;}
 

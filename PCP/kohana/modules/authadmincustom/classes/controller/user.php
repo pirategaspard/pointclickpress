@@ -77,6 +77,7 @@ class Controller_User extends Controller_Template_App {
 		$user = ORM::factory('user');
 		$user->where($user->unique_key('username'), '=', $_REQUEST['username'])->find();
 		$data['user'] = $user;
+		if (!$user->id) $user->id = 0;
 		$data['stories'] = Model_PCP_Stories::getStories(array('status'=>'p','creator_user_id'=>$user->id));	
 		$this->template->content = View::factory('user/public/profile', $data);
 	}
