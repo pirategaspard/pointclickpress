@@ -43,13 +43,15 @@ class Model_Pcp_Stories
 						ON s.image_id = i.id
 				WHERE s.status = "p" ';
 				
-		if (isset($args['story'])) $q .= ' AND s.id = :story'; //if we have a story id		
+		if (isset($args['story'])) $q .= ' AND s.id = :story'; //if we have a story id
+		if (isset($args['creator_user_id'])) $q .= ' AND s.creator_user_id = :creator_user_id'; 
 		
 		$q .= ' ORDER BY s.title ASC';
 		
 		$q = DB::query(Database::SELECT,$q,TRUE);
 		
 		if (isset($args['story']))	 $q->param(':story',$args['story']->id);
+		if (isset($args['creator_user_id'])) $q->param(':creator_user_id',$args['creator_user_id']);; 
 								
 		$tempArray = $q->execute()->as_array();		
 		
