@@ -23,16 +23,10 @@
 		{
 			// if we specified a wait time use that
 			wait_time = data.wait_time; 
+			// clear message after waiting			
+			setTimeout(function(){div.html('');},wait_time);
 		}
-		else
-		{		
-			// otherwise wait 5 seconds
-			wait_time = 5000;
-		}
-		// clear message after waiting			
-		setTimeout(function(){div.html('');},wait_time);
-		//setTimeout(function(){$('#'+t).remove();},wait_time);
-		
+				
 		//clear on click
 		div.click(function(){div.html('');});
 				
