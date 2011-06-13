@@ -1,4 +1,5 @@
-* { margin:0; padding:0; }
+
+* { margin:0; padding:0; list-style: none;}
 
 body { }
 #container {margin: 0 auto;  width:100%;}/* width:80%; */
