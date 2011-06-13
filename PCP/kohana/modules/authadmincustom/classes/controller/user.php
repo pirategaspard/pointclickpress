@@ -68,16 +68,18 @@ class Controller_User extends Controller_Template_App {
 
 	 /**
     * View: public User account information
-    */
-   public function action_userinfo() {
-      // set the template title (see Controller_App for implementation)
-      $this->template->title = __('User profile');
-      $view = $this->template->content = View::factory('user/public/profile');
-      // Load the user
+	*/
+	public function action_userinfo() 
+	{
+		// set the template title (see Controller_App for implementation)
+		$this->template->title = __('User profile');      
+		// Load the user
 		$user = ORM::factory('user');
 		$user->where($user->unique_key('username'), '=', $_REQUEST['username'])->find();
-      $view->set('user', $user );
-   }
+		$data['user'] = $user;
+		$data['stories'] = Model_PCP_Stories::getStories(array('status'=>'p','creator_user_id'=>$user->id));	
+		$this->template->content = View::factory('user/public/profile', $data);
+	}
 
    /**
     * View: User account information
