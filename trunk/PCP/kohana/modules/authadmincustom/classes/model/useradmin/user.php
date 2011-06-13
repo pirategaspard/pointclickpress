@@ -16,8 +16,7 @@ class Model_Useradmin_User extends Model_Auth_User {
       // for facebook / twitter / google / yahoo identities
       'user_identity' => array(),
       );
-   protected $_has_one= array(
-      );
+   protected $_has_one= array( );
    protected $_created_column = array('column' => 'created', 'format' => 'Y-m-d H:i:s');
    protected $_updated_column = array('column' => 'modified', 'format' => 'Y-m-d H:i:s');
 

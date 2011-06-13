@@ -66,6 +66,19 @@ class Controller_User extends Controller_Template_App {
       $view = $this->template->content = View::factory('user/noaccess');
    }
 
+	 /**
+    * View: public User account information
+    */
+   public function action_userinfo() {
+      // set the template title (see Controller_App for implementation)
+      $this->template->title = __('User profile');
+      $view = $this->template->content = View::factory('user/public/profile');
+      // Load the user
+		$user = ORM::factory('user');
+		$user->where($user->unique_key('username'), '=', $_REQUEST['username'])->find();
+      $view->set('user', $user );
+   }
+
    /**
     * View: User account information
     */
@@ -104,6 +117,7 @@ class Controller_User extends Controller_Template_App {
                'username',
                'password',
                'email',
+               'info'
             ));
             // message: save success
             Message::add('success', __('Values saved.'));

@@ -20,7 +20,9 @@ echo $form->open('user/profile_edit');
       <li><label><?php echo __('Password'); ?></label></li>
       <?php echo $form->password('password', null, array('info' => __('Password should be between 6-42 characters.'))) ?>
       <li><label><?php echo __('Re-type Password'); ?></label></li>
-      <?php echo $form->password('password_confirm') ?>
+      <?php echo $form->password('password_confirm') ?>     
+      <li><h2><?php echo __('Info'); ?></h2></li>
+	  <?php echo $form->textarea('info') ?>      
       <li><h2><?php echo __('Roles'); ?></h2></li>
       <li><table class="content">
          <tr class="heading"><td><?php echo __('Role'); ?></td><td><?php echo __('Description'); ?></td></tr>
