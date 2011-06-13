@@ -52,7 +52,7 @@ class Model_Pcp_Stories
 		
 		if (isset($args['story']))	 $q->param(':story',$args['story']->id);
 		if (isset($args['creator_user_id'])) $q->param(':creator_user_id',$args['creator_user_id']);; 
-								
+					
 		$tempArray = $q->execute()->as_array();		
 		
 		$stories = array();
