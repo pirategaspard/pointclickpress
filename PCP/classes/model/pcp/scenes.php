@@ -16,19 +16,22 @@ class Model_PCP_Scenes
 	static function getScenes($args=array())
 	{				
 		// get all the scenes in the db
-		$q = '	SELECT sc.*
+		$q = '	SELECT sc.*,
+						i.filename
 				FROM scenes sc
 				INNER JOIN locations c
 				ON c.id = sc.location_id
 				INNER JOIN stories s
 				ON s.id = c.story_id
+				LEFT OUTER JOIN images i
+						ON sc.image_id = i.id
 				WHERE 1 = 1 ';
 				
 		if (isset($args['scene_id'])) $q .= ' AND sc.id = :scene_id'; //if we have a scene id
 		if (isset($args['location_id'])) $q .= ' AND c.id = :location_id'; //if we have a location id
 		if (isset($args['story_id'])) $q .= ' AND s.id = :story_id'; //if we have a story id
 		
-		$q .= ' ORDER BY sc.title ASC';
+		$q .= ' ORDER BY sc.title, sc.value ASC';
 		
 		$q = DB::query(Database::SELECT,$q,TRUE);
 		

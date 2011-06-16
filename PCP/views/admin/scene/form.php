@@ -1,7 +1,7 @@
 <?php 
 	
 ?>
-<h3><?php print($scene->title.' '.$scene->value); ?></h3>
+<h3><?php print($scene->title); ?></h3>
 <fieldset class="ui-helper-reset ui-widget-content ui-corner-all">
 	<legend>Scene <?php print($scene->id);?></legend>
 	<form action="<?php print($scene_form_action); ?>" method="post" enctype="multipart/form-data" >

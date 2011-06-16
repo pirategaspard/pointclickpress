@@ -42,7 +42,7 @@ $default_screen_size = '800x480'; // wide
 /*
 	supported grid sizes:
 */
-$supported_grid_sizes = '4x4,10x10,20x20,40x40';
+$supported_grid_sizes = '5x5,10x10,20x20';
 
 /*
 	default cache driver
