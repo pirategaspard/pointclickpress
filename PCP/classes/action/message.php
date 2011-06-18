@@ -14,7 +14,7 @@ class action_message extends Model_Base_PCPActionDef
 {	
 	protected $label = 'User Message';
 	protected $description = 'Displays a Message to the User';
-	protected $allowed_action_types = Array(ACTION_TYPE_NULL,ACTION_TYPE_STORY,ACTION_TYPE_LOCATION,ACTION_TYPE_SCENE,ACTION_TYPE_GRID,ACTION_TYPE_ITEMSTATE);
+	protected $allowed_action_types = Array(ACTION_TYPE_NULL,ACTION_TYPE_STORY,ACTION_TYPE_LOCATION,ACTION_TYPE_SCENE,ACTION_TYPE_GRID,ACTION_TYPE_GRIDITEM);
 	
 	public function performAction($args=array(),$hook_name='')
 	{
