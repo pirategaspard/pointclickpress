@@ -101,7 +101,6 @@ class Model_GridItem extends Model
 							(
 								SELECT s.id 
 								FROM itemdefs i
-									ON g.itemdef_id = i.id
 								INNER JOIN stories s 
 									ON i.story_id = s.id
 									AND s.creator_user_id = :creator_user_id
