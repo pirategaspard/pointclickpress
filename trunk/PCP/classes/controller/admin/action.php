@@ -36,16 +36,16 @@ Class Controller_Admin_Action extends Controller_Template_Admin
 			// get action label by creating action obj
 			$myaction = new $_POST['action'];
 			$_POST['action_label'] = $myaction->getLabel();			
-			try
-			{
+			/*try
+			{*/
 				//save action
-				$data = Model_Admin_ActionsAdmin::getData();
+				$data = Model_Admin_ActionsAdmin::getData();				
 				$result = Model_Admin_ActionsAdmin::getAction($data)->load()->init($data)->save();
-			}
+			/*}
 			catch (Exception $e)
 			{
 				Kohana::$log->add(Log::ERROR, 'Unable to Save Action');
-			}		
+			}*/		
 		}
 		else
 		{
