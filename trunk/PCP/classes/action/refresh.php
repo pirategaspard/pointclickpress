@@ -53,7 +53,7 @@ class action_refresh extends Model_Base_PCPActionDef
 			$results = array_merge($results,Actions::doActions($scene->getActions()));		
 			// put any item actions into session
 			$results = array_merge($results,Actions::doActions(Model_PCP_Actions::getSceneItemDefActions($scene->id)));
-			$results = array_merge($results,Actions::doActions(Model_PCP_Actions::getSceneItemStateActions($scene->id)));
+			//$results = array_merge($results,Actions::doActions(Model_PCP_Actions::getSceneItemStateActions($scene->id)));
 			
 			$data['items'] = $this->getItems($scene->id,$story);	
 		}
