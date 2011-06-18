@@ -49,7 +49,8 @@ Class Controller_admin_griditem extends Controller_Template_Admin
 		{
 			try
 			{
-				$result = Model_Admin_GriditemAdmin::getGridItem()->init($_POST)->save();
+				$data = Model_Admin_GriditemAdmin::getData();
+				$result = Model_Admin_GriditemAdmin::getGridItem()->init($data)->save();
 				$session->set('item_id',$result->data['id']);
 			}
 			catch (Exception $e)

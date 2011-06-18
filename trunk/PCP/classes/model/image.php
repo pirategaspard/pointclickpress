@@ -58,17 +58,29 @@ class Model_Image extends Model
 		$results = new pcpresult();
 		if ($this->id == 0)
 		{
-			try
-			{
+			/*try
+			{*/
 				//INSERT new record
 				$q = '	INSERT INTO images
 							(story_id,type_id,filename)
-						VALUES (:story_id,:type_id,:filename)';
+						SELECT DISTINCT
+							:story_id AS story_id
+							,:type_id AS type_id
+							,:filename AS filename
+						FROM stories
+						WHERE EXISTS 
+								(
+									SELECT s.id 
+									FROM stories s 
+									WHERE s.id = :story_id 
+									AND s.creator_user_id = :creator_user_id
+								)';
 							
 				$q_results = DB::query(Database::INSERT,$q,TRUE)							
 									->param(':story_id',$this->story_id)
 									->param(':type_id',$this->type_id)
 									->param(':filename',$this->filename)
+									->param(':creator_user_id',Auth::instance()->get_user()->id)
 									->execute();			
 				if ($q_results[1] > 0)
 				{
@@ -81,28 +93,32 @@ class Model_Image extends Model
 					throw new Kohana_Exception('Error Inserting Record in file: :file',
 						array(':file' => __FILE__));
 				}
-			}
+		/*	}
 			catch( Database_Exception $e )
 			{
 				Kohana::$log->add(Log::ERROR, 'Error Inserting Record in file'.__FILE__);
 				throw new Kohana_Exception('Error Inserting Record in file: :file',
 					array(':file' => __FILE__));
-			}
+			} */
 		}
 		elseif ($this->id > 0)
 		{
 			//UPDATE record
 			try
 			{			
-				$q = '	UPDATE images
-							SET story_id = :story_id
-								,filename = :filename
-						WHERE id = :id';
+				$q = '	UPDATE images i
+						INNER JOIN stories s 
+							ON i.story_id = s.id
+							AND s.creator_user_id = :creator_user_id
+						SET i.story_id = :story_id
+							,i.filename = :filename
+						WHERE i.id = :id';
 							
 				$results->success = DB::query(Database::INSERT,$q,TRUE)							
 									->param(':id',$this->id)
 									->param(':story_id',$this->story_id)
 									->param(':filename',$this->filename)
+									->param(':creator_user_id',Auth::instance()->get_user()->id)
 									->execute();				
 			}
 			catch( Database_Exception $e )
@@ -121,10 +137,15 @@ class Model_Image extends Model
 		$results = new pcpresult();
 		if ($this->id > 0)
 		{
-			$q = '	DELETE FROM images
-						WHERE id = :id';
+			$q = '	DELETE i 
+					FROM images i
+					INNER JOIN stories s 
+						ON i.story_id = s.id
+						AND s.creator_user_id = :creator_user_id
+					WHERE i.id = :id';
 			$results->success =	DB::query(Database::DELETE,$q,TRUE)
 								->param(':id',$this->id)
+								->param(':creator_user_id',Auth::instance()->get_user()->id)
 								->execute();						
 		}
 		$results->data = array('id'=>$this->id);

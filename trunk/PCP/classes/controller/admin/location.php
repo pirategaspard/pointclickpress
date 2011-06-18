@@ -57,7 +57,8 @@ Class Controller_admin_location extends Controller_Template_Admin
 		{
 			try
 			{
-				$result = Model_Admin_LocationsAdmin::getlocation()->init($_POST)->save();
+				$data = Model_Admin_LocationsAdmin::getData();
+				$result = Model_Admin_LocationsAdmin::getlocation()->init($data)->save();
 				$session->set('location_id',$result->data['id']);
 			}
 			catch (Exception $e)
@@ -83,10 +84,11 @@ Class Controller_admin_location extends Controller_Template_Admin
 	function action_delete()
 	{	
 		$session = Session::instance('admin');
-		$session->delete('result');	
+		$session->delete('result');
+		$data = Model_Admin_LocationsAdmin::getData();	
 		try
 		{
-			$result = Model_Admin_LocationsAdmin::getlocation()->init(array('id'=>$_REQUEST['location_id']))->delete();
+			$result = Model_Admin_LocationsAdmin::getlocation()->init($data)->delete();
 		}
 		catch (Exception $e)
 		{

@@ -90,19 +90,30 @@ class Model_GridItem extends Model
 						,title
 						,slug
 						)
-					VALUES (
+					SELECT DISTINCT
 						:itemdef_id
 						,:scene_id
 						,:cell_id
 						,:title
 						,:slug
-						)';						
+					FROM stories
+					WHERE EXISTS 
+							(
+								SELECT s.id 
+								FROM itemdefs i
+									ON g.itemdef_id = i.id
+								INNER JOIN stories s 
+									ON i.story_id = s.id
+									AND s.creator_user_id = :creator_user_id
+								WHERE i.id = :itemdef_id
+							)';						
 			$q_results = DB::query(Database::INSERT,$q,TRUE)
 								->param(':itemdef_id',$this->itemdef_id)
 								->param(':scene_id',$this->scene_id)
 								->param(':cell_id',$this->cell_id)
 								->param(':title',$this->title)
 								->param(':slug',$this->slug)
+								->param(':creator_user_id',Auth::instance()->get_user()->id)
 								->execute();									
 			if ($q_results[1] > 0)
 			{
@@ -121,13 +132,18 @@ class Model_GridItem extends Model
 			//UPDATE record
 			try
 			{
-				$q = '	UPDATE grids_items
-						SET itemdef_id = :itemdef_id
-							,scene_id = :scene_id
-							,cell_id = :cell_id
-							,title = :title
-							,slug = :slug
-						WHERE id = :id';
+				$q = '	UPDATE grids_items g
+						INNER JOIN itemdefs i
+							ON g.itemdef_id = i.id
+						INNER JOIN stories s 
+							ON i.story_id = s.id
+							AND s.creator_user_id = :creator_user_id
+						SET g.itemdef_id = :itemdef_id
+							,g.scene_id = :scene_id
+							,g.cell_id = :cell_id
+							,g.title = :title
+							,g.slug = :slug
+						WHERE g.id = :id';
 				$results->success = DB::query(Database::UPDATE,$q,TRUE)
 								->param(':itemdef_id',$this->itemdef_id)
 								->param(':scene_id',$this->scene_id)
@@ -135,6 +151,7 @@ class Model_GridItem extends Model
 								->param(':title',$this->title)
 								->param(':slug',$this->slug)
 								->param(':id',$this->id)
+								->param(':creator_user_id',Auth::instance()->get_user()->id)
 								->execute();																	
 			}
 			catch( Database_Exception $e )
@@ -154,10 +171,17 @@ class Model_GridItem extends Model
 		if ($this->id > 0)
 		{
 				
-			$q = '	DELETE FROM grids_items
-						WHERE id = :id';
+			$q = '	DELETE g 
+					FROM grids_items g
+					INNER JOIN itemdefs i
+						ON g.itemdef_id = i.id
+					INNER JOIN stories s 
+						ON i.story_id = s.id
+						AND s.creator_user_id = :creator_user_id
+					WHERE g.id = :id';
 			$results->success =	DB::query(Database::DELETE,$q,TRUE)
 								->param(':id',$this->id)
+								->param(':creator_user_id',Auth::instance()->get_user()->id)
 								->execute();						
 		}
 		$results->data = array('id'=>$this->id);

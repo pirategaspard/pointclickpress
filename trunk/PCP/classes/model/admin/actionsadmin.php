@@ -119,7 +119,7 @@ class Model_Admin_ActionsAdmin extends Model_PCP_Actions
 	{
 		$session = Session::instance('admin');
 		//Model_Admin_PCPAdmin::clearArgs();	
-		$data = array();
+		$data = $_POST;
 		if (isset($_REQUEST['story_id']))
 		{
 			$data['story_id'] = $_REQUEST['story_id'];			

@@ -108,12 +108,13 @@ Class Controller_PCP extends Controller_Template_PCP
 		
 		// get the scene
 		$data['scene'] = Model_PCP_Scenes::getCurrentScene(array('location_id'=>Model_PCP_Locations::getCurrentlocationId()));		
-		$data['items'] = Model_PCP_Items::getSceneGriditems($data['scene']->id);
-
 		// put any scene init actions into session
 		$results = array_merge($results,Actions::doActions($data['scene']->getActions()));	
 		// put any item actions into session
-		$results = array_merge($results,Actions::doActions(Model_PCP_Actions::getSceneItemActions($data['scene']->id)));	
+		$results = array_merge($results,Actions::doActions(Model_PCP_Actions::getSceneItemDefActions($data['scene']->id)));
+		$results = array_merge($results,Actions::doActions(Model_PCP_Actions::getSceneItemStateActions($data['scene']->id)));
+		// get items
+		$data['items'] = Model_PCP_Items::getSceneGriditems($data['scene']->id);	
 		
 		//put scene into session
 		$session->set('scene',$data['scene']);
@@ -148,7 +149,7 @@ Class Controller_PCP extends Controller_Template_PCP
 			}
 			if (($data['scene']->id <= 0) )
 			{
-				echo ("<p><b>No Scene id</b><br /> Did you set your starting scene? Otherwise this is usually caused because there is no scene with the value you asked for in this location.</p>");				
+				echo ("<p><b>No Scene id</b><br /> Did you set the starting scene on the story form? Otherwise this is usually caused because there is no scene with the value '".StoryData::get($location->slug)."' in location: ".$location->id."</p>");
 			}	
 		}
 		Events::announceEvent(POST_SCENE);	

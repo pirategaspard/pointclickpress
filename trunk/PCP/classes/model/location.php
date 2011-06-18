@@ -99,10 +99,21 @@ class Model_Location extends Model
 			{
 				$q = '	INSERT INTO locations
 						(story_id,title)
-						VALUES (:story_id,:title)';
+						SELECT DISTINCT
+							:story_id as story_id
+							,:title as title
+						FROM stories
+						WHERE EXISTS 
+								(
+									SELECT s.id 
+									FROM stories s 
+									WHERE s.id = :story_id 
+									AND s.creator_user_id = :creator_user_id
+								)';
 				$q_results = DB::query(Database::INSERT,$q,TRUE)
 								->param(':story_id',$this->story_id)
 								->param(':title',$this->title)
+								->param(':creator_user_id',Auth::instance()->get_user()->id)
 								->execute();						
 				if ($q_results[1] > 0)
 				{
@@ -122,12 +133,16 @@ class Model_Location extends Model
 			//UPDATE record
 			try
 			{
-				$q = '	UPDATE locations
-						SET title = :title
-						WHERE id = :id';
+				$q = '	UPDATE locations l
+							INNER JOIN stories s 
+							ON l.story_id = s.id
+							AND s.creator_user_id = :creator_user_id
+						SET l.title = :title
+						WHERE l.id = :id';
 				$results->success = DB::query(Database::UPDATE,$q,TRUE)
 										->param(':title',$this->title)
 										->param(':id',$this->id)
+										->param(':creator_user_id',Auth::instance()->get_user()->id)
 										->execute();															
 			}
 			catch( Database_Exception $e )
@@ -158,10 +173,15 @@ class Model_Location extends Model
 				$action->delete();
 			}
 			
-			$q = '	DELETE FROM locations
-						WHERE id = :id';
+			$q = '	DELETE l 
+					FROM locations l
+					INNER JOIN stories s 
+						ON l.story_id = s.id
+						AND s.creator_user_id = :creator_user_id 
+					WHERE l.id = :id';
 			$results->success =	DB::query(Database::DELETE,$q,TRUE)
 									->param(':id',$this->id)
+									->param(':creator_user_id',Auth::instance()->get_user()->id)
 									->execute();								
 		}		
 		return $results;

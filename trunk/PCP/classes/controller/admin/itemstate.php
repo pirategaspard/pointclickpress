@@ -46,12 +46,14 @@ Class Controller_admin_itemstate extends Controller_Template_Admin
 		$data = Model_Admin_ItemstateAdmin::getData();		
 		if(count($_POST) > 0)
 		{
+			$data = Model_Admin_ItemstateAdmin::getData();
 			$itemstate = Model_Admin_ItemstateAdmin::getItemStateByItemId($_POST['itemdef_id'],$_POST['value']);													
 			if ((count($itemstate) == 0) || (isset($itemstate[$_POST['id']])))
 			{
 				try
 				{
-					$result = Model_Admin_ItemstateAdmin::getitemstate()->init($_POST)->save();
+					$data = Model_Admin_ItemstateAdmin::getData();
+					$result = Model_Admin_ItemstateAdmin::getitemstate()->init($data)->save();
 					$session->set('itemstate_id',$result->data['id']);
 				}
 				catch (Exception $e)
@@ -85,7 +87,8 @@ Class Controller_admin_itemstate extends Controller_Template_Admin
 		$session->delete('result');
 		try
 		{
-			$result = Model_Admin_ItemstateAdmin::getitemstate()->init(array('id'=>$_REQUEST['itemstate_id']))->delete();
+			$data = Model_Admin_ItemstateAdmin::getData();
+			$result = Model_Admin_ItemstateAdmin::getitemstate()->init($data)->delete();
 		}
 		catch (Exception $e)
 		{

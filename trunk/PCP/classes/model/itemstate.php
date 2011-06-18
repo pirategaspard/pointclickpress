@@ -91,11 +91,17 @@ class Model_ItemState extends Model
 			// remove any other default states
 			if($this->isdefaultstate)
 			{
-				$q = '	UPDATE items_states
+				$q = '	UPDATE items_states its
+						INNER JOIN itemdefs i
+							ON its.itemdef_id = i.id
+						INNER JOIN stories s 
+							ON i.story_id = s.id
+							AND s.creator_user_id = :creator_user_id
 						SET isdefaultstate = 0
 						WHERE itemdef_id = :itemdef_id';
 				$results->success = DB::query(Database::UPDATE,$q,TRUE)
 								->param(':itemdef_id',$this->itemdef_id)
+								->param(':creator_user_id',Auth::instance()->get_user()->id)
 								->execute();
 			}
 			
@@ -105,16 +111,27 @@ class Model_ItemState extends Model
 						,itemdef_id
 						,image_id
 						,isdefaultstate)
-					VALUES (
-						:value
-						,:itemdef_id
-						,:image_id
-						,:isdefaultstate)';						
+					SELECT DISTINCT
+							:value as value
+							,:itemdef_id as itemdef_id
+							,:image_id as image_id
+							,:isdefaultstate as isdefaultstate
+					FROM items_states
+					WHERE EXISTS 
+							(
+								SELECT s.id 
+								FROM itemdefs i
+								INNER JOIN stories s 
+									ON i.story_id = s.id
+									AND s.creator_user_id = :creator_user_id
+								WHERE i.id = :itemdef_id
+							)';						
 			$q_results = DB::query(Database::INSERT,$q,TRUE)								
 								->param(':value',$this->value)
 								->param(':itemdef_id',$this->itemdef_id)
 								->param(':image_id',$this->image_id)
 								->param(':isdefaultstate',$this->isdefaultstate)
+								->param(':creator_user_id',Auth::instance()->get_user()->id)
 								->execute();									
 			if ($q_results[1] > 0)
 			{
@@ -133,18 +150,24 @@ class Model_ItemState extends Model
 			//UPDATE record
 			try
 			{
-				$q = '	UPDATE items_states
-						SET value = :value
-							,itemdef_id = :itemdef_id
-							,image_id = :image_id
-							,isdefaultstate = :isdefaultstate
-						WHERE id = :id';
+				$q = '	UPDATE items_states its
+						INNER JOIN itemdefs i
+							ON its.itemdef_id = i.id
+						INNER JOIN stories s 
+							ON i.story_id = s.id
+							AND s.creator_user_id = :creator_user_id
+						SET its.value = :value
+							,its.itemdef_id = :itemdef_id
+							,its.image_id = :image_id
+							,its.isdefaultstate = :isdefaultstate
+						WHERE its.id = :id';
 				$results->success = DB::query(Database::UPDATE,$q,TRUE)
 								->param(':value',$this->value)
 								->param(':itemdef_id',$this->itemdef_id)
 								->param(':image_id',$this->image_id)
 								->param(':isdefaultstate',$this->isdefaultstate)
 								->param(':id',$this->id)
+								->param(':creator_user_id',Auth::instance()->get_user()->id)
 								->execute();																	
 			}
 			catch( Database_Exception $e )
@@ -164,10 +187,17 @@ class Model_ItemState extends Model
 		if ($this->id > 0)
 		{
 				
-			$q = '	DELETE FROM items_states
-						WHERE id = :id';
+			$q = '	DELETE its 
+					FROM items_states its
+					INNER JOIN itemdefs i
+						ON its.itemdef_id = i.id
+					INNER JOIN stories s 
+						ON i.story_id = s.id
+						AND s.creator_user_id = :creator_user_id 
+					WHERE its.id = :id';
 			$results->success =	DB::query(Database::DELETE,$q,TRUE)
 								->param(':id',$this->id)
+								->param(':creator_user_id',Auth::instance()->get_user()->id)
 								->execute();						
 		}
 		$results->data = array('id'=>$this->id);
