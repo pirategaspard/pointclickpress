@@ -112,7 +112,7 @@ Class Controller_PCP extends Controller_Template_PCP
 		$results = array_merge($results,Actions::doActions($data['scene']->getActions()));	
 		// put any item actions into session
 		$results = array_merge($results,Actions::doActions(Model_PCP_Actions::getSceneItemDefActions($data['scene']->id)));
-		$results = array_merge($results,Actions::doActions(Model_PCP_Actions::getSceneItemStateActions($data['scene']->id)));
+		//$results = array_merge($results,Actions::doActions(Model_PCP_Actions::getSceneItemStateActions($data['scene']->id)));
 		// get items
 		$data['items'] = Model_PCP_Items::getSceneGriditems($data['scene']->id);	
 		
