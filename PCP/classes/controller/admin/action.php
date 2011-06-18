@@ -39,7 +39,8 @@ Class Controller_Admin_Action extends Controller_Template_Admin
 			try
 			{
 				//save action
-				$result = Model_Admin_ActionsAdmin::getAction($_POST)->load()->init($_POST)->save();
+				$data = Model_Admin_ActionsAdmin::getData();
+				$result = Model_Admin_ActionsAdmin::getAction($data)->load()->init($data)->save();
 			}
 			catch (Exception $e)
 			{
@@ -71,7 +72,8 @@ Class Controller_Admin_Action extends Controller_Template_Admin
 		$back_url = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
 		try
 		{
-			$result = Model_Admin_ActionsAdmin::getAction()->init(array('id'=>$_REQUEST['action_id']))->delete();
+			$data = Model_Admin_ActionsAdmin::getData();
+			$result = Model_Admin_ActionsAdmin::getAction()->init($data)->delete();
 		}
 		catch (Exception $e)
 		{

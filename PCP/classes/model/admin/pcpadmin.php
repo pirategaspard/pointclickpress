@@ -20,6 +20,8 @@ class Model_Admin_PCPAdmin
 		return Model_ItemStates::getItemStateByItemId(array('itemdef_id'=>$itemdef_id,'itemstate_value'=>$itemstate_value));
 	}
 
+
+	/*
 	static public function getArgs($args=array())
 	{
 		$session = Session::instance('admin');		
@@ -105,7 +107,8 @@ class Model_Admin_PCPAdmin
 		if (!isset($args['include_itemstates'])) { $args['include_itemstates'] = false; }
 		
 		return $args;
-	}
+	}*/
+	
 	static function clearArgs()
 	{
 		$session = Session::instance('admin');
@@ -122,5 +125,7 @@ class Model_Admin_PCPAdmin
 		$session->delete('cell_id');
 		$session->delete('plugin_id');
 	}
+	
+	
 }
 ?>

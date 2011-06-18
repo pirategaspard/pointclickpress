@@ -306,7 +306,22 @@ class Model_PCP_Actions
 		return $actions;		
 	}
 	
-	static function getSceneItemActions($scene_id)
+	static function getSceneItemDefActions($scene_id)
+	{
+		$item_locations = Items::getSceneGridItemInfo($scene_id);
+		$actions = array();
+		if (isset($item_locations['griditems']))
+		{
+			$griditems = $item_locations['griditems'];
+			foreach($griditems as $griditem)
+			{
+				$actions = self::getItemDefActions(array('itemdef_id'=>$griditem['itemdef_id']));
+			}
+		}
+		return $actions;
+	}
+	
+	static function getSceneItemStateActions($scene_id)
 	{
 		$item_locations = Items::getSceneGriditems($scene_id);
 		$actions = array();
@@ -315,8 +330,7 @@ class Model_PCP_Actions
 			$griditems = $item_locations['griditems'];
 			foreach($griditems as $griditem)
 			{
-				$actions = array_merge(self::getItemDefActions(array('itemdef_id'=>$griditem['itemdef_id'])),$actions);
-				$actions = array_merge(self::getItemStateActions(array('itemstate_id'=>$griditem['itemstate_id'])),$actions);
+				$actions = self::getItemStateActions(array('itemstate_id'=>$griditem['itemstate_id']));
 			}
 		}
 		return $actions;

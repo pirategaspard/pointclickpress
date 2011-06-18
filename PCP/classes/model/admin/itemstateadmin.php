@@ -10,7 +10,7 @@ class Model_Admin_ItemstateAdmin extends Model_PCP_Itemstates
 	static function getData()
 	{
 		$session = Session::instance('admin');	
-		$data = array();
+		$data = $_POST;
 		//Model_Admin_PCPAdmin::clearArgs();
 		if (isset($_REQUEST['story_id']))
 		{

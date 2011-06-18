@@ -37,6 +37,7 @@ class Model_Admin_GridItemAdmin extends Model_PCP_Items
 					$q .= ' AND sc.id = :scene_id';
 			}
 					$q .= ' ORDER BY gi.id DESC';
+			
 			$query = DB::query(Database::SELECT,$q,TRUE);
 			
 			if (isset($args['itemdef_id']))
@@ -47,11 +48,12 @@ class Model_Admin_GridItemAdmin extends Model_PCP_Items
 			{
 				$query->param(':scene_id',$args['scene_id']);
 			}
+			
 			$tempArray = $query->execute()->as_array();	
 						
 			foreach($tempArray as $a)
 			{		
-				$items[$a['cell_id']] = self::getGridItem()->init($a);
+				$items[$a['id']] = self::getGridItem()->init($a);
 			}
 		}
 		return $items;		
@@ -74,6 +76,7 @@ class Model_Admin_GridItemAdmin extends Model_PCP_Items
 	static function getData()
 	{
 		$session = Session::instance('admin');	
+		$data = $_POST;
 		if (isset($_REQUEST['story_id']))
 		{
 			$data['story_id'] = $_REQUEST['story_id'];	

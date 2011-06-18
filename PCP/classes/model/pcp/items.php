@@ -145,8 +145,7 @@ class Model_PCP_Items extends Model
 	static function getSceneGriditems($scene_id=0)
 	{
 		$griditemsInfo = self::getSceneGridItemInfo($scene_id);
-		$story_data = Storydata::getStorydata();
-		
+		$story_data = Storydata::getStorydata();		
 		$itemstates = array();
 		if (isset($griditemsInfo['griditems']))
 		{
@@ -160,8 +159,7 @@ class Model_PCP_Items extends Model
 				{
 					$itemstate_value = DEFAULT_ITEMSTATE_VALUE;
 				} 
-				$itemstates[$cell_id] = self::getGridItemCurrentItemState($griditemInfo['id'],$itemstate_value);
-				
+				$itemstates[$cell_id] = self::getGridItemCurrentItemState($griditemInfo['id'],$itemstate_value);				
 			}
 		}
 		return $itemstates;

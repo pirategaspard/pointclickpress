@@ -113,14 +113,21 @@ class Model_Scene extends Model
 							,description
 							,image_id
 							,value)
-						VALUES (
-							:story_id
-							,:location_id
-							,:title
-							,:description
-							,:image_id
-							,:value
-							)';
+						SELECT DISTINCT
+							:story_id AS story_id
+							,:location_id AS location_id
+							,:title AS title
+							,:description AS description
+							,:image_id AS image_id
+							,:value AS value														
+						FROM stories
+						WHERE EXISTS 
+								(
+									SELECT s.id 
+									FROM stories s 
+									WHERE s.id = :story_id 
+									AND s.creator_user_id = :creator_user_id
+								)';
 							
 				$q_results = DB::query(Database::INSERT,$q,TRUE)
 									->param(':story_id',$this->story_id)
@@ -129,6 +136,7 @@ class Model_Scene extends Model
 									->param(':description',$this->description)
 									->param(':image_id',$this->image_id)
 									->param(':value',$this->value)
+									->param(':creator_user_id',Auth::instance()->get_user()->id)
 									->execute();			
 				if ($q_results[1] > 0)
 				{
@@ -154,18 +162,22 @@ class Model_Scene extends Model
 			//UPDATE record
 			try
 			{
-				$q = '	UPDATE scenes
-						SET title = :title
-							,description = :description
-							,image_id = :image_id
-							,value = :value
-						WHERE id = :id';
+				$q = '	UPDATE scenes sc
+						INNER JOIN stories s 
+							ON sc.story_id = s.id
+							AND s.creator_user_id = :creator_user_id
+						SET sc.title = :title
+							,sc.description = :description
+							,sc.image_id = :image_id
+							,sc.value = :value
+						WHERE sc.id = :id';
 				$results->success = DB::query(Database::UPDATE,$q,TRUE)
 										->param(':title',$this->title)
 										->param(':description',$this->description)
 										->param(':image_id',$this->image_id)
 										->param(':value',$this->value)
 										->param(':id',$this->id)
+										->param(':creator_user_id',Auth::instance()->get_user()->id)
 										->execute();														
 			}
 			catch( Database_Exception $e )
@@ -196,10 +208,15 @@ class Model_Scene extends Model
 				$grid_action->delete();
 			}
 			
-			$q = '	DELETE FROM scenes
-						WHERE id = :id';
+			$q = '	DELETE sc 
+					FROM scenes sc
+					INNER JOIN stories s 
+						ON sc.story_id = s.id
+						AND s.creator_user_id = :creator_user_id 
+					WHERE sc.id = :id';
 			$results->success =	DB::query(Database::DELETE,$q,TRUE)
 											->param(':id',$this->id)
+											->param(':creator_user_id',Auth::instance()->get_user()->id)
 											->execute();							
 		}		
 		return $results;

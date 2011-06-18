@@ -24,11 +24,11 @@
 			// if we specified a wait time use that
 			wait_time = data.wait_time; 
 			// clear message after waiting			
-			setTimeout(function(){div.html('');},wait_time);
+			setTimeout(function(){div.remove();},wait_time);
 		}
 				
 		//clear on click
-		div.click(function(){div.html('');});
+		div.click(function(){div.remove();});
 				
 	};
 })( jQuery );

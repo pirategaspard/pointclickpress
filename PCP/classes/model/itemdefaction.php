@@ -51,10 +51,23 @@ class Model_ItemdefAction extends Model_Base_PCPAction
 			//INSERT new record
 			$q = '	INSERT INTO items_defs_actions
 						(itemdef_id,action_id)
-					VALUES (:itemdef_id,:id)';						
+					SELECT DISTICT
+						 :itemdef_id AS itemdef_id
+						 ,:id AS id
+					FROM itemdefs
+					WHERE EXISTS 
+							(
+								SELECT s.id 
+								FROM itemdefs i
+								INNER JOIN stories s 
+									ON i.story_id = s.id
+									AND s.creator_user_id = :creator_user_id
+								WHERE i.id = :itemdef_id
+							)';						
 			$q_results = DB::query(Database::INSERT,$q,TRUE)
 								->param(':itemdef_id',$this->itemdef_id)
 								->param(':id',$this->id)
+								->param(':creator_user_id',Auth::instance()->get_user()->id)
 								->execute();			
 			if ($q_results[1] > 0)
 			{
@@ -82,12 +95,22 @@ class Model_ItemdefAction extends Model_Base_PCPAction
 		$results->data = array('id'=>$this->id);
 		if ($this->id > 0)
 		{
-			$q = '	DELETE FROM items_defs_actions
-						WHERE action_id = :id';
+			$q = '	DELETE ida 
+					FROM items_defs_actions ida
+					INNER JOIN itemdefs i
+						ON ida.itemdef_id = i.id
+					INNER JOIN stories s 
+						ON i.story_id = s.id
+						AND s.creator_user_id = :creator_user_id
+					WHERE ida.action_id = :id';
 			$results->success =	DB::query(Database::DELETE,$q,TRUE)
 									->param(':id',$this->id)
+									->param(':creator_user_id',Auth::instance()->get_user()->id)
 									->execute();									
-			parent::delete();
+			if ($results->success)
+			{
+				parent::delete();
+			}
 		}		
 		return $results;
 	}

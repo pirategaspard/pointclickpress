@@ -45,7 +45,8 @@ class Model_Admin_StorypluginsAdmin extends Model
 	
 	static function getData()
 	{
-		$session = Session::instance('admin');	
+		$session = Session::instance('admin');
+		$data = $_POST;	
 		if (isset($_REQUEST['id']))
 		{
 			$data['id'] = $_REQUEST['id'];		

@@ -10,7 +10,7 @@ class Model_Admin_LocationsAdmin extends Model_PCP_Locations
 	static function getData()
 	{
 		$session = Session::instance('admin');	
-		$data = array();
+		$data = $_POST;
 		//Model_Admin_PCPAdmin::clearArgs();
 		if (isset($_REQUEST['story_id']))
 		{

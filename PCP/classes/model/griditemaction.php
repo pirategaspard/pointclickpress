@@ -83,12 +83,24 @@ class Model_GridItemAction extends Model_Base_PCPAction
 		$results->data = array('id'=>$this->id);
 		if ($this->id > 0)
 		{
-			$q = '	DELETE FROM grids_items_actions
-						WHERE action_id = :id';
+			$q = '	DELETE gia 
+					FROM grids_items_actions gia
+					INNER JOIN grids_items g
+						ON gia.griditem_id = g.id
+					INNER JOIN itemdefs i
+						ON g.itemdef_id = i.id
+					INNER JOIN stories s 
+						ON i.story_id = s.id
+						AND s.creator_user_id = :creator_user_id
+					WHERE gia.action_id = :id';
 			$results->success =	DB::query(Database::DELETE,$q,TRUE)
 									->param(':id',$this->id)
+									->param(':creator_user_id',Auth::instance()->get_user()->id)
 									->execute();									
-			parent::delete();
+			if ($results->success)
+			{
+				parent::delete();
+			}
 		}		
 		return $results;
 	}

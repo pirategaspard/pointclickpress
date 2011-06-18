@@ -62,15 +62,16 @@ Class Controller_admin_scene extends Controller_Template_Admin
 	function action_save()
 	{
 		$session = Session::instance('admin');
-		$session->delete('result');			
+		$session->delete('result');
+		$data = Model_Admin_ScenesAdmin::GetData();			
 		if(count($_POST) > 0)
 		{
 			// if we don't have a scene location yet we must create one
 			if ((!isset($_POST['location_id'])) ||(strlen($_POST['location_id'])<=0)||($_POST['location_id']<=0))
 			{	
 				try
-				{
-					$result = Model_Admin_LocationsAdmin::getlocation()->init($_POST)->save();
+				{					
+					$result = Model_Admin_LocationsAdmin::getlocation()->init($data)->save();
 					$_POST['location_id'] = $result->data['id'];
 				}
 				catch (Exception $e)
@@ -126,9 +127,10 @@ Class Controller_admin_scene extends Controller_Template_Admin
 	{	
 		$session = Session::instance('admin');	
 		$session->delete('result');
+		$data = Model_Admin_ScenesAdmin::GetData();
 		try
 		{
-			$result = Model_Admin_ScenesAdmin::getScene()->init(array('id'=>$_REQUEST['scene_id']))->delete();
+			$result = Model_Admin_ScenesAdmin::getScene()->init($data)->delete();
 		}
 		catch (Exception $e)
 		{

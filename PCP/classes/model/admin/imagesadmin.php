@@ -235,7 +235,7 @@ class Model_Admin_ImagesAdmin
 	static function getData()
 	{
 		$session = Session::instance('admin');	
-		$data = array();
+		$data = $_POST;
 		//Model_Admin_PCPAdmin::clearArgs();
 		if (isset($_REQUEST['story_id']))
 		{
@@ -282,6 +282,7 @@ class Model_Admin_ImagesAdmin
 			$data['type_id'] = self::getImageType($data);
 		}
 		$data['url'] = self::getAddUrlArgs($data);
+		$data['user_id'] = $data['creator_user_id'] = Auth::instance()->get_user()->id;
 		return $data;
 	}
 	

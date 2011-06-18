@@ -100,7 +100,8 @@ class Model_Admin_EventsAdmin extends Model_events
 		if (isset($_REQUEST['story_id']))
 		{
 			$data['id'] = $data['story_id'] = $_REQUEST['story_id'];		
-		}		
+		}
+		$data['user_id'] = $data['creator_user_id'] = Auth::instance()->get_user()->id;		
 		return $data;
 	}
 }

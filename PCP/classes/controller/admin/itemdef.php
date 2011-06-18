@@ -5,6 +5,8 @@ Class Controller_admin_itemdef extends Controller_Template_Admin
 	function action_edit()
 	{		
 		$session = Session::instance('admin');	
+		$session->delete('itemstate_id'); // if id exits, delete it.
+		$session->delete('scene_id'); // if id exits, delete it.
 		$data = Model_Admin_ItemDefAdmin::getData();
 		$data['itemdef'] = Model_Admin_ItemDefAdmin::getItemDef($data);
 		$data['story_id'] = (isset($data['story_id']))?$data['story_id']:$data['itemdef']->story_id;
@@ -17,8 +19,7 @@ Class Controller_admin_itemdef extends Controller_Template_Admin
 		$data['action_list'] = Request::factory('/admin/action/listSimple')->execute()->body();			
 		$data['itemstate_list'] = Request::factory('/admin/itemstate/listSimple')->execute()->body();
 		$data['iteminstances_list'] = Request::factory('/admin/griditem/listSimple')->execute()->body();
-		$session->set('story_id',$data['story_id']);
-		$session->delete('itemstate_id'); // if id exits, delete it.
+		$session->set('story_id',$data['story_id']);		
 		
 		$this->template->breadcrumb .= View::factory('/admin/story/info',$data)->render();
 		$this->template->breadcrumb .= View::factory('/admin/itemdef/info',$data)->render();							
@@ -51,7 +52,8 @@ Class Controller_admin_itemdef extends Controller_Template_Admin
 		{
 			try
 			{
-				$result = Model_Admin_ItemDefAdmin::getItemDef()->init($_POST)->save();
+				$data = Model_Admin_ItemDefAdmin::getData();
+				$result = Model_Admin_ItemDefAdmin::getItemDef()->init($data)->save();
 				$session->set('itemdef_id',$result->data['id']);
 			}
 			catch (Exception $e)
@@ -78,9 +80,10 @@ Class Controller_admin_itemdef extends Controller_Template_Admin
 	{	
 		$session = Session::instance('admin');	
 		$session->delete('result');
+		$data = Model_Admin_ItemDefAdmin::getData();
 		try
 		{
-			$result = Model_Admin_ItemDefAdmin::getItemDef()->init(array('id'=>$_REQUEST['itemdef_id']))->delete();
+			$result = Model_Admin_ItemDefAdmin::getItemDef()->init($data)->delete();
 		}
 		catch (Exception $e)
 		{

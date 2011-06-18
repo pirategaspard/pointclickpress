@@ -85,15 +85,16 @@ Class Controller_admin_story extends Controller_Template_Admin
 		$session->delete('result');
 		if(count($_POST) > 0)
 		{
-			try
-			{
-				$result = Model_Admin_StoriesAdmin::getStory()->init($_POST)->save();
+			/* try
+			{ */
+				$data = Model_Admin_StoriesAdmin::GetData();
+				$result = Model_Admin_StoriesAdmin::getStory()->init($data)->save();
 				$session->set('story_id',$result->data['id']);
-			}
+			/*}
 			catch (Exception $e)
 			{
 				Kohana::$log->add(Log::ERROR, 'Unable to Save Story');
-			}			
+			}*/			
 		}
 		else
 		{

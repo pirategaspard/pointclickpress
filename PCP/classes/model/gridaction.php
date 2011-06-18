@@ -128,18 +128,36 @@ class Model_GridAction extends Model_Base_PCPAction
 		if ($this->grid_action_id > 0)
 		{					
 			//delete any cells on this action
-			$q = '	DELETE FROM cells
-					WHERE grid_action_id = :grid_action_id';
-			$results->success = DB::query(Database::UPDATE,$q,TRUE)
+			$q = '	DELETE c 
+					FROM cells c
+					INNER JOIN grids_actions ga
+						ON c.grid_action_id = ga.grid_action_id
+					INNER JOIN scenes sc
+						ON ga.scene_id = sc.id
+					INNER JOIN stories s 
+						ON sc.story_id = s.id
+						AND s.creator_user_id = :creator_user_id 
+					WHERE c.grid_action_id = :grid_action_id';
+			$results->success = DB::query(Database::DELETE,$q,TRUE)
 							->param(':grid_action_id',$this->grid_action_id)
 							->execute();
 							
-			$q = '	DELETE FROM grids_actions
-						WHERE grid_action_id = :grid_action_id';
+			$q = '	DELETE ga 
+					FROM grids_actions ga
+					INNER JOIN scenes sc
+						ON ga.scene_id = sc.id
+					INNER JOIN stories s 
+						ON sc.story_id = s.id
+						AND s.creator_user_id = :creator_user_id 
+					WHERE grid_action_id = :grid_action_id';
 			$results->success =	DB::query(Database::DELETE,$q,TRUE)
 								->param(':grid_action_id',$this->grid_action_id)
+								->param(':creator_user_id',Auth::instance()->get_user()->id)
 								->execute();
-			parent::delete();																	
+			if ($results->success)
+			{
+				parent::delete();
+			}																	
 		}		
 		return $results;
 	}

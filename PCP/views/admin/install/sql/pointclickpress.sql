@@ -2419,14 +2419,9 @@ CREATE TABLE IF NOT EXISTS `grids_items_actions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `grids_items_actions` (`griditem_id`, `action_id`) VALUES
-(0, 185),
 (4, 186),
-(6, 187),
-(6, 188),
 (4, 189),
-(4, 190),
-(7, 191),
-(8, 196);
+(4, 190)
 
 CREATE TABLE IF NOT EXISTS `images` (
   `id` bigint(20) NOT NULL auto_increment,

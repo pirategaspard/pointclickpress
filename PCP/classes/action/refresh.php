@@ -45,15 +45,17 @@ class action_refresh extends Model_Base_PCPActionDef
 			Storydata::set('scene_id',$scene->id);
 			// populate response data 					
 			$data['filename'] = $scene->getPath($story->screen_size);
-			$data['preload_filename'] = $scene->getPath(THUMBNAIL_IMAGE_SIZE);
-			$data['items'] = $this->getItems($scene->id,$story);
+			$data['preload_filename'] = $scene->getPath(THUMBNAIL_IMAGE_SIZE);			
 			$data['title'] = DEFAULT_PAGE_TITLE.$story->title.' : '.$scene->title;
 			$data['description'] = $scene->description;
 			
 			// put any scene init actions into session
 			$results = array_merge($results,Actions::doActions($scene->getActions()));		
 			// put any item actions into session
-			$results = array_merge($results,Actions::doActions(Actions::getSceneItemActions($scene->id)));
+			$results = array_merge($results,Actions::doActions(Model_PCP_Actions::getSceneItemDefActions($scene->id)));
+			$results = array_merge($results,Actions::doActions(Model_PCP_Actions::getSceneItemStateActions($scene->id)));
+			
+			$data['items'] = $this->getItems($scene->id,$story);	
 		}
 		// set data back into session
 		$session->set('scene',$scene);
