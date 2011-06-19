@@ -172,6 +172,10 @@ class Model_Admin_ActionsAdmin extends Model_PCP_Actions
 		{
 			$data['id'] = $data['action_id'] = $_REQUEST['action_id'];
 		}
+		else if (isset($_REQUEST['id']))
+		{
+			$data['id'] = $data['action_id'] = $_REQUEST['id'];
+		} 
 		else
 		{
 			$data['id'] = $data['action_id'] = 0; 
