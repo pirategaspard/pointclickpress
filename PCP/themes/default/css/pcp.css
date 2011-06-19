@@ -24,8 +24,8 @@ body {}
 #description {display: block; overflow: auto; text-align: center; }
 #description {position: absolute; left: 0px;  bottom: 0px; width: 100%;  height: auto; background-color: white; filter:alpha(opacity=70); opacity:0.7; z-index: 1;}
 
-#message {display: block; position: absolute; top: 40%; height: inherit; max-height: 50%; width: 97%; padding: 10px; z-index: 100; margin: 0 auto; }
-#message .container {display: block; position: relative; border: 2px black solid; min-height: 100%; height: 100%; max-height: 100%; overflow: auto; background-color: white; *filter:alpha(opacity=80); opacity:0.8;}
+#message {display: block; position: absolute; top: 40%; height: inherit;   max-height: 50%; width: 97%; padding: 10px; z-index: 100; margin: 0 auto; }
+#message .container {display: block; position: relative; border: 2px black solid; height: auto; max-height: 100%; overflow: auto; background-color: white; *filter:alpha(opacity=80); opacity:0.8;}
 #message .container span {font-size: 1.1em; text-align: center; } 
 
 #grid {position: relative; margin: 0 auto; width:80%; overflow: hidden; } 
