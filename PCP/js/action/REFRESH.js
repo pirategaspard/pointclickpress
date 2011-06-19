@@ -33,13 +33,7 @@
 		    }
 		  	$('#grid').css(css); */
 	  	}
-	  	 		  	
-	  	// show items
-	  	var cells = $('#grid').children('a');
-	  	for(var n in data.items)
-		{
-			$(cells[n]).replaceWith('<div class="item" n='+n+'><form n='+n+' i='+data.items[n].id+' action="itemclick?n='+n+'" method="post" ><input type="image" src="'+data.items[n].path+'" name="i" value="'+data.items[n].id+'" /></form></div>');
-	  	}
+	  	 		  		  	
 		// pre-load high res image and then swap background
 		$().wait_start();
 		var img = new Image();
@@ -47,16 +41,25 @@
 					{						
 						$('#grid').css({backgroundImage:'url('+this.src+')'});						
 					}).attr('src', data.filename);
-			document.title = data.title;
-			/* $('#title').html(data.title); */
-			if (data.description.length > 0)
-			{
-				$('#description').html(data.description).show();
-			}
-			else
-			{
-				$('#description').hide();
-			}	
+					
+		// update title and description
+		document.title = data.title;
+		/* $('#title').html(data.title); */
+		if (data.description.length > 0)
+		{
+			$('#description').html(data.description).show();
+		}
+		else
+		{
+			$('#description').hide();
+		}
+				
+		// show items
+	  	var cells = $('#grid').children('a');
+	  	for(var n in data.items)
+		{
+			$(cells[n]).replaceWith('<div class="item" n='+n+'><form n='+n+' i='+data.items[n].id+' action="itemclick?n='+n+'" method="post" ><input type="image" src="'+data.items[n].path+'" name="i" value="'+data.items[n].id+'" /></form></div>');
+	  	}
 		$().wait_stop();
 	  };
 })( jQuery );
