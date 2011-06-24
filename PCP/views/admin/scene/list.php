@@ -4,6 +4,7 @@
 ?>
 		<fieldset class="ui-helper-reset ui-widget-content ui-corner-all">
 			<?php if (isset($scene_add)) echo('<span class="add">'.$scene_add."</span>"); ?>
+			<legend>Scenes</legend>
 			<table>
 				<tr>
 					<th></th>
