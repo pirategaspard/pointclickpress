@@ -30,6 +30,7 @@ class plugins_google extends Model_Base_PCPPlugin
 			}	
 			case DISPLAY_FOOTER:
 			{
+				include(Kohana::find_file('plugins'.DIRECTORY_SEPARATOR.'google','adsense3'));
 				include(Kohana::find_file('plugins'.DIRECTORY_SEPARATOR.'google','analytics'));
 				break;
 			}		
