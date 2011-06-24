@@ -73,6 +73,35 @@ class Model_Admin_GridItemAdmin extends Model_PCP_Items
 		return $type;
 	}
 	
+	static function getGridItemDefaultItemState($griditem_id=0)
+	{
+		$q = '	SELECT 	i.id AS image_id
+						,i.filename
+						,its.id
+						,its.value
+						,gi.id AS griditem_id
+						,gi.cell_id
+				FROM grids_items gi
+				INNER JOIN itemdefs id
+				ON gi.itemdef_id = id.id
+				INNER JOIN items_states its
+				ON id.id = its.itemdef_id
+				AND its.isdefaultstate = 1
+				LEFT OUTER JOIN images i
+				ON its.image_id = i.id
+				WHERE gi.id = :griditem_id';
+		$tempArray = DB::query(Database::SELECT,$q,TRUE)
+								->param(':griditem_id',$griditem_id)
+								->execute()
+								->as_array();
+		$itemstates = array();
+		foreach($tempArray as $a)
+		{
+			$itemstates[$a['cell_id']] = self::getItemstate()->init($a);
+		}
+		return $itemstates; 
+	}
+	
 	static function getData()
 	{
 		$session = Session::instance('admin');	
