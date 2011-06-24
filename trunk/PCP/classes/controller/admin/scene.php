@@ -23,6 +23,14 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		if (strlen($data['scene']->filename) > 0)
 		{
 			// items
+			if(isset($_REQUEST['griditem_id']))
+			{
+				$data['items'] = Model_Admin_GriditemAdmin::getGridItemDefaultItemState($_REQUEST['griditem_id']);
+			}
+			else
+			{
+				$data['items'] = array();
+			}
 			$data['grid_item_form'] = Request::factory('/admin/griditem/formgridSimple')->execute()->body();
 			$data['grid_items_list'] = Request::factory('/admin/griditem/listgridSimple')->execute()->body();
 			

@@ -3,17 +3,13 @@
 	{
 		$cells = '';
 		$total = $story->grid_total();
-		$items = $scene->items; 
+		//$items = $scene->items; 
 		for($i=1;$i<=$total;$i++)
 		{
 			$cells.= '<b n="'.$i.'">';
 			if (isset($items[$i]))
 			{
-				/*$images = $items[$i]->images;
-				if (count($images))
-				{
-					$cells.= '<img src="'.$story->getMediaPath().current($images)->image_id.'/'.$story->screen_size.'/'.current($images)->filename.'" />';
-				}	*/
+				$cells.= '<img src="'.$story->getMediaPath().$items[$i]->getPath($story->screen_size).'"/>';	
 			}
 			$cells.= '</b>';
 		}
