@@ -195,18 +195,15 @@ class Model_PCP_Items extends Model
 		$foundlocation = array();
 		$foundlocation['scene_id'] = 0;
 		$foundlocation['cell_id'] = 0;		
-		$iteminfo = self::getGriditemsInfo();
-		foreach ($iteminfo as $scene_id=>$sceneitemInfo)
+		$itemlocations = self::getGriditemsInfo();
+		foreach ($itemlocations as $scene_id=>$sceneitemInfo)
 		{
-			foreach ($sceneitemInfo as $cell)
-			{
-				foreach($cell as $item)
-				{										
-					if ($item['id'] == $griditem_id)
-					{						
-						$foundlocation['scene_id'] = $scene_id;
-						$foundlocation['cell_id'] = key($cell);
-					}
+			foreach ($sceneitemInfo['griditems'] as $cell_id=>$cell)
+			{											
+				if ($cell['id'] == $griditem_id)
+				{						
+					$foundlocation['scene_id'] = $scene_id;
+					$foundlocation['cell_id'] = $cell_id;
 				}
 			}
 		}
@@ -289,7 +286,7 @@ class Model_PCP_Items extends Model
 	// moves a grid item to a new scene_id
 	static function setGridItemLocation($griditem_id=0,$scene_id=0,$cell_id=1)
 	{
-		$foundlocation = self::searchGriditemById($griditem_id);	
+		$foundlocation = self::searchGriditemById($griditem_id);
 		if ($foundlocation['scene_id'] != '0')
 		{						
 			$iteminfo = self::getGriditemsInfo();
