@@ -16,6 +16,10 @@
 			Value:
 			<input type="text" name="value" value="<?php echo($itemstate->value); ?>" >
 		</label>
+		<p>
+			<label>Description</label>
+			<textarea name="description" cols="50"><?php print($itemstate->description); ?></textarea>
+		</p>
 		<label>Is Default Item State:</label>
 		<select name="isdefaultstate" >
 			<option value="0" <?php if(strcmp($itemstate->isdefaultstate,'0')===0) echo('selected="selected"'); ?>>No</option>
