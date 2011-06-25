@@ -6,7 +6,8 @@ class Model_ItemState extends Model
 	protected $value = DEFAULT_ITEMSTATE_VALUE;
 	protected $itemdef_id = 0;
 	protected $image_id = 0;
-	protected $filename = '';	
+	protected $filename = '';
+	protected $description = '';	
 	protected $isdefaultstate = 0;
 	protected $actions = array();		
 	
@@ -30,6 +31,10 @@ class Model_ItemState extends Model
 		if (isset($args['title']))
 		{
 			$this->title = $args['title'];
+		}
+		if (isset($args['description']))
+		{
+			$this->description = $args['description'];
 		}
 		if (isset($args['itemdef_id']))
 		{
@@ -63,6 +68,7 @@ class Model_ItemState extends Model
 							,its.value
 							,its.itemdef_id
 							,its.isdefaultstate
+							,its.description
 							,i.id as image_id
 							,i.filename	
 							,id.title					
@@ -110,11 +116,13 @@ class Model_ItemState extends Model
 						(value
 						,itemdef_id
 						,image_id
+						,description
 						,isdefaultstate)
 					SELECT DISTINCT
 							:value as value
 							,:itemdef_id as itemdef_id
 							,:image_id as image_id
+							,:description
 							,:isdefaultstate as isdefaultstate
 					FROM items_states
 					WHERE EXISTS 
@@ -130,6 +138,7 @@ class Model_ItemState extends Model
 								->param(':value',$this->value)
 								->param(':itemdef_id',$this->itemdef_id)
 								->param(':image_id',$this->image_id)
+								->param(':description',$this->description)
 								->param(':isdefaultstate',$this->isdefaultstate)
 								->param(':creator_user_id',Auth::instance()->get_user()->id)
 								->execute();									
@@ -159,12 +168,14 @@ class Model_ItemState extends Model
 						SET its.value = :value
 							,its.itemdef_id = :itemdef_id
 							,its.image_id = :image_id
+							,its.description = :description
 							,its.isdefaultstate = :isdefaultstate
 						WHERE its.id = :id';
 				$results->success = DB::query(Database::UPDATE,$q,TRUE)
 								->param(':value',$this->value)
 								->param(':itemdef_id',$this->itemdef_id)
 								->param(':image_id',$this->image_id)
+								->param(':description',$this->description)
 								->param(':isdefaultstate',$this->isdefaultstate)
 								->param(':id',$this->id)
 								->param(':creator_user_id',Auth::instance()->get_user()->id)
