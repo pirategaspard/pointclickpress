@@ -16,15 +16,15 @@
 				{
 					$session = Session::Instance();
 					$story = $session->get('story');
-				
+					
 					echo '<ul>';
-					foreach ($inventory_items as $item_info)
-					{
-						$item = current($item_info);
+					foreach ($inventory_items['griditems'] as $item)
+					{						
 						if (plugins_inventory::getCurrentItem() == $item['id']) {echo '<li class="active">';}
 						else {echo '<li >';}				
-						$itemstate = Model_PCP_Items::getItemState(array('id'=>$item['itemstate_id']));
-						echo '<a id="setcurrentitem" class="inventory_item" href="'.Kohana::$base_url.'announceEvent?event='.INVENTORY_SET_SELECTED_ITEM.'&i='.$item['id'].'"><img src="'.$story->getMediaPath().$itemstate->getPath(THUMBNAIL_IMAGE_SIZE).'" alt="'.$itemstate->title.'" title="'.$itemstate->title.'" /></a></li>';
+						$itemstate = Model_Inventory::getInventoryItemStateByItemId(array('id'=>$item['itemstate_id']));
+						echo '<a id="setcurrentitem" class="inventory_item" href="'.Kohana::$base_url.'announceEvent?event='.INVENTORY_SET_SELECTED_ITEM.'&i='.$item['id'].'"><img src="'.$story->getMediaPath().$itemstate->getPath(THUMBNAIL_IMAGE_SIZE).'" alt="'.$itemstate->description.'" title="'.$itemstate->description.'" /></a>';
+						echo '</li>';
 					}
 					echo '</ul>';
 					if (plugins_inventory::getCurrentItem() > 0)
