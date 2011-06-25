@@ -40,7 +40,7 @@ class action_refreshitems extends Model_Base_PCPActionDef
 		{
 			if (count($itemstate) > 0)
 			{
-				$items[$cell_id-1] = array(	'id'=>key($itemstate),
+				$items[$cell_id] = array(	'id'=>key($itemstate),
 										'path'=>$story->getMediaPath().current($itemstate)->getPath($story->screen_size));
 			}
 		}

@@ -17,10 +17,12 @@
 	  		  	
 	  	// show items
 	  	var cells = $('#grid').children('a');
+	  	var i = 0 ;
 	  	for(var n in data.items)
 		{
 			//$(cells[n]).html('<img src="'+data.items[n]+'" />');
-			$(cells[n]).replaceWith('<div class="item" n='+n+'><form n='+n+' i='+data.items[n].id+' action="itemclick?n='+n+'&i='+data.items[n].id+'" method="post" ><input type="image" src="'+data.items[n].path+'" name="i" value="'+data.items[n].id+'" /></form></div>');
+			i = (n*1)-1;
+			$(cells[i]).replaceWith('<div class="item" n='+n+'><form n='+n+' i='+data.items[n].id+' action="itemclick?n='+n+'&i='+data.items[n].id+'" method="post" ><input type="image" src="'+data.items[n].path+'" name="i" value="'+data.items[n].id+'" /></form></div>');
 	  	}
 	};	
 })( jQuery );
