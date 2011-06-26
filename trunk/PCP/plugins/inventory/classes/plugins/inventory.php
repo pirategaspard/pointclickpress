@@ -98,8 +98,18 @@ class plugins_inventory extends Model_Base_PCPPlugin
 		$story_data = Storydata::getStorydata();
 		$s = Session::instance();
 		$cell_id = ($s->get('story')->grid_total());
+		$empty = false;
+		while(!$empty)
+		{
+			$cell_id = $cell_id-1;
+			$item = Items::getGriditemBySceneIdAndCellId($story_data['scene_id'],$cell_id);
+			if (count($item) == 0)
+			{
+				$empty = true;				
+			}
+		}
 		// put current item into the scene in the last cell
-		Items::setGridItemLocation($griditem_id,$story_data['scene_id'],$cell_id-1); 
+		Items::setGridItemLocation($griditem_id,$story_data['scene_id'],$cell_id); 
 		self::setCurrentItem(0); 
 		if (Request::Current()->is_ajax())
 		{   
