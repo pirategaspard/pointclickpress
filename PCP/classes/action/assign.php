@@ -77,7 +77,7 @@ class action_assign extends Model_Base_PCPActionDef
 			//echo (' math: ');
 			$operator = $this->getOperator($value);
 			$math_values = $this->tokenize($value,$operator);
-			if (count($eval_values) == 2) 
+			if (count($math_values) == 2) 
 			{
 				$math_values[0] = $this->getValueFromArray($this->getVariableName($math_values[0]),StoryData::getStorydata());
 				$math_values[1] = $this->getValueFromArray($this->getVariableName($math_values[1]),StoryData::getStorydata());

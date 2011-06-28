@@ -27,10 +27,10 @@ $(document).ready(function()
 			$().wait_start();
 			var cell = $(event.target);
 			var t = new Date().getTime();
-			$.getJSON('cellClick',{n: cell.attr('n'), t: t},parseData);
+			$.getJSON('cellClick',{n: cell.attr('n')},parseData); //, t: t
 	});; 
 	
-	// attach ajax listener to all grid cells
+	// attach ajax listener to all grid items
 	$('#grid>div>form').live('submit',function(event) {
 			/* 
 				On click send the number of the cell to the 
@@ -40,7 +40,7 @@ $(document).ready(function()
 			$().wait_start();
 			var f = $(event.target);
 			var t = new Date().getTime();
-			$.getJSON('itemClick',{n: f.attr('n'),i: f.attr('i'),t: t},parseData);
+			$.getJSON('itemClick',{n: f.attr('n'),i: f.attr('i')},parseData); //,t: t
 		});
 });
 
