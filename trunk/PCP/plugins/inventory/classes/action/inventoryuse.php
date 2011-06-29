@@ -7,7 +7,7 @@ class action_inventoryuse extends Model_Base_PCPActionDef
 {	
 	protected $label = 'Use Inventory Item'; 
 	protected $description = 'Use item from inventory. "item_id,cell_id_to_trigger"';
-	protected $allowed_action_types = array(ACTION_TYPE_GRID);
+	protected $allowed_action_types = array(ACTION_TYPE_GRID,ACTION_TYPE_GRIDITEM);
 	protected $events = array(INVENTORY_USE_ITEM);
 	
 	public function performAction($args=array(),$hook_name='')
