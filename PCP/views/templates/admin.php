@@ -3,6 +3,7 @@
 	<head>
 		<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
 		<meta http-equiv="Content-Language" content="en-us" />		
+		<link rel="shortcut icon" href="<?php echo(Kohana::$base_url); ?>images/favicon.gif" />
 		<?php foreach ($styles as $style)	{ ?><link href="<?php echo(Kohana::$base_url.'css/'.$style); ?>" rel="stylesheet" type="text/css" ><?php } ?>
 		<?php Events::announceEvent(ADMIN_CSS); ?>
 		<title><?php echo $title;?></title>

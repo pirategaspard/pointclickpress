@@ -16,31 +16,34 @@ $(document).ready(function()
 		the ajax method below instead. otherwise page will refresh 
 		everytime user clicks on a cell
 	*/
-	var grid_a = $('#grid>a');
-	grid_a.removeAttr('href'); 	
+	var grid = $('#grid');
+	grid.children('a').removeAttr('href'); 	
 	// attach ajax listener to cell click
-	grid_a.live('click',function(event) {
+	grid.delegate('a','click',function(event) {
 			/* 
 				On click send the number of the cell to the 
 				cellClick function in the PCP controller
 			*/
 			$().wait_start();
+			event.preventDefault();
 			var cell = $(event.target);
-			var t = new Date().getTime();
-			$.getJSON('cellClick',{n: cell.attr('n')},parseData); //, t: t
+			$.getJSON('cellClick',{n: cell.attr('n')},parseData);
+			/*var t = new Date().getTime();
+			$.getJSON('cellClick',{n: cell.attr('n'), t: t},parseData);*/
 	});; 
 	
-	// attach ajax listener to all grid items
-	$('#grid>div>form').live('submit',function(event) {
+	// attach ajax listener to all grid cells
+	grid.delegate('div>form','submit',function(event) {
 			/* 
 				On click send the number of the cell to the 
 				itemClick function in the PCP controller
 			*/
 			event.preventDefault();
-			$().wait_start();
+			$().wait_start(); 0
 			var f = $(event.target);
-			var t = new Date().getTime();
-			$.getJSON('itemClick',{n: f.attr('n'),i: f.attr('i')},parseData); //,t: t
+			$.getJSON('itemClick',{n: f.attr('n'),i: f.attr('i')},parseData);
+			/*var t = new Date().getTime();
+			$.getJSON('itemClick',{n: f.attr('n'),i: f.attr('i'),t: t},parseData);*/
 		});
 });
 
