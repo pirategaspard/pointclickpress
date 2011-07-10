@@ -2421,7 +2421,7 @@ CREATE TABLE IF NOT EXISTS `grids_items_actions` (
 INSERT INTO `grids_items_actions` (`griditem_id`, `action_id`) VALUES
 (4, 186),
 (4, 189),
-(4, 190)
+(4, 190);
 
 CREATE TABLE IF NOT EXISTS `images` (
   `id` bigint(20) NOT NULL auto_increment,
