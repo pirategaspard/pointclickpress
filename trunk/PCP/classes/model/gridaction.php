@@ -140,6 +140,7 @@ class Model_GridAction extends Model_Base_PCPAction
 					WHERE c.grid_action_id = :grid_action_id';
 			$results->success = DB::query(Database::DELETE,$q,TRUE)
 							->param(':grid_action_id',$this->grid_action_id)
+							->param(':creator_user_id',Auth::instance()->get_user()->id)
 							->execute();
 							
 			$q = '	DELETE ga 
