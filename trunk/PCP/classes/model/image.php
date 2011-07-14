@@ -114,12 +114,20 @@ class Model_Image extends Model
 							,i.filename = :filename
 						WHERE i.id = :id';
 							
-				$results->success = DB::query(Database::INSERT,$q,TRUE)							
+				$records_updated = DB::query(Database::INSERT,$q,TRUE)							
 									->param(':id',$this->id)
 									->param(':story_id',$this->story_id)
 									->param(':filename',$this->filename)
 									->param(':creator_user_id',Auth::instance()->get_user()->id)
-									->execute();				
+									->execute();	
+				if ($records_updated > 0)
+				{
+					$result->success = PCPRESULT_STATUS_SUCCESS;
+				}
+				else
+				{
+					$result->success = PCPRESULT_STATUS_INFO;
+				}			
 			}
 			catch( Database_Exception $e )
 			{

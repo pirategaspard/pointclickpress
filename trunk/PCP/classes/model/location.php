@@ -91,7 +91,7 @@ class Model_Location extends Model
 	
 	function save()
 	{	
-		$results = new pcpresult();
+		$result = new pcpresult();
 		if ($this->id == 0)
 		{
 			//INSERT new record
@@ -118,7 +118,7 @@ class Model_Location extends Model
 				if ($q_results[1] > 0)
 				{
 					$this->id = $q_results[0];
-					$results->success = 1;
+					$result->success = 1;
 				}
 			}
 			catch( Database_Exception $e )
@@ -139,11 +139,21 @@ class Model_Location extends Model
 							AND s.creator_user_id = :creator_user_id
 						SET l.title = :title
 						WHERE l.id = :id';
-				$results->success = DB::query(Database::UPDATE,$q,TRUE)
+				$records_updated = DB::query(Database::UPDATE,$q,TRUE)
 										->param(':title',$this->title)
 										->param(':id',$this->id)
 										->param(':creator_user_id',Auth::instance()->get_user()->id)
-										->execute();															
+										->execute();
+				if ($records_updated > 0)
+				{
+					$result->success = PCPRESULT_STATUS_SUCCESS;
+					$result->message = "Location Saved";
+				}
+				else
+				{
+					$result->success = PCPRESULT_STATUS_INFO;
+					$result->message = "Nothing was changed";
+				}															
 			}
 			catch( Database_Exception $e )
 			{
@@ -152,14 +162,14 @@ class Model_Location extends Model
 					array(':file' => __FILE__));
 			}
 		}
-		$results->data = array('id'=>$this->id);
-		return $results;
+		$result->data = array('id'=>$this->id);
+		return $result;
 	}
 	
 	function delete()
 	{	
-		$results = new pcpresult();
-		$results->data = array('id'=>$this->id);
+		$result = new pcpresult();
+		$result->data = array('id'=>$this->id);
 		if ($this->id > 0)
 		{
 			//delete all children first
@@ -179,12 +189,12 @@ class Model_Location extends Model
 						ON l.story_id = s.id
 						AND s.creator_user_id = :creator_user_id 
 					WHERE l.id = :id';
-			$results->success =	DB::query(Database::DELETE,$q,TRUE)
+			$result->success =	DB::query(Database::DELETE,$q,TRUE)
 									->param(':id',$this->id)
 									->param(':creator_user_id',Auth::instance()->get_user()->id)
 									->execute();								
 		}		
-		return $results;
+		return $result;
 	}
 	
 	function getActions()

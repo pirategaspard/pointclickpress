@@ -114,11 +114,19 @@ class Model_ItemDef extends Model
 							AND s.creator_user_id = :creator_user_id
 						SET title = :title
 						WHERE id = :id';
-				$results->success = DB::query(Database::UPDATE,$q,TRUE)
+				$records_updated = DB::query(Database::UPDATE,$q,TRUE)
 								->param(':title',$this->title)
 								->param(':id',$this->id)
 								->param(':creator_user_id',Auth::instance()->get_user()->id)
-								->execute();																	
+								->execute();
+				if ($records_updated > 0)
+				{
+					$result->success = PCPRESULT_STATUS_SUCCESS;
+				}
+				else
+				{
+					$result->success = PCPRESULT_STATUS_INFO;
+				}																	
 			}
 			catch( Database_Exception $e )
 			{

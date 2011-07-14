@@ -31,13 +31,13 @@ class Model_Admin_Story extends Model_PCP_Story
 						ON s.creator_user_id = u.id
 						AND u.id = :creator_user_id
 					WHERE s.id = :id';
-			$results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)
+			$result = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)
 															->param(':creator_user_id',$this->creator_user_id)
 															->execute()
 															->as_array();				
-			if (count($results) > 0 )
+			if (count($result) > 0 )
 			{
-				$this->init($results[0]);				
+				$this->init($result[0]);				
 			}
 			else
 			{
@@ -49,7 +49,7 @@ class Model_Admin_Story extends Model_PCP_Story
 	
 	function save()
 	{	
-		$results = new pcpresult();	
+		$result = new pcpresult();	
 		if ($this->id == 0)
 		{
 			//INSERT new record
@@ -94,7 +94,7 @@ class Model_Admin_Story extends Model_PCP_Story
 				if ($q_results[1] > 0)
 				{
 					$this->id = $q_results[0];
-					$results->success = 1;
+					$result->success = 1;
 				}
 			}
 			catch( Database_Exception $e )
@@ -120,7 +120,7 @@ class Model_Admin_Story extends Model_PCP_Story
 							,theme_name = :theme_name
 						WHERE id = :id
 							AND creator_user_id = :creator_user_id';
-				$results->success = DB::query(Database::UPDATE,$q,TRUE)
+				$records_updated = DB::query(Database::UPDATE,$q,TRUE)
 										->param(':title',$this->title)
 										->param(':author',$this->author)
 										->param(':description',$this->description)	
@@ -133,6 +133,16 @@ class Model_Admin_Story extends Model_PCP_Story
 										->param(':id',$this->id)
 										->param(':creator_user_id',$this->creator_user_id)
 										->execute();														
+				if ($records_updated > 0)
+				{
+					$result->success = PCPRESULT_STATUS_SUCCESS;
+					$result->message = "Story Saved";
+				}
+				else
+				{
+					$result->success = PCPRESULT_STATUS_INFO;
+					$result->message = "Nothing was changed";
+				}
 			}
 			catch( Database_Exception $e )
 			{
@@ -141,14 +151,14 @@ class Model_Admin_Story extends Model_PCP_Story
 					array(':file' => __FILE__));
 			}
 		}
-		$results->data = array('id'=>$this->id);
-		return $results;
+		$result->data = array('id'=>$this->id);
+		return $result;
 	}
 	
 	function delete()
 	{	
-		$results = new pcpresult();
-		$results->data = array('id'=>$this->id);
+		$result = new pcpresult();
+		$result->data = array('id'=>$this->id);
 		if ($this->id > 0)
 		{
 			//delete children first
@@ -165,12 +175,12 @@ class Model_Admin_Story extends Model_PCP_Story
 			$q = '	DELETE FROM stories
 						WHERE id = :id 
 						AND creator_user_id = :creator_user_id';
-			$results->success =	DB::query(Database::DELETE,$q,TRUE)
+			$result->success =	DB::query(Database::DELETE,$q,TRUE)
 								->param(':id',$this->id)
 								->param(':creator_user_id',$this->creator_user_id)
 								->execute();						
 		}		
-		return $results;
+		return $result;
 	}
 
 	function setCreatorUserId($id)

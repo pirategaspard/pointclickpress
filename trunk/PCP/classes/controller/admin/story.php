@@ -85,26 +85,15 @@ Class Controller_admin_story extends Controller_Template_Admin
 		$session->delete('result');
 		if(count($_POST) > 0)
 		{
-			/* try
-			{ */
-				$data = Model_Admin_StoriesAdmin::GetData();
-				$result = Model_Admin_StoriesAdmin::getStory()->init($data)->save();
-				$session->set('story_id',$result->data['id']);
-			/*}
-			catch (Exception $e)
-			{
-				Kohana::$log->add(Log::ERROR, 'Unable to Save Story');
-			}*/			
+			$data = Model_Admin_StoriesAdmin::GetData();
+			$result = Model_Admin_StoriesAdmin::getStory()->init($data)->save();
+			$session->set('story_id',$result->data['id']);		
 		}
 		else
 		{
 			$result = new pcpresult(0,'unable to save story data');
 		}
-		if ($result->success)
-		{
-			$result->message = "Story Saved";
-		}
-		$session->set('result',$result);
+		$session->set('result',$result);		
 		//redirect to edit the story just saved
 		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'edit')).'?story_id='.$session->get('story_id',0));
 	}
@@ -116,19 +105,8 @@ Class Controller_admin_story extends Controller_Template_Admin
 		$data = Model_Admin_StoriesAdmin::GetData();			
 		if (isset($data['story_id']) && isset($data['image_id']))
 		{
-			try
-			{
-				$story = Model_Admin_StoriesAdmin::getStory($data);
-				$result = $story->init(array('image_id'=>$data['image_id']))->save();
-			}
-			catch (Exception $e)
-			{
-				Kohana::$log->add(Log::ERROR, 'Unable to Assign Image to Story');
-			}
-			if ($result->success)
-			{
-				$result->message = "Image Assigned";
-			}
+			$story = Model_Admin_StoriesAdmin::getStory($data);
+			$result = $story->init(array('image_id'=>$data['image_id']))->save();
 			$session->set('result',$result);			
 		}
 		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'edit')).'?story_id='.$data['story_id']);
@@ -139,23 +117,7 @@ Class Controller_admin_story extends Controller_Template_Admin
 		$session = Session::instance('admin');	
 		$session->delete('result');	
 		$data = Model_Admin_StoriesAdmin::GetData();
-		try
-		{
-			$result = Model_Admin_StoriesAdmin::getStory()->init($data)->delete();
-		}
-		catch (Exception $e)
-		{
-			Kohana::$log->add(Log::ERROR, 'Unable to Delete Story');
-		}
-		// Create User Message
-		if ($result->success)
-		{
-			//$result->message = "Story Deleted";
-		}
-		elseif($result->success == 0)
-		{
-			//$result->message = "Unable to Delete Story";
-		}
+		$result = Model_Admin_StoriesAdmin::getStory()->init($data)->delete();
 		$session->set('result',$result);	
 		//Go back to the parent
 		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'list')));
