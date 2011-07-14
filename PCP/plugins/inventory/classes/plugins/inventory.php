@@ -19,6 +19,7 @@ class plugins_inventory extends Model_Base_PCPPlugin
 			{
 				// init current item in session
 				Storydata::set('current_item','');
+				break;
 			}
 			case CSS:
 			{

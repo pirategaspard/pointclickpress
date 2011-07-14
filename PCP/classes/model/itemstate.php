@@ -171,7 +171,7 @@ class Model_ItemState extends Model
 							,its.description = :description
 							,its.isdefaultstate = :isdefaultstate
 						WHERE its.id = :id';
-				$results->success = DB::query(Database::UPDATE,$q,TRUE)
+				$records_updated = DB::query(Database::UPDATE,$q,TRUE)
 								->param(':value',$this->value)
 								->param(':itemdef_id',$this->itemdef_id)
 								->param(':image_id',$this->image_id)
@@ -179,7 +179,15 @@ class Model_ItemState extends Model
 								->param(':isdefaultstate',$this->isdefaultstate)
 								->param(':id',$this->id)
 								->param(':creator_user_id',Auth::instance()->get_user()->id)
-								->execute();																	
+								->execute();
+				if ($records_updated > 0)
+				{
+					$result->success = PCPRESULT_STATUS_SUCCESS;
+				}
+				else
+				{
+					$result->success = PCPRESULT_STATUS_INFO;
+				}
 			}
 			catch( Database_Exception $e )
 			{

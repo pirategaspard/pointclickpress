@@ -87,11 +87,11 @@ class Model_Scene extends Model
 					LEFT OUTER JOIN images i
 					ON s.image_id = i.id
 					WHERE s.id = :id';
-			$results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();
+			$result = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)->execute()->as_array();
 
-			if (count($results) > 0 )
+			if (count($result) > 0 )
 			{
-				$this->init($results[0]);	
+				$this->init($result[0]);	
 			}
 		}
 		return $this;
@@ -100,7 +100,7 @@ class Model_Scene extends Model
 	
 	function save()
 	{	
-		$results = new pcpresult();					
+		$result = new pcpresult();					
 		if ($this->id == 0)
 		{
 			try
@@ -141,7 +141,7 @@ class Model_Scene extends Model
 				if ($q_results[1] > 0)
 				{
 					$this->id = $q_results[0];
-					$results->success = 1;
+					$result->success = 1;
 				}
 				else
 				{
@@ -171,14 +171,22 @@ class Model_Scene extends Model
 							,sc.image_id = :image_id
 							,sc.value = :value
 						WHERE sc.id = :id';
-				$results->success = DB::query(Database::UPDATE,$q,TRUE)
+				$records_updated = DB::query(Database::UPDATE,$q,TRUE)
 										->param(':title',$this->title)
 										->param(':description',$this->description)
 										->param(':image_id',$this->image_id)
 										->param(':value',$this->value)
 										->param(':id',$this->id)
 										->param(':creator_user_id',Auth::instance()->get_user()->id)
-										->execute();														
+										->execute();	
+				if ($records_updated > 0)
+				{
+					$result->success = PCPRESULT_STATUS_SUCCESS;
+				}
+				else
+				{
+					$result->success = PCPRESULT_STATUS_INFO;
+				}													
 			}
 			catch( Database_Exception $e )
 			{
@@ -187,14 +195,14 @@ class Model_Scene extends Model
 					array(':file' => __FILE__));
 			}
 		}
-		$results->data = array('id'=>$this->id);
-		return $results;
+		$result->data = array('id'=>$this->id);
+		return $result;
 	}
 	
 	function delete()
 	{
-		$results = new pcpresult();
-		$results->data = array('id'=>$this->id);
+		$result = new pcpresult();
+		$result->data = array('id'=>$this->id);
 		if ($this->id > 0)
 		{
 			// delete children 1st
@@ -214,12 +222,12 @@ class Model_Scene extends Model
 						ON sc.story_id = s.id
 						AND s.creator_user_id = :creator_user_id 
 					WHERE sc.id = :id';
-			$results->success =	DB::query(Database::DELETE,$q,TRUE)
+			$result->success =	DB::query(Database::DELETE,$q,TRUE)
 											->param(':id',$this->id)
 											->param(':creator_user_id',Auth::instance()->get_user()->id)
 											->execute();							
 		}		
-		return $results;
+		return $result;
 	}
 	
 	function getPath($screen_size=NULL,$w=NULL,$h=NULL)

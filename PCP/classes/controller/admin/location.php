@@ -55,25 +55,13 @@ Class Controller_admin_location extends Controller_Template_Admin
 		$session->delete('result');
 		if(count($_POST) > 0)
 		{
-			try
-			{
-				$data = Model_Admin_LocationsAdmin::getData();
-				$result = Model_Admin_LocationsAdmin::getlocation()->init($data)->save();
-				$session->set('location_id',$result->data['id']);
-			}
-			catch (Exception $e)
-			{
-				Kohana::$log->add(Log::ERROR, 'Unable to Save Location');
-			}
+			$data = Model_Admin_LocationsAdmin::getData();
+			$result = Model_Admin_LocationsAdmin::getlocation()->init($data)->save();
+			$session->set('location_id',$result->data['id']);
 		}
 		else
 		{
 			$result = new pcpresult(0,'unable to save location data');
-		}
-		// Create User Message
-		if ($result->success)
-		{
-			$result->message = "Location Saved";
 		}
 		$session->set('result',$result);
 		
@@ -86,14 +74,9 @@ Class Controller_admin_location extends Controller_Template_Admin
 		$session = Session::instance('admin');
 		$session->delete('result');
 		$data = Model_Admin_LocationsAdmin::getData();	
-		try
-		{
+		
 			$result = Model_Admin_LocationsAdmin::getlocation()->init($data)->delete();
-		}
-		catch (Exception $e)
-		{
-			Kohana::$log->add(Log::ERROR, 'Unable to Delete Location');
-		}
+	
 		// Create User Message
 		if ($result->success)
 		{

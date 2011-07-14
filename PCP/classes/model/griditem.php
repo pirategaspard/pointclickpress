@@ -143,7 +143,7 @@ class Model_GridItem extends Model
 							,g.title = :title
 							,g.slug = :slug
 						WHERE g.id = :id';
-				$results->success = DB::query(Database::UPDATE,$q,TRUE)
+				$records_updated = DB::query(Database::UPDATE,$q,TRUE)
 								->param(':itemdef_id',$this->itemdef_id)
 								->param(':scene_id',$this->scene_id)
 								->param(':cell_id',$this->cell_id)
@@ -151,7 +151,15 @@ class Model_GridItem extends Model
 								->param(':slug',$this->slug)
 								->param(':id',$this->id)
 								->param(':creator_user_id',Auth::instance()->get_user()->id)
-								->execute();																	
+								->execute();
+				if ($records_updated > 0)
+				{
+					$result->success = PCPRESULT_STATUS_SUCCESS;
+				}
+				else
+				{
+					$result->success = PCPRESULT_STATUS_INFO;
+				}																	
 			}
 			catch( Database_Exception $e )
 			{				

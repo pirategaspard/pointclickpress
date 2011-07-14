@@ -102,15 +102,24 @@ class Model_GridAction extends Model_Base_PCPAction
 				//delete any existing cells on this action
 				$q = '	DELETE FROM cells
 						WHERE grid_action_id = :grid_action_id';
-				$results->success = DB::query(Database::DELETE,$q,TRUE)
+				$records_updated = DB::query(Database::DELETE,$q,TRUE)
 										->param(':grid_action_id',$this->grid_action_id)
 										->execute();
+										
+				if ($records_updated > 0)
+				{
+					$result->success = PCPRESULT_STATUS_SUCCESS;
+				}
+				else
+				{
+					$result->success = PCPRESULT_STATUS_INFO;
+				}
+				
 				//save cells
 				foreach ($this->cells as $cell)
 				{
 					Model_Admin_CellsAdmin::getCell()->init(array('id'=>$cell,'scene_id'=>$this->scene_id,'grid_action_id'=>$this->grid_action_id))->save();
 				}					
-																		
 			}
 			catch( Database_Exception $e )
 			{

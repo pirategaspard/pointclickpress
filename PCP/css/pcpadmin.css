@@ -22,10 +22,11 @@ legend {font-size:1.2em;}
 #grid a {display:block; float: left; }
 #scene_data {padding: 10px; margin: 0 auto;}
 
-#dialog_message, #dialog_delete {display: none;}
-#dialog_message p {padding: 25px 0px; font-weight: bold; text-align: center; }
-#dialog_message p.success { color: green;   }
-#dialog_message p.error { color: red; }
+#dialog_delete {display: none;}
+#messages {margin: 0 auto; margin-top: 20px; padding: 5px 0px; font-weight: bold; text-align: center; width: 20%; }
+#messages div.info { padding: 6px; color:#5C5C5C; border:solid 1px #CBDFE7; background:#DEF1F8;  margin-top: 4px; margin-bottom: 4px; margin-right: 6px;}
+#messages div.success { padding: 6px; background: none !important; background-color: ForestGreen !important; color: white !important; margin-top: 4px; margin-bottom: 4px;}
+#messages div.error { padding: 6px; background: none; background-color:red !important; color: white !important;  border: black 1px solid; margin-top: 4px; margin-bottom: 4px;}
 
 #bottommenu {}
 #footer {clear: both; position: relative; text-align: center; margin: 20px auto; font-size: .7em;}
