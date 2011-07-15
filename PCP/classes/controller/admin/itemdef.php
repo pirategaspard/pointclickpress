@@ -50,26 +50,13 @@ Class Controller_admin_itemdef extends Controller_Template_Admin
 		$session->delete('result');		
 		if(count($_POST) > 0)
 		{
-			try
-			{
-				$data = Model_Admin_ItemDefAdmin::getData();
-				$result = Model_Admin_ItemDefAdmin::getItemDef()->init($data)->save();
-				$session->set('itemdef_id',$result->data['id']);
-			}
-			catch (Exception $e)
-			{
-				Kohana::$log->add(Log::ERROR, 'Unable to Save ItemDefinition');
-			}			
+			$data = Model_Admin_ItemDefAdmin::getData();
+			$result = Model_Admin_ItemDefAdmin::getItemDef()->init($data)->save();
+			$session->set('itemdef_id',$result->data['id']);	
 		}
 		else
 		{
 			$result = new pcpresult(0,'unable to save Item data');
-		}
-		if ($result->success)
-		{
-			// update scene id in session
-			$session->set('itemdef_id',$result->data['id']);
-			$result->message = "Item Saved";
 		}
 		$session->set('result',$result);
 		//redirect to edit the Item just saved
@@ -81,19 +68,7 @@ Class Controller_admin_itemdef extends Controller_Template_Admin
 		$session = Session::instance('admin');	
 		$session->delete('result');
 		$data = Model_Admin_ItemDefAdmin::getData();
-		try
-		{
-			$result = Model_Admin_ItemDefAdmin::getItemDef()->init($data)->delete();
-		}
-		catch (Exception $e)
-		{
-			Kohana::$log->add(Log::ERROR, 'Unable to Delete ItemDefinition');
-		}
-		// Create User Message
-		if ($result->success)
-		{
-			$result->message = "Item Deleted";
-		}
+		$result = Model_Admin_ItemDefAdmin::getItemDef()->init($data)->delete();
 		$session->set('result',$result);
 		$back_url = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';	
 		//Go back to the parent

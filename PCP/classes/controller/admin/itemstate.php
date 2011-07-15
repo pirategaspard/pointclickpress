@@ -50,16 +50,9 @@ Class Controller_admin_itemstate extends Controller_Template_Admin
 			$itemstate = Model_Admin_ItemstateAdmin::getItemStateByItemId($_POST['itemdef_id'],$_POST['value']);													
 			if ((count($itemstate) == 0) || (isset($itemstate[$_POST['id']])))
 			{
-				try
-				{
-					$data = Model_Admin_ItemstateAdmin::getData();
-					$result = Model_Admin_ItemstateAdmin::getitemstate()->init($data)->save();
-					$session->set('itemstate_id',$result->data['id']);
-				}
-				catch (Exception $e)
-				{
-					Kohana::$log->add(Log::ERROR, 'Unable to Save ItemState');
-				}
+				$data = Model_Admin_ItemstateAdmin::getData();
+				$result = Model_Admin_ItemstateAdmin::getitemstate()->init($data)->save();
+				$session->set('itemstate_id',$result->data['id']);
 			}
 			else
 			{
@@ -70,12 +63,6 @@ Class Controller_admin_itemstate extends Controller_Template_Admin
 		{
 			$result = new pcpresult(0,'unable to save Item data');
 		}
-		if ($result->success)
-		{
-			// update scene id in session
-			$session->set('itemstate_id',$result->data['id']);
-			$result->message = "Item State Saved";
-		}
 		$session->set('result',$result);
 		//redirect to edit the Item just saved
 		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'itemstate','action'=>'edit')).'?itemstate_id='.$result->data['id']);
@@ -85,20 +72,8 @@ Class Controller_admin_itemstate extends Controller_Template_Admin
 	{	
 		$session = Session::instance('admin');	
 		$session->delete('result');
-		try
-		{
-			$data = Model_Admin_ItemstateAdmin::getData();
-			$result = Model_Admin_ItemstateAdmin::getitemstate()->init($data)->delete();
-		}
-		catch (Exception $e)
-		{
-			Kohana::$log->add(Log::ERROR, 'Unable to Delete ItemState');
-		}
-		// Create User Message
-		if ($result->success)
-		{
-			$result->message = "Item State Deleted";
-		}
+		$data = Model_Admin_ItemstateAdmin::getData();
+		$result = Model_Admin_ItemstateAdmin::getitemstate()->init($data)->delete();
 		$session->set('result',$result);
 		$back_url = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';	
 		//Go back to the parent
@@ -112,15 +87,8 @@ Class Controller_admin_itemstate extends Controller_Template_Admin
 		$data = Model_Admin_ItemstateAdmin::getData();			
 		if (isset($data['itemstate_id']) && isset($data['image_id']))
 		{
-			try
-			{
-				$itemstate = Model_Admin_ItemstateAdmin::getItemstate(array('id'=>$data['itemstate_id']));
-				$result = $itemstate->init(array('image_id'=>$data['image_id']))->save();
-			}
-			catch (Exception $e)
-			{
-				Kohana::$log->add(Log::ERROR, 'Unable to Assign Image to ItemState');
-			}
+			$itemstate = Model_Admin_ItemstateAdmin::getItemstate(array('id'=>$data['itemstate_id']));
+			$result = $itemstate->init(array('image_id'=>$data['image_id']))->save();
 			if ($result->success)
 			{
 				$result->message = "Image Assigned";

@@ -161,6 +161,8 @@ class Model_Admin_Story extends Model_PCP_Story
 				{
 					$action->delete();
 				}
+				// TODO: delete items
+				
 				
 				$q = '	DELETE FROM stories
 							WHERE id = :id 
