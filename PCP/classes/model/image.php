@@ -55,11 +55,11 @@ class Model_Image extends Model
 	
 	function save()
 	{	
-		$results = new pcpresult();
-		if ($this->id == 0)
+		$result = new pcpresult(PCPRESULT_STATUS_INFO,"Nothing was changed");
+		try
 		{
-			/*try
-			{*/
+			if ($this->id == 0)
+			{
 				//INSERT new record
 				$q = '	INSERT INTO images
 							(story_id,type_id,filename)
@@ -85,27 +85,13 @@ class Model_Image extends Model
 				if ($q_results[1] > 0)
 				{
 					$this->id = $q_results[0];
-					$results->success = 1;
+					$result->success = PCPRESULT_STATUS_SUCCESS;
+					$result->message = "Image Saved";
 				}
-				else
-				{
-					Kohana::$log->add(Log::ERROR, 'Error Inserting Record in file'.__FILE__);
-					throw new Kohana_Exception('Error Inserting Record in file: :file',
-						array(':file' => __FILE__));
-				}
-		/*	}
-			catch( Database_Exception $e )
+			}
+			elseif ($this->id > 0)
 			{
-				Kohana::$log->add(Log::ERROR, 'Error Inserting Record in file'.__FILE__);
-				throw new Kohana_Exception('Error Inserting Record in file: :file',
-					array(':file' => __FILE__));
-			} */
-		}
-		elseif ($this->id > 0)
-		{
-			//UPDATE record
-			try
-			{			
+			//UPDATE record	
 				$q = '	UPDATE images i
 						INNER JOIN stories s 
 							ON i.story_id = s.id
@@ -123,41 +109,52 @@ class Model_Image extends Model
 				if ($records_updated > 0)
 				{
 					$result->success = PCPRESULT_STATUS_SUCCESS;
-				}
-				else
-				{
-					$result->success = PCPRESULT_STATUS_INFO;
+					$result->message = "Image Saved";
 				}			
-			}
-			catch( Database_Exception $e )
-			{
-			  Kohana::$log->add(Log::ERROR, 'Error Updating Record in file'.__FILE__);
-			  throw new Kohana_Exception('Error Updating Record in file: :file',
-				array(':file' => __FILE__));
-			}
+			}			
 		}	
-		$results->data = array('id'=>$this->id);		
-		return $results;
+		catch( Database_Exception $e )
+		{
+			$result->success = PCPRESULT_STATUS_FAILURE;
+			$result->message = 'Error Saving Record';
+			Kohana::$log->add(Log::ERROR, $result->message.' in file'.__FILE__);
+		}
+		$result->data = array('id'=>$this->id);		
+		return $result;
 	}
 	
 	function delete()
 	{
-		$results = new pcpresult();
-		if ($this->id > 0)
+		$result = new pcpresult(PCPRESULT_STATUS_INFO,"Nothing was changed");
+		try
 		{
-			$q = '	DELETE i 
-					FROM images i
-					INNER JOIN stories s 
-						ON i.story_id = s.id
-						AND s.creator_user_id = :creator_user_id
-					WHERE i.id = :id';
-			$results->success =	DB::query(Database::DELETE,$q,TRUE)
-								->param(':id',$this->id)
-								->param(':creator_user_id',Auth::instance()->get_user()->id)
-								->execute();						
+			if ($this->id > 0)
+			{
+				$q = '	DELETE i 
+						FROM images i
+						INNER JOIN stories s 
+							ON i.story_id = s.id
+							AND s.creator_user_id = :creator_user_id
+						WHERE i.id = :id';
+				$records_updated =	DB::query(Database::DELETE,$q,TRUE)
+									->param(':id',$this->id)
+									->param(':creator_user_id',Auth::instance()->get_user()->id)
+									->execute();
+				if ($records_updated > 0)
+				{
+					$result->success = PCPRESULT_STATUS_SUCCESS;
+					$result->message = "Image Deleted";
+				}						
+			}
+		}	
+		catch( Database_Exception $e )
+		{
+			$result->success = PCPRESULT_STATUS_FAILURE;
+			$result->message = 'Error Deleting Record';
+			Kohana::$log->add(Log::ERROR, $result->message.' in file'.__FILE__);
 		}
-		$results->data = array('id'=>$this->id);
-		return $results;
+		$result->data = array('id'=>$this->id);
+		return $result;
 	}
 }
 

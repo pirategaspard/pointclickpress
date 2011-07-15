@@ -100,11 +100,12 @@ class Model_Scene extends Model
 	
 	function save()
 	{	
-		$result = new pcpresult();					
-		if ($this->id == 0)
+		$result = new pcpresult(PCPRESULT_STATUS_INFO,"Nothing was changed");					
+		try
 		{
-			try
+			if ($this->id == 0)
 			{
+			
 				//INSERT new record
 				$q = '	INSERT INTO scenes
 							(story_id
@@ -141,27 +142,13 @@ class Model_Scene extends Model
 				if ($q_results[1] > 0)
 				{
 					$this->id = $q_results[0];
-					$result->success = 1;
-				}
-				else
-				{
-					Kohana::$log->add(Log::ERROR, 'Error Updating Record in file'.__FILE__);
-					throw new Kohana_Exception('Error Updating Record in file: :file '.$e->getMessage(),
-					array(':file' => __FILE__));
+					$result->success = PCPRESULT_STATUS_SUCCESS;
+					$result->message = "Scene Saved";
 				}
 			}
-			catch( Database_Exception $e )
+			elseif ($this->id > 0)
 			{
-				Kohana::$log->add(Log::ERROR, 'Error Updating Record in file'.__FILE__);
-				throw new Kohana_Exception('Error Updating Record in file: :file '.$e->getMessage(),
-					array(':file' => __FILE__));
-			}
-		}
-		elseif ($this->id > 0)
-		{
 			//UPDATE record
-			try
-			{
 				$q = '	UPDATE scenes sc
 						INNER JOIN stories s 
 							ON sc.story_id = s.id
@@ -182,18 +169,15 @@ class Model_Scene extends Model
 				if ($records_updated > 0)
 				{
 					$result->success = PCPRESULT_STATUS_SUCCESS;
-				}
-				else
-				{
-					$result->success = PCPRESULT_STATUS_INFO;
+					$result->message = "Scene Saved";
 				}													
-			}
-			catch( Database_Exception $e )
-			{
-				Kohana::$log->add(Log::ERROR, 'Error Updating Record in file'.__FILE__);
-				throw new Kohana_Exception('Error Updating Record in file: :file',
-					array(':file' => __FILE__));
-			}
+			}			
+		}
+		catch( Database_Exception $e )
+		{
+			$result->success = PCPRESULT_STATUS_FAILURE;
+			$result->message = 'Error Saving Record';
+			Kohana::$log->add(Log::ERROR, $result->message.' in file'.__FILE__);
 		}
 		$result->data = array('id'=>$this->id);
 		return $result;
@@ -201,31 +185,45 @@ class Model_Scene extends Model
 	
 	function delete()
 	{
-		$result = new pcpresult();
+		$result = new pcpresult(PCPRESULT_STATUS_INFO,"Nothing was changed");
 		$result->data = array('id'=>$this->id);
-		if ($this->id > 0)
+		try
 		{
-			// delete children 1st
-			$this->init(array('include_actions'=>true))->load();						
-			foreach($this->actions as $action)
+			if ($this->id > 0)
 			{
-				$action->delete();
+				// delete children 1st
+				$this->init(array('include_actions'=>true))->load();						
+				foreach($this->actions as $action)
+				{
+					$action->delete();
+				}
+				foreach($this->grid_actions as $grid_action)
+				{
+					$grid_action->delete();
+				}
+				
+				$q = '	DELETE sc 
+						FROM scenes sc
+						INNER JOIN stories s 
+							ON sc.story_id = s.id
+							AND s.creator_user_id = :creator_user_id 
+						WHERE sc.id = :id';
+				$records_updated =	DB::query(Database::DELETE,$q,TRUE)
+												->param(':id',$this->id)
+												->param(':creator_user_id',Auth::instance()->get_user()->id)
+												->execute();
+				if ($records_updated > 0)
+				{
+					$result->success = PCPRESULT_STATUS_SUCCESS;
+					$result->message = "Location Deleted";
+				}								
 			}
-			foreach($this->grid_actions as $grid_action)
-			{
-				$grid_action->delete();
-			}
-			
-			$q = '	DELETE sc 
-					FROM scenes sc
-					INNER JOIN stories s 
-						ON sc.story_id = s.id
-						AND s.creator_user_id = :creator_user_id 
-					WHERE sc.id = :id';
-			$result->success =	DB::query(Database::DELETE,$q,TRUE)
-											->param(':id',$this->id)
-											->param(':creator_user_id',Auth::instance()->get_user()->id)
-											->execute();							
+		}
+		catch( Database_Exception $e )
+		{
+			$result->success = PCPRESULT_STATUS_FAILURE;
+			$result->message = 'Error Deleting Record';
+			Kohana::$log->add(Log::ERROR, $result->message.' in file'.__FILE__);			
 		}		
 		return $result;
 	}

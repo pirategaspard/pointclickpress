@@ -49,12 +49,12 @@ class Model_Admin_Story extends Model_PCP_Story
 	
 	function save()
 	{	
-		$result = new pcpresult();	
-		if ($this->id == 0)
+		$result = new pcpresult(PCPRESULT_STATUS_INFO,"Nothing was changed");	
+		try
 		{
-			//INSERT new record
-			try
+			if ($this->id == 0)
 			{
+				//INSERT new record
 				$q = '	INSERT INTO stories
 							(title
 							,author
@@ -94,20 +94,13 @@ class Model_Admin_Story extends Model_PCP_Story
 				if ($q_results[1] > 0)
 				{
 					$this->id = $q_results[0];
-					$result->success = 1;
+					$result->success = PCPRESULT_STATUS_SUCCESS;
+					$result->message = "Story Saved";
 				}
 			}
-			catch( Database_Exception $e )
+			elseif ($this->id > 0)
 			{
-				throw new Kohana_Exception('Error Inserting Record in file: :file '.$e->getMessage(),
-					array(':file' => __FILE__));
-			}
-		}
-		elseif ($this->id > 0)
-		{
-			//UPDATE record
-			try
-			{
+			//UPDATE record			
 				$q = '	UPDATE stories
 						SET title = :title							
 							,author = :author
@@ -137,19 +130,14 @@ class Model_Admin_Story extends Model_PCP_Story
 				{
 					$result->success = PCPRESULT_STATUS_SUCCESS;
 					$result->message = "Story Saved";
-				}
-				else
-				{
-					$result->success = PCPRESULT_STATUS_INFO;
-					$result->message = "Nothing was changed";
-				}
+				}			
 			}
-			catch( Database_Exception $e )
-			{
-				Kohana::$log->add(Log::ERROR, 'Error Updating Record in file'.__FILE__);
-				throw new Kohana_Exception('Error Updating Record in file: :file '.$e->getMessage(),
-					array(':file' => __FILE__));
-			}
+		}
+		catch( Database_Exception $e )
+		{
+			$result->success = PCPRESULT_STATUS_FAILURE;
+			$result->message = 'Error Saving Record';
+			Kohana::$log->add(Log::ERROR, $result->message.' in file'.__FILE__);				
 		}
 		$result->data = array('id'=>$this->id);
 		return $result;
@@ -157,28 +145,42 @@ class Model_Admin_Story extends Model_PCP_Story
 	
 	function delete()
 	{	
-		$result = new pcpresult();
+		$result = new pcpresult(PCPRESULT_STATUS_INFO,"Nothing was changed");
 		$result->data = array('id'=>$this->id);
-		if ($this->id > 0)
+		try
 		{
-			//delete children first
-			$this->init(array('include_locations'=>true,'include_scenes'=>true,'include_actions'=>true))->load();
-			foreach($this->locations as $location)
-			{
-				$location->delete();
-			}
-			foreach($this->actions as $action)
-			{
-				$action->delete();
-			}
-			
-			$q = '	DELETE FROM stories
-						WHERE id = :id 
-						AND creator_user_id = :creator_user_id';
-			$result->success =	DB::query(Database::DELETE,$q,TRUE)
-								->param(':id',$this->id)
-								->param(':creator_user_id',$this->creator_user_id)
-								->execute();						
+			if ($this->id > 0)
+			{			
+				//delete children first
+				$this->init(array('include_locations'=>true,'include_scenes'=>true,'include_actions'=>true))->load();
+				foreach($this->locations as $location)
+				{
+					$location->delete();
+				}
+				foreach($this->actions as $action)
+				{
+					$action->delete();
+				}
+				
+				$q = '	DELETE FROM stories
+							WHERE id = :id 
+							AND creator_user_id = :creator_user_id';
+				$records_updated =	DB::query(Database::DELETE,$q,TRUE)
+									->param(':id',$this->id)
+									->param(':creator_user_id',$this->creator_user_id)
+									->execute();						
+				if ($records_updated > 0)
+				{
+					$result->success = PCPRESULT_STATUS_SUCCESS;
+					$result->message = "Story Deleted";
+				}
+			}			
+		}
+		catch( Database_Exception $e )
+		{
+			$result->success = PCPRESULT_STATUS_FAILURE;
+			$result->message = 'Error Deleting Record';
+			Kohana::$log->add(Log::ERROR, $result->message.' in file'.__FILE__);				
 		}		
 		return $result;
 	}

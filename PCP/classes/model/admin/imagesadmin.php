@@ -71,12 +71,12 @@ class Model_Admin_ImagesAdmin
 					//$filename = substr($filename,0,strpos($filename,'.')).'.png'; 
 						
 					//save filename to db & get image_id
-					$results = self::getImage(array('story_id'=>$_POST['story_id'],'filename'=>$filename,'type_id'=>$args['type_id']))->save();
+					$result = self::getImage(array('story_id'=>$_POST['story_id'],'filename'=>$filename,'type_id'=>$args['type_id']))->save();
 					//did we save to the db ok?					
-					if ($results->success)
+					if ($result->success)
 					{
 						//get image Id from results
-						$image_id = $results->data['id'];
+						$image_id = $result->data['id'];
 						
 						// make a folders named story_id with a folder image_id inside it
 						// final path will be: /media/story_id/image_id/WxH/filename
@@ -125,44 +125,50 @@ class Model_Admin_ImagesAdmin
 								else
 								{
 									$success = self::saveImage($temp_file,$screen['w'],$screen['h'],$media_path,$filename,$reduction_percentage);
-								}
-								if (!$success)
-								{
-									Kohana::$log->add(Log::ERROR, 'Image file was not saved to disk');
-								}
+								}								
 							}
-							unlink($temp_file); // delete original upload file when done
+							unlink($temp_file); // delete original upload file when done							
+							if ($success)
+							{
+								$result = new pcpresult(PCPRESULT_STATUS_SUCCESS,'Image Saved',array('filename'=>$filename,'path'=>UPLOAD_PATH.DIRECTORY_SEPARATOR,'image_id'=>$image_id));								
+							}
+							else
+							{
+								$result = new pcpresult(PCPRESULT_STATUS_FAILURE,'Image file was not saved to disk');
+								Kohana::$log->add(Log::ERROR, 'Image file was not saved to disk');
+							}
 						}
 						else
 						{
+							$result = new pcpresult(PCPRESULT_STATUS_FAILURE,'Image file was not saved to upload directory');
 							Kohana::$log->add(Log::ERROR, 'Image file was not saved to upload directory');
-						}					
-						$results = new pcpresult($success,'',array('filename'=>$filename,'path'=>UPLOAD_PATH.DIRECTORY_SEPARATOR,'image_id'=>$image_id));
+						}											
 					}
 					else
 					{			
-						$results = new pcpresult(0,'Image file was not saved to db');
+						$result = new pcpresult(PCPRESULT_STATUS_FAILURE,'Image file was not saved to db');
 						Kohana::$log->add(Log::ERROR, 'Image file was not saved to db');
 					}
 				}
 				else
 				{			
-					$results = new pcpresult(0,'',array('errors'=>$valid->errors()));
+					$result = new pcpresult(PCPRESULT_STATUS_FAILURE,'Image did not pass validation',array('errors'=>$valid->errors()));
 					Kohana::$log->add(Log::ERROR, 'Image did not pass validation');
 				}
 			}
 			else
 			{			
-				$results = new pcpresult(0,'No files and/or no story ID');
+				$result = new pcpresult(PCPRESULT_STATUS_FAILURE,'No files and/or no story ID');
 				Kohana::$log->add(Log::ERROR, 'No files and/or no story ID');
 			}
 		}
 		catch (Exception $e)
 		{			
-			$error = Kohana_Exception::text($e);// Get the text of the exception			
+			$result = new pcpresult(PCPRESULT_STATUS_FAILURE,'There was an error while saving the image');
+			$error = Kohana_Exception::text($e);// Get the text of the exception
 			Kohana::$log->add(Log::ERROR, $error);// Add this exception to the log
 		}
-		return $results;
+		return $result;
 	}			
 	
 	// For scene backgrounds

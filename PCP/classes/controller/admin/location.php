@@ -61,7 +61,7 @@ Class Controller_admin_location extends Controller_Template_Admin
 		}
 		else
 		{
-			$result = new pcpresult(0,'unable to save location data');
+			$result = new pcpresult(PCPRESULT_STATUS_FAILURE,'unable to save location data');
 		}
 		$session->set('result',$result);
 		
@@ -74,18 +74,7 @@ Class Controller_admin_location extends Controller_Template_Admin
 		$session = Session::instance('admin');
 		$session->delete('result');
 		$data = Model_Admin_LocationsAdmin::getData();	
-		
-			$result = Model_Admin_LocationsAdmin::getlocation()->init($data)->delete();
-	
-		// Create User Message
-		if ($result->success)
-		{
-			$result->message = "Location Deleted";
-		}
-		elseif($result->success == 0)
-		{
-			$result->message = "Unable to Delete Location";
-		}
+		$result = Model_Admin_LocationsAdmin::getlocation()->init($data)->delete();
 		$session->set('result',$result);
 		//Go back to the parent
 		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'edit')).'?story_id='.$_REQUEST['story_id']);

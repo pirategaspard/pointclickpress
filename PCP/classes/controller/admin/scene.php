@@ -6,7 +6,6 @@ Class Controller_admin_scene extends Controller_Template_Admin
 	{	
 		$session = Session::instance('admin');
 	
-		// if we have a new scene, reset the image_id to zero
 		$data = Model_Admin_ScenesAdmin::GetData();
 		$data['scene'] = Model_Admin_ScenesAdmin::getScene(array('id'=>$data['scene_id'],'include_actions'=>false,'include_items'=>true))->init($data);
 		$data['story_id'] = (isset($data['story_id']))?$data['story_id']:$data['scene']->story_id;
@@ -76,16 +75,9 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		{
 			// if we don't have a scene location yet we must create one
 			if ((!isset($_POST['location_id'])) ||(strlen($_POST['location_id'])<=0)||($_POST['location_id']<=0))
-			{	
-				try
-				{					
-					$result = Model_Admin_LocationsAdmin::getlocation()->init($data)->save();
-					$_POST['location_id'] = $result->data['id'];
-				}
-				catch (Exception $e)
-				{
-					Kohana::$log->add(Log::ERROR, 'Unable to Save Location in scene controller');
-				}
+			{					
+				$result = Model_Admin_LocationsAdmin::getlocation()->init($data)->save();
+				$_POST['location_id'] = $result->data['id'];
 			}
 			else
 			{
@@ -102,21 +94,13 @@ Class Controller_admin_scene extends Controller_Template_Admin
 					$session->set('result',$result);
 					//redirect to edit screen
 					Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?scene_id='.$_POST['id']);
-				}				
-				try
-				{				
-					//save Scene to db
-					$result = Model_Admin_ScenesAdmin::getScene()->init($_POST)->save();
-				}
-				catch (Exception $e)
-				{
-					Kohana::$log->add(Log::ERROR, 'Unable to Save Scene');
-				}
+				}					
+				//save Scene to db
+				$result = Model_Admin_ScenesAdmin::getScene()->init($_POST)->save();
 				if ($result->success)
 				{
 					// update scene id in session
 					$session->set('scene_id',$result->data['id']);
-					$result->message = "Scene Saved";
 				}
 			}
 			$session->set('result',$result);
@@ -136,23 +120,7 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		$session = Session::instance('admin');	
 		$session->delete('result');
 		$data = Model_Admin_ScenesAdmin::GetData();
-		try
-		{
-			$result = Model_Admin_ScenesAdmin::getScene()->init($data)->delete();
-		}
-		catch (Exception $e)
-		{
-			Kohana::$log->add(Log::ERROR, 'Unable to Delete Scene');
-		}
-		// Create User Message
-		if ($result->success)
-		{
-			$result->message = "Scene Deleted";
-		}
-		elseif($result->success == 0)
-		{
-			$result->message = "Unable to Delete Scene";
-		}
+		$result = Model_Admin_ScenesAdmin::getScene()->init($data)->delete();
 		$session->set('result',$result);
 		//Go back to the parent
 		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'location','action'=>'edit')));
@@ -165,20 +133,8 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		$data = Model_Admin_ScenesAdmin::getData();			
 		if (isset($data['scene_id']) && isset($data['image_id']))
 		{
-			try
-			{
-				$scene = Model_Admin_ScenesAdmin::getScene(array('id'=>$data['scene_id']));
-				$result = $scene->init(array('image_id'=>$data['image_id']))->save();
-			}
-			catch (Exception $e)
-			{
-				Kohana::$log->add(Log::ERROR, 'Unable to Assign Image to Scene');
-			}
-			// Create User Message
-			if ($result->success)
-			{
-				$result->message = "Image Assigned";
-			}
+			$scene = Model_Admin_ScenesAdmin::getScene(array('id'=>$data['scene_id']));
+			$result = $scene->init(array('image_id'=>$data['image_id']))->save();
 			$session->set('result',$result);			
 		}
 		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')));
@@ -191,24 +147,8 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		$data = Model_Admin_GridItemAdmin::getData();						
 		if (isset($data['scene_id']) && isset($data['itemdef_id']))
 		{
-			try
-			{
-				$item = Model_Admin_GridItemAdmin::getGridItem();	
-				$result = $item->init($_POST)->save();
-			}
-			catch (Exception $e)
-			{
-				Kohana::$log->add(Log::ERROR, 'Unable to assign griditem to scene');
-			}
-			// Create User Message
-			if ($result->success)
-			{
-				$result->message = "Item Assigned";
-			}
-			else
-			{
-				$result->message = "Item NOT Assigned";
-			}
+			$item = Model_Admin_GridItemAdmin::getGridItem();	
+			$result = $item->init($_POST)->save();
 			$session->set('result',$result);			
 		}
 		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?tab=2&scene_id='.$_POST['scene_id']);
@@ -220,24 +160,8 @@ Class Controller_admin_scene extends Controller_Template_Admin
 		$data = Model_Admin_GridItemAdmin::getData();					
 		if (isset($data['scene_id']) && isset($data['griditem_id']))
 		{
-			try
-			{
-				$item = Model_Admin_GridItemAdmin::getGridItem(array('id'=>$data['griditem_id']));
-				$result = $item->init($_POST)->delete();
-			}
-			catch (Exception $e)
-			{
-				Kohana::$log->add(Log::ERROR, 'Unable to delete griditem from Scene');
-			}
-			// Create User Message
-			if ($result->success)
-			{
-				$result->message = "Item Deleted";
-			}
-			else
-			{
-				$result->message = "Item NOT Deleted";
-			}
+			$item = Model_Admin_GridItemAdmin::getGridItem(array('id'=>$data['griditem_id']));
+			$result = $item->init($_POST)->delete();
 			$session->set('result',$result);			
 		}
 		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'scene','action'=>'edit')).'?scene_id='.$data['scene_id']);
