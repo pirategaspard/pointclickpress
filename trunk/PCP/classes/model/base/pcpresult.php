@@ -3,11 +3,11 @@
 
 define('PCPRESULT_CLASS_INFO', 'info');
 define('PCPRESULT_CLASS_SUCCESS', 'success');
-define('PCPRESULT_CLASS_ERROR', 'error');
+define('PCPRESULT_CLASS_FAILURE', 'error');
 
 define('PCPRESULT_STATUS_INFO', '-1');
 define('PCPRESULT_STATUS_SUCCESS', '1');
-define('PCPRESULT_STATUS_ERROR', '0');
+define('PCPRESULT_STATUS_FAILURE', '0');
 
 class Model_Base_PCPResult 
 {
@@ -36,9 +36,9 @@ class Model_Base_PCPResult
 				$class = PCPRESULT_CLASS_INFO;
 				break;
 			}
-			case PCPRESULT_STATUS_ERROR:
+			case PCPRESULT_STATUS_FAILURE:
 			{
-				$class = PCPRESULT_CLASS_ERROR;
+				$class = PCPRESULT_CLASS_FAILURE;
 				break;
 			}
 			default:

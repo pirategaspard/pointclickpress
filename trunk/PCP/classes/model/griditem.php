@@ -79,58 +79,53 @@ class Model_GridItem extends Model
 	
 	function save()
 	{				
-		$results = new pcpresult();
-		if (($this->id == 0))
+		$result = new pcpresult(PCPRESULT_STATUS_INFO,"Nothing was changed");
+		try
 		{
-			//INSERT new record
-			$q = '	INSERT INTO grids_items
-						(itemdef_id
-						,scene_id
-						,cell_id
-						,title
-						,slug
-						)
-					SELECT DISTINCT
-						:itemdef_id
-						,:scene_id
-						,:cell_id
-						,:title
-						,:slug
-					FROM stories
-					WHERE EXISTS 
-							(
-								SELECT s.id 
-								FROM itemdefs i
-								INNER JOIN stories s 
-									ON i.story_id = s.id
-									AND s.creator_user_id = :creator_user_id
-								WHERE i.id = :itemdef_id
-							)';						
-			$q_results = DB::query(Database::INSERT,$q,TRUE)
-								->param(':itemdef_id',$this->itemdef_id)
-								->param(':scene_id',$this->scene_id)
-								->param(':cell_id',$this->cell_id)
-								->param(':title',$this->title)
-								->param(':slug',$this->slug)
-								->param(':creator_user_id',Auth::instance()->get_user()->id)
-								->execute();									
-			if ($q_results[1] > 0)
+			if (($this->id == 0))
 			{
-				$this->id = $q_results[0];
-				$results->success = 1;
+				//INSERT new record
+				$q = '	INSERT INTO grids_items
+							(itemdef_id
+							,scene_id
+							,cell_id
+							,title
+							,slug
+							)
+						SELECT DISTINCT
+							:itemdef_id
+							,:scene_id
+							,:cell_id
+							,:title
+							,:slug
+						FROM stories
+						WHERE EXISTS 
+								(
+									SELECT s.id 
+									FROM itemdefs i
+									INNER JOIN stories s 
+										ON i.story_id = s.id
+										AND s.creator_user_id = :creator_user_id
+									WHERE i.id = :itemdef_id
+								)';						
+				$q_results = DB::query(Database::INSERT,$q,TRUE)
+									->param(':itemdef_id',$this->itemdef_id)
+									->param(':scene_id',$this->scene_id)
+									->param(':cell_id',$this->cell_id)
+									->param(':title',$this->title)
+									->param(':slug',$this->slug)
+									->param(':creator_user_id',Auth::instance()->get_user()->id)
+									->execute();									
+				if ($q_results[1] > 0)
+				{
+					$this->id = $q_results[0];
+					$result->success = PCPRESULT_STATUS_SUCCESS;
+					$result->message = "Griditem Saved";
+				}
 			}
-			else
+			elseif ($this->id > 0)
 			{
-				Kohana::$log->add(Log::ERROR, 'Error Inserting Record in file'.__FILE__);
-				throw new Kohana_Exception('Error Inserting Record in file: :file',
-					array(':file' => __FILE__));
-			}
-		}
-		elseif ($this->id > 0)
-		{
-			//UPDATE record
-			try
-			{
+				//UPDATE record
 				$q = '	UPDATE grids_items g
 						INNER JOIN itemdefs i
 							ON g.itemdef_id = i.id
@@ -155,44 +150,55 @@ class Model_GridItem extends Model
 				if ($records_updated > 0)
 				{
 					$result->success = PCPRESULT_STATUS_SUCCESS;
-				}
-				else
-				{
-					$result->success = PCPRESULT_STATUS_INFO;
-				}																	
-			}
-			catch( Database_Exception $e )
-			{				
-				Kohana::$log->add(Log::ERROR, 'Error Updating Record in file'.__FILE__);
-				throw new Kohana_Exception('Error Updating Record in file: :file '.$e->getMessage(),
-					array(':file' =>__FILE__));
-			}
+					$result->message = "Griditem Saved";
+				}																
+			}				
 		}
-		$results->data = array('id'=>$this->id);
-		return $results;
+		catch( Database_Exception $e )
+		{				
+			$result->success = PCPRESULT_STATUS_FAILURE;
+			$result->message = 'Error Saving Record';
+			Kohana::$log->add(Log::ERROR, $result->message.' in file'.__FILE__);
+		}
+		$result->data = array('id'=>$this->id);
+		return $result;
 	}
 	
 	function delete()
 	{
-		$results = new pcpresult();
-		if ($this->id > 0)
+		$result = new pcpresult(PCPRESULT_STATUS_INFO,"Nothing was changed");
+		try
 		{
-				
-			$q = '	DELETE g 
-					FROM grids_items g
-					INNER JOIN itemdefs i
-						ON g.itemdef_id = i.id
-					INNER JOIN stories s 
-						ON i.story_id = s.id
-						AND s.creator_user_id = :creator_user_id
-					WHERE g.id = :id';
-			$results->success =	DB::query(Database::DELETE,$q,TRUE)
-								->param(':id',$this->id)
-								->param(':creator_user_id',Auth::instance()->get_user()->id)
-								->execute();						
+			if ($this->id > 0)
+			{
+					
+				$q = '	DELETE g 
+						FROM grids_items g
+						INNER JOIN itemdefs i
+							ON g.itemdef_id = i.id
+						INNER JOIN stories s 
+							ON i.story_id = s.id
+							AND s.creator_user_id = :creator_user_id
+						WHERE g.id = :id';
+				$records_updated =	DB::query(Database::DELETE,$q,TRUE)
+									->param(':id',$this->id)
+									->param(':creator_user_id',Auth::instance()->get_user()->id)
+									->execute();
+				if ($records_updated > 0)
+				{
+					$result->success = PCPRESULT_STATUS_SUCCESS;
+					$result->message = "Griditem Deleted";
+				}
+			}
 		}
-		$results->data = array('id'=>$this->id);
-		return $results;
+		catch( Database_Exception $e )
+		{
+			$result->success = PCPRESULT_STATUS_FAILURE;
+			$result->message = 'Error Deleting Record';
+			Kohana::$log->add(Log::ERROR, $result->message.' in file'.__FILE__);				
+		}
+		$result->data = array('id'=>$this->id);
+		return $result;
 	}
 }
 

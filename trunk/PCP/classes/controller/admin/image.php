@@ -101,15 +101,6 @@ Class Controller_admin_image extends Controller_Template_Admin
 			Kohana::$log->add(Log::ERROR, 'Unable to Delete '.$dir);
 		}
 		$result = Model_Admin_ImagesAdmin::getimage()->init($data)->delete();
-		// Create User Message
-		if ($result->success)
-		{
-			$result->message = "Image Deleted";
-		}
-		else
-		{
-			$result->message = "Unable to Delete Image";
-		}
 		$session->set('result',$result);
 		//Go back to the parent
 		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'image','action'=>'list')));

@@ -91,12 +91,12 @@ class Model_Location extends Model
 	
 	function save()
 	{	
-		$result = new pcpresult();
-		if ($this->id == 0)
+		$result = new pcpresult(PCPRESULT_STATUS_INFO,"Nothing was changed");
+		try
 		{
-			//INSERT new record
-			try
+			if ($this->id == 0)
 			{
+				//INSERT new record
 				$q = '	INSERT INTO locations
 						(story_id,title)
 						SELECT DISTINCT
@@ -118,21 +118,13 @@ class Model_Location extends Model
 				if ($q_results[1] > 0)
 				{
 					$this->id = $q_results[0];
-					$result->success = 1;
+					$result->success = PCPRESULT_STATUS_SUCCESS;
+					$result->message = "Location Saved";
 				}
 			}
-			catch( Database_Exception $e )
+			elseif ($this->id > 0)
 			{
-				Kohana::$log->add(Log::ERROR, 'Error Updating Record in file'.__FILE__);
-				throw new Kohana_Exception('Error Updating Record in file: :file',
-					array(':file' => __FILE__));
-			}
-		}
-		elseif ($this->id > 0)
-		{
-			//UPDATE record
-			try
-			{
+				//UPDATE record
 				$q = '	UPDATE locations l
 							INNER JOIN stories s 
 							ON l.story_id = s.id
@@ -148,19 +140,14 @@ class Model_Location extends Model
 				{
 					$result->success = PCPRESULT_STATUS_SUCCESS;
 					$result->message = "Location Saved";
-				}
-				else
-				{
-					$result->success = PCPRESULT_STATUS_INFO;
-					$result->message = "Nothing was changed";
 				}															
-			}
-			catch( Database_Exception $e )
-			{
-				Kohana::$log->add(Log::ERROR, 'Error Updating Record in file'.__FILE__);
-				throw new Kohana_Exception('Error Updating Record in file: :file',
-					array(':file' => __FILE__));
-			}
+			}			
+		}
+		catch( Database_Exception $e )
+		{
+			$result->success = PCPRESULT_STATUS_FAILURE;
+			$result->message = 'Error Saving Record';
+			Kohana::$log->add(Log::ERROR, $result->message.' in file'.__FILE__);
 		}
 		$result->data = array('id'=>$this->id);
 		return $result;
@@ -168,32 +155,46 @@ class Model_Location extends Model
 	
 	function delete()
 	{	
-		$result = new pcpresult();
+		$result = new pcpresult(PCPRESULT_STATUS_INFO,"Nothing was changed");
 		$result->data = array('id'=>$this->id);
-		if ($this->id > 0)
+		try
 		{
-			//delete all children first
-			$this->init(array('include_locations'=>true,'include_scenes'=>true,'include_actions'=>true))->load();
-			foreach($this->scenes as $scene)
+			if ($this->id > 0)
 			{
-				$scene->delete();
-			}
-			foreach($this->actions as $action)
-			{
-				$action->delete();
-			}
-			
-			$q = '	DELETE l 
-					FROM locations l
-					INNER JOIN stories s 
-						ON l.story_id = s.id
-						AND s.creator_user_id = :creator_user_id 
-					WHERE l.id = :id';
-			$result->success =	DB::query(Database::DELETE,$q,TRUE)
-									->param(':id',$this->id)
-									->param(':creator_user_id',Auth::instance()->get_user()->id)
-									->execute();								
-		}		
+				//delete all children first
+				$this->init(array('include_locations'=>true,'include_scenes'=>true,'include_actions'=>true))->load();
+				foreach($this->scenes as $scene)
+				{
+					$scene->delete();
+				}
+				foreach($this->actions as $action)
+				{
+					$action->delete();
+				}
+				
+				$q = '	DELETE l 
+						FROM locations l
+						INNER JOIN stories s 
+							ON l.story_id = s.id
+							AND s.creator_user_id = :creator_user_id 
+						WHERE l.id = :id';
+					$records_updated =	DB::query(Database::DELETE,$q,TRUE)
+										->param(':id',$this->id)
+										->param(':creator_user_id',Auth::instance()->get_user()->id)
+										->execute();
+				if ($records_updated > 0)
+				{
+					$result->success = PCPRESULT_STATUS_SUCCESS;
+					$result->message = "Location Deleted";
+				}								
+			}		
+		}
+		catch( Database_Exception $e )
+		{
+			$result->success = PCPRESULT_STATUS_FAILURE;
+			$result->message = 'Error Deleting Record';
+			Kohana::$log->add(Log::ERROR, $result->message.' in file'.__FILE__);				
+		}
 		return $result;
 	}
 	
