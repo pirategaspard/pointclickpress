@@ -67,53 +67,48 @@ class Model_ItemDef extends Model
 	
 	function save()
 	{			
-		$results = new pcpresult();
-		if ($this->id == 0)
+		$result = new pcpresult(PCPRESULT_STATUS_INFO,"Nothing was changed");
+		try
 		{
-			//INSERT new record
-			$q = '	INSERT INTO itemdefs
-						(title
-						,story_id
-						)
-					SELECT DISTINCT
-						:title
-						,:story_id
-					FROM stories
-					WHERE EXISTS 
-							(
-								SELECT s.id 
-								FROM stories s 
-								WHERE s.id = :story_id 
-								AND s.creator_user_id = :creator_user_id
-							)';						
-			$q_results = DB::query(Database::INSERT,$q,TRUE)
-								->param(':title',$this->title)
-								->param(':story_id',$this->story_id)
-								->param(':creator_user_id',Auth::instance()->get_user()->id)
-								->execute();									
-			if ($q_results[1] > 0)
+			if ($this->id == 0)
 			{
-				$this->id = $q_results[0];
-				$results->success = 1;
+				//INSERT new record
+				$q = '	INSERT INTO itemdefs
+							(title
+							,story_id
+							)
+						SELECT DISTINCT
+							:title
+							,:story_id
+						FROM stories
+						WHERE EXISTS 
+								(
+									SELECT s.id 
+									FROM stories s 
+									WHERE s.id = :story_id 
+									AND s.creator_user_id = :creator_user_id
+								)';						
+				$q_results = DB::query(Database::INSERT,$q,TRUE)
+									->param(':title',$this->title)
+									->param(':story_id',$this->story_id)
+									->param(':creator_user_id',Auth::instance()->get_user()->id)
+									->execute();									
+				if ($q_results[1] > 0)
+				{
+					$this->id = $q_results[0];
+					$result->success = PCPRESULT_STATUS_SUCCESS;
+					$result->message = "Item Definition Saved";
+				}
 			}
-			else
+			elseif ($this->id > 0)
 			{
-				Kohana::$log->add(Log::ERROR, 'Error Inserting Record in file'.__FILE__);
-				throw new Kohana_Exception('Error Inserting Record in file: :file',
-					array(':file' => __FILE__));
-			}
-		}
-		elseif ($this->id > 0)
-		{
-			//UPDATE record
-			try
-			{
+				//UPDATE record
 				$q = '	UPDATE itemdefs i
 						INNER JOIN stories s 
 							ON i.story_id = s.id
 							AND s.creator_user_id = :creator_user_id
-						SET title = :title
-						WHERE id = :id';
+						SET i.title = :title
+						WHERE i.id = :id';
 				$records_updated = DB::query(Database::UPDATE,$q,TRUE)
 								->param(':title',$this->title)
 								->param(':id',$this->id)
@@ -122,45 +117,56 @@ class Model_ItemDef extends Model
 				if ($records_updated > 0)
 				{
 					$result->success = PCPRESULT_STATUS_SUCCESS;
-				}
-				else
-				{
-					$result->success = PCPRESULT_STATUS_INFO;
-				}																	
-			}
-			catch( Database_Exception $e )
-			{
-				Kohana::$log->add(Log::ERROR, 'Error Updating Record in file'.__FILE__);
-				throw new Kohana_Exception('Error Updating Record in file: :file ',
-					array(':file' => __FILE__));
+					$result->message = "Item Definition Saved";
+				}																					
 			}
 		}
-		$results->data = array('id'=>$this->id);
-		return $results;
+		catch( Database_Exception $e )
+		{
+			$result->success = PCPRESULT_STATUS_FAILURE;
+			$result->message = 'Error Saving Record';
+			Kohana::$log->add(Log::ERROR, $e->getmessage().' in file'.__FILE__);
+		}
+		$result->data = array('id'=>$this->id);
+		return $result;
 	}
 	
 	function delete()
 	{
-		$results = new pcpresult();
-		if ($this->id > 0)
+		$result = new pcpresult(PCPRESULT_STATUS_INFO,"Nothing was changed");
+		try
 		{
-		
-			// delete any item images and grid items associated with this item def
+			if ($this->id > 0)
+			{
 			
-			// delete item definition
-			$q = '	DELETE i
-					FROM itemdefs i
-					INNER JOIN stories s 
-						ON i.story_id = s.id
-						AND s.creator_user_id = :creator_user_id
-					WHERE i.id = :id';
-			$results->success =	DB::query(Database::DELETE,$q,TRUE)
-								->param(':id',$this->id)
-								->param(':creator_user_id',Auth::instance()->get_user()->id)
-								->execute();						
+				// delete any item images and grid items associated with this item def
+				
+				// delete item definition
+				$q = '	DELETE i
+						FROM itemdefs i
+						INNER JOIN stories s 
+							ON i.story_id = s.id
+							AND s.creator_user_id = :creator_user_id
+						WHERE i.id = :id';
+				$records_updated =	DB::query(Database::DELETE,$q,TRUE)
+									->param(':id',$this->id)
+									->param(':creator_user_id',Auth::instance()->get_user()->id)
+									->execute();	
+				if ($records_updated > 0)
+				{
+					$result->success = PCPRESULT_STATUS_SUCCESS;
+					$result->message = "Item Definition Deleted";
+				}					
+			}
 		}
-		$results->data = array('id'=>$this->id);
-		return $results;
+		catch( Database_Exception $e )
+		{
+			$result->success = PCPRESULT_STATUS_FAILURE;
+			$result->message = 'Error Deleting Record';
+			Kohana::$log->add(Log::ERROR, $e->getmessage().' in file'.__FILE__);
+		}
+		$result->data = array('id'=>$this->id);
+		return $result;
 	}
 }
 

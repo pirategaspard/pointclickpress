@@ -117,7 +117,7 @@ class Model_Image extends Model
 		{
 			$result->success = PCPRESULT_STATUS_FAILURE;
 			$result->message = 'Error Saving Record';
-			Kohana::$log->add(Log::ERROR, $result->message.' in file'.__FILE__);
+			Kohana::$log->add(Log::ERROR, $e->getmessage().' in file'.__FILE__);
 		}
 		$result->data = array('id'=>$this->id);		
 		return $result;
@@ -151,7 +151,7 @@ class Model_Image extends Model
 		{
 			$result->success = PCPRESULT_STATUS_FAILURE;
 			$result->message = 'Error Deleting Record';
-			Kohana::$log->add(Log::ERROR, $result->message.' in file'.__FILE__);
+			Kohana::$log->add(Log::ERROR, $e->getmessage().' in file'.__FILE__);
 		}
 		$result->data = array('id'=>$this->id);
 		return $result;
