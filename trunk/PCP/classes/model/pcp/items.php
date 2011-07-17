@@ -102,7 +102,7 @@ class Model_PCP_Items extends Model
 		return $item_info;
 	}
 	
-	static function getGridItemCurrentItemState($griditem_id=0,$value='')
+	static function getGridItemItemState($griditem_id=0,$value='')
 	{
 		$q = '	SELECT 	i.id AS image_id
 						,i.filename
@@ -159,10 +159,22 @@ class Model_PCP_Items extends Model
 				{
 					$itemstate_value = DEFAULT_ITEMSTATE_VALUE;
 				} 
-				$itemstates[$cell_id] = self::getGridItemCurrentItemState($griditemInfo['id'],$itemstate_value);				
+				$itemstates[$cell_id] = self::getGridItemItemState($griditemInfo['id'],$itemstate_value);				
 			}
 		}
 		return $itemstates;
+	}
+	
+	static function getGridItemCurrentItemState($griditem_id=0,$value='')
+	{
+		if (strlen($value) == 0)
+		{
+			$griditemInfo = self::searchGridItemById($griditem_id);
+			$value = $griditemInfo['slug'];
+		}		
+		$itemstate_value = Storydata::get($value,DEFAULT_ITEMSTATE_VALUE);
+		$itemstate = current(self::getGridItemItemState($griditem_id,$itemstate_value));
+		return $itemstate;
 	}
 	
 	// gets story item info
@@ -273,7 +285,7 @@ class Model_PCP_Items extends Model
 		$foundlocation = self::searchGriditemById($griditem_id);		
 		if ($foundlocation['scene_id'] != '0')
 		{			
-			$itemstate = self::getGridItemCurrentItemState($griditem_id,$value);			
+			$itemstate = self::getGridItemItemState($griditem_id,$value);			
 			$iteminfo = self::getGriditemsInfo();
 			$item = $iteminfo[$foundlocation['scene_id']]['griditems'][$foundlocation['cell_id']];
 			$item['itemstate_id'] = $itemstate[$griditem_id]->id;
