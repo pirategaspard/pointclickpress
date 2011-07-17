@@ -36,29 +36,13 @@ Class Controller_Admin_Action extends Controller_Template_Admin
 			// get action label by creating action obj
 			$myaction = new $_POST['action'];
 			$_POST['action_label'] = $myaction->getLabel();			
-			try
-			{
-				//save action
-				$data = Model_Admin_ActionsAdmin::getData();
-				$result = Model_Admin_ActionsAdmin::getAction($data)->load()->init($data)->save();
-			}
-			catch (Exception $e)
-			{
-				Kohana::$log->add(Log::ERROR, 'Unable to Save Action');
-			}		
+			//save action
+			$data = Model_Admin_ActionsAdmin::getData();
+			$result = Model_Admin_ActionsAdmin::getAction($data)->load()->init($data)->save();	
 		}
 		else
 		{
 			$result = new pcpresult(0,'Could not save action');			
-		}
-		// Create User Message
-		if ($result->success)
-		{
-			$result->message = "Action Saved";
-		}
-		else
-		{
-			$result->message = "Action Not Saved";
 		}
 		$session->set('result',$result);
 		//redirect to add a new story
@@ -70,24 +54,8 @@ Class Controller_Admin_Action extends Controller_Template_Admin
 		$session = Session::instance('admin');
 		$session->delete('result');
 		$back_url = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
-		try
-		{
-			$data = Model_Admin_ActionsAdmin::getData();
-			$result = Model_Admin_ActionsAdmin::getAction()->init($data)->delete();
-		}
-		catch (Exception $e)
-		{
-			Kohana::$log->add(Log::ERROR, 'Unable to Delete Action');
-		}
-		// Create User Message
-		if ($result->success)
-		{
-			$result->message = "Action Deleted";
-		}
-		else
-		{
-			$result->message = "Unable to Delete Action";
-		}
+		$data = Model_Admin_ActionsAdmin::getData();
+		$result = Model_Admin_ActionsAdmin::getAction()->init($data)->delete();
 		$session->set('result',$result);
 		//Go back to the parent
 		Request::Current()->redirect($back_url);

@@ -12,6 +12,7 @@ class Controller_admin_storyplugin extends Controller_Template_Admin
 	
 	function action_ChangeStatus()
 	{
+		$session = Session::instance('admin');
 		$data = Model_Admin_Storypluginsadmin::getData();			
 		$sp = Model_Admin_storypluginsadmin::getStoryPlugin($data);
 		//toggle status
@@ -23,9 +24,8 @@ class Controller_admin_storyplugin extends Controller_Template_Admin
 		{
 			$data['status'] = 0;
 		}
-		//var_dump($data); die();	
-		$sp->init($data)->save();
-		//var_dump($sp); die();
+		$result = $sp->init($data)->save();
+		$session->set('result',$result);	
 		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'story','action'=>'edit')).'?story_id='.$data['story_id']);
 	}
 }
