@@ -55,33 +55,63 @@ class Model_Admin_PluginsAdmin extends Model_Plugins
 		
 	static function insert($class) 
 	{
-		$q = '	INSERT INTO plugins
-				(label,description,class,events,status,system)
-				VALUES
-				(
-					:label,
-					:description,
-					:class,
-					:events,
-					:status,
-					:system
-				)';
-		$q_results = DB::query(Database::INSERT,$q,TRUE)
-											->param(':label',$class->getLabel())
-											->param(':description',$class->getDescription())
-											->param(':class',$class->getClass())
-											->param(':events',implode(',',$class->getEvents()))
-											->param(':status',0)
-											->param(':system',$class->getSystemStatus())
-											->execute();
+		$result = new pcpresult(PCPRESULT_STATUS_INFO,"Nothing was changed");	
+		try
+		{
+			$q = '	INSERT INTO plugins
+					(label,description,class,events,status,system)
+					VALUES
+					(
+						:label,
+						:description,
+						:class,
+						:events,
+						:status,
+						:system
+					)';
+			$records_updated = DB::query(Database::INSERT,$q,TRUE)
+												->param(':label',$class->getLabel())
+												->param(':description',$class->getDescription())
+												->param(':class',$class->getClass())
+												->param(':events',implode(',',$class->getEvents()))
+												->param(':status',0)
+												->param(':system',$class->getSystemStatus())
+												->execute();
+			if ($records_updated > 0)
+			{
+				$result->success = PCPRESULT_STATUS_SUCCESS;
+				$result->message = "Plugin Saved";
+			}
+		}
+		catch( Database_Exception $e )
+		{
+			$result->success = PCPRESULT_STATUS_FAILURE;
+			$result->message = 'Error Saving Record';
+			Kohana::$log->add(Log::ERROR, $e->getMessage().' in file'.__FILE__);	
+		}
 		return true;
 	}
 	
 	static function deleteByClassName($class_name) 
 	{
-		$q = '	DELETE FROM plugins
-				WHERE class = :class';
-		$q_results = DB::query(Database::DELETE,$q,TRUE)->param(':class',$class_name)->execute();		
+		$result = new pcpresult(PCPRESULT_STATUS_INFO,"Nothing was changed");	
+		try
+		{
+			$q = '	DELETE FROM plugins
+					WHERE class = :class';
+			$records_updated = DB::query(Database::DELETE,$q,TRUE)->param(':class',$class_name)->execute();
+			if ($records_updated > 0)
+			{
+				$result->success = PCPRESULT_STATUS_SUCCESS;
+				$result->message = "Plugin Deleted";
+			}	
+		}
+		catch( Database_Exception $e )
+		{
+			$result->success = PCPRESULT_STATUS_FAILURE;
+			$result->message = 'Error Saving Record';
+			Kohana::$log->add(Log::ERROR, $e->getMessage().' in file'.__FILE__);	
+		}	
 		return true;	
 	}
 	
