@@ -58,12 +58,12 @@ class Model_Admin_Plugin extends Model
 					INNER JOIN plugins p
 						ON sp.plugin_id = p.plugin_id
 					WHERE sp.id = :id';
-			$results = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)
+			$result = DB::query(Database::SELECT,$q,TRUE)->param(':id',$this->id)
 															->execute()
 															->as_array();				
-			if (count($results) > 0 )
+			if (count($result) > 0 )
 			{
-				$this->init($results[0]);				
+				$this->init($result[0]);				
 			}
 		}
 		return $this;
@@ -71,12 +71,12 @@ class Model_Admin_Plugin extends Model
 	
 	function save()
 	{	
-		$results = new pcpresult();	
-		if ($this->id == 0)
+		$result = new pcpresult(PCPRESULT_STATUS_INFO,"Nothing was changed");	
+		try
 		{
-			//INSERT new record
-			try
+			if ($this->id == 0)
 			{
+				//INSERT new record				
 				$q = '	INSERT INTO stories_plugins
 							(story_id
 							,plugin_id
@@ -94,53 +94,64 @@ class Model_Admin_Plugin extends Model
 				if ($q_results[1] > 0)
 				{
 					$this->id = $q_results[0];
-					$results->success = 1;
+					$result->success = PCPRESULT_STATUS_SUCCESS;
+					$result->message = "Plugin Saved";
 				}
 			}
-			catch( Database_Exception $e )
+			elseif ($this->id > 0)
 			{
-				Kohana::$log->add(Log::ERROR, 'Error Inserting Record in file'.__FILE__);
-				throw new Kohana_Exception('Error Inserting Record in file: :file '.$e->getMessage(),
-					array(':file' => __FILE__));
-			}
-		}
-		elseif ($this->id > 0)
-		{
-			//UPDATE record
-			try
-			{
+				//UPDATE record
 				$q = '	UPDATE stories_plugins
 						SET status = :status							
 						WHERE id = :id';
-				$results->success = DB::query(Database::UPDATE,$q,TRUE)
+				$records_updated = DB::query(Database::UPDATE,$q,TRUE)
 										->param(':status',$this->status)
 										->param(':id',$this->id)
-										->execute();														
-			}
-			catch( Database_Exception $e )
-			{
-				Kohana::$log->add(Log::ERROR, 'Error Inserting Record in file'.__FILE__);
-				throw new Kohana_Exception('Error Updating Record in file: :file '.$e->getMessage(),
-					array(':file' => __FILE__));
+										->execute();	
+				if ($records_updated > 0)
+				{
+					$result->success = PCPRESULT_STATUS_SUCCESS;
+					$result->message = "Plugin Updated";
+				}																
 			}
 		}
-		$results->data = array('id'=>$this->id);
-		return $results;
+		catch( Database_Exception $e )
+		{
+			$result->success = PCPRESULT_STATUS_FAILURE;
+			$result->message = 'Error Saving Record';
+			Kohana::$log->add(Log::ERROR, $e->getMessage().' in file'.__FILE__);	
+		}
+		$result->data = array('id'=>$this->id);
+		return $result;
 	}
 	
 	function delete()
 	{	
-		$results = new pcpresult();
-		$results->data = array('id'=>$this->id);
-		if ($this->id > 0)
+		$result = new pcpresult(PCPRESULT_STATUS_INFO,"Nothing was changed");	
+		$result->data = array('id'=>$this->id);
+		try
 		{
-			$q = '	DELETE FROM stories_plugins
-						WHERE id = :id';
-			$results->success =	DB::query(Database::DELETE,$q,TRUE)
-								->param(':id',$this->id)
-								->execute();						
-		}		
-		return $results;
+			if ($this->id > 0)
+			{
+				$q = '	DELETE FROM stories_plugins
+							WHERE id = :id';
+				$records_updated =	DB::query(Database::DELETE,$q,TRUE)
+									->param(':id',$this->id)
+									->execute();
+				if ($records_updated > 0)
+				{
+					$result->success = PCPRESULT_STATUS_SUCCESS;
+					$result->message = "Plugin Deleted";
+				}						
+			}		
+		}
+		catch( Database_Exception $e )
+		{
+			$result->success = PCPRESULT_STATUS_FAILURE;
+			$result->message = 'Error Saving Record';
+			Kohana::$log->add(Log::ERROR, $e->getMessage().' in file'.__FILE__);	
+		}
+		return $result;
 	}
 }
 
