@@ -57,78 +57,92 @@ class Model_Base_PCPAction extends Model
 	
 	function save()
 	{	
-		$results = new pcpresult();
-		if ($this->id == 0)
+		$result = new pcpresult(PCPRESULT_STATUS_INFO,"Nothing was changed");
+		try
 		{
-			//INSERT new record
-			$q = '	INSERT INTO actions
-						(action
-						,action_label
-						,action_value)
-					VALUES (
-						:action
-						,:action_label
-						,:action_value
-						)';						
-			$q_results = DB::query(Database::INSERT,$q,TRUE)
-								->param(':action',$this->action)
-								->param(':action_label',$this->action_label)
-								->param(':action_value',$this->action_value)
-								->execute();						
-			if ($q_results[1] > 0)
+			if ($this->id == 0)
 			{
-				$this->id = $q_results[0];
-				$results->success = 1;
+				//INSERT new record
+				$q = '	INSERT INTO actions
+							(action
+							,action_label
+							,action_value)
+						VALUES (
+							:action
+							,:action_label
+							,:action_value
+							)';						
+				$q_results = DB::query(Database::INSERT,$q,TRUE)
+									->param(':action',$this->action)
+									->param(':action_label',$this->action_label)
+									->param(':action_value',$this->action_value)
+									->execute();						
+				if ($q_results[1] > 0)
+				{
+					$this->id = $q_results[0];
+					$result->success = PCPRESULT_STATUS_SUCCESS;
+					$result->message = "Action Saved";
+				}
 			}
-			else
+			elseif ($this->id > 0)
 			{
-				Kohana::$log->add(Log::ERROR, 'Error Inserting Record in file'.__FILE__);
-				throw new Kohana_Exception('Error Inserting Record in file: :file',
-					array(':file' => __FILE__));
-			}
-		}
-		elseif ($this->id > 0)
-		{
-			//UPDATE record
-			try
-			{
+				//UPDATE record
 				$q = '	UPDATE actions
 						SET action = :action,
 							action_label = :action_label,
 							action_value = :action_value
 						WHERE id = :id';
-				$results->success = DB::query(Database::UPDATE,$q,TRUE)
+				$records_updated = DB::query(Database::UPDATE,$q,TRUE)
 								->param(':action',$this->action)
 								->param(':action_value',$this->action_value)
 								->param(':action_label',$this->action_label)
 								->param(':id',$this->id)
 								->execute();																	
-			}
-			catch( Database_Exception $e )
-			{
-				Kohana::$log->add(Log::ERROR, 'Error Updating Record in file'.__FILE__);
-				throw new Kohana_Exception('Error Updating Record in file: :file',
-					array(':file' => __FILE__));
-			}
+				if ($records_updated > 0)
+				{
+					$result->success = PCPRESULT_STATUS_SUCCESS;
+					$result->message = "Action Saved";
+				}															
+			}			
 		}
-		$results->data = array('id'=>$this->id);
-		return $results;
+		catch( Database_Exception $e )
+		{
+			$result->success = PCPRESULT_STATUS_FAILURE;
+			$result->message = 'Error Saving Record';
+			Kohana::$log->add(Log::ERROR, $e->getmessage().' in file'.__FILE__);
+		}
+		$result->data = array('id'=>$this->id);
+		return $result;
 	}
 	
 	function delete()
 	{
-		$results = new pcpresult();
-		if ($this->id > 0)
+		$result = new pcpresult(PCPRESULT_STATUS_INFO,"Nothing was changed");
+		try
 		{
-				
-			$q = '	DELETE FROM actions
-						WHERE id = :id';
-			$results->success =	DB::query(Database::DELETE,$q,TRUE)
-								->param(':id',$this->id)
-								->execute();						
+			if ($this->id > 0)
+			{
+					
+				$q = '	DELETE FROM actions
+							WHERE id = :id';
+				$records_updated =	DB::query(Database::DELETE,$q,TRUE)
+									->param(':id',$this->id)
+									->execute();						
+				if ($records_updated > 0)
+				{
+					$result->success = PCPRESULT_STATUS_SUCCESS;
+					$result->message = "Action Deleted";
+				}								
+			}		
 		}
-		$results->data = array('id'=>$this->id);
-		return $results;
+		catch( Database_Exception $e )
+		{
+			$result->success = PCPRESULT_STATUS_FAILURE;
+			$result->message = 'Error Deleting Record';
+			Kohana::$log->add(Log::ERROR, $e->getmessage().' in file'.__FILE__);				
+		}
+		$result->data = array('id'=>$this->id);
+		return $result;
 	}
 }
 
