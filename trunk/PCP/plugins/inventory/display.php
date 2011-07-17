@@ -33,7 +33,7 @@
 					{						
 						if (plugins_inventory::getCurrentItem() == $item['id']) {echo '<li class="active inventory_item">';}
 						else {echo '<li class="inventory_item">';}				
-						$itemstate = Model_Inventory::getInventoryItemStateByItemId(array('id'=>$item['itemstate_id']));
+						$itemstate = Model_PCP_items::getGridItemCurrentItemState($item['id'],$item['slug']);
 						echo '<a id="setcurrentitem" href="'.Kohana::$base_url.'announceEvent?event='.INVENTORY_SET_SELECTED_ITEM.'&i='.$item['id'].'"><img src="'.$story->getMediaPath().$itemstate->getPath(THUMBNAIL_IMAGE_SIZE).'" alt="'.$itemstate->description.'" title="'.$itemstate->description.'" /></a>';
 						echo '</li>';
 					}
