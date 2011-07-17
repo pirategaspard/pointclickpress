@@ -15,7 +15,7 @@ class Model_Events
 		return self::$_instance;
 	}
 	
-	// execute all classes for a specified event
+	// call execute on all classes for a specified event
 	public static function announceEvent($event_name)
 	{	
 		$instance = self::instance();		

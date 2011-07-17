@@ -112,7 +112,19 @@ class Model_Admin_ActionDefsAdmin extends Model
 		$results = DB::query(Database::SELECT,$q,TRUE)->execute()->as_array();
 		foreach($results as $result)
 		{
-			$actionDefs[] = new $result['class'];
+			$temp = explode('_',$result['class']);
+			$directory = $temp[0];
+			$filename = $temp[1];
+			if(Kohana::find_file('classes'.DIRECTORY_SEPARATOR.$directory,trim($filename),'php'))
+			{
+				$actionDefs[] = new $result['class'];
+			}
+			else
+			{
+				Kohana::$log->add(Log::ERROR, 'Could not find '.$result['class'].' in file'.__FILE__);
+				self::deleteByClassName($result['class']);
+				Kohana::$log->add(Log::ERROR, 'Removed '.$result['class'].' from actiondefs ');
+			}
 		}
 		return $actionDefs;
 	}

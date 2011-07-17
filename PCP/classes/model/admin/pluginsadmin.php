@@ -87,22 +87,52 @@ class Model_Admin_PluginsAdmin extends Model_Plugins
 	
 	static function deleteByID($id) 
 	{
-		$q = '	DELETE FROM plugins
-				WHERE id = :id';
-		$q_results = DB::query(Database::DELETE,$q,TRUE)->param(':id',$id)->execute();		
-		return true;	
+		$result = new pcpresult(PCPRESULT_STATUS_INFO,"Nothing was changed");	
+		try
+		{
+			$q = '	DELETE FROM plugins
+					WHERE id = :id';
+			$records_updated = DB::query(Database::DELETE,$q,TRUE)->param(':id',$id)->execute();		
+			if ($records_updated > 0)
+			{
+				$result->success = PCPRESULT_STATUS_SUCCESS;
+				$result->message = "Plugin Deleted";
+			}
+		}
+		catch( Database_Exception $e )
+		{
+			$result->success = PCPRESULT_STATUS_FAILURE;
+			$result->message = 'Error Saving Record';
+			Kohana::$log->add(Log::ERROR, $e->getMessage().' in file'.__FILE__);	
+		}
+		return $result;	
 	}
 	
 	static function update($id,$status)
 	{
-		$q = '	UPDATE plugins
-				SET	status = :status
-				WHERE id = :id';
-		$q_results = DB::query(Database::UPDATE,$q,TRUE)
-										->param(':id',$id)
-										->param(':status',$status)
-										->execute();
-		return true;
+		$result = new pcpresult(PCPRESULT_STATUS_INFO,"Nothing was changed");			
+		try
+		{
+			$q = '	UPDATE plugins
+					SET	status = :status
+					WHERE id = :id';
+			$records_updated = DB::query(Database::UPDATE,$q,TRUE)
+											->param(':id',$id)
+											->param(':status',$status)
+											->execute();
+			if ($records_updated > 0)
+			{
+				$result->success = PCPRESULT_STATUS_SUCCESS;
+				$result->message = "Plugin Updated";
+			}
+		}
+		catch( Database_Exception $e )
+		{
+			$result->success = PCPRESULT_STATUS_FAILURE;
+			$result->message = 'Error Saving Record';
+			Kohana::$log->add(Log::ERROR, $e->getMessage().' in file'.__FILE__);	
+		}
+		return $result;
 	}
 	
 	static function load() 

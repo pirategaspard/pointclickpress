@@ -27,14 +27,7 @@ Class Controller_admin_plugin extends Controller_Template_Admin
 			{
 				$status = 0;
 			}
-			if (Model_Admin_PluginsAdmin::update($plugin[0]['id'],$status))
-			{
-				$result = new pcpresult();
-			}
-			else
-			{
-				$result = new pcpresult(false,'Plugin did not save');
-			}
+			$result = Model_Admin_PluginsAdmin::update($plugin[0]['id'],$status);
 		}
 		else
 		{
@@ -51,13 +44,15 @@ Class Controller_admin_plugin extends Controller_Template_Admin
 	}
 	
 	function action_delete()
-	{
+	{			
 		$plugin = Model_Admin_PluginsAdmin::getByClassName(array('plugin'=>$_REQUEST['plugin']));
 		if(count($plugin) > 0)
 		{					
 			// delete record
-			Model_Admin_PluginsAdmin::deleteByID($plugin[0]['id']);
-		}
+			$result = Model_Admin_PluginsAdmin::deleteByID($plugin[0]['id']);
+			$session = Session::instance('admin');
+			$session->set('result',$result);
+		}		
 		Request::Current()->redirect(Route::get('admin')->uri(array('controller'=>'plugin','action'=>'list')));
 	}
 }
