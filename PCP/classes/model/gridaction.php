@@ -62,7 +62,7 @@ class Model_GridAction extends Model_Base_PCPAction
 	
 	function save()
 	{				
-		$results = new pcpresult();	
+		$result = new pcpresult();	
 		if ($this->id == 0)
 		{
 			parent::save();
@@ -83,8 +83,8 @@ class Model_GridAction extends Model_Base_PCPAction
 				{
 					Model_Admin_CellsAdmin::getCell()->init(array('id'=>$cell,'scene_id'=>$this->scene_id,'grid_action_id'=>$this->grid_action_id))->save();
 				}
-				$results->data = array('id'=>$this->id,'grid_action_id' => $this->grid_action_id);
-				$results->success = 1;
+				$result->data = array('id'=>$this->id,'grid_action_id' => $this->grid_action_id);
+				$result->success = 1;
 			}
 			else
 			{
@@ -127,13 +127,13 @@ class Model_GridAction extends Model_Base_PCPAction
 			  	echo $e->getMessage(); die();
 			}
 		}
-		return $results;
+		return $result;
 	}
 	
 	function delete()
 	{
-		$results = new pcpresult();
-		$results->data = array('id'=>$this->id,'grid_action_id' => $this->grid_action_id);
+		$result = new pcpresult();
+		$result->data = array('id'=>$this->id,'grid_action_id' => $this->grid_action_id);
 		if ($this->grid_action_id > 0)
 		{					
 			//delete any cells on this action
@@ -147,7 +147,7 @@ class Model_GridAction extends Model_Base_PCPAction
 						ON sc.story_id = s.id
 						AND s.creator_user_id = :creator_user_id 
 					WHERE c.grid_action_id = :grid_action_id';
-			$results->success = DB::query(Database::DELETE,$q,TRUE)
+			$result->success = DB::query(Database::DELETE,$q,TRUE)
 							->param(':grid_action_id',$this->grid_action_id)
 							->param(':creator_user_id',Auth::instance()->get_user()->id)
 							->execute();
@@ -160,16 +160,16 @@ class Model_GridAction extends Model_Base_PCPAction
 						ON sc.story_id = s.id
 						AND s.creator_user_id = :creator_user_id 
 					WHERE grid_action_id = :grid_action_id';
-			$results->success =	DB::query(Database::DELETE,$q,TRUE)
+			$result->success =	DB::query(Database::DELETE,$q,TRUE)
 								->param(':grid_action_id',$this->grid_action_id)
 								->param(':creator_user_id',Auth::instance()->get_user()->id)
 								->execute();
-			if ($results->success)
+			if ($result->success)
 			{
 				parent::delete();
 			}																	
 		}		
-		return $results;
+		return $result;
 	}
 	
 	function getCellIds()
