@@ -25,12 +25,22 @@ class action_inventoryuse extends Model_Base_PCPActionDef
 				if (plugins_inventory::getCurrentItem()==$item_id)
 				{
 					// if the current item in inventory matches the item id we trigger a cell click 
-					$args = array('action_value'=>"0,$cell_to_click;");
+					/*$args = array('action_value'=>"0,$cell_to_click;");
 					$t = new Action_eventtimer();
-					$results = $t->performAction($args);
+					$results = $t->performAction($args);*/
 					// below should work, but instead dies with Out of Mem error. Something to do with session?				
 					//$results = Request::factory(Route::get('default')->uri(array('controller'=>'PCP','action'=>'cellClick'));)->query('n',$cell_to_click)->execute()->body();				
-					
+					$session = Session::instance();					
+					// get the scene_id
+					$scene = $session->get('scene',NULL);
+					// get scene id & set scene id into story_data
+					$scene_id = ($scene != NULL)?$scene->id:0;
+
+					Storydata::set('scene_id',$scene_id);
+					Storydata::set('cell_id',$cell_to_click);    	    	    	
+					Storydata::set('griditem_id',0); // set item id to 0 					
+					// do the grid action (if any)
+					$results = Actions::doActions(Actions::getCellActions(array('scene_id'=>Storydata::get('scene_id'),'cell_id'=>Storydata::get('cell_id'))));	
 				}
 			}
 		}
