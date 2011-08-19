@@ -148,7 +148,6 @@ class Model_ItemDef extends Model
 				}
 				// delete gridItems
 				$gridItems = Model_Admin_GridItemAdmin::getGridItems(array('itemdef_id'=>$this->id));
-				var_dump($gridItems); die();
 				foreach($gridItems as $gridItem)
 				{
 					$gridItem->delete();
