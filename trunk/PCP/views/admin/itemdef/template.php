@@ -4,12 +4,12 @@
 	{
 ?>
 	<div id="accordion" >
-		<h3 ><a href="#">Actions</a></h3>
+		<?php /*<h3 ><a href="#">Actions</a></h3>
 		<div style='display: none;' >
 			<?php
 				echo($action_list);
 			?>
-		</div> 
+		</div>  */?>
 		<h3 ><a href="#">Item Instances</a></h3>
 		<div style='display: none;' >
 			<?php
