@@ -153,17 +153,23 @@ class Model_Admin_Story extends Model_PCP_Story
 			{			
 				//delete children first
 				$this->init(array('include_locations'=>true,'include_scenes'=>true,'include_actions'=>true))->load();
+				// delete locations
 				foreach($this->locations as $location)
 				{
 					$location->delete();
 				}
+				// delete actions
 				foreach($this->actions as $action)
 				{
 					$action->delete();
 				}
-				// TODO: delete items
-				
-				
+				// delete items
+				$itemDefs = Model_Admin_ItemDefAdmin::getItemDefs(array('story_id'=>$this->id));
+				foreach($itemDefs as $itemDef)
+				{
+					$itemDef->delete();
+				}
+				// Delete story
 				$q = '	DELETE FROM stories
 							WHERE id = :id 
 							AND creator_user_id = :creator_user_id';

@@ -172,6 +172,12 @@ class Model_GridItem extends Model
 			if ($this->id > 0)
 			{
 					
+				// delete actions
+				$actions = Model_PCP_Actions::getGridItemActions(array('griditem_id'=>$this->id));
+				foreach($actions as $action)
+				{
+					$action->delete();
+				}
 				$q = '	DELETE g 
 						FROM grids_items g
 						INNER JOIN itemdefs i

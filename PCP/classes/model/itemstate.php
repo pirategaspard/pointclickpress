@@ -200,6 +200,12 @@ class Model_ItemState extends Model
 			if ($this->id > 0)
 			{
 					
+				$actions = Model_PCP_Actions::getItemStateActions(array('itemstate_id'=>$this->id));
+				foreach($actions as $action)
+				{
+					$action->delete();
+				}
+				
 				$q = '	DELETE its 
 						FROM items_states its
 						INNER JOIN itemdefs i

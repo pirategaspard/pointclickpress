@@ -151,10 +151,15 @@ class Model_GridItem extends Model
 	
 	function delete()
 	{
-		$results = new pcpresult();
+		$results = new pcpresult(PCPRESULT_STATUS_INFO,"Nothing was changed");
 		if ($this->id > 0)
-		{
-				
+		{				
+			// delete actions
+			$actions = Model_PCP_Actions::getGridItemActions(array('griditem_id'=>$this->id));
+			foreach($actions as $action)
+			{
+				$action->delete();
+			}
 			$q = '	DELETE FROM grids_items
 						WHERE id = :id';
 			$results->success =	DB::query(Database::DELETE,$q,TRUE)
