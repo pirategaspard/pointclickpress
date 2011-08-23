@@ -24,8 +24,7 @@ Class Controller_Template_Base extends Controller_Template
 	public function before()
 	{		
 		// Run anything that need to run before this.
-		parent::before();
-		Model_Utils_ModuleHelper::loadModules(); // load Modules
+		parent::before();		
 
 		// Check user auth and role
 		$action_name = Request::current()->action();

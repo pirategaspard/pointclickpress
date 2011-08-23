@@ -14,6 +14,7 @@ Class Controller_Template_Admin extends Controller_Template_Base
 		// Run anything that need ot run before this.
 		$this->template = 'templates/admin';
 		parent::before();
+		Model_Utils_ModuleHelper::loadModules(); // load Modules
 		Model_Admin_EventsAdmin::initalizeListenerClasses(); // initalize events engine
 		Events::announceEvent(ADMIN_REQUEST_START);		
 

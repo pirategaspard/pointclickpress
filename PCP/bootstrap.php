@@ -157,6 +157,13 @@ Route::set('admin', 'admin(/<controller>(/<action>(/<id>)))')
     'action'     => 'list',
   ));
 
+// Route for PCP Install
+Route::set('install', 'install')
+  ->defaults(array(    
+	'directory'  => 'admin',
+    'controller' => 'install',
+  ));
+
 // Route for Public Facing site
 Route::set('default', '(<action>)')
 	->defaults(array(
