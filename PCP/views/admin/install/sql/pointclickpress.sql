@@ -2511,15 +2511,7 @@ CREATE TABLE IF NOT EXISTS `items_states` (
 INSERT INTO `items_states` (`id`, `itemdef_id`, `image_id`, `value`, `isdefaultstate`) VALUES
 (1, 1, 41, 'on_ground', 0),
 (2, 1, 0, 'taken', 0),
-(3, 2, 42, 'empty', 1),
-(5, 4, 0, 'on', 0),
-(6, 4, 0, 'off', 0),
-(7, 0, 0, '', 0),
-(8, 0, 0, 'gj', 0),
-(9, 0, 0, 'bvvj', 1),
-(10, 6, 56, 'bvvj', 1),
-(11, 2, 93, 'full', 0),
-(12, 7, 0, 'ghsfdgfdgfd', 0);
+(3, 2, 42, 'empty', 1);
 
 CREATE TABLE IF NOT EXISTS `items_states_actions` (
   `itemstate_id` bigint(20) unsigned NOT NULL,
@@ -2552,10 +2544,7 @@ INSERT INTO `locations` (`story_id`, `id`, `title`) VALUES
 (3, 40, 'Well'),
 (3, 41, 'Poison Ivy Field2'),
 (3, 42, 'Death'),
-(3, 43, 'River'),
-(0, 44, 'aasdf'),
-(0, 45, 'blah'),
-(0, 46, 'blah');
+(3, 43, 'River');
 
 CREATE TABLE IF NOT EXISTS `locations_actions` (
   `location_id` bigint(20) unsigned NOT NULL,
@@ -2582,20 +2571,6 @@ CREATE TABLE IF NOT EXISTS `modules` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
-INSERT INTO `modules` (`id`, `dir`) VALUES
-(1, 'plugins\\column'),
-(2, 'plugins\\debug'),
-(3, 'plugins\\google'),
-(4, 'plugins\\helloworld'),
-(5, 'plugins\\inventory'),
-(6, 'plugins/column'),
-(7, 'plugins/debug'),
-(8, 'plugins/google'),
-(9, 'plugins/helloworld'),
-(10, 'plugins/inventory'),
-(11, 'plugins/link'),
-(12, 'plugins\\link');
-
 CREATE TABLE IF NOT EXISTS `plugins` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
   `label` varchar(255) NOT NULL,
@@ -2603,17 +2578,10 @@ CREATE TABLE IF NOT EXISTS `plugins` (
   `class` varchar(255) NOT NULL,
   `events` text NOT NULL,
   `status` char(1) NOT NULL,
+  `system` int(11) unsigned NOT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `class` (`class`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
-
-INSERT INTO `plugins` (`id`, `label`, `description`, `class`, `events`, `status`) VALUES
-(1, 'columns', 'This is the columns plugin', 'plugins_column', 'display_column_left,display_column_right', '0'),
-(2, 'Debug', 'Debug Plugin for PCP. Add "?debug" on the url to see debug information', 'plugins_debug', 'display_post_scene,error', '1'),
-(3, 'Google integration', 'This is the Google Integration plugin', 'plugins_google', 'display_column_left,display_column_right,display_footer', '0'),
-(4, 'helloworld', 'This is the helloworld demonstration plugin', 'plugins_helloworld', 'post_start_story,display_pre_scene,display_post_scene', '0'),
-(7, 'link', 'link to another location', 'plugins_link', 'admin_js,display_post_grid_select', '1'),
-(8, 'Inventory', 'Basic inventory plugin for PCP', 'plugins_inventory', 'post_start_story,css,admin_js,js,post_scene_bottom_menu,display_post_grid_select,INVENTORY_DISPLAY,INVENTORY_SET_SELECTED_ITEM,INVENTORY_DROP_SELECTED_ITEM', '1');
 
 CREATE TABLE IF NOT EXISTS `roles` (
   `id` int(11) unsigned NOT NULL auto_increment,
@@ -2679,8 +2647,7 @@ INSERT INTO `scenes` (`id`, `story_id`, `location_id`, `title`, `description`, `
 (81, 3, 43, 'River', '', 49, 'north'),
 (82, 3, 43, 'River', '', 47, 'west'),
 (83, 3, 43, 'River', 'the river is low', 48, 'detail'),
-(84, 3, 40, 'Well', 'The well is full of water', 51, 'detail_full'),
-(85, 0, 46, 'blah', 'asdfdsf', 0, '');
+(84, 3, 40, 'Well', 'The well is full of water', 51, 'detail_full');
 
 CREATE TABLE IF NOT EXISTS `scenes_actions` (
   `scene_id` bigint(20) unsigned NOT NULL,
@@ -2757,24 +2724,25 @@ CREATE TABLE IF NOT EXISTS `stories_users` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(11) unsigned NOT NULL auto_increment,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `email` varchar(127) NOT NULL,
-  `username` varchar(32) NOT NULL default '',
+  `username` varchar(32) NOT NULL DEFAULT '',
   `password` char(64) NOT NULL,
-  `logins` int(10) unsigned NOT NULL default '0',
-  `last_login` int(10) unsigned default NULL,
-  `reset_token` char(64) NOT NULL default '',
-  `status` varchar(20) NOT NULL default '',
+  `logins` int(10) unsigned NOT NULL DEFAULT '0',
+  `last_login` int(10) unsigned DEFAULT NULL,
+  `reset_token` char(64) NOT NULL DEFAULT '',
+  `status` varchar(20) NOT NULL DEFAULT '',
   `last_failed_login` datetime NOT NULL,
-  `failed_login_count` int(11) NOT NULL default '0',
+  `failed_login_count` int(11) NOT NULL DEFAULT '0',
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
-  PRIMARY KEY  (`id`),
+  `info` text NOT NULL,
+  PRIMARY KEY (`id`),
   UNIQUE KEY `uniq_username` (`username`),
   UNIQUE KEY `uniq_email` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 
 CREATE TABLE IF NOT EXISTS `user_identity` (
   `id` int(11) NOT NULL auto_increment,

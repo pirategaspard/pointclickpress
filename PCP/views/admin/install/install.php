@@ -7,11 +7,12 @@
 		include("sql/install.php");		
 		
 		// create first user		
-		$_POST['roles'] = 'login,admin';
 		try 
 		{
-			Auth::instance()->register( $_POST, TRUE );
-			Auth::instance()->login($_POST['username'], $_POST['password']);
+			$user_id =  Auth::instance()->register( $_POST, TRUE ); // register 1st user
+			$user = ORM::factory('user', $user_id); // get user object
+			$user->add('roles', ORM::factory('role')->where('name', '=', 'admin')->find()); // add admin role to 1st user
+			Auth::instance()->login($_POST['username'], $_POST['password']); // sign in user
 		} 
 		catch (ORM_Validation_Exception $e) 
 		{
@@ -19,6 +20,10 @@
 			$errors = array_merge($errors, (isset($errors['_external']) ? $errors['_external'] : array()));
 			$_POST['password'] = $_POST['password_confirm'] = '';
 		}
+		
+		// populate Plugin and actionDefinition tables
+		Model_Admin_PluginsAdmin::searchForListeners(); // search for new Plugins
+		Model_Admin_ActionDefsAdmin::searchForListeners(); // search for new ActionDefs
 		
 		// Done!
 		echo '<h3>Done!</h3>';
