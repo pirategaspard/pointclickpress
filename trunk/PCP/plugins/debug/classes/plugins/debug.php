@@ -15,7 +15,11 @@ class plugins_debug extends Model_Base_PCPPlugin
 		// did we pass 'debug' on the url?
 		if (isset($_GET['debug']))
 		{
-			$session = Session::instance();	
+			//add or update any values passed on the url			
+			foreach ($_GET as $name=>$value)
+			{
+				Storydata::set($name,$value);
+			}			
 								
 			/* Add what ever you want to dump out of session here */			
 			$story_data = Storydata::getStorydata();
@@ -36,6 +40,7 @@ class plugins_debug extends Model_Base_PCPPlugin
 			}
 			
 			/*
+			$session = Session::instance();	
 			$story = $session->get('story',array());
 			$scene = $session->get('scene',array());														
 			echo $story->scene_width;
