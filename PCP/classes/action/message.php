@@ -21,7 +21,7 @@ class action_message extends Model_Base_PCPActionDef
 		$action_data = $this->tokenize($args['action_value']);
 		$data = array();
 		$data['message'] = $action_data[0];
-		if (isset($action_data[1]))
+		if (count($action_data) > 1 && is_numeric($action_data[1]))
 		{
 			$data['wait_time'] = $action_data[1];
 		}			
