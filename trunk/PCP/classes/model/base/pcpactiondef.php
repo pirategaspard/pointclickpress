@@ -40,7 +40,15 @@ class Model_Base_PCPActionDef extends Model_Base_PCPAdminItem implements Interfa
 	{
 		// explode on semi-colon if there is more than one statement here 
 		// then filter out any null or empty strings
-		return array_values(array_filter(explode($char,$value))); 
+		return array_values(array_filter(explode($char,$value),"self::filterNullandEmpty")); 
+	}
+	
+	static function filterNullandEmpty($value)
+	{
+		if(empty($value) && !is_numeric($value))
+			return false;
+		else
+			return true;
 	}
 
 	// Regex used for parsing expressions in the action classes
