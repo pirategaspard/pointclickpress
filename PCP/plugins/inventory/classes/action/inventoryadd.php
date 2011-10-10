@@ -5,7 +5,7 @@
 define('INVENTORY_ADD_ITEM','INVENTORY_ADD_ITEM');
 class action_inventoryadd extends Model_Base_PCPActionDef
 {	
-	protected $label = 'Add To Inventory'; 
+	protected $label = 'Inventory Add'; 
 	protected $description = 'Add item to inventory';
 	protected $allowed_action_types = array(ACTION_TYPE_GRIDITEM);
 	protected $events = array(INVENTORY_ADD_ITEM);
