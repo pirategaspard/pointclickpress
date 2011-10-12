@@ -1,14 +1,14 @@
 <?php 
 /*
-	Removes currently selected item from inventory and adds it to a scene
+	Moves currently selected item from inventory and adds it to a scene
  */
-define('INVENTORY_DROP_ITEM','INVENTORY_DROP_ITEM');
-class action_inventorydrop extends Model_Base_PCPActionDef
+define('INVENTORY_MOVE_ITEM','INVENTORY_MOVE_ITEM');
+class action_inventorymove extends Model_Base_PCPActionDef
 {	
-	protected $label = 'Inventory Drop Item'; 
-	protected $description = 'Drop item from inventory. "scene_id,cell_id(,griditem_id)"';
+	protected $label = 'Inventory Move Item'; 
+	protected $description = 'Move item to arbitrary scene and cell id. Default item is currently selected inventory item. "scene_id,cell_id(,griditem_id)"';
 	protected $allowed_action_types = array(ACTION_TYPE_GRID,ACTION_TYPE_GRIDITEM);
-	protected $events = array(INVENTORY_DROP_ITEM);
+	protected $events = array(INVENTORY_MOVE_ITEM);
 	
 	public function performAction($args=array(),$hook_name='')
 	{
