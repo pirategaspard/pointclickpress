@@ -25,8 +25,8 @@
 			wait_time = data.wait_time; // if we specified a wait time use that
 		}
 				
-		// if waittime is greater than zero we will set a time out to remove the message
-		if (wait_time > 0)
+		// if waittime is greater than one we will set a time out to remove the message
+		if (wait_time > 1)
 		{
 			// clear message after waiting			
 			setTimeout(function(){$('#message').remove();},wait_time);
