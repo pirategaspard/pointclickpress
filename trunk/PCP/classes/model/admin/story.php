@@ -14,6 +14,7 @@ class Model_Admin_Story extends Model_PCP_Story
 			$q = '	SELECT 	s.id
 							,s.title
 							,u.username AS author
+							,s.short_desc
 							,s.description
 							,s.first_location_id
 							,s.image_id
@@ -58,6 +59,7 @@ class Model_Admin_Story extends Model_PCP_Story
 				$q = '	INSERT INTO stories
 							(title
 							,author
+							,short_desc
 							,description
 							,first_location_id
 							,image_id
@@ -69,6 +71,7 @@ class Model_Admin_Story extends Model_PCP_Story
 						VALUES (
 							:title
 							,:author
+							,:short_desc
 							,:description
 							,:first_location_id
 							,:image_id
@@ -82,6 +85,7 @@ class Model_Admin_Story extends Model_PCP_Story
 				$q_results = DB::query(Database::INSERT,$q,TRUE)
 									->param(':title',$this->title)
 									->param(':author',$this->author)
+									->param(':short_desc',$this->short_desc)
 									->param(':description',$this->description)
 									->param(':first_location_id',$this->first_location_id)
 									->param(':image_id',$this->image_id)
@@ -104,6 +108,7 @@ class Model_Admin_Story extends Model_PCP_Story
 				$q = '	UPDATE stories
 						SET title = :title							
 							,author = :author
+							,short_desc = :short_desc
 							,description = :description
 							,first_location_id = :first_location_id
 							,image_id = :image_id
@@ -116,6 +121,7 @@ class Model_Admin_Story extends Model_PCP_Story
 				$records_updated = DB::query(Database::UPDATE,$q,TRUE)
 										->param(':title',$this->title)
 										->param(':author',$this->author)
+										->param(':short_desc',$this->short_desc)
 										->param(':description',$this->description)	
 										->param(':first_location_id',$this->first_location_id)
 										->param(':image_id',$this->image_id)

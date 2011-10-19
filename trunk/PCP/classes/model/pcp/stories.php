@@ -28,6 +28,7 @@ class Model_Pcp_Stories
 		$q = '	SELECT s.id
 						,s.title
 						,s.author
+						,s.short_desc
 						,s.description
 						,s.first_location_id
 						,s.image_id
@@ -46,7 +47,7 @@ class Model_Pcp_Stories
 		if (isset($args['story'])) $q .= ' AND s.id = :story'; //if we have a story id
 		if (isset($args['creator_user_id'])) $q .= ' AND s.creator_user_id = :creator_user_id'; 
 		
-		$q .= ' ORDER BY s.title ASC';
+		$q .= ' ORDER BY s.created_date DESC';
 		
 		$q = DB::query(Database::SELECT,$q,TRUE);
 		
