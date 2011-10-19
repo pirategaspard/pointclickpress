@@ -20,7 +20,7 @@ class plugins_googleanalytics extends Model_Base_PCPPlugin
 		{
 			case DISPLAY_FOOTER:
 			{
-				include(Kohana::find_file('plugins'.DIRECTORY_SEPARATOR.'google','analytics'));
+				include(Kohana::find_file('plugins'.DIRECTORY_SEPARATOR.'googleanalytics','analytics'));
 				break;
 			}		
 		}	
