@@ -3,7 +3,7 @@
 	This is the example plugin for PointClickPress
  */
 
-class plugins_google extends Model_Base_PCPPlugin
+class plugins_googlead extends Model_Base_PCPPlugin
 {
 	protected $label = 'Google Adsense'; // This is the label for this plugin
 	protected $description = 'This is the Google Adsense plugin'; // This is the description of this plugin
@@ -31,7 +31,6 @@ class plugins_google extends Model_Base_PCPPlugin
 			case DISPLAY_FOOTER:
 			{
 				include(Kohana::find_file('plugins'.DIRECTORY_SEPARATOR.'google','adsense3'));
-				include(Kohana::find_file('plugins'.DIRECTORY_SEPARATOR.'google','analytics'));
 				break;
 			}		
 		}	
