@@ -2675,6 +2675,7 @@ CREATE TABLE IF NOT EXISTS `stories` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
   `title` varchar(255) NOT NULL,
   `author` varchar(255) NOT NULL,
+  `short_desc` varchar(127) NOT NULL,
   `description` text NOT NULL,
   `first_location_id` bigint(20) unsigned default NULL,
   `image_id` bigint(20) default NULL,
@@ -2687,8 +2688,8 @@ CREATE TABLE IF NOT EXISTS `stories` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
-INSERT INTO `stories` (`id`, `title`, `author`, `description`, `first_location_id`, `image_id`, `status`, `grid_x`, `grid_y`, `theme_name`, `created_date`, `creator_user_id`) VALUES
-(3, 'River Path Demo', 'pirategaspard', 'Explore the old equipment by the river', 30, 14, 'p', 10, 10, 'dark', '2010-10-07 18:04:34', 1);
+INSERT INTO `stories` (`id`, `title`, `author`,`short_desc`, `description`, `first_location_id`, `image_id`, `status`, `grid_x`, `grid_y`, `theme_name`, `created_date`, `creator_user_id`) VALUES
+(3, 'River Path Demo', 'pirategaspard', 'Explore the old equipment by the river', '', 30, 14, 'p', 10, 10, 'dark', '2010-10-07 18:04:34', 1);
 
 CREATE TABLE IF NOT EXISTS `stories_actions` (
   `story_id` bigint(20) unsigned NOT NULL,

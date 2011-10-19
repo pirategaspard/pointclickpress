@@ -18,7 +18,7 @@
 				<td><a href="<?php echo(Url::site(Route::get('default')->uri(array('action'=>'story'))).'?story_id='.$story->id); ?>"><img src="<?php echo (Kohana::$base_url.MEDIA_PATH.'/'.$story->id.'/'.$story->image_id.'/'.THUMBNAIL_IMAGE_SIZE.'/'.$story->filename); ?>" /></a></td>
 				<td><a href="<?php echo(Url::site(Route::get('default')->uri(array('action'=>'story'))).'?story_id='.$story->id); ?>"><h4><?php echo($story->title); ?></h4></a></td>
 				<td><a href="<?php echo(Url::site(Route::get('user')->uri(array('action'=>'userinfo'))).'?username='.$story->author); ?>"><h4><?php echo($story->author); ?></h4></a></td>
-				<td><?php echo($story->description); ?></td>
+				<td><?php echo($story->short_desc); ?></td>
 				<td><a href="<?php echo(Url::site(Route::get('default')->uri(array('action'=>'story'))).'?story_id='.$story->id); ?>" class="ui-widget ui-state-default ui-corner-all button play">Play</a></td>
 			</tr>
 			<?php } ?>

@@ -9,6 +9,7 @@ class Model_PCP_Story extends Model
 	protected $id = 0;
 	protected $title = '';
 	protected $author = '';
+	protected $short_desc = '';
 	protected $description = '';
 	protected $grid_x = '';
 	protected $grid_y = '';
@@ -42,6 +43,10 @@ class Model_PCP_Story extends Model
 		if (isset($args['author']))
 		{
 			$this->author = $args['author'];
+		}
+		if (isset($args['short_desc']))
+		{
+			$this->short_desc = $args['short_desc'];
 		}
 		if (isset($args['description']))
 		{
@@ -106,6 +111,7 @@ class Model_PCP_Story extends Model
 			$q = '	SELECT 	s.id
 							,s.title
 							,s.author
+							,s.short_desc
 							,s.description
 							,s.first_location_id
 							,s.image_id

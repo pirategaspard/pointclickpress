@@ -197,8 +197,15 @@ class Model_Admin_ActionDefsAdmin extends Model
 	
 	static function emptyActiondefs()
 	{
-		$q = 'TRUNCATE actiondefs';
-		DB::query(Database::DELETE,$q,TRUE)->execute();
+		try
+		{
+			$q = 'TRUNCATE actiondefs';
+			DB::query(Database::DELETE,$q,TRUE)->execute();
+		}
+		catch( Database_Exception $e )
+		{
+			Kohana::$log->add(Log::ERROR, $e->getMessage().' in file'.__FILE__);				
+		}
 	}
 }
 ?>

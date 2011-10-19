@@ -3,7 +3,7 @@
 	<h1><?php echo ($story->title); ?></h1>
 	<h3>By: <?php echo ($story->author); ?></h3>	
 	<img src="<?php echo (Kohana::$base_url.MEDIA_PATH.'/'.$story->id.'/'.$story->image_id.'/'.DEFAULT_SCREEN_SIZE.'/'.$story->filename); ?>" style="width: 40%;" />
-	<p><?php echo ($story->description); ?></p>
+	<p><?php echo ($story->short_desc); ?></p>
 	
 	<div id="options">
 		<h3>Options:</h3>
@@ -20,4 +20,6 @@
 			<input type="submit" name="submit" value="PLAY NOW" class="ui-widget ui-state-default ui-corner-all button save">
 		</form>
 	</div>
+	
+	<p><?php echo ($story->description); ?></p>
 </div>
