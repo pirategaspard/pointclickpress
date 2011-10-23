@@ -1,6 +1,6 @@
-2011-08-22
+2011-10-23
 PirateGaspard Presents:
-PointClickPress Beta release
+PointClickPress Beta 2 release
 www.pointclickpress.org
 
 PointClickPress is an open source web app game engine for the creation of point and click style games built using Kohana, JQuery, PHP, and good ol' HTML. 
